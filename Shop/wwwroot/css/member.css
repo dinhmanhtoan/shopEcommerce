@@ -1,0 +1,58 @@
+
+#member{
+	padding: 25px 0;
+}
+#member ul {
+	padding: 0;
+	margin: 30px 0;
+	text-align: center;
+}
+#member ul li{
+	list-style: none;
+	margin: auto;
+	display: inline-block;
+	margin-bottom: 20px;
+	margin-right: 15px;
+	width: 30%;
+}
+#member ul li a{
+	display: block;
+	background: #e6e6e6;
+	padding: 30px 0;
+	text-align: center;
+	text-transform: uppercase;
+	border-radius:5px;
+
+}
+#member ul li a span{
+	display: block;
+	font-size: 35px;
+
+}
+@media (max-width: 767px) {
+	#member ul {
+		padding: 0;
+		margin: 20px 0;
+	}
+
+	#member ul li{
+		list-style: none;
+		width: 100%;
+		display: inline-block;
+		background: #e6e6e6;
+		padding: 10px 0;
+		text-align: center;
+		margin-bottom: 10px;
+		border-radius: 3px;
+	}
+
+	#member ul li a{
+		padding: 0 10px;
+		text-align: left;
+	}
+	#member ul li a span{
+		display: initial;
+		font-size: 20px;
+		margin-right: 10px;;
+	}
+}

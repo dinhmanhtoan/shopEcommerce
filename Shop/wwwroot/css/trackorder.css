@@ -1,0 +1,18 @@
+
+#trackorder input {
+    padding: 15px;
+    width: 100%;
+    margin: 10px 0;
+    max-width:450px;
+}
+.trackorder-box{
+	max-width:450px;
+	padding: 11vw 0;
+	margin:auto;
+}
+.trackorder-box h3{
+	font-size:22px;
+	margin-bottom:20px;
+	text-transform: uppercase;
+	text-align:center;
+}

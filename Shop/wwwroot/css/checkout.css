@@ -1,0 +1,78 @@
+#checkout {
+	margin: 38px 0 20px 0;
+}
+#checkout label{
+	margin-bottom: 3px;
+}
+#checkout input{
+	padding: 8px;
+	width: 100%;
+	margin-bottom: 10px;
+	border:1px solid #e5e5e5;
+}
+#checkout .custom-select{
+	width: 100%;
+	margin : 10px 0;
+}
+#checkout .first-name,.last-name{
+	width: 50%;
+}
+#checkout .first-name{
+	padding: 0 15px 0 0;
+	float: left;
+}
+#checkout .last-name{
+	padding: 0 0 0 15px;
+	float: right;
+}
+#checkout .list-product-checkout{
+	margin: 0;
+	padding: 10px;
+	max-height: 280px;
+	overflow-y: scroll;
+	margin-bottom: 15px;
+}
+#checkout .list-product-checkout li{
+	list-style: none;
+	display: flex;
+	margin-bottom: 15px;
+}
+#checkout .box {
+	border: 1px solid #e1e1e1;
+	float: left;
+	padding: 2.57em;
+	overflow: hidden;
+	margin: 38px 0;
+	width: 100%;
+}
+#checkout .total .btn-black{
+	border-radius: 0 !important;
+	text-transform: uppercase;
+	width: 	100%;	
+	padding: 	15px 0 ;
+}
+#checkout .payment ul{
+	margin-bottom: 10px;
+	padding:0;
+}
+#checkout .payment ul li {
+	list-style: none;
+}
+#checkout .payment ul li:hover {
+	cursor: pointer;
+}
+#checkout .payment li input{
+	width: 30px;
+}
+/*Menu Mobile */
+@media (max-width: 767px) {
+	#checkout .box {
+		border: 1px solid #e1e1e1;
+		float: left;
+		padding: 10px;
+		overflow: hidden;
+		margin: 30px 0;
+		width: 100%;
+	}
+
+}

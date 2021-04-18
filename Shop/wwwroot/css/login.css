@@ -1,0 +1,24 @@
+#login{
+	margin: 38px 0 20px 0;
+}
+#login .title{
+	text-align: center;
+	width: 100%;
+	text-transform: uppercase;
+}
+#login input{
+	padding: 15px;
+	width: 100%;
+	margin: 10px 0;
+
+}
+#login .btn{
+	padding: 10px 25px;
+	border-radius: inherit !important; 
+}
+#login .box{
+	border: 1px solid #e1e1e1;
+	float: left;
+    padding: 2.57em;
+    overflow: hidden;
+}

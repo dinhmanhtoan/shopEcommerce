@@ -1,0 +1,12 @@
+I:\SoureToan\Shop\Model\bin\Debug\netcoreapp3.1\Model.deps.json
+I:\SoureToan\Shop\Model\bin\Debug\netcoreapp3.1\Model.dll
+I:\SoureToan\Shop\Model\bin\Debug\netcoreapp3.1\Model.pdb
+I:\SoureToan\Shop\Model\obj\Debug\netcoreapp3.1\Model.csprojAssemblyReference.cache
+I:\SoureToan\Shop\Model\obj\Debug\netcoreapp3.1\Model.AssemblyInfoInputs.cache
+I:\SoureToan\Shop\Model\obj\Debug\netcoreapp3.1\Model.AssemblyInfo.cs
+I:\SoureToan\Shop\Model\obj\Debug\netcoreapp3.1\Model.csproj.CoreCompileInputs.cache
+I:\SoureToan\Shop\Model\obj\Debug\netcoreapp3.1\Model.dll
+I:\SoureToan\Shop\Model\obj\Debug\netcoreapp3.1\Model.pdb
+I:\SoureToan\Shop\Model\bin\Debug\netcoreapp3.1\Model.runtimeconfig.json
+I:\SoureToan\Shop\Model\bin\Debug\netcoreapp3.1\Model.runtimeconfig.dev.json
+I:\SoureToan\Shop\Model\obj\Debug\netcoreapp3.1\Model.genruntimeconfig.cache

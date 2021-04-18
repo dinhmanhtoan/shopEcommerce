@@ -1,0 +1,539 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+	-webkit-appearance: none; 
+	margin: 0; 
+}
+.single-product-sidebar .title{
+	font-size: 14px;
+	font-weight: 600;
+}
+.single-product-sidebar .div-btn{
+	float: right;
+	display: contents;
+}
+.single-product-sidebar .div-btn ul{
+	display: inline-block;
+	float: right;
+	display: block;
+}
+.single-product-sidebar .div-btn ul li{
+	display: inline-block;
+	
+}
+.single-product-sidebar .div-btn ul li a{
+	display: inline-block;
+	padding: 2px 10px;
+	background: #ddd;
+}
+.single-product-sidebar ul{
+	padding-left:0; 
+}
+.single-product-sidebar ul li{
+	margin-bottom: 10px;
+	list-style: none;
+}
+.Utilities-block .title{
+	font-size: 14px;
+	font-weight: 600;
+}
+.size-45{
+	width: 50px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 35px;
+}
+.size-46{
+	width: calc(100% - 50px);
+}
+.product-item-right{
+	display:inline-block;
+	padding-left: 10px;
+}
+.product-item-right .product-title{
+	margin-bottom: 5px;
+	font-size: 1.14rem;
+	line-height: 1.4;
+	text-align: start;
+}
+
+.product-item-right .price{
+	width: 100%;
+	margin-bottom: .5em;
+	font-size: 1rem;
+	line-height: 1.2;
+	color: #888;
+}
+.product-item-right .price small{
+	margin-left: 5px;
+}
+
+
+.single-left {
+	position: relative;
+	padding: 0;
+	float: left;
+}
+.single-right{
+	position: relative;
+	float: left;
+}
+.single-right .single-title{
+	font-size: 24px;
+	margin-bottom: 18px;
+	line-height: 1.5;
+}
+.single-right .price{
+	width: 100%;
+	margin-bottom: .5em;
+	font-size: 1.4rem;
+	line-height: 1.2;
+	color: #888;
+}
+.product-rating{
+	margin-bottom:8px;
+}
+.product-rating .rating{
+	display: none;
+}
+.star-rating{
+	display: inline-block;
+	vertical-align: initial;
+	height: auto;
+	margin-bottom: 0;
+	color: #fdd835;
+}
+.star-rating i{
+	padding-right: 2px;
+}
+.review-link{
+	font-size: 13px;
+}
+.choose-size{
+	margin-bottom: 30px;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+}
+.choose-color{
+	margin-bottom: 30px;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+}
+.size-203{
+	width: 105px;
+	float: left;
+	justify-content:center;
+	text-align: center;
+}
+.size-204{
+	width: calc(100% - 105px);
+	float: left;
+}
+.size-205{
+	width: 143px;
+	display: block;
+	float: left;
+}
+.size-206{
+	width: calc(100% - 143px);
+	display: block;
+	float: left;
+}
+/*Số lượng*/
+.quantity{
+	display: block;
+	float: left;
+}
+.wrap-num-product{
+	width: 137px;
+	height: 45px;
+	border: 1px solid #f7f7f7;
+	border-radius: 3px;
+	overflow: hidden;
+	outline: none !important;
+	box-shadow: none;
+}
+.num-product{
+	width: calc(100% - 90px);
+	height: 100%;
+	border-left: 1px solid #e6e6e6;
+	border-right: 1px solid #e6e6e6;
+	background-color: #f7f7f9;
+	text-align: center;
+	float: left;
+	border: none;
+}
+.btn-num-product-up, .btn-num-product-down{
+	width: 45px;
+	height: 100%;
+	cursor: pointer;
+	border-color: #f7f7f7;
+	background-color: #fff;
+	color: #333;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	float: left;
+}
+/*Số lượng*/
+
+
+
+/*Giỏ hàng*/
+.add-cart{
+	display: block;
+	float: left;
+	margin-left:20px ;
+}
+.add-cart .btn{
+	height: 45px;
+	vertical-align: middle;
+	border-right: 0 !important;
+	padding: 12px ;
+	width: 180px;
+}
+.add-cart span{
+	padding-right: 5px;
+}
+
+/*Giỏ hàng*/
+
+/*Thêm sản phẩm yêu thích*/
+.add-wishlist{
+	display: block;
+	width: 100%;
+	margin: 20px 0 ;
+	float: left;
+}
+.add-wishlist a{
+	font-size: 14px;
+}
+.add-wishlist span{
+	margin-right: 5px;
+}
+
+/*Thêm sản phẩm yêu thích*/
+.product-meta a{
+	color: #909090!important;
+	margin-left: 5px;
+}
+.product_brand{
+	width: 100%;
+	margin-bottom: 10px;
+	display:block;
+}
+.product_sku{
+	width: 100%;
+	margin-bottom: 10px;
+	display:block;
+}
+.product_category{
+	width: 100%;
+	margin-bottom: 10px;
+	display:block;
+}
+.product_tags{
+	width: 100%;
+	margin-bottom: 10px;
+	display:block;
+}
+.product_share{
+	width: 100%;
+	margin-bottom: 10px;
+	display:block;
+}
+.product_link{
+	width: 100%;
+	margin-bottom: 10px;
+	display:block;
+}
+.share-facebook{
+	font-size: 25px;
+	color: #025aa5 !important;
+}
+.mySlides {
+	display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+	cursor: pointer;
+}
+
+/* Next & previous buttons */
+.img-prev,
+.img-next {
+	cursor: pointer;
+	position: absolute;
+	top: 40%;
+	width: auto;
+	padding: 16px;
+	margin-top: -50px;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+	border-radius: 0 3px 3px 0;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+	right: 0;
+	border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.img-prev:hover,
+.img-next:hover {
+	color: #000 !important;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+	color: #333;
+	font-size: 12px;
+	padding: 8px 12px;
+	position: absolute;
+	top: 0;
+}
+
+/* Container for image text */
+.caption-container {
+	text-align: center;
+	background-color: #222;
+	padding: 2px 16px;
+	color: white;
+}
+
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* Six columns side by side */
+.column {
+	float: left;
+	width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+	opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+	opacity: 1;
+	}.mySlides {
+		display: none;
+	}
+
+	/* Add a pointer when hovering over the thumbnail images */
+	.cursor {
+		cursor: pointer;
+	}
+
+	/* Next & previous buttons */
+	.img-prev,
+	.img-next {
+		cursor: pointer;
+		position: absolute;
+		top: 40%;
+		width: auto;
+		margin-top: -50px;
+		color: #afafaf !important;
+		font-weight: bold;
+		font-size: 40px;
+		border-radius: 0 3px 3px 0;
+		user-select: none;
+		-webkit-user-select: none;
+		background: none;
+		border: none;
+	}
+
+	/* Position the "next button" to the right */
+	.img-next {
+		right: 0;
+		border-radius: 3px 0 0 3px;
+
+	}
+
+	/* On hover, add a black background color with a little bit see-through */
+	.img-prev:hover,
+	.img-next:hover {
+		color: #000 !important;
+	}
+
+	.zoom{
+		padding: 8px 12px;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	/* Container for image text */
+	.caption-container {
+		text-align: center;
+		background-color: #222;
+		padding: 2px 16px;
+		color: white;
+	}
+
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	/* Six columns side by side */
+	.column {
+		float: left;
+		width: 16.66%;
+	}
+
+	/* Add a transparency effect for thumnbail images */
+	.demo {
+		opacity: 0.6;
+	}
+
+	.active,
+	.demo:hover {
+		opacity: 1;
+	}
+
+
+	/*Thông tin khac của sản phẩm*/
+	.product-information{
+		margin: 20px 0;
+	}
+	.product-information .div_link{
+		padding-bottom: 15px;
+		border-bottom: 1px solid #ddd; 
+	}
+	.product-information .div_link ul li{
+		padding-right: 15px;
+
+	}
+	.product-information .div_link ul li a{
+		font-weight: 600;
+	}
+	#information ul{
+		padding: 0;
+	}
+	#information ul li{
+		list-style: none;
+		padding-bottom: 10px;
+		display: flex;
+	}
+	.tab-content{
+		padding:15px 0;	
+	}
+	/*Thông tin khac của sản phẩm*/
+
+	/*Review sản phẩm*/
+	#reviews .list-review,#reviews .add-review{
+		float: left;
+
+	}
+	#reviews .title{
+		font-size: 16px;
+		margin-bottom: 15px;
+	}
+
+	#reviews form .btn{
+		padding: 10px 25px;
+		border-radius: inherit !important; 
+		float: right;
+	}
+	#reviews form textarea{
+		padding: 15px;
+		width: 100%;
+		margin: 10px 0;
+		outline: none !important;
+		border-radius: inherit !important; 
+		border: 1px solid #ddd;
+	}
+	#reviews form textarea:before{
+		outline: none !important;
+
+	}
+
+	#reviews form input{ 
+		padding: 15px;
+		width: 100%;
+		margin: 10px 0;
+		border: 1px solid #ddd;
+	}
+	#reviews form input:focus,#reviews form input:active,#reviews form input:after,#reviews form input:before{
+		outline: #333 !important;
+
+	}
+	.note{
+		display: block;
+		color: 	#848484;
+		width: 100%;
+		margin-top: 20px;
+	}
+	.list-review ul{
+		padding:0;
+	}
+	.list-review ul li{
+		display: block;
+		padding-bottom: 10px;
+	}
+	.list-review  time{
+		font-size: 13px;
+		color: #ddd;
+	}
+	.list-review p{
+		margin: 0;
+	}
+	.review-rating{
+		display: block;
+		width: 100%;
+		float: left;
+	}
+	.review-rating label{
+		margin-right: 10px;
+	}
+	.review-rating .wrap-rating i:hover{
+		cursor: pointer;
+		color: #fdd835;
+
+	}
+	.zmdi-star{
+		color: #fdd835;
+	}
+	.dis-none{
+		display: none;
+	}
+	.review-avatar{
+		border-radius: 50%;
+		width: 45px;height: 45px;
+		overflow: hidden;
+		display: block;
+		float: left;
+		margin-right: 10px;
+	}
+	.review-avatar img {
+		width: 100%;
+	}
+	.review-content{
+		width: calc(100% - 70px);
+		display: block;
+		float: left;
+	}
+	.me-information{
+		width: 100%;
+		display: block;
+	}
+	.me-name{
+		float: left;
+		font-weight: 600;
+	}
+	.me-rating{
+		float: right;
+	}

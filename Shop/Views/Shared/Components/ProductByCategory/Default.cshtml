@@ -1,0 +1,26 @@
+﻿@model List<Model.Models.Product>
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                <div class="img-thumbnail">
+                    <img src="@item.Thumbnail.FileName" />
+                </div>
+                <div class="infomation">
+                    <h1 class="title">@item.Title</h1>
+                    <div class="price">
+                        @if (item.Sale != null && item.Sale > 0)
+                        {
+                            @item.Sale
+                            <del>@item.Price</del>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

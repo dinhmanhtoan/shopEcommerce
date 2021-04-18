@@ -1,0 +1,201 @@
+﻿@model FormProduct
+@{
+    ViewData["Title"] = "Thêm sản phẩm";
+}
+@section styles{
+    <link href="~/lib/media-preview-upload/css/style.css" rel="stylesheet" />
+}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="card-title">Dannh sách sản phẩm</h4>
+            </div>
+            <div class="col-md-6 ">
+                <div class="text-right">
+                    <button class="btn btn-primary">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Code</label>
+                <input asp-for="Products.Code" class="form-control" placeholder="Code" maxlength="12" value="@(Model != null ? Model.Products.Code : "")" />
+                <span asp-validation-for="Products.Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Tên</label>
+                <input asp-for="Products.Title" class="form-control" placeholder="Tên sản phẩm" required maxlength="250" />
+                <small>Tối đa 250 ký tự</small>
+                <span asp-validation-for="Products.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Danh mục</label>
+                <select asp-for="Products.CategoryId" class="form-control">
+                    <option value="-1">Chọn</option>
+                    @foreach (var item in Model.Products.categories)
+                    {
+                        <option value=@item.Id>@item.Title</option>
+                    }
+                </select>
+                <span asp-validation-for="Products.CategoryId" class="text-danger"></span>
+
+
+            </div>
+            <div class="form-group">
+                <label>Giá tiền</label>
+                <input asp-for="Products.Price" class="form-control" placeholder="Giá tiền" maxlength="12" />
+                <span asp-validation-for="Products.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Giá khuyến mại</label>
+                <input asp-for="Products.Sale" class="form-control" placeholder="Giá khuyến mại" maxlength="12" />
+                <span asp-validation-for="Products.Sale" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Mô tả</label>
+                <textarea asp-for="Products.Description" class="form-control" placeholder="Mô tả"></textarea>
+                <span asp-validation-for="Products.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Chi tiết</label>
+                <textarea asp-for="Products.Detail" class="form-control" placeholder="Chi tiết"></textarea>
+                <span asp-validation-for="Products.Detail" class="text-danger"></span>
+            </div>
+            <div class="form-group ">
+                <label class="control-label">Ảnh</label>
+
+                <input asp-for="ThumbnailImage" class="form-control-file" type="file" id="thumbnail" onchange="previewFile(this)" hidden />
+                <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
+                <br />
+                <img id="previewThumbnail" width="90" />
+                <br />
+                <label for="thumbnail" class="btn btn-primary mt-1">Chọn ảnh</label>
+
+            </div>
+            <div class="form-group ">
+                @*<input asp-for="ProductImages" class="form-control-file" type="file" multiple id="images" onchange="previewImages(this)" hidden />
+                    <span asp-validation-for="ProductImages" class="text-danger"></span>
+                    <br />
+                    <div class="previewImages row"></div>
+                    <br />
+                    <label for="images" class="btn btn-primary">Chọn ảnh</label>*@
+
+                <label>Danh sách hình ảnh</label>
+                <ul class="media-list" id="media-list">
+                    @foreach (var item in Model.Products.ProductImages)
+                    {
+                        <li>
+                            <img id="demo" src="@item.MediaUrl" />
+                            <div class="post-thumb"><div class="inner-post-thumb"><a href="javascript:void(0);" data-id="@item.Media" class="remove-pic"><i class="fa fa-times" aria-hidden="true"></i></a><div></div></div></div>
+                        </li>
+                    }
+                    <li class="myupload">
+                        <span>
+                            <i class="fa fa-plus" aria-hidden="true" for="ProductImages"></i>
+                            <input asp-for="ProductImages" class="form-control-file " id="ProductImages" type="file" multiple name="ProductImages" />
+                        </span>
+                    </li>
+                </ul>
+                <span asp-validation-for="ProductImages" class="text-danger"></span>
+
+
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">
+                    Lưu
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+    <script>
+        function previewFile(input) {
+            var file = $(input).get(0).files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    $("#previewThumbnail").attr("src", reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        };
+        //function previewImages(input) {
+        //    if (input.files) {
+        //        var filesAmount = input.files.length;
+        //        $(".previewImages").html("");
+        //        var html = "";
+        //        for (i = 0; i < filesAmount; i++) {
+        //            var reader = new FileReader();
+        //            reader.onload = function (event) {
+        //                html = "<div class='col-md-1 col-sm-2'> <img src='" + event.target.result + "' class='w-100'> </div>";
+        //                $(".previewImages").append(html);
+        //            }
+        //            reader.readAsDataURL(input.files[i]);
+        //        }
+        //    }
+        //};
+        var names = @Html.Raw(Json.Serialize(Model.Products.ProductImages.Select(x => x.Media).ToList()));
+        $('body').on('change', '#ProductImages', function (event) {
+            var files = event.target.files;
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+            names.push($(this).get(0).files[i].name);
+            if (file.type.match('image')) {
+
+                var picReader = new FileReader();
+                picReader.fileName = file.name
+                picReader.addEventListener("load", function (event) {
+
+                    var picFile = event.target;
+
+                    var div = document.createElement("li");
+
+                    div.innerHTML = "<img id='demo' src='" + picFile.result + "'" +
+                        "title='" + picFile.name + "'/><div  class='post-thumb'><div class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
+
+                    $("#media-list").prepend(div);
+
+                });
+            } else {
+                var picReader = new FileReader();
+                picReader.fileName = file.name
+                picReader.addEventListener("load", function (event) {
+
+                    var picFile = event.target;
+
+                    var div = document.createElement("li");
+
+                    div.innerHTML = "<video src='" + picFile.result + "'" +
+                        "title='" + picFile.name + "'></video><div class='post-thumb'><div  class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
+
+                    $("#media-list").prepend(div);
+
+                });
+            }
+            picReader.readAsDataURL(file);
+        }
+            $('#demo').error(function () {
+                alert('Image does not exist !!');
+            });
+
+        });
+        $('body').on('click', '.remove-pic', function () {
+            $(this).parent().parent().parent().remove();
+            var removeItem = $(this).attr('data-id');
+            var yet = names.indexOf(removeItem);
+
+            if (yet != -1) {
+                names.splice(yet, 1);
+            }
+        });
+    </script>
+}
