@@ -8,6 +8,7 @@ namespace Model.Models
         public long Id { get; set; }
         public string Code { get; set; }
         public string Title { get; set; }
+        public string Slug { get; set; }
         public string Description { get; set; }
         public long? ThumbnailId { get; set; }
         public Media Thumbnail { get; set; }

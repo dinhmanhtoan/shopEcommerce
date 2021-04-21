@@ -25,76 +25,17 @@ namespace Shop.Controllers
             _categoryService = categoryService;
             _context = context;
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Index(Search search)
-        //{
-        //    var query = _context.Product.Include(x => x.Images).ThenInclude(x => x.Media)
-        //                                       .Include(x => x.Thumbnail).AsQueryable();
-        //    if (search.CategoryId != 0 )
-        //    {
-        //        long categoryId = search.CategoryId;
-        //        query = query.Where(x => x.CategoryId == categoryId);
-        //    }
 
-        //    //if (search.BranId != null)
-        //    //{
-        //    //    long BranId = search.BranId;
-        //    //    query = query.Where(x => x.BranId == BranId);
-        //    //}
-        //    if (search.Slug != null)
-        //    {
-        //        string Slug = search.Slug;
-        //        query = query.Where(x => x.Slug.Contains(Slug));
-        //    }
-        //    if (search.Sort != 0)
-        //    {
-        //        int Sort = search.Sort;
-        //        if (Sort !=  -1)
-        //        {
-        //            query = query.Take(Sort);
-        //        }
-        //    }
-        //    if (search.PriceStart != 0)
-        //    {
-        //        decimal PriceStart = search.PriceStart;
-        //        query = query.Where(x => x.Price >= PriceStart);
-        //    }
-        //    if (search.PriceEnd != 0)
-        //    {
-        //        decimal PriceEnd = search.PriceEnd;
-        //        query = query.Where(x => x.Price <= PriceEnd);
-        //    }
-        //    var category = await _categoryService.GetAll();
-        //    var ProductList = new ProductList();
-        //    foreach (var item in query)
-        //    {
-        //        var ProductThumbnail = new ProductThumbnail()
-        //        {
-        //            Id = item.Id,
-        //            Code = item.Code,
-        //            Title = item.Title,
-        //            Description = item.Description,
-        //            ThumbnailImage = _context.Medias.Where(x => x.Id == item.ThumbnailId).FirstOrDefault(),
-        //            Detail = item.Detail,
-        //            Price = item.Price,
-        //            Sale = item.Sale,
-        //        };
-        //        ProductList.products.Add(ProductThumbnail);
-        //    }
-        //    ProductList.categories = category;
-        
-        //    return View(ProductList);
-        //}
         [HttpGet]
         public async Task<IActionResult> Index(Search search)
         {
             var query = _context.Product.Include(x => x.Images).ThenInclude(x => x.Media)
                                         .Include(x => x.Thumbnail).AsQueryable();
-            if(search.Category != null)
+            if (search.Category != null)
             {
                 query = query.Where(x => x.CategoryId == search.Category);
             }
-            if(!string.IsNullOrEmpty(search.Sort))
+            if (!string.IsNullOrEmpty(search.Sort))
             {
                 switch (search.Sort)
                 {
@@ -134,6 +75,16 @@ namespace Shop.Controllers
             ProductList.categories = category;
 
             return View(ProductList);
+        }
+
+        [HttpGet("chi-tiet/{slug}")]
+        public async Task<IActionResult> Detail(string slug)
+        {
+            var query = _context.Product.Where(x => x.Slug == slug)
+                .Include(x => x.Images).ThenInclude(x => x.Media)
+                .Include(x => x.Thumbnail)
+                .First();
+            return View(query);
         }
     }
 }

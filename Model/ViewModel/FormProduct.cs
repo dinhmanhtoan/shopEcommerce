@@ -12,6 +12,8 @@ namespace Model.ViewModel
         public ProductVm Products { get; set; } = new ProductVm();
         public IFormFile ThumbnailImage { get; set; }
         public IList<IFormFile> ProductImages { get; set; } = new List<IFormFile>();
- 
+        public string ListDelete { get; set; }
+        public ProductMedia productMedia { get; set; }
+
     }
 }

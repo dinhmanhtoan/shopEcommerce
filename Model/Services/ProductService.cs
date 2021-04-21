@@ -68,7 +68,7 @@ namespace Model.Services
             if (product != null)
             {
                 _context.Product.Remove(product);
-                _context.SaveChangesAsync();
+                 _context.SaveChanges();
             }
         }
         public Task<Product> getById(long Id)

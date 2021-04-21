@@ -7,8 +7,8 @@ namespace Model.ViewModel
 {
     public class ProductList
     {
-        public List<ProductThumbnail> products { get; set; }
-        public List<Category> categories { get; set; }
+        public IList<ProductThumbnail> products { get; set; } = new List<ProductThumbnail>();
+        public IList<Category> categories { get; set; } = new List<Category>();
         public string Images { get; set; }
     }
 }

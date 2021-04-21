@@ -12,9 +12,9 @@ namespace Model.Services
     {
         public Task<List<Category>> GetAll();
         public void AddCategory(Category entity);
-        public void UpdateCategory(Category entity);
+        public Task UpdateCategory(Category entity);
         public void Delete(long Id);
-        public Task<Category> getById(long Id);
+        public Category getById(long Id);
 
     }
     public class CategoryService : ICategoryService
@@ -25,9 +25,9 @@ namespace Model.Services
         {
             _context = context;
         }
-        public Task<List<Category>> GetAll()
+        public async Task<List<Category>> GetAll()
         {
-            var res = _context.Category.ToListAsync();
+            var res =  await _context.Category.Include(x => x.Thumbnail).ToListAsync();
             return res;
         }
      
@@ -37,13 +37,20 @@ namespace Model.Services
              _context.SaveChanges();
         }
 
-        public void UpdateCategory(Category entity)
+        public async Task UpdateCategory(Category entity)
         {
-            var Category = _context.Category.FirstOrDefault(x => x.Id == entity.Id);
-            if (Category != null)
+            try
             {
-                Category = entity;
-                _context.SaveChangesAsync();
+                var Category = _context.Category.FirstOrDefault(x => x.Id == entity.Id);
+                if (Category != null)
+                {
+                    Category = entity;
+                    _context.Category.Update(Category);
+                    _context.SaveChanges();
+                }
+            }catch(Exception e)
+            {
+                throw e;
             }
         }
 
@@ -56,9 +63,9 @@ namespace Model.Services
                 _context.SaveChanges();
             }
         }
-        public async Task<Category> getById(long Id)
+        public  Category getById(long Id)
         {
-            var res = await _context.Category.FirstOrDefaultAsync(x => x.Id == Id);
+            var res =  _context.Category.Include(x=> x.Thumbnail).FirstOrDefault(x => x.Id == Id);
             return res;
         }
     }
