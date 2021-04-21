@@ -22,22 +22,27 @@
                     <input type="hidden" asp-for="Products.Id" value="@Model.Products.Id" />
                     <div class="form-group">
                         <label asp-for="Products.Code" class="control-label"></label>
-                        <input asp-for="Products.Code" class="form-control" value="@Model.Products.Code" />
+                        <input asp-for="Products.Code" type="text" class="form-control" value="@Model.Products.Code" />
                         <span asp-validation-for="Products.Code" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Products.Title" class="control-label"></label>
-                        <input asp-for="Products.Title" class="form-control" value="@Model.Products.Title" />
+                        <input asp-for="Products.Title" type="text" class="form-control Title" value="@Model.Products.Title" />
                         <span asp-validation-for="Products.Title" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Products.Slug" class="control-label"></label>
+                        <input asp-for="Products.Slug" type="text" class="form-control" value="@Model.Products.Slug"  id="permalink" readonly  />
+                        <span asp-validation-for="Products.Slug" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Products.Description" class="control-label"></label>
-                        <input asp-for="Products.Description" class="form-control" value="@Model.Products.Description" />
+                        <input asp-for="Products.Description" type="text" class="form-control" value="@Model.Products.Description" />
                         <span asp-validation-for="Products.Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Products.Detail" class="control-label"></label>
-                        <input asp-for="Products.Detail" class="form-control" value="@Model.Products.Detail" />
+                        <input asp-for="Products.Detail" type="text" class="form-control" value="@Model.Products.Detail" />
                         <span asp-validation-for="Products.Detail" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -61,31 +66,21 @@
                         <input asp-for="Products.Sale" class="form-control" value="@Model.Products.Sale" />
                         <span asp-validation-for="Products.Sale" class="text-danger"></span>
                     </div>
-                    <div class="form-group " >
-                        <h3>Ảnh</h3>
-                        <div class="media-list" id="meida">
-                            <div>
-                                <img src="~/user-content/@Model.Products.ThumbnailImageUrl" />
-                                <div class="post-thumb">
-                                    <div class="inner-post-thumb">
-                                        <a href="javascript:void(0);" data-id="@Model.Products.ThumbnailImageUrl" class="remove-pic">
-                                            <i class="fa fa-times" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="myupload">
-                                <span>
-                                    <i class="fa fa-plus" aria-hidden="true" for="ThumbnailImage"></i>
-                                    <input asp-for="ThumbnailImage" class="form-control-file " id="ThumbnailImage" type="file" name="ThumbnailImage" value="@Model.Products.ThumbnailImageUrl" />
-                                </span>
-                            </div>
-                        </div>
-                    
+                    @*="~/user-content/@Model.Products.ThumbnailImageUrl*@
+                    <div class="form-group ">
+                        <label class="control-label">Ảnh</label>
+
+                        <input asp-for="ThumbnailImage" class="form-control-file" type="file" id="thumbnail" onchange="previewFile(this)" hidden />
+                        <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
+                        <br />
+                        <img id="previewThumbnail" src="~/user-content/@Model.Products.ThumbnailImageUrl" width="90" />
+                        <br />
+                        <label for="thumbnail" class="btn btn-primary mt-1">Chọn ảnh</label>
+
                         <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <h3>Danh sách hình ảnh</h3>
+                        <label class="control-label">Danh sách hình ảnh</label>
                         <ul class="media-list" id="media-list">
                             @foreach (var item in Model.Products.ProductImages)
                             {
@@ -99,36 +94,52 @@
                                     <i class="fa fa-plus" aria-hidden="true" for="ProductImages"></i>
                                     <input asp-for="ProductImages" class="form-control-file " id="ProductImages" type="file" multiple name="ProductImages" />
                                 </span>
+                                <input asp-for="ListDelete" id="Delete" name="ListDelete" hidden />
                             </li>
-                            <li>
-                                <input  asp-for="@Model.Products.ProductImages" class="Delete" id="Delete" type="file" multiple/>
-                                <span class="demo"> </span>
-                            </li>
-                          
                         </ul>
                         <span asp-validation-for="ProductImages" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Save" class="btn btn-primary" />
+
                     </div>
                 </form>
             </div>
         </div>
+    </div>
 
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
-
+    <div class="card-footer">
+        <a asp-action="Index" class="card-link">Back to List</a>
     </div>
 </div>
 
 @section Scripts {
+    <script src="~/lib/Slug/speakingurl.min.js"></script>
+    <script src="~/lib/Slug/jquery.stringtoslug.js"></script>
     <script>
+        function previewFile(input) {
+            var file = $(input).get(0).files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    $("#previewThumbnail").attr("src", reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        };
         $(function () {
             var names = @Html.Raw(Json.Serialize(Model.Products.ProductImages.Select(x => x.Media).ToList()));
-
             var ListDelete = [];
-
+            function previewFile(input) {
+                var file = $(input).get(0).files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        $("#previewThumbnail").attr("src", reader.result);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            };
             $('body').on('change', '#ProductImages', function (event) {
                 var files = event.target.files;
                 for (var i = 0; i < files.length; i++) {
@@ -171,57 +182,28 @@
                 }
 
             });
-            $('body').on('change', '#ThumbnailImage', function (event) {
-                var file = event.target.files;
-                var picReaders = new FileReader();
-                picReaders.fileName = file[0].name;
-                picReaders.addEventListener("load", function (event) {
-
-                            var picFile = event.target;
-                            console.log(picFile);
-
-                            var div = document.createElement("div");
-                    div.innerHTML = "<img src='" + picFile.result + "'" +
-                        "title='" + picFile.name + "'/><div  class='post-thumb'><div class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
-                    console.log(!$("#meida").find('div').first().hasClass('myupload'));
-                    if (!$("#meida").find('div').first().hasClass('myupload')) {
-                        $("#meida").find('div').first().remove();
-                    }
-
-                    $("#meida").prepend(div);
-
-                        });
-                picReaders.readAsDataURL(file[0]);
-
-
-            });
             $('body').on('click', '.remove-pic', function () {
                 $(this).parent().parent().parent().remove();
                 var removeItem = $(this).attr('data-id');
                 var yet = names.indexOf(removeItem);
                 ListDelete.push(removeItem);
-                var input = $('#Delete');
-                input.files = ListDelete.toString();
-                var demo = $('.demo').html(input.files);
-                console.log(input);
+                var ListDeleteStr = JSON.stringify(ListDelete);
+                $('#Delete').val(ListDeleteStr);
                 if (yet != -1) {
                     names.splice(yet, 1);
                 }
              });
             });
-            $('body').on('click', '.remove-pic', function () {
-                $(this).parent().parent().parent().remove();
-                var removeItem = $(this).attr('data-id');
-                var yet = name.indexOf(removeItem);
 
-                if (yet != -1) {
-                    name.splice(yet, 1);
-                }
-            });
-
-   
-
+        $(document).ready(function () {
+            $(".Title").stringToSlug();
+         
+        });
+        $("#permalink").change(() => {
+            console.log($("#permalink").val());
+        })
+     
     </script>
     <script src="~/lib/media-preview-upload/js/app.js"></script>
-  
+
 }

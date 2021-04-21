@@ -13,6 +13,8 @@ using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Admin.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Admin.Controllers
 {
@@ -59,6 +61,7 @@ namespace Admin.Controllers
                 {
                     Code = model.Products.Code,
                     Title = model.Products.Title,
+                    Slug = model.Products.Slug,
                     Description = model.Products.Description,
                     Detail = model.Products.Detail,
                     Price = model.Products.Price,
@@ -102,6 +105,7 @@ namespace Admin.Controllers
                 Id = Product.Id,
                 Code = Product.Code,
                 Title = Product.Title,
+                Slug = Product.Slug,
                 Description = Product.Description,
                 Detail = Product.Detail,
                 categories = Category,
@@ -139,6 +143,7 @@ namespace Admin.Controllers
 
                 product.Code = model.Products.Code;
                 product.Title = model.Products.Title;
+                product.Slug = model.Products.Slug;
                 product.Description = model.Products.Description;
                 product.Detail = model.Products.Detail;
                 product.CategoryId = model.Products.CategoryId;
@@ -163,55 +168,96 @@ namespace Admin.Controllers
         [HttpPost]
         public IActionResult DeletedById(long Id)
         {
-
-            var product = _ProductServices.getById(Id).Result;
-            if (product == null)
+            var ProductImages = _context.Product.Where(x => x.Id == Id).Include(x => x.Images).ThenInclude(x => x.Media)
+                                    .Include(x => x.Thumbnail).FirstOrDefault();
+            if (ProductImages == null)
             {
                 ModelState.AddModelError("error", "Sản phẩm không tồn tại");
-                return BadRequest();
+                  return BadRequest();
+            }
+            foreach (var item in ProductImages.Images)
+            {
+                _context.ProductMedias.Remove(item);
+                 _context.Medias.Remove(item.Media);
+                RemoveFile(item.Media.FileName);
+                
+            }
+            if (ProductImages.Thumbnail != null)
+            {
+                _context.Medias.Remove(ProductImages.Thumbnail);
             }
             _ProductServices.Delete(Id);
             return Redirect("/Admin/Product/Index");
         }
         public async Task SaveImage(FormProduct model, Product product)
         {
+            var ProductImages = _context.Product.Where(x => x.Id == product.Id).Include(x => x.Images).ThenInclude(x => x.Media).FirstOrDefault();
+           
+          
             if (model.ThumbnailImage != null)
             {
                 var ThumbnailImage = _context.Product.Include(x => x.Thumbnail).FirstOrDefault();
                 if (!(ThumbnailImage.Thumbnail.FileName == model.ThumbnailImage.FileName))
                 {
+
                     var fileName = await SaveFile(model.ThumbnailImage);
                     if (product.Thumbnail != null)
                     {
+                        RemoveFile(product.Thumbnail.FileName);
                         product.Thumbnail.FileName = fileName;
+                     
                     }
                     else
                     {
+                  
                         product.Thumbnail = new Media { FileName = fileName };
                     }
                 }
             }
-            var ProductImages = _context.Product.Where(x => x.Id == product.Id).Include(x => x.Images).ThenInclude(x => x.Media).FirstOrDefault();
+          
 
+            if (model.ListDelete != null)
+            {
+                var ListDelete = JsonConvert.DeserializeObject<List<string>>(model.ListDelete);
+                foreach(var delete in ListDelete)
+                {
+                    foreach (var media in ProductImages.Images)
+                    {
+                        if (media.Media != null)
+                        {
+                            if (media.Media.FileName == delete)
+                            {
+                                RemoveFile(delete);
+                                var deleteMedia = _context.Medias.Where(x => x.FileName == delete).FirstOrDefault();
+                                var ProductMedias = _context.ProductMedias.Where(x => x.MediaId == deleteMedia.Id).FirstOrDefault();
+                                _context.ProductMedias.Remove(ProductMedias);
+
+                            }
+                         }
+                    }
+                
+                }
+            }
             foreach (var file in model.ProductImages)
             {
-       
-                foreach (var item in ProductImages.Images)
+   
+                if (file.FileName != null)
                 {
-                    if (!(item.Media.FileName == file.FileName && file.FileName != null))
+                    var fileName = await SaveFile(file);
+                    var productMedia = new ProductMedia
                     {
-                        var fileName = await SaveFile(file);
-                        var productMedia = new ProductMedia
-                        {
-                            Product = product,
-                            Media = new Media { FileName = fileName, MediaType = MediaType.Image }
-                        };
-                        product.AddMedia(productMedia);
-                    }
+                        Product = product,
+                        Media = new Media { FileName = fileName, MediaType = MediaType.Image }
+                    };
+                    product.AddMedia(productMedia);
                 }
             }
         }
 
+        private void  RemoveFile(string file)
+        {
+            _mediaService.DeleteMediaAsync(file);
+        }
         private async Task<string> SaveFile(IFormFile file)
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');

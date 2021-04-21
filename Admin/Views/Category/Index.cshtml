@@ -4,7 +4,16 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@section styles{
+<style>
+    .thumnail {
+        display: flex;
+        justify-content: center;
+        align-items: center,
+    }
+</style>
+    
+}
 <div class="card">
     <div class="card-header">
         <div class="row">
@@ -64,8 +73,14 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Description)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Thumbnail)
+                        <td class="thumnail">
+                            @if (item.Thumbnail != null)
+                            {
+                                <br />
+                                <img id="previewThumbnail" width="90" height="100" src="~/user-content/@item.Thumbnail.FileName" />
+                                <br />
+                            }
+
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CreatedOn)
@@ -90,4 +105,4 @@
         </table>
     </div>
 </div>
-    
+

@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Admin.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Admin.Controllers
 {
@@ -21,11 +22,13 @@ namespace Admin.Controllers
         private readonly ICategoryService _CategoryServices;
         private readonly IProductService _ProductServices;
         private readonly IMediaService _mediaService;
-        public CategoryController(ICategoryService CategoryServices, IProductService ProductServices, IMediaService mediaService)
+        private readonly shopContext _context;
+        public CategoryController(ICategoryService CategoryServices, IProductService ProductServices, IMediaService mediaService, shopContext context)
         {
             _CategoryServices = CategoryServices;
             _ProductServices = ProductServices;
             _mediaService = mediaService;
+            _context = context;
         }
         [HttpGet]
 
@@ -42,29 +45,29 @@ namespace Admin.Controllers
             return View(formCategory);
         }
         [HttpPost]
-        public  IActionResult Create(FormCategory model)
+        public async Task<IActionResult> Create(FormCategory model)
         {
-          
+
             if (ModelState.IsValid)
             {
                 var Category = new Category()
                 {
                     Code = model.Categorys.Code,
                     Title = model.Categorys.Title,
+                    Slug = model.Categorys.Slug,
                     Description = model.Categorys.Description,
                     CreatedOn = DateTime.Now,
-                    //  CreatedBy = model..CategorysTitle,
                 };
-                SaveCategory(model, Category);
+                await SaveCategory(model, Category);
                 _CategoryServices.AddCategory(Category);
                 return Redirect("/Admin/Category/Index");
             }
-            return View();  
+            return View();
         }
         [HttpGet]
-        public async Task<IActionResult> Details(long Id)
+        public IActionResult Details(long Id)
         {
-            var Category = await _CategoryServices.getById(Id);
+            var Category = _CategoryServices.getById(Id);
             if (Category != null)
             {
                 return View(Category);
@@ -76,48 +79,55 @@ namespace Admin.Controllers
 
         }
         [HttpGet("{Id}")]
-        public async Task<IActionResult> Updated(long Id )
+        public IActionResult Updated(long Id)
         {
-            var Category = await  _CategoryServices.getById(Id);
+            var Category = _CategoryServices.getById(Id);
             var CategoryVm = new CategoryVm()
             {
                 Id = Category.Id,
                 Code = Category.Code,
                 Title = Category.Title,
+                Slug = Category.Slug,
                 Description = Category.Description,
                 CreatedOn = DateTime.Now,
+                ThumbnailImageUrl = Category.Thumbnail != null ? Category.Thumbnail.FileName : ""
                 //  CreatedBy = model..CategorysTitle,
             };
             var FormCategory = new FormCategory();
-                FormCategory.Categorys = CategoryVm;
+            FormCategory.Categorys = CategoryVm;
             return View(FormCategory);
         }
         [HttpPost("{Id}")]
-        public IActionResult Updated(FormCategory model)
+        public async Task<IActionResult> Updated(long Id, FormCategory model)
         {
-            var Category = new Category()
-            {
-                Code = model.Categorys.Code,
-                Title = model.Categorys.Title,
-                Description = model.Categorys.Description,
-                EditOn = DateTime.Now,
+            var Category = _CategoryServices.getById(Id);
+            Category.Id = Id;
+            Category.Code = model.Categorys.Code;
+            Category.Title = model.Categorys.Title;
+            Category.Slug = model.Categorys.Slug;
+            Category.Description = model.Categorys.Description;
+            Category.EditOn = DateTime.Now;
                 //  UpdateBy = model.UpdateBy,
-            };
-            SaveCategory(model, Category);
-            _CategoryServices.UpdateCategory(Category);
+            await SaveCategory(model, Category);
+            await _CategoryServices.UpdateCategory(Category);
             return Redirect("/Admin/Category/Index");
         }
         [HttpGet("{Id}")]
-        public async Task<IActionResult> Deleted(long Id)
+        public IActionResult Deleted(long Id)
         {
-            var category = await _CategoryServices.getById(Id);
-
+            var category =  _CategoryServices.getById(Id);
             return View(category);
         }
         [HttpPost]
         public IActionResult DeletedById(long Id)
         {
-            _CategoryServices.Delete(Id);
+            var thumnail = _context.Category.Include(x => x.Thumbnail).FirstOrDefault(x => x.Id == Id);
+            if (thumnail != null)
+            {
+                _context.Medias.Remove(thumnail.Thumbnail);
+                _CategoryServices.Delete(Id);
+            }
+
             return Redirect("/Admin/Category/Index");
         }
         public async Task SaveCategory(FormCategory model, Category category)
@@ -127,6 +137,7 @@ namespace Admin.Controllers
                 var fileName = await SaveFile(model.ThumbnailImage);
                 if (category.Thumbnail != null)
                 {
+                    RemoveFile(category.Thumbnail.FileName);
                     category.Thumbnail.FileName = fileName;
                 }
                 else
@@ -135,6 +146,10 @@ namespace Admin.Controllers
                 }
         
             }
+        }
+        private void RemoveFile(string file)
+        {
+            _mediaService.DeleteMediaAsync(file);
         }
         private async Task<string> SaveFile(IFormFile file)
         {
