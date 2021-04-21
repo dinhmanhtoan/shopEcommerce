@@ -56,11 +56,11 @@
   display: block;
   width: 100%;
 }
-.owl-carousel .owl-nav {
+/*.owl-carousel .owl-nav {
   position: absolute;
   right: 0;
   top: -30px;
-}
+}*/
 .owl-carousel .owl-nav.disabled,
 .owl-carousel .owl-dots.disabled {
   display: none;

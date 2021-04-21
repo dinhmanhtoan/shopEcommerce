@@ -78,13 +78,13 @@
 .owl-carousel .owl-nav button.owl-prev,
 .owl-carousel .owl-nav button.owl-next,
 .owl-carousel button.owl-dot {
-  background: none;
-  color: #000;
-  border: none;
-  padding: 0 0.3rem !important;
-  font-size: 1.2rem;
-  font: inherit;
-}
+		background: none;
+		color: #000;
+		border: none;
+		padding: 0 0.3rem !important;
+		font-size: 1.2rem;
+		font: inherit;
+	}
 .owl-carousel.owl-loaded {
   display: block;
 }

@@ -171,6 +171,7 @@
  	margin-top: 6px;
  }	
  .top-link {
+     padding : 15px;
  	float: right;
  }
  .top-link ul li{
@@ -183,7 +184,6 @@
  }
  .menu-main{
  	float: left;
- 	width: calc(100% - 450px);
  }
  .menu-main ul{
  	padding: 0;
@@ -197,6 +197,7 @@
  	float: right;
  }
  .menu-login ul li{
+     position:relative;
  	padding: 5px 10px;
  	list-style: none;
  }
@@ -245,7 +246,7 @@
  		position: absolute;
  		height: 35px;
  		width: 35px;
- 		top: -20px;
+ 		top: 0px;
  		right: -5px;
  		font-size: 20px;
  	}
@@ -570,9 +571,9 @@
 }
 /*//////////////////////////////////////////////////////////////////
 [ Modal Search ]*/
-
-.show-modal-search{
-	bottom: 0 !important;
+.show-modal-search {
+    bottom: 0 !important;
+    display:block !important;
 }
 .modal-search-header{
 	position: fixed;
@@ -665,6 +666,9 @@
 .cart-icon:hover .cart-content {
 	display: block;
 }
+.cart-icon{
+    position:relative;
+}
 .img-left{
 	width: 65px;
 	float: left;
@@ -677,7 +681,7 @@
 }
 .remove-item{
 	position: absolute;
-	right:  0;
+	right:  10px;
 	top: 0;
 	color:#747474;
 }
@@ -714,8 +718,11 @@
 .wishlist-icon:hover .wishlist-content {
 	display: block;
 }
+.wishlist-icon{
+    position:relative;
+}
 .login-icon:hover .login-content {
-	display: block;
+    display: block;
 }
 .login-content{
 	width: 320px !important;
@@ -739,4 +746,14 @@
 
 .login-content form  a{
 	color:#9d9b9b;
+}
+.owl-prev{
+    position:absolute;
+    top:50%;
+    left:0%;
+}
+.owl-next {
+    position: absolute;
+    top: 50%;
+    right: 0%;
 }

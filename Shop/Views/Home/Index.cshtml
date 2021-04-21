@@ -5,7 +5,7 @@
 @section Scripts{ 
     <script>
         $(".owlCarousel_slider").owlCarousel({
-            autoplay: false, // tự động chuyển slider
+            autoplay: true, // tự động chuyển slider
             //loop: true,
             items: 1,
             nav: true, // hiện thị bật tắt nút next,back
@@ -21,7 +21,7 @@
 }
 <div class="banner">
     <div id="banner" class="carousel slide" data-ride="carousel">
-        <div class="owl-carousel owlCarousel_slider">
+        <div class="owl-carousel owlCarousel_slider owl-theme">
             <div class="item active">
                 <img class="w-100" src="~/img/banner/slider1.jpg">
             </div>
@@ -141,7 +141,7 @@
 
     <div class="container">
         <div class="row">
-
+            @*@await Component.InvokeAsync("ProductByCategory", new { category = 1 })*@
             <h2 class="title">Sản phẩm hot</h2>
             @if (Model.products == null)
             {
@@ -150,22 +150,24 @@
             else
             {
                 <div class="col-md-6">
-                    @foreach (var item in Model.products)
+                    @for (int i = 0; i < Model.products.Count; i++)
                     {
-                        @if (Model.products.Count <= 3)
+
+                        if (i <= 3 && Model.products.Count >= 3)
                         {
+
                             <div class="col-md-6 col-6">
                                 <div class="product-grid6" id="item_6">
                                     <div class="product-image6">
-                                        <a src="/home/details?Id=@item.Id">
-                                            <img class="pic-1" src=&"~/user-context/@item.ThumbnailImage.FileName" alt="@item.Title">
+                                        <a src="/home/details?Id=@Model.products[i].Id">
+                                            <img class="pic-1" src="https://localhost:44360/user-content/@Model.products[i].ThumbnailImage.FileName" alt="@Model.products[i].Title">
                                         </a>
                                     </div>
                                     <div class="product-content">
-                                        <h3 class="title"><a href="#">@item.Title</a></h3>
+                                        <h3 class="title"><a href="#">@Model.products[i].Title</a></h3>
                                         <div class="price">
-                                            $@item.Price
-                                            <span>$@item.Sale</span>
+                                            $@Model.products[i].Price
+                                            <span>$@Model.products[i].Sale</span>
                                         </div>
                                     </div>
                                     <ul class="social">
@@ -176,7 +178,6 @@
                                 </div>
                             </div>
                         }
-
                     }
                 </div>
                 <div class="col-md-6">
@@ -219,7 +220,7 @@
 
                         <div class="product-image6">
                             <a href="/Home/details?Id=@Model.products[4].Id">
-                                <img class="pic-1" src="~/user-contet/@Model.products[4].ThumbnailImage">
+                                <img class="pic-1" src="https://localhost:44360/user-content/@Model.products[4].ThumbnailImage.FileName">
                             </a>
                         </div>
                         <div class="product-content">

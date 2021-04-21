@@ -1,4 +1,7 @@
 ﻿@model ProductList;
+@{
+    ViewData["Title"] = "Sản phẩm";
+}
 <main>
     <div class="shop_breadcrumb">
         <div class="container">
@@ -21,67 +24,6 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-xl-9">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="custom-select" style="width: 160px;">
-                                <select class="Sort">
-                                    <option>Sắp xếp</option>
-                                    <option>AZ</option>
-                                    <option>ZA</option>
-                                    <option>Tăng dần</option>
-                                    <option>Giảm dần</option>
-                                </select>
-                            </div>
-                            <div class="custom-select" style="width: 100px">
-
-                                <select class="Sort">
-                                    <option>6</option>
-                                    <option>12</option>
-                                    <option>24</option>
-                                    <option>36</option>
-                                    <option>Tất cả</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div id="list-product-all" class="product">
-                            @if (Model.products == null)
-                            {
-                                <h1> Hien chua co san pham nao</h1>
-                            }
-                            else
-                            {
-                                @foreach (var item in Model.products)
-                                {
-                                    <div class="col-md-6 col-6">
-                                        <div class="product-grid6" id="item_6">
-                                            <div class="product-image6">
-                                                <a src="/home/details?Id=@item.Id">
-                                                    <img class="pic-1" src=&"~/user-context/@item.ThumbnailImage.FileName" alt="@item.Title">
-                                                </a>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3 class="title"><a href="#">@item.Title</a></h3>
-                                                <div class="price">
-                                                    $@item.Price
-                                                    <span>$@item.Sale</span>
-                                                </div>
-                                            </div>
-                                            <ul class="social">
-                                                <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                                <li><a href="" class="js-add-wishlist" data-status="true" data-id="6" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
-                                                <li><a href="" class="js-add-cart" data-status="true" data-id="6" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                }
-                            }
-
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
                 <div class="col-xl-3">
                     <div class="row">
                         <div class="panel-group category-products" id="accordian">
@@ -91,25 +33,14 @@
                             {
                                 @foreach (var item in Model.categories)
                                 {
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title"><a src="/Product/Index?Id=@item.Id">@item.Title</a></h4>
-                                        </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="category-@item.Id" name="category" value="@item.Id">
+                                        <label class="form-check-label" for="category-@item.Id">@item.Title</label>
                                     </div>
                                 }
                             }
                         </div><!--/category-productsr-->
 
-                        <div class="price-range">
-                            <!--price-range-->
-                            <h3 class="side-title">Lọc theo giá</h3>
-                            <div class="well">
-                                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="2000000" data-slider-step="5" data-slider-value="[0,2000000]" id="sl2" style="">
-                            </div>
-                            <br>
-                            <b>$ 0</b> <b class="pull-right">$ 2.000.000</b>
-                            <p id="amount">Giá (VNĐ):</p>
-                        </div>
                         <div id="brands">
                             <h3 class="side-title">Thương hiệu</h3>
                             <div class="panel panel-default">
@@ -127,8 +58,133 @@
                     </div>
 
                 </div>
-            </div>
+                <div class="col-xl-9">
+                    <div class="row">
+                        <div class="col-md-12">
 
+                            <select class="sort">
+                                <option value="-1">Sắp xếp</option>
+                                <option value="title-asc">AZ</option>
+                                <option value="title-desc">ZA</option>
+                                <option value="price-asc">Tăng dần</option>
+                                <option value="price-desc">Giảm dần</option>
+                            </select>
+
+
+                            <select id="themes" name="pageSize">
+                                <option value="12">12</option>
+                                <option value="24">24</option>
+                                <option value="36">36</option>
+                                <option value="-1">Tất cả</option>
+                            </select>
+
+
+
+
+                            <div id="list-product-all" class="product row">
+                                @if (Model.products == null)
+                                {
+                                    <h1> Hien chua co san pham nao</h1>
+                                }
+                                else
+                                {
+                                    @foreach (var item in Model.products)
+                                    {
+                                        <div class="col-md-4 col-6">
+                                            <div class="product-grid6" id="item_6">
+                                                <div class="product-image6">
+                                                    <a src="/home/details?Id=@item.Id">
+                                                        <img class="pic-1" src="https://localhost:44360/user-content/@item.ThumbnailImage.FileName" alt="@item.Title">
+                                                    </a>
+                                                </div>
+                                                <div class="product-content">
+                                                    <h3 class="title"><a href="#">@item.Title</a></h3>
+                                                    <div class="price">
+                                                        $@item.Price.GetValueOrDefault(0).ToString("#,#.##")
+                                                        <span>$@item.Sale.GetValueOrDefault(0).ToString("#,#.##")</span>
+                                                    </div>
+                                                </div>
+                                                <ul class="social">
+                                                    <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+                                                    <li><a href="" class="js-add-wishlist" data-status="true" data-id="6" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
+                                                    <li><a href="" class="js-add-cart" data-status="true" data-id="6" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </main>
+@section Scripts{
+    <script>
+
+        $(function () {
+            $("input[name='category']").off('click').on('click', function () {
+                getProduct();
+            });
+            $(".sort").on('change', function () {
+                getProduct();
+                console.log(1);
+            });
+
+            function getProduct(category) {
+
+                var category = $("input[name='category']:checked").val();
+                var brand = $("input[name='brand']:checked").val();
+                var sort = $(".sort option:selected").val();
+                var query = "";
+                if (category != null) {
+                    query += (query.length == 0 ? "?" : "&") + "category=" + category;
+                }
+                if (brand != null) {
+                    query += (query.length == 0 ? "?" : "&") + "brand=" + brand;
+                }
+                if (sort != null && sort != -1) {
+                    query += (query.length == 0 ? "?" : "&") + "sort=" + sort;
+                }
+                window.location = window.location.origin + window.location.pathname + query;
+            }
+
+        });
+        $(document).ready(function () {
+
+            function init() {
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                var category = url.searchParams.get("category");
+                var sort = url.searchParams.get("sort");
+                if (sort != undefined) {
+                    var options = $(".sort option");
+                    $.each(options, function (i, option) {
+                        let value = $(option).val();
+                        if (value == sort) {
+                            $(option).prop("selected", true);
+                        }
+                    })
+
+                }
+                if (category != undefined && category != null) {
+                    var categories = $("input[name='category']");
+                    $.each(categories, function (i, item) {
+                        let value = $(item).val();
+                        if (value == category) {
+                            $(item).prop('checked', true);
+
+                        }
+
+                    })
+                }
+            }
+            init();
+        })
+    </script>
+}

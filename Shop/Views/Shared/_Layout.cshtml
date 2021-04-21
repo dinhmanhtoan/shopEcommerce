@@ -8,7 +8,7 @@
 
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
 
-    <link href="~/lib/owl.carousel/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/lib/owl.carousel/owl.carousel.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/list_product.css">
 
@@ -67,7 +67,14 @@
             <div class="mobile-group-btn">
                 <ul>
                     <li>
-                        <a href="" class="js-show-modal-search"><i class="fa fa-search" aria-hidden="true"></i></a>
+                        <form class="input-group modal-search-header">
+                            <div class="form-outline">
+                                <input id="search-input" type="search" class="form-control" placeholder="search" />
+                            </div>
+                        </form>
+                        <button id="search-button" type="button" class="btn btn-primary js-show-modal-search">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </li>
                     <li class="wishlist-icon">
                         <a href="~/html/wishlist.html"><i class="fal fa-heart"></i> <span class="wishlist-count">2</span></a>
@@ -85,72 +92,88 @@
         </div>
         <div id="header-mid">
             <div class="container">
-                <a href="" class="close-menu close-open"><i class="fa fa-window-close-o" aria-hidden="true"></i></a>
-                <div class="logo">
-                    <a asp-controller="Home" asp-action="Index"><img src="~/img/system/logo.png"></a>
-                </div>
-                <div class="menu-main">
-                    <ul>
-                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-controller="Product" asp-action="Index">Product</a></li>
-                        <li><a asp-controller="Blog" asp-action="Index">Blog</a></li>
-                        <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="menu-login">
-                    <ul class="nav">
-                        <li>
-                            <a href="" class="js-show-modal-search"><i class="fa fa-search" aria-hidden="true"></i></a>
-                        </li>
-                        <li class="login-icon">
-                            <a href="~/html/login.html">LOG IN / SIGN UP</a>
-                            <div class="login-content content-dropdown">
-                                <form>
-                                    <label>Tên đăng nhập</label>
-                                    <input type="text" name="username" autocomplete="off">
-                                    <label>Mật khẩu</label>
-                                    <input type="password" name="password" autocomplete="off">
-                                    <div class="note">
-                                        <span><i class="fa fa-square-o" aria-hidden="true"></i> ghi nhớ</span>
-                                        <a href="" style="float: right;">Quên mật khẩu</a>
+                <a href="" class="close-menu close-open"><i class="fas fa-window-close"></i></a>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="logo">
+                            <a asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/img/system/logo.png"></a>
+                        </div>
+                        <div class="menu-main">
+                            <ul class="nav">
+                                <li class="nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a></li>
+                                <li class="nav-item"><a class="nav-link active" asp-controller="Product" asp-action="Index">Product</a></li>
+                                <li class="nav-item"><a class="nav-link active" asp-controller="Blog" asp-action="Index">Blog</a></li>
+                                <li class="nav-item"><a class="nav-link active" asp-controller="Contact" asp-action="Index">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="menu-login">
+                            <ul class="nav">
+                                <li>
+                                    <form class="input-group modal-search-header">
+                                        <div class="form-outline">
+                                            <input id="search-input" type="search" class="form-control" placeholder="search" />
+                                        </div>
+                                    </form>
+                                    <button id="search-button" type="button" class="btn btn-primary js-show-modal-search">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </li>
+                                <li class="login-icon">
+                                    <a href="~/html/login.html">LOG IN / SIGN UP</a>
+                                    <div class="login-content content-dropdown">
+                                        <form>
+                                            <label>Tên đăng nhập</label>
+                                            <input type="text" name="username" autocomplete="off">
+                                            <label>Mật khẩu</label>
+                                            <input type="password" name="password" autocomplete="off">
+                                            <div class="note">
+                                                <span><i class="fa fa-square-o" aria-hidden="true"></i> ghi nhớ</span>
+                                                <a href="" style="float: right;">Quên mật khẩu</a>
+                                            </div>
+                                            <button class="btn btn-black">Đăng nhập</button>
+                                            <div class="note">
+                                                <span>Khách hàng mới</span>
+                                                <a href="" style="padding-left: 10px;">Đăng ký</a>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <button class="btn btn-black">Đăng nhập</button>
-                                    <div class="note">
-                                        <span>Khách hàng mới</span>
-                                        <a href="" style="padding-left: 10px;">Đăng ký</a>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-                        <li class="wishlist-icon">
-                            <a href="~/html/wishlist.html"><i class="fal fa-heart"></i> <span class="wishlist-count">2</span></a>
-                            <input type="number" id="wishlist-count-input" name="wishlist-count" value="2">
-                            <div class="wishlist-content content-dropdown">
-                                <ul class="scroll-js scroll-y">
-                                    <!-- Danh sách sản phẩm yêu thích -->
-                                </ul>
-                                <hr>
+                                </li>
+                                <li class="wishlist-icon">
+                                    <a href="~/html/wishlist.html"><i class="fal fa-heart"></i> <span class="wishlist-count">2</span></a>
+                                    <input type="number" id="wishlist-count-input" name="wishlist-count" value="2">
+                                    <div class="wishlist-content content-dropdown">
+                                        <ul class="scroll-js scroll-y">
+                                            <!-- Danh sách sản phẩm yêu thích -->
+                                        </ul>
+                                        <hr>
 
-                                <a href="~/html/cart.html" class="btn btn-black">Xem danh sách</a>
-                            </div>
-                        </li>
-                        <li class="cart-icon">
-                            <a href="~/html/cart.html"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <span class="cart-count">0</span></a>
-                            <input type="number" id="cart-count-input" name="cart-count">
-                            <div class="cart-content content-dropdown">
-                                <ul class="scroll-js scroll-y">
-                                </ul>
-                                <hr>
-                                <div class="total">
-                                    <label>Tổng:</label>
-                                    <span class="total-cart">960.000</span>
-                                    <span class="vnd">VNĐ</span>
-                                </div>
-                                <a href="~/html/cart.html" class="btn btn-black">Thanh toán</a>
-                            </div>
-                        </li>
-                    </ul>
+                                        <a href="~/html/cart.html" class="btn btn-black">Xem danh sách</a>
+                                    </div>
+                                </li>
+                                <li class="cart-icon">
+                                    <a href="~/html/cart.html"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <span class="cart-count">0</span></a>
+                                    <input type="number" id="cart-count-input" name="cart-count">
+                                    <div class="cart-content content-dropdown">
+                                        <ul class="scroll-js scroll-y">
+                                        </ul>
+                                        <hr>
+                                        <div class="total">
+                                            <label>Tổng:</label>
+                                            <span class="total-cart">960.000</span>
+                                            <span class="vnd">VNĐ</span>
+                                        </div>
+                                        <a href="~/html/cart.html" class="btn btn-black">Thanh toán</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+
+
+
 
             </div>
         </div>
@@ -227,7 +250,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/owl.carousel/owl.carousel.min.js"></script>
+    <script src="~/lib/owl.carousel/owl.carousel.js"></script>
     <script src="~/js/custom-select.js"></script>
     <script src="~/js/main.js"></script>
     @RenderSection("Scripts", required: false)
