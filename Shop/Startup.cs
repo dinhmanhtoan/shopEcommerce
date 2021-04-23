@@ -33,6 +33,7 @@ namespace Shop
                       Configuration.GetConnectionString("default")));
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IRatingServices, RatingServices>();
             services.AddMvc()
                 .AddRazorRuntimeCompilation();
             //services.AddTransient<UserManager<User>, UserManager<User>>();

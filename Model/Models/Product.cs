@@ -21,7 +21,9 @@ namespace Model.Models
         public DateTime? EditOn { get; set; }
         public long? EditBy { get; set; }
         public long? CategoryId { get; set; }
- 
+        public Category Category{ get; set; }
+        public IList<Rating> Rating { get; set; }
+
 
         public void AddMedia(ProductMedia media)
         {

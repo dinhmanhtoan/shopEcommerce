@@ -1,7 +1,8 @@
 .cart-item-price{
 	color: #7f7a7a;
 }
-.cart-item-quantity input{
+
+.cart-item-quantity input {
 	width: 45px;
 	padding: 5px;
 	text-align: center;

@@ -92,9 +92,7 @@ input[type=number]::-webkit-outer-spin-button {
 .product-rating{
 	margin-bottom:8px;
 }
-.product-rating .rating{
-	display: none;
-}
+
 .star-rating{
 	display: inline-block;
 	vertical-align: initial;
@@ -144,6 +142,7 @@ input[type=number]::-webkit-outer-spin-button {
 .quantity{
 	display: block;
 	float: left;
+	padding-right:15px;
 }
 .wrap-num-product{
 	width: 137px;

@@ -220,6 +220,8 @@ namespace Model.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("ThumbnailId");
 
                     b.ToTable("Product");
@@ -248,6 +250,57 @@ namespace Model.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductMedia");
+                });
+
+            modelBuilder.Entity("Model.Models.Rating", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.Property<long?>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateApprove")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("EditBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("EditOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Scores")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rating");
                 });
 
             modelBuilder.Entity("Model.Models.Role", b =>
@@ -395,7 +448,7 @@ namespace Model.Migrations
                             Id = 10L,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "101cd6ae-a8ef-4a37-97fd-04ac2dd630e4",
-                            CreatedOn = new DateTime(2021, 4, 20, 16, 18, 24, 429, DateTimeKind.Local).AddTicks(5922),
+                            CreatedOn = new DateTime(2021, 4, 21, 22, 30, 20, 985, DateTimeKind.Local).AddTicks(7070),
                             EmailConfirmed = false,
                             FullName = "System User",
                             Guid = new Guid("5f72f83b-7436-4221-869c-1b69b2e23aae"),
@@ -477,6 +530,10 @@ namespace Model.Migrations
 
             modelBuilder.Entity("Model.Models.Product", b =>
                 {
+                    b.HasOne("Model.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
                     b.HasOne("Model.Models.Media", "Thumbnail")
                         .WithMany()
                         .HasForeignKey("ThumbnailId");

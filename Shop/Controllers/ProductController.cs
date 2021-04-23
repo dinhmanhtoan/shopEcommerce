@@ -54,7 +54,7 @@ namespace Shop.Controllers
                 }
             }
 
-            query = query.Skip(search.PageNumber - 1).Take(search.PageSize);
+            query = query.Skip(search.PageNumber * (search.PageNumber - 1)).Take(search.PageSize);
             var category = await _categoryService.GetAll();
             var ProductList = new ProductList();
             foreach (var item in query)
@@ -81,10 +81,13 @@ namespace Shop.Controllers
         public async Task<IActionResult> Detail(string slug)
         {
             var query = _context.Product.Where(x => x.Slug == slug)
+                .Include(x => x.Category)
                 .Include(x => x.Images).ThenInclude(x => x.Media)
                 .Include(x => x.Thumbnail)
+                .Include(x => x.Rating)
                 .First();
             return View(query);
         }
+       
     }
 }

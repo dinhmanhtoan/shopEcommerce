@@ -1,474 +1,474 @@
+﻿
+//var DATA_PRODUCT =[{'ID':1,'NAME': 'LIGHTWEIGHT JACKET','IMG':'../IMG/2_1-7-555X739.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ZARA'}
+//,{'ID':2,'NAME': 'LIGHTWEIGHT JACKET 02','IMG':'../IMG/4_1-1-555X739.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'PUMA'}
+//,{'ID':3,'NAME': 'LIGHTWEIGHT JACKET 03','IMG':'../IMG/3_1-9-555X739.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ZARA'}
+//,{'ID':4,'NAME': 'KARPELL','IMG':'../IMG/1.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ZARA'}
+//,{'ID':5,'NAME': 'BAE TOP','IMG':'../IMG/2_2-2-555X739.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ADIDAS'}
+//,{'ID':6,'NAME': 'FLOUNCE','IMG':'../IMG/1_4-1-555X739.JPG','PRICE':'$62	0.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ZARA'}
+//,{'ID':7,'NAME': 'ORIGINALS CALIFORNIA','IMG':'../IMG/3_1-9-555X739.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ZARA'}
+//,{'ID':8,'NAME': 'NEW SWEATSHIRT','IMG':'../IMG/1_1-6-555X739.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ZARA'}
+//,{'ID':9,'NAME': 'LEVIS NECK RINGER','IMG':'../IMG/2_2-4-555X739.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'NIKE'}
+//,{'ID':10,'NAME': 'PRINT SHIRT','IMG':'../IMG/3_4-5-555X739.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ZARA'}
+//,{'ID':11,'NAME': 'THE TREND POLO','IMG':'../IMG/2_4-2-555X739.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ZARA'}
+//,{'ID':12,'NAME': 'AMERICAN VINTAGE','IMG':'../IMG/1_4-4.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','BRAND':'ZARA'}];
 
-var data_product =[{'id':1,'name': 'Lightweight Jacket','img':'../img/2_1-7-555x739.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Zara'}
-,{'id':2,'name': 'Lightweight Jacket 02','img':'../img/4_1-1-555x739.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Puma'}
-,{'id':3,'name': 'Lightweight Jacket 03','img':'../img/3_1-9-555x739.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Zara'}
-,{'id':4,'name': 'Karpell','img':'../img/1.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Zara'}
-,{'id':5,'name': 'Bae Top','img':'../img/2_2-2-555x739.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Adidas'}
-,{'id':6,'name': 'Flounce','img':'../img/1_4-1-555x739.jpg','price':'$62	0.000↵<span>$720.000</span>','brand':'Zara'}
-,{'id':7,'name': 'Originals California','img':'../img/3_1-9-555x739.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Zara'}
-,{'id':8,'name': 'New Sweatshirt','img':'../img/1_1-6-555x739.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Zara'}
-,{'id':9,'name': 'Levis Neck Ringer','img':'../img/2_2-4-555x739.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Nike'}
-,{'id':10,'name': 'Print shirt','img':'../img/3_4-5-555x739.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Zara'}
-,{'id':11,'name': 'The Trend Polo','img':'../img/2_4-2-555x739.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Zara'}
-,{'id':12,'name': 'American Vintage','img':'../img/1_4-4.jpg','price':'$620.000↵<span>$720.000</span>','brand':'Zara'}];
+//var DATA_WISHLIST =[{'ID':1,'NAME': 'LIGHTWEIGHT JACKET','IMG':'../IMG/PRODUCT-DETAIL-01.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>'}
+//,{'ID':2,'NAME': 'LIGHTWEIGHT JACKET 02','IMG':'../IMG/PRODUCT-DETAIL-02.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>'}
+//,{'ID':3,'NAME': 'LIGHTWEIGHT JACKET 03','IMG':'HTTP://BESTJQUERY.COM/TUTORIAL/PRODUCT-GRID/DEMO10/IMAGES/IMG-1.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>'}];
 
-var data_wishlist =[{'id':1,'name': 'Lightweight Jacket','img':'../img/product-detail-01.jpg','price':'$620.000↵<span>$720.000</span>'}
-,{'id':2,'name': 'Lightweight Jacket 02','img':'../img/product-detail-02.jpg','price':'$620.000↵<span>$720.000</span>'}
-,{'id':3,'name': 'Lightweight Jacket 03','img':'http://bestjquery.com/tutorial/product-grid/demo10/images/img-1.jpg','price':'$620.000↵<span>$720.000</span>'}];
-
-var data_cart =  [{'id':1,'name': 'Lightweight Jacket','img':'../img/product-detail-01.jpg','price':'$620.000↵<span>$720.000</span>','quantity':1}
-,{'id':2,'name': 'Lightweight Jacket 02','img':'../img/product-detail-02.jpg','price':'$620.000↵<span>$720.000</span>','quantity':1}
-,{'id':3,'name': 'Lightweight Jacket 03','img':'http://bestjquery.com/tutorial/product-grid/demo10/images/img-1.jpg','price':'$620.000↵<span>$720.000</span>','quantity':1}];
-var data_product_by_brand = [];
-$( document ).ready(function() {
+//var DATA_CART =  [{'ID':1,'NAME': 'LIGHTWEIGHT JACKET','IMG':'../IMG/PRODUCT-DETAIL-01.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','QUANTITY':1}
+//,{'ID':2,'NAME': 'LIGHTWEIGHT JACKET 02','IMG':'../IMG/PRODUCT-DETAIL-02.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','QUANTITY':1}
+//,{'ID':3,'NAME': 'LIGHTWEIGHT JACKET 03','IMG':'HTTP://BESTJQUERY.COM/TUTORIAL/PRODUCT-GRID/DEMO10/IMAGES/IMG-1.JPG','PRICE':'$620.000Â†Μ<SPAN>$720.000</SPAN>','QUANTITY':1}];
+//var DATA_PRODUCT_BY_BRAND = [];
+//$( DOCUMENT ).READY(FUNCTION() {
 
 
 
-	/*==================================================================[ Show modal Search ]*/
-	$('.js-show-modal-search').on('click', function(e){
-		e.preventDefault();
-		$('.modal-search-header').addClass('show-modal-search');
-		$(this).css('opacity','0');
-	});
-	/*==================================================================[ Hidden modal Search ]*/
-	$('.js-hide-modal-search').on('click', function(){
-		$('.modal-search-header').removeClass('show-modal-search');
-		$('.js-show-modal-search').css('opacity','1');
-	});
+//	/*==================================================================[ SHOW MODAL SEARCH ]*/
+//	$('.JS-SHOW-MODAL-SEARCH').ON('CLICK', FUNCTION(E){
+//		E.PREVENTDEFAULT();
+//		$('.MODAL-SEARCH-HEADER').ADDCLASS('SHOW-MODAL-SEARCH');
+//		$(THIS).CSS('OPACITY','0');
+//	});
+//	/*==================================================================[ HIDDEN MODAL SEARCH ]*/
+//	$('.JS-HIDE-MODAL-SEARCH').ON('CLICK', FUNCTION(){
+//		$('.MODAL-SEARCH-HEADER').REMOVECLASS('SHOW-MODAL-SEARCH');
+//		$('.JS-SHOW-MODAL-SEARCH').CSS('OPACITY','1');
+//	});
 
-	$('.container-search-header').on('click', function(e){
-		e.stopPropagation();
-	});
+//	$('.CONTAINER-SEARCH-HEADER').ON('CLICK', FUNCTION(E){
+//		E.STOPPROPAGATION();
+//	});
 
-	/*==================================================================[ Show modal1 ]*/
-	$('.js-show-modal1').on('click',function(e){
-		e.preventDefault();
-		$('.js-modal1').addClass('show-modal1');
-	});
-	/*==================================================================[ Hidden modal1 ]*/
-	$('.js-hide-modal1').on('click',function(){
-		$('.js-modal1').removeClass('show-modal1');
-	});
+//	/*==================================================================[ SHOW MODAL1 ]*/
+//	$('.JS-SHOW-MODAL1').ON('CLICK',FUNCTION(E){
+//		E.PREVENTDEFAULT();
+//		$('.JS-MODAL1').ADDCLASS('SHOW-MODAL1');
+//	});
+//	/*==================================================================[ HIDDEN MODAL1 ]*/
+//	$('.JS-HIDE-MODAL1').ON('CLICK',FUNCTION(){
+//		$('.JS-MODAL1').REMOVECLASS('SHOW-MODAL1');
+//	});
 	
-	/*==================================================================[ Show menu mobile ]*/
-	$('.open-close').on('click',function(e){
-		e.preventDefault();
-		$('#header-mid').addClass('show-menu');
-		$('.overlay-modal2').addClass('js-show-modal2');
-	});
+//	/*==================================================================[ SHOW MENU MOBILE ]*/
+//	$('.OPEN-CLOSE').ON('CLICK',FUNCTION(E){
+//		E.PREVENTDEFAULT();
+//		$('#HEADER-MID').ADDCLASS('SHOW-MENU');
+//		$('.OVERLAY-MODAL2').ADDCLASS('JS-SHOW-MODAL2');
+//	});
 
-	/*==================================================================[ Hidden menu mobile ]*/
-	$('.close-open').on('click',function(e){
-		e.preventDefault();
-		$('#header-mid').removeClass('show-menu');
-		$('.overlay-modal2').removeClass('js-show-modal2');
+//	/*==================================================================[ HIDDEN MENU MOBILE ]*/
+//	$('.CLOSE-OPEN').ON('CLICK',FUNCTION(E){
+//		E.PREVENTDEFAULT();
+//		$('#HEADER-MID').REMOVECLASS('SHOW-MENU');
+//		$('.OVERLAY-MODAL2').REMOVECLASS('JS-SHOW-MODAL2');
 		
-	});
-	/*==================================================================[ Hidden menu mobile ]*/
-	$('.overlay-modal2').on('click',function(){
-		$('#header-mid').removeClass('show-menu');
-		$('.overlay-modal2').removeClass('js-show-modal2');
+//	});
+//	/*==================================================================[ HIDDEN MENU MOBILE ]*/
+//	$('.OVERLAY-MODAL2').ON('CLICK',FUNCTION(){
+//		$('#HEADER-MID').REMOVECLASS('SHOW-MENU');
+//		$('.OVERLAY-MODAL2').REMOVECLASS('JS-SHOW-MODAL2');
 		
-	});
-	/*/////////////////////////////////////////////////////////*/
+//	});
+//	/*/////////////////////////////////////////////////////////*/
 
-	/*fixed menu on scroll */
+//	/*FIXED MENU ON SCROLL */
 	
-/*	window.onscroll = function() {fixed_header_pc()};
+///*	WINDOW.ONSCROLL = FUNCTION() {FIXED_HEADER_PC()};
 	
-	var header = document.getElementById("header-mid");
-	var sticky = header.offsetTop;
-	var a = window.pageYOffset;
-	function fixed_header_pc() {
-		if (window.pageYOffset > sticky) {
-			$(header).addClass("sticky");
+//	VAR HEADER = DOCUMENT.GETELEMENTBYID("HEADER-MID");
+//	VAR STICKY = HEADER.OFFSETTOP;
+//	VAR A = WINDOW.PAGEYOFFSET;
+//	FUNCTION FIXED_HEADER_PC() {
+//		IF (WINDOW.PAGEYOFFSET > STICKY) {
+//			$(HEADER).ADDCLASS("STICKY");
 			
-		} else {
-			$(header).removeClass("sticky");
-		}
-	}*/
-	/*fixed menu mobile on scroll */
-	$('.js-choose-brands').on('click',function(e){
-		e.preventDefault();
-		var status = $(this).data('status');
-		var text = $(this).text();
-		if(status == 0){
-			// Chưa chọn
+//		} ELSE {
+//			$(HEADER).REMOVECLASS("STICKY");
+//		}
+//	}*/
+//	/*FIXED MENU MOBILE ON SCROLL */
+//	$('.JS-CHOOSE-BRANDS').ON('CLICK',FUNCTION(E){
+//		E.PREVENTDEFAULT();
+//		VAR STATUS = $(THIS).DATA('STATUS');
+//		VAR TEXT = $(THIS).TEXT();
+//		IF(STATUS == 0){
+//			// CHÆ°A CHÁ»N
 			
-			$(this).data('status','1');
-			$(this).attr('data-status','1');
-			$(this).find('.brands_icon').html('<i class="fa fa-check-square-o" aria-hidden="true"></i>');
-			var brands = $("#brands_input").val();
+//			$(THIS).DATA('STATUS','1');
+//			$(THIS).ATTR('DATA-STATUS','1');
+//			$(THIS).FIND('.BRANDS_ICON').HTML('<I CLASS="FA FA-CHECK-SQUARE-O" ARIA-HIDDEN="TRUE"></I>');
+//			VAR BRANDS = $("#BRANDS_INPUT").VAL();
 
-			var data = [];
-			if(brands.length > 0)
-			{
-				//Chon lan dau
-				console.log(text);
-				console.log('lan sau');
-				$("#brands_input").val(brands+ ","+text);
-				data = data_product.filter(x=>x.brand == text.replace(' ',''));
+//			VAR DATA = [];
+//			IF(BRANDS.LENGTH > 0)
+//			{
+//				//CHON LAN DAU
+//				CONSOLE.LOG(TEXT);
+//				CONSOLE.LOG('LAN SAU');
+//				$("#BRANDS_INPUT").VAL(BRANDS+ ","+TEXT);
+//				DATA = DATA_PRODUCT.FILTER(X=>X.BRAND == TEXT.REPLACE(' ',''));
 				
-				data_product_by_brand = data_product_by_brand.concat(data);
-				console.log(data_product_by_brand);
-				main.loaddata_product_all('#list-product-all',data_product_by_brand,36); // load data sản phẩm
-			}else{
-				console.log('lan dau');
-				$("#brands_input").val(text);
-				console.log(text);
-				data = data_product.filter(x=>x.brand == text.replace(' ',''));
-				data_product_by_brand = data;
-				console.log(data_product_by_brand);
-				main.loaddata_product_all('#list-product-all',data_product_by_brand,36); // load data sản phẩm
-			}
-		/*	brands = $("#brands_input").val();
+//				DATA_PRODUCT_BY_BRAND = DATA_PRODUCT_BY_BRAND.CONCAT(DATA);
+//				CONSOLE.LOG(DATA_PRODUCT_BY_BRAND);
+//				MAIN.LOADDATA_PRODUCT_ALL('#LIST-PRODUCT-ALL',DATA_PRODUCT_BY_BRAND,36); // LOAD DATA SÁº£N PHÁº©M
+//			}ELSE{
+//				CONSOLE.LOG('LAN DAU');
+//				$("#BRANDS_INPUT").VAL(TEXT);
+//				CONSOLE.LOG(TEXT);
+//				DATA = DATA_PRODUCT.FILTER(X=>X.BRAND == TEXT.REPLACE(' ',''));
+//				DATA_PRODUCT_BY_BRAND = DATA;
+//				CONSOLE.LOG(DATA_PRODUCT_BY_BRAND);
+//				MAIN.LOADDATA_PRODUCT_ALL('#LIST-PRODUCT-ALL',DATA_PRODUCT_BY_BRAND,36); // LOAD DATA SÁº£N PHÁº©M
+//			}
+//		/*	BRANDS = $("#BRANDS_INPUT").VAL();
 			
-			var arr = brands.split(',');
-			$.each(arr, function (i, item) {
-				if(item.length > 0)
-				{
-					console.log(item);
-					var data1 = data_product.filter(x=>x.brand == ""+item+"")
-					data.concat(data1);
-				}
+//			VAR ARR = BRANDS.SPLIT(',');
+//			$.EACH(ARR, FUNCTION (I, ITEM) {
+//				IF(ITEM.LENGTH > 0)
+//				{
+//					CONSOLE.LOG(ITEM);
+//					VAR DATA1 = DATA_PRODUCT.FILTER(X=>X.BRAND == ""+ITEM+"")
+//					DATA.CONCAT(DATA1);
+//				}
 
-			})*/
+//			})*/
 			
-		}else{
+//		}ELSE{
 			
-			// Đã chọn
-			console.log('da chon');
-			$(this).data('status','0');
-			$(this).attr('data-status','0');
-			$(this).find('.brands_icon').html('<i class="fa fa-square-o" aria-hidden="true"></i>');
-			var brands = $("#brands_input").val();
+//			// ÄÃ£ CHÁ»N
+//			CONSOLE.LOG('DA CHON');
+//			$(THIS).DATA('STATUS','0');
+//			$(THIS).ATTR('DATA-STATUS','0');
+//			$(THIS).FIND('.BRANDS_ICON').HTML('<I CLASS="FA FA-SQUARE-O" ARIA-HIDDEN="TRUE"></I>');
+//			VAR BRANDS = $("#BRANDS_INPUT").VAL();
 
-			console.log(text);
-			var data = data_product_by_brand.filter(x=>x.brand == text.replace(' ',''));
-			$.each(data, function (i, item) {
-				var k = data_product_by_brand.findIndex(x=>x.id == item.id);
-				data_product_by_brand.splice(k,1);
-			});
-			console.log(data_product_by_brand);
-			main.loaddata_product_all('#list-product-all',data_product_by_brand,36); // load data sản phẩm
+//			CONSOLE.LOG(TEXT);
+//			VAR DATA = DATA_PRODUCT_BY_BRAND.FILTER(X=>X.BRAND == TEXT.REPLACE(' ',''));
+//			$.EACH(DATA, FUNCTION (I, ITEM) {
+//				VAR K = DATA_PRODUCT_BY_BRAND.FINDINDEX(X=>X.ID == ITEM.ID);
+//				DATA_PRODUCT_BY_BRAND.SPLICE(K,1);
+//			});
+//			CONSOLE.LOG(DATA_PRODUCT_BY_BRAND);
+//			MAIN.LOADDATA_PRODUCT_ALL('#LIST-PRODUCT-ALL',DATA_PRODUCT_BY_BRAND,36); // LOAD DATA SÁº£N PHÁº©M
 
-			// if(brands.search(text) == 0)// chuỗi đứng vị trí đầu tiên
-			// {
-			// 	brands = brands.replace(text,'');
-			// }else{
-			// 	brands = brands.replace(','+text,'');
-			// }
-			// $("#brands_input").val(brands);
-			// // var data = data_product.filter(x=>x.brand == brands_input)
-			// var data = [];
-			// var arr = brands.split(',');
-			// $.each(arr, function (i, item) {
-			// 	if(item.length > 0)
-			// 	{
-			// 		console.log(item);
-			// 		var data1 = data_product.filter(x=>x.brand == item.substr(0,item.length - 1))
-			// 		data.concat(data1);
-			// 	}
+//			// IF(BRANDS.SEARCH(TEXT) == 0)// CHUÁ»—I Ä‘Á»©NG VÁ»‹ TRÃ­ Ä‘Áº§U TIÃªN
+//			// {
+//			// 	BRANDS = BRANDS.REPLACE(TEXT,'');
+//			// }ELSE{
+//			// 	BRANDS = BRANDS.REPLACE(','+TEXT,'');
+//			// }
+//			// $("#BRANDS_INPUT").VAL(BRANDS);
+//			// // VAR DATA = DATA_PRODUCT.FILTER(X=>X.BRAND == BRANDS_INPUT)
+//			// VAR DATA = [];
+//			// VAR ARR = BRANDS.SPLIT(',');
+//			// $.EACH(ARR, FUNCTION (I, ITEM) {
+//			// 	IF(ITEM.LENGTH > 0)
+//			// 	{
+//			// 		CONSOLE.LOG(ITEM);
+//			// 		VAR DATA1 = DATA_PRODUCT.FILTER(X=>X.BRAND == ITEM.SUBSTR(0,ITEM.LENGTH - 1))
+//			// 		DATA.CONCAT(DATA1);
+//			// 	}
 
-			// })
+//			// })
 			
-		}
+//		}
 
 
-	});
+//	});
 
 
-	/*/////////////////////////////////////////////////////////*/
-	/*Add wishlist*/
-	$('.js-add-wishlist').on('click',function(e){
-		e.preventDefault();
+//	/*/////////////////////////////////////////////////////////*/
+//	/*ADD WISHLIST*/
+//	$('.JS-ADD-WISHLIST').ON('CLICK',FUNCTION(E){
+//		E.PREVENTDEFAULT();
 
-		var id = $(this).data('id');//id sản phẩm
-		// lấy dữ liệu sản phẩm
-		var product = main.getdata_product_wishlist(id);
-		// lấy html sản phẩm yêu thích
-		var html = main.html_addwishlist(product.id,product.img,product.name,product.price);
-		// Thêm sản phẩm yêu thích vào danh sách yêu thích ở headder
-		if(data_wishlist.find(x=>x.id== id) == undefined)
-		{
-			$('.wishlist-content').find('.scroll-js').append(html);	
-		}else{
-			main.remove_item_wishlist(id);
-		}
+//		VAR ID = $(THIS).DATA('ID');//ID SÁº£N PHÁº©M
+//		// LÁº¥Y DÁ»¯ LIÁ»‡U SÁº£N PHÁº©M
+//		VAR PRODUCT = MAIN.GETDATA_PRODUCT_WISHLIST(ID);
+//		// LÁº¥Y HTML SÁº£N PHÁº©M YÃªU THÃ­CH
+//		VAR HTML = MAIN.HTML_ADDWISHLIST(PRODUCT.ID,PRODUCT.IMG,PRODUCT.NAME,PRODUCT.PRICE);
+//		// THÃªM SÁº£N PHÁº©M YÃªU THÃ­CH VÃ O DANH SÃ¡CH YÃªU THÃ­CH Á»Ÿ HEADDER
+//		IF(DATA_WISHLIST.FIND(X=>X.ID== ID) == UNDEFINED)
+//		{
+//			$('.WISHLIST-CONTENT').FIND('.SCROLL-JS').APPEND(HTML);	
+//		}ELSE{
+//			MAIN.REMOVE_ITEM_WISHLIST(ID);
+//		}
 		
 
-		var status = $(this).data('status');
+//		VAR STATUS = $(THIS).DATA('STATUS');
 		
-		if(status)
-		{
-			// Thêm vào danh sách yêu thích
-			$(this).addClass('active_item');
-			$(this).data('status',false);
-			$(this).attr('data-tip','Remove Wishlist');
-			main.number_wishlist('ADD');
-		}else{
-			// Xóa khỏi danh sách yêu thích
-			$(this).removeClass('active_item');
-			$(this).data('status',true);
-			$(this).attr('data-tip','Add to Wishlist');
-			main.number_wishlist('REMOVE');
-			main.remove_item_wishlist(id);
-		}
-	});
+//		IF(STATUS)
+//		{
+//			// THÃªM VÃ O DANH SÃ¡CH YÃªU THÃ­CH
+//			$(THIS).ADDCLASS('ACTIVE_ITEM');
+//			$(THIS).DATA('STATUS',FALSE);
+//			$(THIS).ATTR('DATA-TIP','REMOVE WISHLIST');
+//			MAIN.NUMBER_WISHLIST('ADD');
+//		}ELSE{
+//			// XÃ³A KHÁ»I DANH SÃ¡CH YÃªU THÃ­CH
+//			$(THIS).REMOVECLASS('ACTIVE_ITEM');
+//			$(THIS).DATA('STATUS',TRUE);
+//			$(THIS).ATTR('DATA-TIP','ADD TO WISHLIST');
+//			MAIN.NUMBER_WISHLIST('REMOVE');
+//			MAIN.REMOVE_ITEM_WISHLIST(ID);
+//		}
+//	});
 
-	$('.js-add-cart').on('click',function(e){
-		e.preventDefault();
+//	$('.JS-ADD-CART').ON('CLICK',FUNCTION(E){
+//		E.PREVENTDEFAULT();
 
-		var id = $(this).data('id');//id sản phẩm
-		// lấy dữ liệu sản phẩm
-		var product = main.getdata_product_cart(id,1);
-		// lấy html sản phẩm yêu thích
-		var html = main.html_addcart(product.id,product.img,product.name,product.price,product.quantity);
-		// Thêm sản phẩm yêu thích vào danh sách yêu thích ở headder
-		if(data_cart.find(x=>x.id== id) == undefined)
-		{
-			$('.cart-content').find('.scroll-js').append(html);
-		}else{
-			main.remove_item_cart(id);
-		}
+//		VAR ID = $(THIS).DATA('ID');//ID SÁº£N PHÁº©M
+//		// LÁº¥Y DÁ»¯ LIÁ»‡U SÁº£N PHÁº©M
+//		VAR PRODUCT = MAIN.GETDATA_PRODUCT_CART(ID,1);
+//		// LÁº¥Y HTML SÁº£N PHÁº©M YÃªU THÃ­CH
+//		VAR HTML = MAIN.HTML_ADDCART(PRODUCT.ID,PRODUCT.IMG,PRODUCT.NAME,PRODUCT.PRICE,PRODUCT.QUANTITY);
+//		// THÃªM SÁº£N PHÁº©M YÃªU THÃ­CH VÃ O DANH SÃ¡CH YÃªU THÃ­CH Á»Ÿ HEADDER
+//		//IF(DATA_CART.FIND(X=>X.ID== ID) == UNDEFINED)
+//		//{
+//		//	$('.CART-CONTENT').FIND('.SCROLL-JS').APPEND(HTML);
+//		//}ELSE{
+//		//	MAIN.REMOVE_ITEM_CART(ID);
+//		//}
 		
-		var status = $(this).data('status');
-		if(status)
-		{
-			// Thêm vào danh sách yêu thích
-			$(this).addClass('active_item');
-			$(this).data('status',false);
-			$(this).attr('data-tip','Remove Wishlist');
-			main.number_cart('ADD');
-		}else{
-			// Xóa khỏi danh sách yêu thích
-			$(this).removeClass('active_item');
-			$(this).data('status',true);
-			$(this).attr('data-tip','Add to Wishlist');
-			main.number_cart('REMOVE');
-		}
-	});
+//		VAR STATUS = $(THIS).DATA('STATUS');
+//		IF(STATUS)
+//		{
+//			// THÃªM VÃ O DANH SÃ¡CH YÃªU THÃ­CH
+//			$(THIS).ADDCLASS('ACTIVE_ITEM');
+//			$(THIS).DATA('STATUS',FALSE);
+//			$(THIS).ATTR('DATA-TIP','REMOVE WISHLIST');
+//			MAIN.NUMBER_CART('ADD');
+//		}ELSE{
+//			// XÃ³A KHÁ»I DANH SÃ¡CH YÃªU THÃ­CH
+//			$(THIS).REMOVECLASS('ACTIVE_ITEM');
+//			$(THIS).DATA('STATUS',TRUE);
+//			$(THIS).ATTR('DATA-TIP','ADD TO WISHLIST');
+//			MAIN.NUMBER_CART('REMOVE');
+//		}
+//	});
 
 
-});
+//});
 
-var main = {
-	init:function(){
-		main.loaddata_wishlist();
-		main.loaddata_cart();
+//VAR MAIN = {
+//	INIT:FUNCTION(){
+//		MAIN.LOADDATA_WISHLIST();
+//	/*	MAIN.LOADDATA_CART();*/
 		
-	},
-	getdata_product_wishlist:function(id){
+//	},
+//	GETDATA_PRODUCT_WISHLIST:FUNCTION(ID){
 		
-		var img = $("#item_"+id+"").children('.product-image6').find('img').attr('src');
-		var name = $("#item_"+id+"").find('.product-content').find('.title').find('a').text();
-		var price = $("#item_"+id+"").find('.product-content').find('.price').html();
-		var product = {'id': id,'name': name,'img':img,'price':price};
-		if(data_wishlist.find(x=>x.id == id) != undefined)
-		{
-			var i =data_wishlist.findIndex(x=>x.id == id);
-			data_wishlist[i] = product;
-		}else{
-			data_wishlist.push(product);
-		}
-		return product;
-	},
-	getdata_product_cart:function(id,quantity){
+//		VAR IMG = $("#ITEM_"+ID+"").CHILDREN('.PRODUCT-IMAGE6').FIND('IMG').ATTR('SRC');
+//		VAR NAME = $("#ITEM_"+ID+"").FIND('.PRODUCT-CONTENT').FIND('.TITLE').FIND('A').TEXT();
+//		VAR PRICE = $("#ITEM_"+ID+"").FIND('.PRODUCT-CONTENT').FIND('.PRICE').HTML();
+//		VAR PRODUCT = {'ID': ID,'NAME': NAME,'IMG':IMG,'PRICE':PRICE};
+//		IF(DATA_WISHLIST.FIND(X=>X.ID == ID) != UNDEFINED)
+//		{
+//			VAR I =DATA_WISHLIST.FINDINDEX(X=>X.ID == ID);
+//			DATA_WISHLIST[I] = PRODUCT;
+//		}ELSE{
+//			DATA_WISHLIST.PUSH(PRODUCT);
+//		}
+//		RETURN PRODUCT;
+//	},
+//	GETDATA_PRODUCT_CART:FUNCTION(ID,QUANTITY){
 		
-		var img = $("#item_"+id+"").children('.product-image6').find('img').attr('src');
-		var name = $("#item_"+id+"").find('.product-content').find('.title').find('a').text();
-		var price = $("#item_"+id+"").find('.product-content').find('.price').html();
-		var product = {'id': id,'name': name,'img':img,'price':price};
-		
-		
-		if(quantity == undefined)
-		{
-			quantity = 1;
-		}
-
-		var product = {'id': id,'name': name,'img':img,'price':price,'quantity':quantity};
-
-		if(data_cart.find(x=>x.id == id) != undefined)
-		{
-			var i = data_cart.findIndex(x=>x.id == id);
-			data_cart[i] = product;
-		}else{
-			data_cart.push(product);
-		}
-
-		return product;
-	},
-	number_wishlist:function(fn,num_all){
-		var num = 0;	
-		var check_mb = false;
-		if($(window).width() > 766)
-		{
-			num = $("#wishlist-count-input").val();	
-		}
-		else{
-			num = $("#wishlist-count-input-mb").val();	
-			check_mb = true;
-		}
-		if(fn == 'ADD')
-		{
-			num  = parseInt(num) + 1;
-		}else if(fn == 'REMOVE')
-		{
-			num  = parseInt(num) - 1;
-		}else{
-			num = num_all;
-		}
-
-		if(check_mb)
-		{
-			$(".wishlist-count-mb").html(num);
-			$("#wishlist-count-input-mb").val(num);
-		}else{
-			$(".wishlist-count").html(num);
-			$("#wishlist-count-input").val(num);
-		}
-	},
-	html_addwishlist:function(id,img,name,price){
-		var html = '';
-		html = '<li id="item-wishlist-'+id+'"><div class="img-left"><a href="../html/single.html"><img src="'+img+'" style="width: 100%"></a></div>'+
-		'<div class="meta-right">'+
-		'<a href="" class="remove-item"><i class="fa fa-times" aria-hidden="true"></i></a>'+
-		'<a href="../html/single.html">'+name+'</a><p class="price">'+price+'</p></div></li>';
-
-		return html;
-	},
-	loaddata_wishlist:function(){
-		var html = '';
-		var data = data_wishlist;
-
-		var number = 0;
-		$.each(data, function (i, item) {
-			html+=main.html_addwishlist(item.id, item.img,item.name ,item.price);
-			number++;
-		});
-		main.number_wishlist('',number);
-		$('.wishlist-content').find('.scroll-js').append(html);
-	},
-	remove_item_wishlist:function(id){
-		var i = data_wishlist.findIndex(x=>x.id == id);
-		data_wishlist.splice(i,1);
-		$("#item-wislish-"+id+"").remove();
-	},
-	number_cart:function(fn,num_all){
-		num = 0;	
-		var check_mb = false;
-		if($(window).width() > 766)
-		{
-			num = $("#wishlist-count-input").val();	
-		}
-		else{
-			num = $("#wishlist-count-input-mb").val();	
-			check_mb = true;
-		}
-
-		if(fn == 'ADD')
-		{
-			num  = parseInt(num) + 1;
-		}else if(fn == 'REMOVE')
-		{
-			num  = parseInt(num) - 1;
-		}else{
-			num = num_all;
-		}
-
-		if(check_mb)
-		{
-			$(".cart-count").html(num);
-			$("#cart-count-input-mb").val(num);
-		}else{
-			$(".cart-count").html(num);
-			$("#cart-count-input").val(num);
-		}
-	},
-	html_addcart:function(id,img,name,price,quantity){
-		var html = '';
-		html = '<li id="item-cart-'+id+'"><div class="img-left">'+
-		'<a href="../html/single.html"><img src="'+img+'" style="width: 100%"></a></div>'+
-		'<div class="meta-right">'+
-		'<a href="" class="remove-item"><i class="fa fa-times" aria-hidden="true"></i></a>'+
-		'<a href="../html/single.html">'+name+'</a>'+
-		'<p class="price">'+price+'</p>'+
-		'<p class="quantity"><span class="name">Số lượng: </span><span> '+quantity+'</span></p></div></li>';
-
-		return html;
-	},
-	loaddata_cart:function(){
-		var html = '';
-		var data = data_cart;
-
-		var number = 0;
-		$.each(data, function (i, item) {
-			html+=main.html_addcart(item.id, item.img,item.name ,item.price,item.quantity);
-			number++;
-		});
-		main.number_cart('',number);
-		$('.cart-content').find('.scroll-js').append(html);
-	},
-	remove_item_cart:function(id){
-		var i = data_cart.findIndex(x=>x.id == id);
-		data_cart.splice(i,1);
-		$("#item-cart-"+id+"").remove();
-	},
-	loaddata_product:function(location,title,data,size){
-		var number = 0;
-		var html = '<div class="container"><div class="row">'+
-		'<h2 class="title">'+title+'</h2>';
+//		VAR IMG = $("#ITEM_"+ID+"").CHILDREN('.PRODUCT-IMAGE6').FIND('IMG').ATTR('SRC');
+//		VAR NAME = $("#ITEM_"+ID+"").FIND('.PRODUCT-CONTENT').FIND('.TITLE').FIND('A').TEXT();
+//		VAR PRICE = $("#ITEM_"+ID+"").FIND('.PRODUCT-CONTENT').FIND('.PRICE').HTML();
+//		VAR PRODUCT = {'ID': ID,'NAME': NAME,'IMG':IMG,'PRICE':PRICE};
 		
 		
-		$.each(data, function (i, item) {
-			html+='<div class="col-md-3 col-6">'+
-			'<div class="product-grid6" id="item_'+item.id+'">'+
-			'<div class="product-image6">'+
-			'<a href="#"><img class="pic-1" src="'+item.img+'"></a>'+
-			'</div><div class="product-content">'+
-			'<h3 class="title"><a href="#">'+item.name+'</a></h3>'+
-			'<div class="price">'+item.price+'</div>'+
-			'</div><ul class="social">'+
-			'<li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>'+
-			'<li><a href="" class="js-add-wishlist"  data-status="true" data-id="'+item.id+'" data-tip="Add to Wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a></li>'+
-			'<li><a href="" class="js-add-cart" data-status="true" data-id="'+item.id+'" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>'+
-			'</ul></div></div>'
-			number++;
-		});
-		html +='</div></div>'
-		$(location).html(html);
-	},
-	loaddata_product_all:function(location,data,size){
-		var number = 1;
-		var html = '';
+//		IF(QUANTITY == UNDEFINED)
+//		{
+//			QUANTITY = 1;
+//		}
+
+//		VAR PRODUCT = {'ID': ID,'NAME': NAME,'IMG':IMG,'PRICE':PRICE,'QUANTITY':QUANTITY};
+
+//		IF(DATA_CART.FIND(X=>X.ID == ID) != UNDEFINED)
+//		{
+//			VAR I = DATA_CART.FINDINDEX(X=>X.ID == ID);
+//			DATA_CART[I] = PRODUCT;
+//		}ELSE{
+//			DATA_CART.PUSH(PRODUCT);
+//		}
+
+//		RETURN PRODUCT;
+//	},
+//	NUMBER_WISHLIST:FUNCTION(FN,NUM_ALL){
+//		VAR NUM = 0;	
+//		VAR CHECK_MB = FALSE;
+//		IF($(WINDOW).WIDTH() > 766)
+//		{
+//			NUM = $("#WISHLIST-COUNT-INPUT").VAL();	
+//		}
+//		ELSE{
+//			NUM = $("#WISHLIST-COUNT-INPUT-MB").VAL();	
+//			CHECK_MB = TRUE;
+//		}
+//		IF(FN == 'ADD')
+//		{
+//			NUM  = PARSEINT(NUM) + 1;
+//		}ELSE IF(FN == 'REMOVE')
+//		{
+//			NUM  = PARSEINT(NUM) - 1;
+//		}ELSE{
+//			NUM = NUM_ALL;
+//		}
+
+//		IF(CHECK_MB)
+//		{
+//			$(".WISHLIST-COUNT-MB").HTML(NUM);
+//			$("#WISHLIST-COUNT-INPUT-MB").VAL(NUM);
+//		}ELSE{
+//			$(".WISHLIST-COUNT").HTML(NUM);
+//			$("#WISHLIST-COUNT-INPUT").VAL(NUM);
+//		}
+//	},
+//	HTML_ADDWISHLIST:FUNCTION(ID,IMG,NAME,PRICE){
+//		VAR HTML = '';
+//		HTML = '<LI ID="ITEM-WISHLIST-'+ID+'"><DIV CLASS="IMG-LEFT"><A HREF="../HTML/SINGLE.HTML"><IMG SRC="'+IMG+'" STYLE="WIDTH: 100%"></A></DIV>'+
+//		'<DIV CLASS="META-RIGHT">'+
+//		'<A HREF="" CLASS="REMOVE-ITEM"><I CLASS="FA FA-TIMES" ARIA-HIDDEN="TRUE"></I></A>'+
+//		'<A HREF="../HTML/SINGLE.HTML">'+NAME+'</A><P CLASS="PRICE">'+PRICE+'</P></DIV></LI>';
+
+//		RETURN HTML;
+//	},
+//	LOADDATA_WISHLIST:FUNCTION(){
+//		VAR HTML = '';
+//		VAR DATA = DATA_WISHLIST;
+
+//		VAR NUMBER = 0;
+//		$.EACH(DATA, FUNCTION (I, ITEM) {
+//			HTML+=MAIN.HTML_ADDWISHLIST(ITEM.ID, ITEM.IMG,ITEM.NAME ,ITEM.PRICE);
+//			NUMBER++;
+//		});
+//		MAIN.NUMBER_WISHLIST('',NUMBER);
+//		$('.WISHLIST-CONTENT').FIND('.SCROLL-JS').APPEND(HTML);
+//	},
+//	REMOVE_ITEM_WISHLIST:FUNCTION(ID){
+//		VAR I = DATA_WISHLIST.FINDINDEX(X=>X.ID == ID);
+//		DATA_WISHLIST.SPLICE(I,1);
+//		$("#ITEM-WISLISH-"+ID+"").REMOVE();
+//	},
+//	NUMBER_CART:FUNCTION(FN,NUM_ALL){
+//		NUM = 0;	
+//		VAR CHECK_MB = FALSE;
+//		IF($(WINDOW).WIDTH() > 766)
+//		{
+//			NUM = $("#WISHLIST-COUNT-INPUT").VAL();	
+//		}
+//		ELSE{
+//			NUM = $("#WISHLIST-COUNT-INPUT-MB").VAL();	
+//			CHECK_MB = TRUE;
+//		}
+
+//		IF(FN == 'ADD')
+//		{
+//			NUM  = PARSEINT(NUM) + 1;
+//		}ELSE IF(FN == 'REMOVE')
+//		{
+//			NUM  = PARSEINT(NUM) - 1;
+//		}ELSE{
+//			NUM = NUM_ALL;
+//		}
+
+//		IF(CHECK_MB)
+//		{
+//			$(".CART-COUNT").HTML(NUM);
+//			$("#CART-COUNT-INPUT-MB").VAL(NUM);
+//		}ELSE{
+//			$(".CART-COUNT").HTML(NUM);
+//			$("#CART-COUNT-INPUT").VAL(NUM);
+//		}
+//	},
+//	//HTML_ADDCART:FUNCTION(ID,IMG,NAME,PRICE,QUANTITY){
+//	//	VAR HTML = '';
+//	//	HTML = '<LI ID="ITEM-CART-'+ID+'"><DIV CLASS="IMG-LEFT">'+
+//	//	'<A HREF="../HTML/SINGLE.HTML"><IMG SRC="'+IMG+'" STYLE="WIDTH: 100%"></A></DIV>'+
+//	//	'<DIV CLASS="META-RIGHT">'+
+//	//	'<A HREF="" CLASS="REMOVE-ITEM"><I CLASS="FA FA-TIMES" ARIA-HIDDEN="TRUE"></I></A>'+
+//	//	'<A HREF="../HTML/SINGLE.HTML">'+NAME+'</A>'+
+//	//	'<P CLASS="PRICE">'+PRICE+'</P>'+
+//	//	'<P CLASS="QUANTITY"><SPAN CLASS="NAME">SÁ»‘ LÆ°Á»£NG: </SPAN><SPAN> '+QUANTITY+'</SPAN></P></DIV></LI>';
+
+//	//	RETURN HTML;
+//	//},
+//	//LOADDATA_CART:FUNCTION(){
+//	//	VAR HTML = '';
+//	//	VAR DATA = DATA_CART;
+
+//	//	VAR NUMBER = 0;
+//	//	$.EACH(DATA, FUNCTION (I, ITEM) {
+//	//		HTML+=MAIN.HTML_ADDCART(ITEM.ID, ITEM.IMG,ITEM.NAME ,ITEM.PRICE,ITEM.QUANTITY);
+//	//		NUMBER++;
+//	//	});
+//	//	MAIN.NUMBER_CART('',NUMBER);
+//	//	$('.CART-CONTENT').FIND('.SCROLL-JS').APPEND(HTML);
+//	//},
+//	//REMOVE_ITEM_CART:FUNCTION(ID){
+//	//	VAR I = DATA_CART.FINDINDEX(X=>X.ID == ID);
+//	//	DATA_CART.SPLICE(I,1);
+//	//	$("#ITEM-CART-"+ID+"").REMOVE();
+//	//},
+//	//LOADDATA_PRODUCT:FUNCTION(LOCATION,TITLE,DATA,SIZE){
+//	//	VAR NUMBER = 0;
+//	//	VAR HTML = '<DIV CLASS="CONTAINER"><DIV CLASS="ROW">'+
+//	//	'<H2 CLASS="TITLE">'+TITLE+'</H2>';
 		
-		$.each(data, function (i, item) {
+		
+//	//	$.EACH(DATA, FUNCTION (I, ITEM) {
+//	//		HTML+='<DIV CLASS="COL-MD-3 COL-6">'+
+//	//		'<DIV CLASS="PRODUCT-GRID6" ID="ITEM_'+ITEM.ID+'">'+
+//	//		'<DIV CLASS="PRODUCT-IMAGE6">'+
+//	//		'<A HREF="#"><IMG CLASS="PIC-1" SRC="'+ITEM.IMG+'"></A>'+
+//	//		'</DIV><DIV CLASS="PRODUCT-CONTENT">'+
+//	//		'<H3 CLASS="TITLE"><A HREF="#">'+ITEM.NAME+'</A></H3>'+
+//	//		'<DIV CLASS="PRICE">'+ITEM.PRICE+'</DIV>'+
+//	//		'</DIV><UL CLASS="SOCIAL">'+
+//	//		'<LI><A HREF="" CLASS="JS-SHOW-MODAL1" DATA-TIP="QUICK VIEW"><I CLASS="FA FA-SEARCH"></I></A></LI>'+
+//	//		'<LI><A HREF="" CLASS="JS-ADD-WISHLIST"  DATA-STATUS="TRUE" DATA-ID="'+ITEM.ID+'" DATA-TIP="ADD TO WISHLIST"><I CLASS="FA FA-HEART" ARIA-HIDDEN="TRUE"></I></A></LI>'+
+//	//		'<LI><A HREF="" CLASS="JS-ADD-CART" DATA-STATUS="TRUE" DATA-ID="'+ITEM.ID+'" DATA-TIP="ADD TO CART"><I CLASS="FA FA-SHOPPING-BASKET" ARIA-HIDDEN="TRUE"></I></A></LI>'+
+//	//		'</UL></DIV></DIV>'
+//	//		NUMBER++;
+//	//	});
+//	//	HTML +='</DIV></DIV>'
+//	//	$(LOCATION).HTML(HTML);
+//	//},
+//	//LOADDATA_PRODUCT_ALL:FUNCTION(LOCATION,DATA,SIZE){
+//	//	VAR NUMBER = 1;
+//	//	VAR HTML = '';
+		
+//	//	$.EACH(DATA, FUNCTION (I, ITEM) {
 			
-			html+='<div class="col-md-4 col-6">'+
-			'<div class="product-grid6" id="item_'+item.id+'">'+
-			'<div class="product-image6">'+
-			'<a href="#"><img class="pic-1" src="'+item.img+'"></a>'+
-			'</div><div class="product-content">'+
-			'<h3 class="title"><a href="#">'+item.name+'</a></h3>'+
-			'<div class="price">'+item.price+'</div>'+
-			'</div><ul class="social">'+
-			'<li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>'+
-			'<li><a href="" class="js-add-wishlist"  data-status="true" data-id="'+item.id+'" data-tip="Add to Wishlist"><i class="fa fa-heart" aria-hidden="true"></i></a></li>'+
-			'<li><a href="" class="js-add-cart" data-status="true" data-id="'+item.id+'" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>'+
-			'</ul></div></div>'
-			if(number%3 == 0)
-			{
-				html+='<div class="clearfix"></div>';
-			}
-			number++;
-		});
+//	//		HTML+='<DIV CLASS="COL-MD-4 COL-6">'+
+//	//		'<DIV CLASS="PRODUCT-GRID6" ID="ITEM_'+ITEM.ID+'">'+
+//	//		'<DIV CLASS="PRODUCT-IMAGE6">'+
+//	//		'<A HREF="#"><IMG CLASS="PIC-1" SRC="'+ITEM.IMG+'"></A>'+
+//	//		'</DIV><DIV CLASS="PRODUCT-CONTENT">'+
+//	//		'<H3 CLASS="TITLE"><A HREF="#">'+ITEM.NAME+'</A></H3>'+
+//	//		'<DIV CLASS="PRICE">'+ITEM.PRICE+'</DIV>'+
+//	//		'</DIV><UL CLASS="SOCIAL">'+
+//	//		'<LI><A HREF="" CLASS="JS-SHOW-MODAL1" DATA-TIP="QUICK VIEW"><I CLASS="FA FA-SEARCH"></I></A></LI>'+
+//	//		'<LI><A HREF="" CLASS="JS-ADD-WISHLIST"  DATA-STATUS="TRUE" DATA-ID="'+ITEM.ID+'" DATA-TIP="ADD TO WISHLIST"><I CLASS="FA FA-HEART" ARIA-HIDDEN="TRUE"></I></A></LI>'+
+//	//		'<LI><A HREF="" CLASS="JS-ADD-CART" DATA-STATUS="TRUE" DATA-ID="'+ITEM.ID+'" DATA-TIP="ADD TO CART"><I CLASS="FA FA-SHOPPING-BASKET" ARIA-HIDDEN="TRUE"></I></A></LI>'+
+//	//		'</UL></DIV></DIV>'
+//	//		IF(NUMBER %3 == 0)
+//	//		{
+//	//			HTML+='<DIV CLASS="CLEARFIX"></DIV>';
+//	//		}
+//	//		NUMBER++;
+//	//	});
 		
-		$(location).html(html);
-	},
+//	//	$(LOCATION).HTML(HTML);
+//	//},
 
 
 
-}
-main.init();
+//}
+//MAIN.INIT();
 
 

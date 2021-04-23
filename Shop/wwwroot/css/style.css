@@ -1,6 +1,81 @@
 /* scroll */
+.active-card {
+    color: #fff;
+    background-color: #212529;
+    width: 80px;
+}
+.qty .count {
+    color: #000;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 15px;
+    font-weight: 700;
+/*    line-height: 30px;
+    padding: 0 2px;*/
+    min-width: 15px;
+    text-align: center;
+}
 
+.qty .plus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 20px;
+    height: 20px;
+    font: 20px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+}
 
+.qty .minus {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    color: white;
+    width: 20px;
+    height: 20px;
+    font: 20px/1 Arial,sans-serif;
+    text-align: center;
+    border-radius: 50%;
+    background-clip: padding-box;
+}
+
+.cart-title {
+    font-size: 14px;
+    display:block;
+    padding-right:15px;
+}
+
+.minus:hover {
+    background-color: #717fe0 !important;
+}
+
+.plus:hover {
+    background-color: #717fe0 !important;
+}
+/*Prevent text selection*/
+span {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+input {
+    border: 0;
+    width: 2%;
+}
+
+    nput::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input:disabled {
+        background-color: white;
+    }
+         
 /*
  *  STYLE 3
  */
@@ -679,9 +754,13 @@
 	float: left;
 	position: relative;
 }
+.meta-right > p{
+    margin-bottom: 5px;
+}
+
 .remove-item{
 	position: absolute;
-	right:  10px;
+	right:  5px;
 	top: 0;
 	color:#747474;
 }
@@ -693,9 +772,11 @@
 	font-size: 13px !important;
 }
 
-.meta-right .price{
-	color: #7f7a7a;
-	margin-bottom: 0;
+.meta-right .price {
+    margin-bottom: 0;
+    font-size: 15px;
+    color: #020727;
+    font-weight: 500;
 }
 .content-dropdown .btn{
 	width: 100%;
@@ -703,8 +784,9 @@
 	margin-top: 10px;
 	text-transform: uppercase;
 }
-.total{
-	font-weight: 600;
+.total {
+    font-weight: 500;
+    color: #020727;
 }
 .content-dropdown ul{
 	padding: 0;

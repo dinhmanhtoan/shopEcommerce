@@ -25,6 +25,7 @@ namespace Model.Models
         public virtual DbSet<ProductMedia> ProductMedias { get; set; }
         public virtual DbSet<Media> Medias { get; set; }
 
+        public virtual DbSet<Rating> Rating { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -115,6 +116,11 @@ namespace Model.Models
             {
                 p.HasKey(p => p.Id);
                 p.ToTable("Product");
+            });
+            modelBuilder.Entity<Rating>(p =>
+            {
+                p.HasKey(p => p.Id);
+                p.ToTable("Rating");
             });
             modelBuilder.Entity<User>(u =>
             {
