@@ -104,9 +104,9 @@
                         <div class="menu-login">
                             <ul class="nav">
                                 <li>
-                                    <a href="" class="js-show-modal-search"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                    <a href="javascript:void(0)" class="js-show-modal-search"><i class="fa fa-search" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="login-icon">
+                                <!--<li class="login-icon">
                                     <a href="~/html/login.html">LOG IN / SIGN UP</a>
                                     <div class="login-content content-dropdown">
                                         <form>
@@ -130,29 +130,14 @@
                                     <a href="~/html/wishlist.html"><i class="fal fa-heart"></i> <span class="wishlist-count">2</span></a>
                                     <input type="number" id="wishlist-count-input" name="wishlist-count" value="2">
                                     <div class="wishlist-content content-dropdown">
-                                        <ul class="scroll-js scroll-y">
+                                        <ul class="scroll-js scroll-y">-->
                                             <!-- Danh sách sản phẩm yêu thích -->
-                                        </ul>
+                                        <!--</ul>
                                         <hr>
-
                                         <a href="~/html/cart.html" class="btn btn-black">Xem danh sách</a>
                                     </div>
-                                </li>
-                                <li class="cart-icon " id="cart">
-                                    <a href="~/html/cart.html"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <span class="cart-count">0</span></a>
-                                    <input type="number" id="cart-count-input" name="cart-count">
-                                    <div class="cart-content content-dropdown">
-                                        <ul class="scroll-js scroll-y"  id="cartBody">
-                                        </ul>
-                                        <hr>
-                                        <div class="total">
-                                            <label>Tổng:</label>
-                                            <span class="total-cart">960.000</span>
-                                            <span class="vnd">VNĐ</span>
-                                        </div>
-                                        <a href="~/html/cart.html" class="btn btn-black">Thanh toán</a>
-                                    </div>
-                                </li>
+                                </li>-->
+                                <li>@await Html.PartialAsync("_CartPartial")</li>
                             </ul>
                         </div>
                     </div>
@@ -253,8 +238,8 @@
     <script src="~/lib/owl.carousel/owl.carousel.js"></script>
     <script src="~/js/custom-select.js"></script>
     @*<script src="~/js/main.js"></script>*@
-    @RenderSection("Scripts", required: false)
-<script>
+
+@*<script>
     (function ($) {
         $.fn.inputFilter = function (inputFilter) {
             return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
@@ -463,7 +448,7 @@
     }
     function showCart() {
         //if (cart.length == 0) {
-        //    $("#cart").css("visibility", "hidden"); // hide table that shows cart
+        //    $("#cart-").css("visibility", "hidden"); // hide table that shows cart
         //    return;
         //}
         $("#cart").css("visibility", "visible");
@@ -509,7 +494,191 @@
         Updatetotal(totalPrices(), totalPriceSales());
     }
 
-</script>
+</script>*@
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+<script>
+   
+    $(document).ready(function () {
+        addtocart();
+        function addtocart() {
+            var cookies = Cookies.get('cart');
+            var row = ``;
+            if (cookies != null && cookies != '') {
+                var item = JSON.parse(cookies);
+            }
+     
+            var totalPriceSales = function () {
 
+                let totalPriceSale = 0;
+                for (let i in item) {
+
+                    if (item[i].Sale != "") {
+                        totalPriceSale += parseFloat(item[i].product.Sale * item[i].quantity);
+                    } else {
+                        totalPriceSale += parseFloat(item[i].product.Price * item[i].quantity);
+                    }
+                }
+                return totalPriceSale;
+            };
+  
+            var totalPrices = function () {
+                let totalPrice = 0;
+                for (let i in item) {
+                    totalPrice += parseFloat(item[i].product.Price * item[i].quantity);
+                }
+                return totalPrice;
+            };
+            $(".total").find(".total-cart").html("$" + totalPrices() + "-" + totalPriceSales());
+            for (var i in item) {
+                var cart = item[i];
+
+                row += `<li class="item-cart-1" data-id=${cart.product.Id}>
+                        <div class="img-left">
+                            <a href="../html/single.html">
+                                <img src="https://localhost:44360/user-content/${cart.product.Thumbnail.FileName}" style="width: 100%">
+                            </a>
+                        </div>
+                        <div class="meta-right">
+                            <a href="javascript:void(0)" class="remove-item">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                                 <a href="../html/single.html" class="title cart-title">${cart.product.Title}</a>
+                            <p>
+                            <span class="price">$${cart.product.Price}</span>`
+                if (cart.product.Sale != "" && cart.product.Sale != null) {
+                    row += `-<span class="sale">$${cart.product.Sale}</span> </p> `
+                } else {
+                    row += `<span class="sale"></span> </p>`
+                }
+                row += `        <div>
+                             <p class="quantity">
+                                <span class="name">Số lượng: </span>
+                                <span>
+                                    <div class="qty mt-1">
+                                        <span class="minus bg-dark">-</span>
+                                        <input type="number" class="count" name="qty" value="${cart.quantity}" min="1" max="10">
+                                        <span class="plus bg-dark">+</span>
+                                     </div>
+                                </span>
+                            </p>
+                            </div>
+
+                        </div>
+                            </li>`;
+            }
+            $("#cartBody").html(row);
+        }
+            $(document).off('click', '.js-add-cart').on('click', '.js-add-cart', function (event) {
+                event.preventDefault();
+
+                var parent = $(this).parents('.product-item');
+                var productid = parseInt(parent.find('.product-grid6').attr('data-id'));
+                var quantity = 1;
+                var item = { productid: productid, quantity: quantity }
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.ActionLink("AddToCart","Cart")',
+                    data: {
+                        productid: productid,
+                        quantity: quantity
+                    },
+                    success: function (result) {
+                        addtocart();
+                        //window.location.href = '@Url.ActionLink("cart","cart")';
+                      }
+                })
+
+            });
+           $(document).on('click', '.remove-item', function (e) {
+            var parent = $(this).parents('.item-cart-1');
+            var id = parseInt(parent.attr('data-id'));
+            $.ajax({
+                    type: 'POST',
+                    url: '@Url.ActionLink("RemoveCart","Cart")',
+                    data: {
+                        productid: id,
+                    },
+                    success: function (result) {
+                        addtocart();
+                      }
+                })
+           });
+        $(document).on('change', '.count', function () {
+            var parent = $(this).parents('.item-cart-1');
+            var id = parseInt(parent.attr('data-id'));
+            var value = parseInt($(this).val());
+            console.log(value);
+            if (value == null || value == '') {
+                (this).val();
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.ActionLink("UpdateCart", "Cart")',
+                    data: {
+                        productid: id,
+                        quantity: value,
+                    },
+                    success: function (result) {
+                        addtocart();
+                    }
+                });
+
+            }
+
+        })
+        $(document).on('click', '.plus', function () {
+
+            var parent = $(this).parents('.item-cart-1');
+            var id = parseInt(parent.attr('data-id'));
+            var value = parseInt(parent.find('.count').val());
+            value++;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("UpdateCart", "Cart")',
+                data: {
+                    productid: id,
+                    quantity: value,
+                },
+                success: function (result) {
+                    addtocart();
+                }
+            });
+        });
+         $(document).on('click', '.minus', function () {
+            var parent = $(this).parents('.item-cart-1');
+            var id = parseInt(parent.attr('data-id'));
+             var value = parseInt(parent.find('.count').val());
+             if (value == 1) {
+                 $.ajax({
+                     type: 'POST',
+                     url: '@Url.ActionLink("RemoveCart", "Cart")',
+                     data: {
+                         productid: id,
+                     },
+                     success: function (result) {
+                         addtocart();
+                     }
+                 });
+             } else {
+                 value--;
+             $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("UpdateCart", "Cart")',
+                data: {
+                    productid: id,
+                    quantity: value,
+                },
+                success: function (result) {
+                    addtocart();
+                }
+            });
+             }
+    
+
+        });
+    });
+
+</script>
+@RenderSection("Scripts", required: false)
 </body>
 </html>
