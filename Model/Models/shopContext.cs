@@ -26,6 +26,9 @@ namespace Model.Models
         public virtual DbSet<Media> Medias { get; set; }
 
         public virtual DbSet<Rating> Rating { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -165,7 +168,34 @@ namespace Model.Models
             {
                 b.ToTable("UserToken");
             });
+            modelBuilder.Entity<Order>(o =>{
 
+                o.HasKey(x => x.Id);
+
+                o.Property(x => x.CreateOn);
+                o.Property(x => x.FullName).IsRequired().HasMaxLength(200);
+
+                o.Property(x => x.Email).IsRequired().IsUnicode(false).HasMaxLength(50);
+
+                o.Property(x => x.AddressLine1).IsRequired().HasMaxLength(500);
+                o.Property(x => x.AddressLine2).HasMaxLength(500);
+                o.Property(x => x.Node).IsRequired().HasMaxLength(1000);
+                o.Property(x => x.PhoneNumber).IsRequired().HasMaxLength(50);
+
+            
+
+            });
+            modelBuilder.Entity<OrderDetail>(o => {
+
+                o.HasKey(x => new { x.OrderId, x.ProductId });
+
+                o.HasOne(x => x.Order).WithMany(x => x.OrderDetails).HasForeignKey(x => x.OrderId);
+
+                o.HasOne(x => x.Product).WithMany(x => x.OrderDetails).HasForeignKey(x => x.ProductId);
+
+            });
+
+          
 
         }
 

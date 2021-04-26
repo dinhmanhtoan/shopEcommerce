@@ -10,9 +10,12 @@
 	margin-bottom: 10px;
 	border:1px solid #e5e5e5;
 }
-#checkout .custom-select{
+.col-md-7 > form-group:first-child{
+	margin-bottom : 0px !important;
+}
+#checkout .custom-select {
 	width: 100%;
-	margin : 10px 0;
+	margin: 10px 0;
 }
 #checkout .first-name,.last-name{
 	width: 50%;

@@ -38,72 +38,76 @@
 
                 </div><!--Hình ảnh-->
 
-                <div class="col-md-6 single-right pd-xs-0">
-                    <h1 class="single-title">@Model.Title</h1>
-                    <p class="price">
-                        @if (Model.Sale > 0)
-                        {
-                            <span>@Model.Sale.GetValueOrDefault(0).ToString("#,#.##") </span> <del>@Model.Price.GetValueOrDefault(0).ToString("#,#.##")</del>
-                        }
-                        else
-                        {
-                            @Model.Price.GetValueOrDefault(0).ToString("#,#.##")
-                        }
-                        VNĐ
-                    </p>
-                    <div class="product-rating">
-                        <span class="rating star-rating"> @Model.Rating.Average(x => x.Scores)</span>
-                      
-                        <a href="#reviews" class="review-link" rel="nofollow">(<span class="count">@Model.Rating.Count</span> nhận xét)</a>
-                    </div>
-                    <div itemprop="description" class="short-description">
-                        <p>@Model.Description</p>
-                    </div>
+                <div class="col-md-6 single-right pd-xs-0 product-details" >
+                    <div class=" product-details-item" data-id="@Model.Id">
+                        <h1 class="single-title">@Model.Title</h1>
+                        <p class="price">
+                            @if (Model.Sale > 0)
+                            {
+                                <span>@Model.Sale.GetValueOrDefault(0).ToString("#,#.##") </span> <del>@Model.Price.GetValueOrDefault(0).ToString("#,#.##")</del>
+                            }
+                            else
+                            {
+                                @Model.Price.GetValueOrDefault(0).ToString("#,#.##")
+                            }
+                            VNĐ
+                        </p>
+                        <div class="product-rating">
+                            <span class="rating star-rating"> @Model.Rating.Average(x => x.Scores)</span>
 
-                    <!--Số lượng-->
-                    <div class="quantity">
-                        <div class="wrap-num-product">
-                            <div class="btn-num-product-down">
-                                <i class="fal fa-minus" aria-hidden="true"></i>
-                            </div>
+                            <a href="#reviews" class="review-link" rel="nofollow">(<span class="count">@Model.Rating.Count</span> nhận xét)</a>
+                        </div>
+                        <div itemprop="description" class="short-description">
+                            <p>@Model.Description</p>
+                        </div>
 
-                            <input class="txt-center num-product" type="number" name="num-product" value="1">
+                        <!--Số lượng-->
+                        <div class="quantity">
+                            <div class="wrap-num-product">
+                                <div class="btn-num-product-down">
+                                    <i class="fal fa-minus" aria-hidden="true"></i>
+                                </div>
+                                <input class="txt-center num-product" type="number" name="num-product" value="1" data-val="1">
 
-                            <div class="btn-num-product-up">
-                                <i class="fal fa-plus" aria-hidden="true"></i>
+                                <div class="btn-num-product-up">
+                                    <i class="fal fa-plus" aria-hidden="true"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!--Thêm giỏ hàng-->
-                    <div class="add-cart">
-                        <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>Thêm giỏ hàng</a>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="add-wishlist">
-                        <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
-                    </div>
+                        <!--Thêm giỏ hàng-->
+                        <div class="add-cart " style="display:flex;">
+                            <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>Thêm giỏ hàng</a>
+                          
+                        </div>
+                    <a asp-controller="cart" asp-action="checkout" class="btn btn-black">Thanh toán</a>
+                        <div class="clearfix"></div>
+                        <div class="add-wishlist">
+                            <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
+                        </div>
 
-                    <div class="clearfix"></div>
-                    <div class="product-meta">
-                        <span class="product_brand">
-                            Thương hiệu:
-                            <a href="#">Bloom</a>
-                        </span>
-                        <span class="product_sku">
-                            Xuất xứ:
-                            <a href="#">N/A</a>
-                        </span>
-                        <span class="product_category">
-                            Danh mục:
-                            <a href="#">@Model.Category.Title</a>
-                        </span>
-                        <span class="product_share">
-                            Chia sẻ:
-                            <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
-                        </span>
+                        <div class="clearfix"></div>
+                        <div class="product-meta">
+                            <span class="product_brand">
+                                Thương hiệu:
+                                <a href="#"></a>
+                            </span>
+                            <span class="product_sku">
+                                Xuất xứ:
+                                <a href="#">N/A</a>
+                            </span>
+                            <span class="product_category">
+                                Danh mục:
+                                <a href="#">@Model.Category.Title</a>
+                            </span>
+                            <span class="product_share">
+                                Chia sẻ:
+                                <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                            </span>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
+                  
 
                 </div><!--Thông tin cơ bản-->
             </div>
@@ -253,6 +257,25 @@
 @section Scripts{
     <script type="text/javascript" src="~/js/single.js"></script>
     <script>
+                @*$(document).on('click', '.add-cart', function (event) {
+                event.preventDefault();
 
+            var parent = $(this).parents('.product-details');
+            var productid = parseInt(parent.attr('data-id'));
+            debugger;
+            var quantity = parent.find('num-product[name=num-product]');
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.ActionLink("AddToCart","Cart")',
+                    data: {
+                        productid: productid,
+                        quantity: quantity
+                    },
+                    success: function (result) {
+                        addtocart();
+                        //window.location.href = '@Url.ActionLink("cart","cart")';
+                      }
+                })
+            });*@
     </script>
 }

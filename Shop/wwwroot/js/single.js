@@ -66,12 +66,29 @@ function showSlides(n) {
 [ +/- num product ]*/
 $('.btn-num-product-down').on('click', function () {
     var numProduct = Number($(this).next().val());
-    if (numProduct > 0) $(this).next().val(numProduct - 1);
+    if (numProduct > 1) $(this).next().val(numProduct - 1);
 });
+$('input[name=num-product]').on('change',function () {
+    var prev = Number($(this).data('val'));
+    console.log(prev);
+    var numProduct = Number($(this).val());
+    if (numProduct < 1) {
+        alert('Tối Thiểu Là  1 Sản Phẩm');
+        $(this).val(prev);
+    }
+    if (numProduct > 10) {
+        alert('Tối Đa Là  10 Sản Phẩm');
+        $(this).val(prev);
+    }
+});
+ 
+
 
 $('.btn-num-product-up').on('click', function () {
     var numProduct = Number($(this).prev().val());
-    $(this).prev().val(numProduct + 1);
+    if (numProduct > 1 && numProduct <= 9) {
+        $(this).prev().val(numProduct + 1);
+    } 
 });
 
 /*================================================================*/

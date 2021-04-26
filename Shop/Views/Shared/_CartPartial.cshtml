@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+@{ var cookies = HttpContextAccessor.HttpContext.Request.Cookies[Shop.Controllers.CartController.CARTKEY];
+    if (cookies != null)
+    {
+        var cart = JsonConvert.DeserializeObject<List<Cart>>(cookies);
+    <li class="cart-icon " id="cart">
+        <a asp-action="cart" asp-controller="cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <span class="cart-count">(@cart.Count)</span></a>
+        <input type="number" id="cart-count-input" name="cart-count">
+        <div class="cart-content content-dropdown">
+            <ul class="scroll-js scroll-y" id="cartBody">
+            </ul>
+            <div class="total">
+                <label>Tổng:</label>
+                <span class="total-cart"></span>
+                <span class="vnd">VNĐ</span>
+            </div>
+            <a asp-controller="cart" asp-action="cart" class="btn btn-black">Chi tiết Đơn Hàng</a>
+            <a asp-controller="cart" asp-action="checkout" class="btn btn-black">Thanh toán</a>
+        
+        </div>
+    </li>
+} 
+}

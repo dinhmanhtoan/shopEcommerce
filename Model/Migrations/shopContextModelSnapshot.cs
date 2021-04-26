@@ -172,6 +172,81 @@ namespace Model.Migrations
                     b.ToTable("Media");
                 });
 
+            modelBuilder.Entity("Model.Models.Order", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AddressLine1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("AddressLine2")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("ApartmentNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreateOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Node")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Model.Models.OrderDetail", b =>
+                {
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long>("Quantity")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("Model.Models.Product", b =>
                 {
                     b.Property<long>("Id")
@@ -299,6 +374,8 @@ namespace Model.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Rating");
                 });
@@ -448,7 +525,7 @@ namespace Model.Migrations
                             Id = 10L,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "101cd6ae-a8ef-4a37-97fd-04ac2dd630e4",
-                            CreatedOn = new DateTime(2021, 4, 21, 22, 30, 20, 985, DateTimeKind.Local).AddTicks(7070),
+                            CreatedOn = new DateTime(2021, 4, 26, 0, 12, 15, 710, DateTimeKind.Local).AddTicks(5847),
                             EmailConfirmed = false,
                             FullName = "System User",
                             Guid = new Guid("5f72f83b-7436-4221-869c-1b69b2e23aae"),
@@ -528,6 +605,21 @@ namespace Model.Migrations
                         .HasForeignKey("ThumbnailId");
                 });
 
+            modelBuilder.Entity("Model.Models.OrderDetail", b =>
+                {
+                    b.HasOne("Model.Models.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Models.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Model.Models.Product", b =>
                 {
                     b.HasOne("Model.Models.Category", "Category")
@@ -548,6 +640,15 @@ namespace Model.Migrations
                     b.HasOne("Model.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("Model.Models.Rating", b =>
+                {
+                    b.HasOne("Model.Models.Product", null)
+                        .WithMany("Rating")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Model.Models.UserRole", b =>

@@ -23,6 +23,7 @@ namespace Model.Models
         public long? CategoryId { get; set; }
         public Category Category{ get; set; }
         public IList<Rating> Rating { get; set; }
+        public IList<OrderDetail> OrderDetails { get; set; }
 
 
         public void AddMedia(ProductMedia media)

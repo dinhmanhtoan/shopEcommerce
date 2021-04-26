@@ -1,10 +1,14 @@
 .cart-item-price{
 	color: #7f7a7a;
+	padding-left: 7px;
+}
+.remove-in-cart {
+	color: black !important;
+	cursor: pointer;
 }
 
 .cart-item-quantity input {
-	width: 45px;
-	padding: 5px;
+	width: 30px;
 	text-align: center;
 }
 .cart-item-quantity span{
@@ -14,7 +18,7 @@
 }
 
 #cart .table thead tr td{
-	text-align: center;
+	text-align: start;
 }
 #cart .table tr td{
 	padding: 10px 0 !important;

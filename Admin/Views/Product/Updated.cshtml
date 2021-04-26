@@ -48,10 +48,19 @@
                     <div class="form-group">
                         <label asp-for="Products.CategoryId" class="control-label"></label>
                         <select asp-for="Products.CategoryId" class="form-control">
-                            <option>Chọn</option>
+                            <option value="-1">Chọn</option>
                             @foreach (var item in Model.Products.categories)
                             {
-                                <option value="@item.Id" selected="@(Model.Products.CategoryId == item.Id ? "selected" : "")">@item.Title</option>
+                                if (Model.Products.CategoryId == item.Id)
+                                {
+                                    <option value="@item.Id" selected>@item.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id" >@item.Title</option>
+                                }
+
+                                //selected = "@(Model.Products.CategoryId == item.Id ? "selected" : "")"
                             }
                         </select>
                         <span asp-validation-for="Products.CategoryId" class="text-danger"></span>

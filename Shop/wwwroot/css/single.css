@@ -145,8 +145,8 @@ input[type=number]::-webkit-outer-spin-button {
 	padding-right:15px;
 }
 .wrap-num-product{
-	width: 137px;
-	height: 45px;
+
+
 	border: 1px solid #f7f7f7;
 	border-radius: 3px;
 	overflow: hidden;
@@ -163,8 +163,8 @@ input[type=number]::-webkit-outer-spin-button {
 	float: left;
 	border: none;
 }
-.btn-num-product-up, .btn-num-product-down{
-	width: 45px;
+.btn-num-product-up, .btn-num-product-down {
+	padding: 0px 5px;
 	height: 100%;
 	cursor: pointer;
 	border-color: #f7f7f7;
@@ -173,7 +173,6 @@ input[type=number]::-webkit-outer-spin-button {
 	text-align: center;
 	align-items: center;
 	justify-content: center;
-	display: flex;
 	float: left;
 }
 /*Số lượng*/

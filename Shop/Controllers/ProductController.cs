@@ -64,6 +64,7 @@ namespace Shop.Controllers
                     Id = item.Id,
                     Code = item.Code,
                     Title = item.Title,
+                    Slug = item.Slug,
                     Description = item.Description,
                     ThumbnailImage = _context.Medias.Where(x => x.Id == item.ThumbnailId).FirstOrDefault(),
                     Detail = item.Detail,

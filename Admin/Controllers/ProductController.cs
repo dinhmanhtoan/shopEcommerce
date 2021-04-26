@@ -109,6 +109,7 @@ namespace Admin.Controllers
                 Description = Product.Description,
                 Detail = Product.Detail,
                 categories = Category,
+                CategoryId = Product.CategoryId,
                 Price = Product.Price,
                 Sale = Product.Sale,
                 ThumbnailImageUrl = Product.Thumbnail.FileName
