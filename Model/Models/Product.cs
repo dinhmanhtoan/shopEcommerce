@@ -21,9 +21,12 @@ namespace Model.Models
         public DateTime? EditOn { get; set; }
         public long? EditBy { get; set; }
         public long? CategoryId { get; set; }
-        public Category Category{ get; set; }
+        public Category Category { get; set; }
         public IList<Rating> Rating { get; set; }
         public IList<OrderDetail> OrderDetails { get; set; }
+        public Brand Brand { get; set; }
+        public long? BrandId { get; set; }
+        public IList<ProductOptionValue> OptionValues { get; set; }
 
 
         public void AddMedia(ProductMedia media)
@@ -31,6 +34,6 @@ namespace Model.Models
             media.Product = this;
             Images.Add(media);
         }
-    
+
     }
 }

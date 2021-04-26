@@ -540,12 +540,9 @@
                             }
                             return totalPrice;
                         };
+                        debugger;
                         $(".total").find(".total-cart").html("$" + totalPrices() + "-" + "$" + totalPriceSales());
                         for (var i = 0; i < cart.length; i++) {
-
-
-
-
                             row += `<li class="item-cart-1" data-id=${cart[i].product.id}>
                         <div class="img-left">
                             <a href="/chi-tiet/${cart[i].product.slug}">

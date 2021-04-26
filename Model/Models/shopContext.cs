@@ -1,14 +1,12 @@
-﻿using System;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Model.Extention;
 
 namespace Model.Models
 {
     public partial class shopContext : IdentityDbContext<User, Role, long, IdentityUserClaim<long>, UserRole, IdentityUserLogin<long>, IdentityRoleClaim<long>, IdentityUserToken<long>>
-    { 
+    {
         public shopContext()
         {
         }
@@ -17,7 +15,7 @@ namespace Model.Models
             : base(options)
         {
         }
-        public virtual DbSet<User> Users{ get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<Category> Category { get; set; }
@@ -27,7 +25,9 @@ namespace Model.Models
 
         public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-
+        public virtual DbSet<Brand> Brand { get; set; }
+        public virtual DbSet<ProductOption> Options { get; set; }
+        public virtual DbSet<ProductOptionValue> OptionValues { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,7 +40,7 @@ namespace Model.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            CoreSeedData.SeedData(modelBuilder); 
+            CoreSeedData.SeedData(modelBuilder);
             //modelBuilder.Entity<Category>(entity =>
             //{
             //    entity.ToTable("category");
@@ -110,15 +110,17 @@ namespace Model.Models
                   .HasForeignKey(x => x.ThumbnailId);
                 c.ToTable("Category");
             });
-             modelBuilder.Entity<Media>(m =>
-            {
-                m.HasKey(m => m.Id);
-                m.ToTable("Media");
-            });
+            modelBuilder.Entity<Media>(m =>
+           {
+               m.HasKey(m => m.Id);
+               m.ToTable("Media");
+           });
             modelBuilder.Entity<Product>(p =>
             {
                 p.HasKey(p => p.Id);
+                p.HasOne(p => p.Brand).WithMany(x => x.Products).HasForeignKey(r => r.BrandId);
                 p.ToTable("Product");
+
             });
             modelBuilder.Entity<Rating>(p =>
             {
@@ -160,7 +162,7 @@ namespace Model.Models
 
             modelBuilder.Entity<IdentityUserLogin<long>>(b =>
             {
-                
+
                 b.ToTable("UserLogin");
             });
 
@@ -168,24 +170,24 @@ namespace Model.Models
             {
                 b.ToTable("UserToken");
             });
-            modelBuilder.Entity<Order>(o =>{
+            modelBuilder.Entity<Order>(o =>
+            {
 
                 o.HasKey(x => x.Id);
 
                 o.Property(x => x.CreateOn);
                 o.Property(x => x.FullName).IsRequired().HasMaxLength(200);
-
                 o.Property(x => x.Email).IsRequired().IsUnicode(false).HasMaxLength(50);
-
                 o.Property(x => x.AddressLine1).IsRequired().HasMaxLength(500);
                 o.Property(x => x.AddressLine2).HasMaxLength(500);
                 o.Property(x => x.Node).IsRequired().HasMaxLength(1000);
                 o.Property(x => x.PhoneNumber).IsRequired().HasMaxLength(50);
 
-            
+
 
             });
-            modelBuilder.Entity<OrderDetail>(o => {
+            modelBuilder.Entity<OrderDetail>(o =>
+            {
 
                 o.HasKey(x => new { x.OrderId, x.ProductId });
 
@@ -195,10 +197,32 @@ namespace Model.Models
 
             });
 
-          
+            modelBuilder.Entity<Brand>(b =>
+            {
+                b.HasKey(x => x.Id);
+                b.Property(x => x.Name).IsRequired().HasMaxLength(450);
+                b.Property(x => x.Slug).IsRequired().HasMaxLength(450);
+                b.Property(x => x.Description).IsRequired().HasColumnType("nvarchar(max)");
+                b.Property(x => x.IsDeleted).IsRequired();
+                b.Property(x => x.IsPublished).IsRequired();
+            });
 
+            modelBuilder.Entity<ProductOption>(o =>
+            {
+                o.HasKey(x => x.Id);
+                o.Property(x => x.Name).IsRequired();
+            });
+            modelBuilder.Entity<ProductOptionValue>(o =>
+            {
+                o.HasKey(x => new { x.Id });
+                o.HasOne(x => x.Option).WithMany(x => x.OptionValue).HasForeignKey(x => x.OptionId);
+                o.Property(x => x.Value).HasMaxLength(450);
+                o.Property(x => x.DisplayType).HasMaxLength(450);
+                o.Property(x => x.SortIndex).IsRequired();
+                o.HasOne(x => x.Product).WithMany(x => x.OptionValues).HasForeignKey(x => x.ProductId);
+            });
         }
 
-       // partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        // partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

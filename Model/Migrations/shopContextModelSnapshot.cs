@@ -105,6 +105,38 @@ namespace Model.Migrations
                     b.ToTable("UserToken");
                 });
 
+            modelBuilder.Entity("Model.Models.Brand", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(450);
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brand");
+                });
+
             modelBuilder.Entity("Model.Models.Category", b =>
                 {
                     b.Property<long>("Id")
@@ -231,9 +263,6 @@ namespace Model.Migrations
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -253,6 +282,9 @@ namespace Model.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("BrandId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("CategoryId")
                         .HasColumnType("bigint");
@@ -295,6 +327,8 @@ namespace Model.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrandId");
+
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("ThumbnailId");
@@ -325,6 +359,54 @@ namespace Model.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductMedia");
+                });
+
+            modelBuilder.Entity("Model.Models.ProductOption", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("Name")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Options");
+                });
+
+            modelBuilder.Entity("Model.Models.ProductOptionValue", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DisplayType")
+                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(450);
+
+                    b.Property<long>("OptionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("SortIndex")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OptionId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OptionValues");
                 });
 
             modelBuilder.Entity("Model.Models.Rating", b =>
@@ -525,7 +607,7 @@ namespace Model.Migrations
                             Id = 10L,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "101cd6ae-a8ef-4a37-97fd-04ac2dd630e4",
-                            CreatedOn = new DateTime(2021, 4, 26, 0, 12, 15, 710, DateTimeKind.Local).AddTicks(5847),
+                            CreatedOn = new DateTime(2021, 4, 26, 16, 51, 45, 759, DateTimeKind.Local).AddTicks(9236),
                             EmailConfirmed = false,
                             FullName = "System User",
                             Guid = new Guid("5f72f83b-7436-4221-869c-1b69b2e23aae"),
@@ -622,6 +704,12 @@ namespace Model.Migrations
 
             modelBuilder.Entity("Model.Models.Product", b =>
                 {
+                    b.HasOne("Model.Models.Brand", "Brand")
+                        .WithMany("Products")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Model.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
@@ -640,6 +728,21 @@ namespace Model.Migrations
                     b.HasOne("Model.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("Model.Models.ProductOptionValue", b =>
+                {
+                    b.HasOne("Model.Models.ProductOption", "Option")
+                        .WithMany("OptionValue")
+                        .HasForeignKey("OptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Models.Product", "Product")
+                        .WithMany("OptionValues")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Model.Models.Rating", b =>
