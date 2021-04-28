@@ -2,6 +2,21 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+@section head{ 
+<style>
+    .owl-prev {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+    }
+
+    .owl-next {
+        position: absolute;
+        top: 50%;
+        right: 0%;
+    }
+</style>
+}
 @section Scripts{ 
     <script>
         $(".owlCarousel_slider").owlCarousel({

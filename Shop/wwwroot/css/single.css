@@ -29,6 +29,7 @@ input[type=number]::-webkit-outer-spin-button {
 	padding-left:0; 
 }
 .single-product-sidebar ul li{
+	display:flex;
 	margin-bottom: 10px;
 	list-style: none;
 }
@@ -145,16 +146,13 @@ input[type=number]::-webkit-outer-spin-button {
 	padding-right:15px;
 }
 .wrap-num-product{
-
-
-	border: 1px solid #f7f7f7;
 	border-radius: 3px;
 	overflow: hidden;
 	outline: none !important;
 	box-shadow: none;
 }
 .num-product{
-	width: calc(100% - 90px);
+	width: calc(100% - 100px);
 	height: 100%;
 	border-left: 1px solid #e6e6e6;
 	border-right: 1px solid #e6e6e6;
@@ -164,6 +162,7 @@ input[type=number]::-webkit-outer-spin-button {
 	border: none;
 }
 .btn-num-product-up, .btn-num-product-down {
+	border: 1px solid #f7f7f7;
 	padding: 0px 5px;
 	height: 100%;
 	cursor: pointer;
@@ -183,7 +182,7 @@ input[type=number]::-webkit-outer-spin-button {
 .add-cart{
 	display: block;
 	float: left;
-	margin-left:20px ;
+	margin: 0 10px ;
 }
 .add-cart .btn{
 	height: 45px;
@@ -195,14 +194,19 @@ input[type=number]::-webkit-outer-spin-button {
 .add-cart span{
 	padding-right: 5px;
 }
-
+.checkout-cart .btn {
+	height: 45px;
+	vertical-align: middle;
+	border-right: 0 !important;
+	padding: 12px;
+	width: 180px;
+}
 /*Giỏ hàng*/
-
 /*Thêm sản phẩm yêu thích*/
-.add-wishlist{
+.add-wishlist {
 	display: block;
 	width: 100%;
-	margin: 20px 0 ;
+	margin: 20px 0;
 	float: left;
 }
 .add-wishlist a{

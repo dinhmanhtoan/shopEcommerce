@@ -842,16 +842,7 @@ input {
 .login-content form  a{
 	color:#9d9b9b;
 }
-.owl-prev{
-    position:absolute;
-    top:50%;
-    left:0%;
-}
-.owl-next {
-    position: absolute;
-    top: 50%;
-    right: 0%;
-}
+
 .sale{
     text-decoration: line-through;
     color: #888;
@@ -929,26 +920,3 @@ input {
 .cart-content{
     z-index:-9999;
 }
-.owl-carousel .item {
-    background: #4DC7A0;
-    padding: 1rem;
-}
-
-body {
-    padding: 10px;
-}
-
-.flex-container {
-    display: flex;
-    flex-wrap: nowrap;
-    background-color: DodgerBlue;
-}
-
-    .flex-container > div {
-        background-color: #f1f1f1;
-        width: 100px;
-        margin: 10px;
-        text-align: center;
-        line-height: 75px;
-        font-size: 30px;
-    }
