@@ -99,9 +99,16 @@
                                                 </div>
                                                 <div class="product-content">
                                                     <h3 class="title"><a href="#">@item.Title</a></h3>
-                                                    <div class="price">
-                                                        $@item.Price.GetValueOrDefault(0).ToString("#,#.##")
-                                                        <span>$@item.Sale.GetValueOrDefault(0).ToString("#,#.##")</span>
+                                                    <div >
+                                                        @if (item.Price > 0)
+                                                        {
+                                                            <span class="price">$@item.Price.GetValueOrDefault(0).ToString("#,#.##")  ₫ - </span>
+                                                            <span class="sale">@item.Sale.GetValueOrDefault(0).ToString("#,#.##") ₫</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="price">@item.Price.GetValueOrDefault(0).ToString("#,#.##")  ₫</span>
+                                                        }
                                                     </div>
                                                 </div>
                                                 <ul class="social">

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "I:\\SoureToan\\Shop\\Shop\\Shop.csproj": {}
+    "D:\\souc\\source\\.net\\Shop2\\shop2\\Shop\\Shop.csproj": {}
   },
   "projects": {
-    "I:\\SoureToan\\Shop\\Model\\Model.csproj": {
+    "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "I:\\SoureToan\\Shop\\Model\\Model.csproj",
+        "projectUniqueName": "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj",
         "projectName": "Model",
-        "projectPath": "I:\\SoureToan\\Shop\\Model\\Model.csproj",
-        "packagesPath": "C:\\Users\\Thien255\\.nuget\\packages\\",
-        "outputPath": "I:\\SoureToan\\Shop\\Model\\obj\\",
+        "projectPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj",
+        "packagesPath": "C:\\Users\\Toan\\.nuget\\packages\\",
+        "outputPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Thien255\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Toan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,6 +87,16 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -96,17 +106,17 @@
         }
       }
     },
-    "I:\\SoureToan\\Shop\\Shop\\Shop.csproj": {
+    "D:\\souc\\source\\.net\\Shop2\\shop2\\Shop\\Shop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "I:\\SoureToan\\Shop\\Shop\\Shop.csproj",
+        "projectUniqueName": "D:\\souc\\source\\.net\\Shop2\\shop2\\Shop\\Shop.csproj",
         "projectName": "Shop",
-        "projectPath": "I:\\SoureToan\\Shop\\Shop\\Shop.csproj",
-        "packagesPath": "C:\\Users\\Thien255\\.nuget\\packages\\",
-        "outputPath": "I:\\SoureToan\\Shop\\Shop\\obj\\",
+        "projectPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Shop\\Shop.csproj",
+        "packagesPath": "C:\\Users\\Toan\\.nuget\\packages\\",
+        "outputPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Shop\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Thien255\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Toan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -120,8 +130,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "I:\\SoureToan\\Shop\\Model\\Model.csproj": {
-                "projectPath": "I:\\SoureToan\\Shop\\Model\\Model.csproj"
+              "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj": {
+                "projectPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj"
               }
             }
           }
@@ -191,6 +201,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.1.13, 3.1.13]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"

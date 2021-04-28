@@ -87,7 +87,12 @@ namespace Shop.Controllers
                 .Include(x => x.Thumbnail)
                 .Include(x => x.Rating)
                 .First();
-            return View(query);
+            var like = _context.Product.Where(x => x.CategoryId == query.CategoryId).Include(x => x.Thumbnail).ToList();
+            var DetailsVm = new DetailsVm();
+            DetailsVm.product = query;
+            DetailsVm.products = like;
+
+            return View(DetailsVm);
         }
        
     }

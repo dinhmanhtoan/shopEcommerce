@@ -1769,8 +1769,8 @@ textarea.form-control {
     opacity: 0.65; }
 
 a.btn.disabled,
-fieldset:disabled a.btn {
-  pointer-events: none; }
+/*fieldset:disabled a.btn {
+  pointer-events: none; }*/
 
 .btn-primary {
   color: #fff;
@@ -2266,9 +2266,10 @@ fieldset:disabled a.btn {
   .btn-link:focus, .btn-link.focus {
     text-decoration: none;
     box-shadow: none; }
-  .btn-link:disabled, .btn-link.disabled {
-    color: #6c757d;
-    pointer-events: none; }
+    .btn-link:disabled, .btn-link.disabled {
+        color: #6c757d;
+       /* pointer-events: none;*/
+    }
 
 .btn-lg, .btn-group-lg > .btn {
   padding: 0.5rem 1rem;

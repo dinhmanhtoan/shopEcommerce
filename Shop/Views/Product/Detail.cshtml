@@ -1,9 +1,10 @@
-﻿@model Product;
+﻿@model DetailsVm;
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = Model.product.Title;
 }
 @section head{
     <link href="~/css/single.css" rel="stylesheet" />
+
 }
 <div class="single">
     <div class="container">
@@ -11,14 +12,14 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="col-md-6 single-left gallery-lb">
-                    @for (var i = 0; i < Model.Images.Count; i++)
+                    @for (var i = 0; i < Model.product.Images.Count; i++)
                     {
                         <div class="mySlides" style="display: none;">
-                            <div class="numbertext">@(i+1) / @Model.Images.Count</div>
-                            <a class="zoom " href="https://localhost:44360/user-content/@Model.Images[i].Media.FileName" tabindex="0">
+                            <div class="numbertext">@(i+1) / @Model.product.Images.Count</div>
+                            <a class="zoom " href="https://localhost:44360/user-content/@Model.product.Images[i].Media.FileName" tabindex="0">
                                 <i class="fal fa-expand"></i>
                             </a>
-                            <img src="https://localhost:44360/user-content/@Model.Images[i].Media.FileName" style="width:100%">
+                            <img src="https://localhost:44360/user-content/@Model.product.Images[i].Media.FileName" style="width:100%">
                         </div>
 
                     }
@@ -26,10 +27,10 @@
                     <button class="img-next" onclick="plusSlides(1)"><i class="fal fa-angle-right" aria-hidden="true"></i></button>
 
                     <div class="image-slide">
-                        @for (var i = 0; i < Model.Images.Count; i++)
+                        @for (var i = 0; i < Model.product.Images.Count; i++)
                         {
                             <div class="column">
-                                <img class="demo cursor" src="https://localhost:44360/user-content/@Model.Images[i].Media.FileName" style="width:100%" onclick="currentSlide(1)" alt="@Model.Title">
+                                <img class="demo cursor" src="https://localhost:44360/user-content/@Model.product.Images[i].Media.FileName" style="width:100%" onclick="currentSlide(1)" alt="@Model.product.Title">
                             </div>
 
                         }
@@ -38,27 +39,27 @@
 
                 </div><!--Hình ảnh-->
 
-                <div class="col-md-6 single-right pd-xs-0 product-details" >
-                    <div class=" product-details-item" data-id="@Model.Id">
-                        <h1 class="single-title">@Model.Title</h1>
+                <div class="col-md-6 single-right pd-xs-0 product-details">
+                    <div class=" product-details-item" data-id="@Model.product.Id">
+                        <h1 class="single-title">@Model.product.Title</h1>
                         <p class="price">
-                            @if (Model.Sale > 0)
+                            @if (Model.product.Sale > 0)
                             {
-                                <span>@Model.Sale.GetValueOrDefault(0).ToString("#,#.##") </span> <del>@Model.Price.GetValueOrDefault(0).ToString("#,#.##")</del>
+                                <span>@Model.product.Sale.GetValueOrDefault(0).ToString("#,#.##") </span> <del>@Model.product.Price.GetValueOrDefault(0).ToString("#,#.##")</del>
                             }
                             else
                             {
-                                @Model.Price.GetValueOrDefault(0).ToString("#,#.##")
+                                @Model.product.Price.GetValueOrDefault(0).ToString("#,#.##")
                             }
                             VNĐ
                         </p>
                         <div class="product-rating">
-                            <span class="rating star-rating"> @Model.Rating.Average(x => x.Scores)</span>
+                            <span class="rating star-rating"> @Model.product.Rating.Average(x => x.Scores)</span>
 
-                            <a href="#reviews" class="review-link" rel="nofollow">(<span class="count">@Model.Rating.Count</span> nhận xét)</a>
+                            <a href="#reviews" class="review-link" rel="nofollow">(<span class="count">@Model.product.Rating.Count</span> nhận xét)</a>
                         </div>
                         <div itemprop="description" class="short-description">
-                            <p>@Model.Description</p>
+                            <p>@Model.product.Description</p>
                         </div>
 
                         <!--Số lượng-->
@@ -78,9 +79,9 @@
                         <!--Thêm giỏ hàng-->
                         <div class="add-cart " style="display:flex;">
                             <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>Thêm giỏ hàng</a>
-                          
+
                         </div>
-                    <a asp-controller="cart" asp-action="checkout" class="btn btn-black">Thanh toán</a>
+                        <a asp-controller="cart" asp-action="checkout" class="btn btn-black">Thanh toán</a>
                         <div class="clearfix"></div>
                         <div class="add-wishlist">
                             <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
@@ -98,7 +99,7 @@
                             </span>
                             <span class="product_category">
                                 Danh mục:
-                                <a href="#">@Model.Category.Title</a>
+                                <a href="#">@Model.product.Category.Title</a>
                             </span>
                             <span class="product_share">
                                 Chia sẻ:
@@ -107,7 +108,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                  
+
 
                 </div><!--Thông tin cơ bản-->
             </div>
@@ -121,35 +122,39 @@
                         </ul>
                     </div>
                     <hr>
-                    <ul>
-                        <li>
-                            <a href="#"><img src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-4.jpg" style="width: 70px"></a>
+              
+                     
+                <ul class="owl-carousel owl-theme">
+                    @for (int i = 0; i < Model.products.Count; i++)
+                    {
+                     
+                        <li class="item">
+                            <a href="/chi-tiet/@Model.products[i].Slug"><img src="https://localhost:44360/user-content/@Model.products[i].Thumbnail.FileName" style="width: 70px"></a>
                             <div class="product-item-right">
                                 <p class="product-title">
-                                    <a href="#" title="The Trend Polo">The Trend Polo</a>
+                                    <a href="/chi-tiet/@Model.products[i].Slug" title="The Trend Polo">@Model.products[i].Title</a>
                                 </p>
-                                <p class="price"><span>99.000</span> - <del>120.000</del><small>VNĐ</small> </p>
+                                @if (Model.products[i].Sale > 0)
+                                {
+                                    <p class="price"><span>@Model.products[i].Price ₫</span> - <del>@Model.products[i].Sale</del><small>₫</small> </p>
+                                }
+                                else
+                                {
+                                    <p class="price"><span>@Model.products[i].Price ₫</span> </p>
+                                }
                             </div>
                         </li>
-                        <li>
-                            <a href="#"><img src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-4.jpg" style="width: 70px"></a>
-                            <div class="product-item-right">
-                                <p class="product-title">
-                                    <a href="#" title="The Trend Polo">The Trend Polo</a>
-                                </p>
-                                <p class="price"><span>99.000</span> - <del>120.000</del><small>VNĐ</small> </p>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#"><img src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-4.jpg" style="width: 70px"></a>
-                            <div class="product-item-right">
-                                <p class="product-title">
-                                    <a href="#" title="The Trend Polo">The Trend Polo</a>
-                                </p>
-                                <p class="price"><span>99.000</span> - <del>120.000</del><small>VNĐ</small> </p>
-                            </div>
-                        </li>
+                    }
                     </ul>
+
+
+
+
+
+
+
+
+
                 </div>
                 <div class="Utilities-block">
                     <span class="title">Tiện ích</span>
@@ -179,7 +184,7 @@
                 </div>
                 <div class="tab-content">
                     <div id="information" class="tab-pane fade in active show" role="tabpanel" style="min-height: 300px">
-                        @Html.Raw(Model.Detail)
+                        @Html.Raw(Model.product.Detail)
                     </div>
                     <div id="reviews" class="tab-pane fade in" role="tabpanel" style="min-height: 300px">
                         <div class="col-md-6 list-review">
@@ -187,7 +192,7 @@
                                 <h1 class="title">Đánh giá cho sản phẩm này</h1>
                                 <div>
                                     <ul>
-                                        @foreach (var rating in Model.Rating)
+                                        @foreach (var rating in Model.product.Rating)
                                         {
                                             <li>
                                                 <div class="review-avatar"><a href=""><img src="../img/user.png"></a></div>
@@ -207,7 +212,6 @@
                                             </li>
 
                                         }
-
                                     </ul>
                                 </div>
                             </div>
@@ -229,7 +233,7 @@
                                             <input type="number" name="Scores" hidden>
                                         </span>
                                     </div>
-                                    <input type="text" name="productId" value="@Model.Id" readonly hidden>
+                                    <input type="text" name="productId" value="@Model.product.Id" readonly hidden>
                                     <input type="text" name="name" required="required" placeholder="Tên *">
 
                                     <input type="email" name="email" required="required" placeholder="Email *">
@@ -257,25 +261,19 @@
 @section Scripts{
     <script type="text/javascript" src="~/js/single.js"></script>
     <script>
-                @*$(document).on('click', '.add-cart', function (event) {
-                event.preventDefault();
-
-            var parent = $(this).parents('.product-details');
-            var productid = parseInt(parent.attr('data-id'));
-            debugger;
-            var quantity = parent.find('num-product[name=num-product]');
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.ActionLink("AddToCart","Cart")',
-                    data: {
-                        productid: productid,
-                        quantity: quantity
-                    },
-                    success: function (result) {
-                        addtocart();
-                        //window.location.href = '@Url.ActionLink("cart","cart")';
-                      }
-                })
-            });*@
+        $(".owl-carousel").owlCarousel({
+            autoplay: false, // tự động chuyển slider
+            //loop: true,
+            margin: 10,
+            items: 3,
+            nav: true, // hiện thị bật tắt nút next,back
+            dots: false,
+            lazyLoad: true,
+            // slideBy:1,
+            // // lazyLoadEager: 4,
+            // // lazyLoad : true,
+            autoHeight: true,
+            navText: ['<i class="fa fa-chevron-left" aria-hidden="true"></i>', '<i class="fa fa-chevron-right" aria-hidden="true"></i>'] /// nút next,back
+        });
     </script>
 }

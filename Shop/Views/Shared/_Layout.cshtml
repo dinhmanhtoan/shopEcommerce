@@ -17,9 +17,9 @@
     <!--============================Animation========================================-->
     <link rel="stylesheet" type="text/css" href="~/css/animation.css">
     <!--============================Animation========================================-->
-
     @RenderSection("head", required: false)
 </head>
+
 <body>
     <header>
         <div id="header-top" class=" hidden-sm-down">
@@ -131,8 +131,8 @@
                                     <input type="number" id="wishlist-count-input" name="wishlist-count" value="2">
                                     <div class="wishlist-content content-dropdown">
                                         <ul class="scroll-js scroll-y">-->
-                                            <!-- Danh sách sản phẩm yêu thích -->
-                                        <!--</ul>
+                                <!-- Danh sách sản phẩm yêu thích -->
+                                <!--</ul>
                                         <hr>
                                         <a href="~/html/cart.html" class="btn btn-black">Xem danh sách</a>
                                     </div>
@@ -231,7 +231,7 @@
                 </div>
             </div>
         </div>
-     
+
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -239,84 +239,177 @@
     <script src="~/js/custom-select.js"></script>
     @*<script src="~/js/main.js"></script>*@
 
-@*<script>
-    (function ($) {
-        $.fn.inputFilter = function (inputFilter) {
-            return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
-                debugger;
-                if (inputFilter(this.value)) {
-                    this.oldValue = this.value;
-                    this.oldSelectionStart = this.selectionStart;
-                    this.oldSelectionEnd = this.selectionEnd;
-                } else if (this.hasOwnProperty("oldValue")) {
-                    this.value = this.oldValue;
-                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-                } else {
-                    this.value = "";
+    @*<script>
+            (function ($) {
+                $.fn.inputFilter = function (inputFilter) {
+                    return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+                        debugger;
+                        if (inputFilter(this.value)) {
+                            this.oldValue = this.value;
+                            this.oldSelectionStart = this.selectionStart;
+                            this.oldSelectionEnd = this.selectionEnd;
+                        } else if (this.hasOwnProperty("oldValue")) {
+                            this.value = this.oldValue;
+                            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                        } else {
+                            this.value = "";
+                        }
+                    });
+                };
+            }(jQuery));
+            $(document).ready(function () {
+                $(".count").inputFilter(function (value) {
+                    return "^[0-9]*$".test(value);    // Allow digits only, using a RegExp
+                });
+            });
+            function Updatetotal(totalPrices = 0, totalPriceSales = 0) {
+                $(".total").find(".total-cart").html("$" + totalPrices + "-" + totalPriceSales);
+            }
+            $(document).ready(function () {
+                $('.count').prop('disabled', true);
+                $(document).on('click', '.plus', function () {
+                    var parent = $(this).parents('.item-cart-1');
+                    var id = parseInt(parent.attr('data-id'));
+                    //var totalPriceSale = getTotalSaleCost();
+                    //var totalPrice = getTotalCost();
+
+                    for (var i in cart) {
+                        var item = cart[i];
+                        if (item.Id == id) {
+                            item.Qty = item.Qty + 1;
+                            Updatetotal(totalPrices(), totalPriceSales());
+                        }
+                    }
+                    saveCart();
+                    Count();
+                    showCart();
+                });
+                $(document).on('change', '.count', function ()
+                {
+                    var parent = $(this).parents('.item-cart-1');
+                    var id = parseInt(parent.attr('data-id'));
+                    var value = parseInt($(this).val());
+
+                    if (value == null || value == '') {
+                        (this).val()
+                    } else {
+                        for (var i in cart) {
+                            var item = cart[i];
+                            if (item.Id == id) {
+                                item.Qty = value;
+                                Updatetotal(totalPrices(), totalPriceSales());
+                            }
+                        }
+                        saveCart();
+                        Count();
+                        showCart();
+                    }
+
+                })
+                $(document).on('click', '.minus', function () {
+
+                    var parent = $(this).parents('.item-cart-1');
+                    var id = parseInt(parent.attr('data-id'));
+
+                    if ($('.count').val() <= 1) {
+                        remove(id);
+                        parent.fadeOut().empty();
+                        //var totalPriceSale = getTotalSaleCost();
+                        //var totalPrice = getTotalCost();
+                        /*  Updatetotal(totalPrices(), totalPriceSales());*/
+                        var dataList = $(".product-grid6").map(function () {
+                            return $(this).data("id");
+                        })
+                        for (var i = 0; i < dataList.length; i++) {
+                            if (dataList[i] == id) {
+                                $(`.product-grid6[data-id=${dataList[i]}]`).find('.js-add-cart').removeClass('active-card');
+                            }
+
+                        }
+                        saveCart();
+                        Count();
+                        showCart();
+                    } else {
+
+
+                        for (var i in cart) {
+                            var item = cart[i];
+                            if (item.Id == id) {
+                                item.Qty = item.Qty - 1;
+                            }
+                        }
+                        //var totalPriceSale = getTotalSaleCost();
+                        //var totalPrice = getTotalCost();
+                        /*     Updatetotal(totalPrices(), totalPriceSales());*/
+                        saveCart();
+                        Count();
+                        showCart();
+                    }
+                });
+            });
+            var cart = [];
+
+
+
+            $(function () {
+                if (localStorage.cart) {
+                    // load cart data from local storage
+                    cart = JSON.parse(localStorage.cart);
+
+                    Count();
+                    showCart();  // display cart that is loaded into cart array
                 }
             });
-        };
-    }(jQuery));
-    $(document).ready(function () {
-        $(".count").inputFilter(function (value) {
-            return "^[0-9]*$".test(value);    // Allow digits only, using a RegExp
-        });
-    });
-    function Updatetotal(totalPrices = 0, totalPriceSales = 0) {
-        $(".total").find(".total-cart").html("$" + totalPrices + "-" + totalPriceSales);
-    }
-    $(document).ready(function () {
-        $('.count').prop('disabled', true);
-        $(document).on('click', '.plus', function () {
-            var parent = $(this).parents('.item-cart-1');
-            var id = parseInt(parent.attr('data-id'));
-            //var totalPriceSale = getTotalSaleCost();
-            //var totalPrice = getTotalCost();
 
-            for (var i in cart) {
-                var item = cart[i];
-                if (item.Id == id) {
-                    item.Qty = item.Qty + 1;
-                    Updatetotal(totalPrices(), totalPriceSales());
+            var addcart = function () {
+                $(this).toggleClass('active-card');
+                var parent = $(this).parents('.product-item');
+                var id = parseInt(parent.find('.product-grid6').attr('data-id'));
+                var img = parent.find('img').attr('src');
+                var title = parent.find('.title').text();
+                var price = parent.find('.price').text().slice(1);
+                var sale = parent.find('.sale').text().slice(1);
+                var item = { Id: id, Title: title, Img: img, Price: price, Sale: sale, Qty: 1 };
+                var i = cart.findIndex(cart => cart.Id === id);
+
+                if (i === -1) {
+                    cart.push(item);
+                } else {
+                    remove(id);
                 }
-            }
-            saveCart();
-            Count();
-            showCart();
-        });
-        $(document).on('change', '.count', function ()
-        {
-            var parent = $(this).parents('.item-cart-1');
-            var id = parseInt(parent.attr('data-id'));
-            var value = parseInt($(this).val()); 
-            console.log(value);
-            if (value == null || value == '') {
-                (this).val()
-            } else {
-                for (var i in cart) {
-                    var item = cart[i];
-                    if (item.Id == id) {
-                        item.Qty = value;
-                        Updatetotal(totalPrices(), totalPriceSales());
+
+                saveCart();
+                showCart();
+                Count();
+            };
+            $(document).off('click', '.js-add-cart').on('click', '.js-add-cart', addcart);
+
+
+            // getTotalSaleCost
+            var totalPriceSales = function () {
+                let totalPriceSale = 0;
+                for (var i = 0; i < cart.length; i++) {
+                    if (cart[i].Sale != "") {
+                        totalPriceSale += parseFloat(cart[i].Sale * cart[i].Qty);
+                    } else {
+                        totalPriceSale += parseFloat(cart[i].Price * cart[i].Qty);
                     }
                 }
-                saveCart();
-                Count();
-                showCart();
+                return totalPriceSale;
             }
-       
-        })
-        $(document).on('click', '.minus', function () {
+            //getTotalCost
+            var totalPrices = function () {
+                let totalPrice = 0;
+                for (var i = 0; i < cart.length; i++) {
+                    totalPrice += parseFloat(cart[i].Price * cart[i].Qty);
+                }
 
-            var parent = $(this).parents('.item-cart-1');
-            var id = parseInt(parent.attr('data-id'));
+                return totalPrice;
+            };
+            $(document).on('click', '.remove-item', function (e) {
+                var parent = $(this).parents('.item-cart-1');
+                var id = parseInt(parent.attr('data-id'));
 
-            if ($('.count').val() <= 1) {
-                remove(id);
-                parent.fadeOut().empty();
-                //var totalPriceSale = getTotalSaleCost();
-                //var totalPrice = getTotalCost();
-                /*  Updatetotal(totalPrices(), totalPriceSales());*/
                 var dataList = $(".product-grid6").map(function () {
                     return $(this).data("id");
                 })
@@ -326,177 +419,85 @@
                     }
 
                 }
-                saveCart();
+                remove(id);
+                parent.empty();
                 Count();
-                showCart();
-            } else {
+            });
+            function remove(id) {
+                var i = cart.findIndex(cart => cart.Id === id);
 
-                console.log(1);
+                if (i !== -1) {
+                    cart.splice(i, 1);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    showCart();
+                }
+
+            }
+            function Count() {
+                var count = 0;
+                for (var i = 0; i < cart.length; i++) {
+                    count += cart[i].Qty
+                }
+                $('.cart-count').html(count);
+            }
+            function saveCart() {
+                if (window.localStorage) {
+
+                    localStorage.cart = JSON.stringify(cart);
+                }
+            }
+            function showCart() {
+                //if (cart.length == 0) {
+                //    $("#cart-").css("visibility", "hidden"); // hide table that shows cart
+                //    return;
+                //}
+                $("#cart").css("visibility", "visible");
+                $("#cartBody").empty();  // empty tbody of table
                 for (var i in cart) {
                     var item = cart[i];
-                    if (item.Id == id) {
-                        item.Qty = item.Qty - 1;
+
+                    var row = `<li class="item-cart-1" data-id=${item.Id}>
+                                <div class="img-left">
+                                    <a href="../html/single.html">
+                                        <img src="${item.Img}" style="width: 100%">
+                                    </a>
+                                </div>
+                                <div class="meta-right">
+                                    <a href="javascript:void(0)" class="remove-item">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </a>
+                                         <a href="../html/single.html" class="title cart-title">${item.Title}</a>
+                                    <p>
+                                    <span class="price">${item.Price}</span>`
+                    if (item.Sale != "") {
+                        row += `-<span class="sale">$${item.Sale}</span> </p> `
+                    } else {
+                        row += `<span class="sale">${item.Sale}</span> </p>`
                     }
+                    row += `        <div>
+                                     <p class="quantity">
+                                        <span class="name">Số lượng: </span>
+                                        <span>
+                                            <div class="qty mt-1">
+                                                <span class="minus bg-dark">-</span>
+                                                <input type="number" class="count" name="qty" value="${item.Qty}" min="1" max="10">
+                                                <span class="plus bg-dark">+</span>
+                                             </div>
+                                        </span>
+                                    </p>
+                                    </div>
+
+                                </div>
+                                    </li>`;
+                    $("#cartBody").append(row);
                 }
-                //var totalPriceSale = getTotalSaleCost();
-                //var totalPrice = getTotalCost();
-                /*     Updatetotal(totalPrices(), totalPriceSales());*/
-                saveCart();
-                Count();
-                showCart();
-            }
-        });
-    });
-    var cart = [];
-
-
-
-    $(function () {
-        if (localStorage.cart) {
-            // load cart data from local storage
-            cart = JSON.parse(localStorage.cart);
-
-            Count();
-            showCart();  // display cart that is loaded into cart array
-        }
-    });
-
-    var addcart = function () {
-        $(this).toggleClass('active-card');
-        var parent = $(this).parents('.product-item');
-        var id = parseInt(parent.find('.product-grid6').attr('data-id'));
-        var img = parent.find('img').attr('src');
-        var title = parent.find('.title').text();
-        var price = parent.find('.price').text().slice(1);
-        var sale = parent.find('.sale').text().slice(1);
-        var item = { Id: id, Title: title, Img: img, Price: price, Sale: sale, Qty: 1 };
-        var i = cart.findIndex(cart => cart.Id === id);
-
-        if (i === -1) {
-            cart.push(item);
-        } else {
-            remove(id);
-        }
-
-        saveCart();
-        showCart();
-        Count();
-    };
-    $(document).off('click', '.js-add-cart').on('click', '.js-add-cart', addcart);
-
-
-    // getTotalSaleCost
-    var totalPriceSales = function () {
-        let totalPriceSale = 0;
-        for (var i = 0; i < cart.length; i++) {
-            if (cart[i].Sale != "") {
-                totalPriceSale += parseFloat(cart[i].Sale * cart[i].Qty);
-            } else {
-                totalPriceSale += parseFloat(cart[i].Price * cart[i].Qty);
-            }
-        }
-        return totalPriceSale;
-    }
-    //getTotalCost
-    var totalPrices = function () {
-        let totalPrice = 0;
-        for (var i = 0; i < cart.length; i++) {
-            totalPrice += parseFloat(cart[i].Price * cart[i].Qty);
-        }
-
-        return totalPrice;
-    };
-    $(document).on('click', '.remove-item', function (e) {
-        var parent = $(this).parents('.item-cart-1');
-        var id = parseInt(parent.attr('data-id'));
-
-        var dataList = $(".product-grid6").map(function () {
-            return $(this).data("id");
-        })
-        for (var i = 0; i < dataList.length; i++) {
-            if (dataList[i] == id) {
-                $(`.product-grid6[data-id=${dataList[i]}]`).find('.js-add-cart').removeClass('active-card');
+                Updatetotal(totalPrices(), totalPriceSales());
             }
 
-        }
-        remove(id);
-        parent.empty();
-        Count();
-    });
-    function remove(id) {
-        var i = cart.findIndex(cart => cart.Id === id);
-
-        if (i !== -1) {
-            cart.splice(i, 1);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            showCart();
-        }
-
-    }
-    function Count() {
-        var count = 0;
-        for (var i = 0; i < cart.length; i++) {
-            count += cart[i].Qty
-        }
-        $('.cart-count').html(count);
-    }
-    function saveCart() {
-        if (window.localStorage) {
-
-            localStorage.cart = JSON.stringify(cart);
-        }
-    }
-    function showCart() {
-        //if (cart.length == 0) {
-        //    $("#cart-").css("visibility", "hidden"); // hide table that shows cart
-        //    return;
-        //}
-        $("#cart").css("visibility", "visible");
-        $("#cartBody").empty();  // empty tbody of table
-        for (var i in cart) {
-            var item = cart[i];
-
-            var row = `<li class="item-cart-1" data-id=${item.Id}>
-                        <div class="img-left">
-                            <a href="../html/single.html">
-                                <img src="${item.Img}" style="width: 100%">
-                            </a>
-                        </div>
-                        <div class="meta-right">
-                            <a href="javascript:void(0)" class="remove-item">
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                            </a>
-                                 <a href="../html/single.html" class="title cart-title">${item.Title}</a>
-                            <p>
-                            <span class="price">${item.Price}</span>`
-            if (item.Sale != "") {
-                row += `-<span class="sale">$${item.Sale}</span> </p> `
-            } else {
-                row += `<span class="sale">${item.Sale}</span> </p>`
-            }
-            row += `        <div>
-                             <p class="quantity">
-                                <span class="name">Số lượng: </span>
-                                <span>
-                                    <div class="qty mt-1">
-                                        <span class="minus bg-dark">-</span>
-                                        <input type="number" class="count" name="qty" value="${item.Qty}" min="1" max="10">
-                                        <span class="plus bg-dark">+</span>
-                                     </div> 
-                                </span>
-                            </p>
-                            </div>
-                         
-                        </div>
-                            </li>`;
-            $("#cartBody").append(row);
-        }
-        Updatetotal(totalPrices(), totalPriceSales());
-    }
-
-</script>*@
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-<script>
+        </script>*@
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+    <script>
 
     $(document).ready(function () {
         addtocart();
@@ -508,15 +509,17 @@
                         var row = ``;
                         if (result != null && result != '') {
                             var cart = result;
-                            console.log(cart);
+
                         } else {
                             $("#cartBody").html('Giỏ hàng trống');
                             $(".total").find(".total-cart").html('');
                             //$(".cart-content").html('Giỏ hàng trống');
-
+                            $(".cart-count").html(`${0}`);
                             return;
+
                         }
-                        $(".cart-count").html(`(${result.length})`);
+                        var count = 0;
+                      
                         var totalPriceSales = function () {
 
                             let totalPriceSale = 0;
@@ -536,12 +539,17 @@
 
                             for (var i = 0; i < cart.length; i++) {
                                 totalPrice += parseFloat(cart[i].product.price * cart[i].quantity);
-                                console.log(cart[i].product.price * cart[i].quantity);
+
                             }
                             return totalPrice;
                         };
-                        debugger;
-                        $(".total").find(".total-cart").html("$" + totalPrices() + "-" + "$" + totalPriceSales());
+                        var Total = 0;
+                        if (totalPriceSales() > 0 ) {
+                            Total = "$" + totalPrices() + "₫" + "-" + "<del style='color: #888'>" + totalPriceSales() + " ₫"+ "</del>" 
+                        } else {
+                            Total = "$" + totalPrices() + "₫"
+                        }
+                        $(".total").find(".total-cart").html(Total);
                         for (var i = 0; i < cart.length; i++) {
                             row += `<li class="item-cart-1" data-id=${cart[i].product.id}>
                         <div class="img-left">
@@ -555,13 +563,11 @@
                             </a>
                                  <a href="/chi-tiet/${cart[i].product.slug}" class="title cart-title">${cart[i].product.title}</a>
                             <p>
-                            <span class="price">$${cart[i].product.price}</span>`
+                            <span class="price">$${cart[i].product.price } ₫</span>`
                             if (cart[i].product.sale != "" && cart[i].product.sale != null) {
-                                row += `-<span class="sale">$${cart[i].product.sale}</span> </p> `
-                            } else {
-                                row += `<span class="sale"></span> </p>`
-                            }
-                            row += `        <div>
+                                row += `- <span class="sale">${cart[i].product.sale} ₫</span> </p> `
+                            } 
+                            row += `<div>
                              <p class="quantity">
                                 <span class="name">Số lượng: </span>
                                 <span>
@@ -576,10 +582,12 @@
 
                         </div>
                             </li>`;
+                            count += cart[i].quantity 
                         }
                         $("#cartBody").html(row);
-
+                        $(".cart-count").html(`${count}`);
                       }
+
                 })
            };
             $(document).on('click', '.js-add-cart', function (event) {
@@ -639,7 +647,7 @@
             var id = parseInt(parent.attr('data-id'));
             var prev = parseInt(parent.find('input[name=qty]').data('val'));
             var value = parseInt($(this).val());
-            console.log(value);
+
             if (value >= 1 && value < 11) {
                 $.ajax({
                     type: 'POST',
@@ -669,7 +677,7 @@
             var value = parseInt(parent.find('.count').val());
             value++;
             if (value > 1 && value <= 10) {
-             
+
                 $.ajax({
                     type: 'POST',
                     url: '@Url.ActionLink("UpdateCart", "Cart")',
@@ -718,10 +726,103 @@
              }
 
 
+         });
+
+        $(".cart-togget").on("click", function (e) {
+
+            $(".cart-content").toggleClass("fadein");
+
         });
+     
+        $(".close-cart i").on("click", function () {
+            $(".cart-content").removeClass("fadein");
+        });
+
+        $('.js-add-cart').on('click', function () {
+            var cart = $('#cart');
+
+            var imgtodrag = $(this).parents('.product-grid6').find("img").eq(0);
+            if (imgtodrag) {
+                var imgclone = imgtodrag.clone()
+                    .offset({
+                        top: imgtodrag.offset().top,
+                        left: imgtodrag.offset().left
+                    })
+                    .css({
+                        'opacity': '0.5',
+                        'position': 'absolute',
+                        'height': '150px',
+                        'width': '150px',
+                        'z-index': '100'
+                    })
+                    .appendTo($('body'))
+                    .animate({
+                        'top': cart.offset().top + 10,
+                        'left': cart.offset().left + 10,
+                        'width': 50,
+                        'height': 50
+                    }, 1000, 'easeInOutExpo');
+
+                setTimeout(function () {
+                    cart.effect("shake", {
+                        times: 2
+                    }, 200);
+                }, 1500);
+
+                imgclone.animate({
+                    'width': 0,
+                    'height': 0
+                }, function () {
+                    $(this).detach()
+                });
+                setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
+            }
+
+        });
+        $('.add-cart').on('click', function () {
+            var cart = $('#cart');
+            var imgtodrag = $(this).parents('.product-details').prev(".gallery-lb").find("img").eq(0);
+            if (imgtodrag) {
+                var imgclone = imgtodrag.clone()
+                    .offset({
+                        top: imgtodrag.offset().top,
+                        left: imgtodrag.offset().left
+                    })
+                    .css({
+                        'opacity': '0.5',
+                        'position': 'absolute',
+                        'height': '150px',
+                        'width': '150px',
+                        'z-index': '100'
+                    })
+                    .appendTo($('body'))
+                    .animate({
+                        'top': cart.offset().top + 10,
+                        'left': cart.offset().left + 10,
+                        'width': 50,
+                        'height': 50
+                    }, 1000, 'easeInOutExpo');
+
+                setTimeout(function () {
+                    cart.effect("shake", {
+                        times: 2
+                    }, 200);
+                }, 1500);
+
+                imgclone.animate({
+                    'width': 0,
+                    'height': 0
+                }, function () {
+                    $(this).detach()
+                });
+                setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
+            }
+
+        });
+
     });
 
-</script>
-@RenderSection("Scripts", required: false)
+    </script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

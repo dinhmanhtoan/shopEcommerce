@@ -86,7 +86,7 @@ $('input[name=num-product]').on('change',function () {
 
 $('.btn-num-product-up').on('click', function () {
     var numProduct = Number($(this).prev().val());
-    if (numProduct > 1 && numProduct <= 9) {
+    if (numProduct >= 1 && numProduct <= 9) {
         $(this).prev().val(numProduct + 1);
     } 
 });
