@@ -11,7 +11,6 @@ namespace Model.ViewModel
         public string FirstName { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Tên")]
         public string LastName { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Email")]
         public string Email { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Số Điện Thoại")]
         public string PhoneNumber { get; set; }

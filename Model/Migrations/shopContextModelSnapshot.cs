@@ -223,11 +223,10 @@ namespace Model.Migrations
                     b.Property<string>("ApartmentNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreateOn")
+                    b.Property<DateTimeOffset?>("CreateOn")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50)
                         .IsUnicode(false);
@@ -238,7 +237,6 @@ namespace Model.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("Node")
-                        .IsRequired()
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
 
@@ -283,7 +281,7 @@ namespace Model.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("BrandId")
+                    b.Property<long?>("BrandId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("CategoryId")
@@ -607,7 +605,7 @@ namespace Model.Migrations
                             Id = 10L,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "101cd6ae-a8ef-4a37-97fd-04ac2dd630e4",
-                            CreatedOn = new DateTime(2021, 4, 26, 16, 51, 45, 759, DateTimeKind.Local).AddTicks(9236),
+                            CreatedOn = new DateTime(2021, 4, 28, 18, 28, 38, 941, DateTimeKind.Local).AddTicks(6635),
                             EmailConfirmed = false,
                             FullName = "System User",
                             Guid = new Guid("5f72f83b-7436-4221-869c-1b69b2e23aae"),
@@ -706,9 +704,7 @@ namespace Model.Migrations
                 {
                     b.HasOne("Model.Models.Brand", "Brand")
                         .WithMany("Products")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BrandId");
 
                     b.HasOne("Model.Models.Category", "Category")
                         .WithMany()

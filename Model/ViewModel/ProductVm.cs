@@ -19,6 +19,8 @@ namespace Model.ViewModel
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Thông tin Chi Tiết")]
         public string Detail { get; set; }
         public List<Category> categories { get; set; } = new List<Category>();
+        public List<Brand> brands { get; set; } = new List<Brand>();
+        public long? BrandId { get; set; }
         [Required( ErrorMessage = "Vui Lòng Nhập Giá")]
         public decimal? Price { get; set; }
         public decimal? Sale { get; set; }

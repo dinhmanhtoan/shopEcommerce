@@ -17,13 +17,15 @@ namespace Shop.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
+        private readonly IBrandService _brandService;
         private readonly shopContext _context;
-        public ProductController(ILogger<HomeController> logger, IProductService productService, ICategoryService categoryService, shopContext context)
+        public ProductController(ILogger<HomeController> logger, IProductService productService, ICategoryService categoryService, shopContext context, IBrandService brandService)
         {
             _logger = logger;
             _productService = productService;
             _categoryService = categoryService;
             _context = context;
+            _brandService = brandService;
         }
 
         [HttpGet]
@@ -34,6 +36,10 @@ namespace Shop.Controllers
             if (search.Category != null)
             {
                 query = query.Where(x => x.CategoryId == search.Category);
+            }
+            if (search.Brand != null)
+            {
+                query = query.Where(x => x.BrandId == search.Brand);
             }
             if (!string.IsNullOrEmpty(search.Sort))
             {
@@ -56,6 +62,7 @@ namespace Shop.Controllers
 
             query = query.Skip(search.PageNumber * (search.PageNumber - 1)).Take(search.PageSize);
             var category = await _categoryService.GetAll();
+            var brand = await _brandService.GetAll();
             var ProductList = new ProductList();
             foreach (var item in query)
             {
@@ -74,6 +81,7 @@ namespace Shop.Controllers
                 ProductList.products.Add(ProductThumbnail);
             }
             ProductList.categories = category;
+            ProductList.Brand = brand;
 
             return View(ProductList);
         }

@@ -16,6 +16,8 @@ namespace Model.ViewModel
         public string Detail { get; set; }
         public decimal? Price { get; set; }
         public decimal? Sale { get; set; }
+        public Brand Brand { get; set; }
+        public Category category { get; set; }
         public long? CategoryId { get; set; }
         public Media ThumbnailImage { get; set; }
         public static ProductThumbnail FromProduct(Product product)

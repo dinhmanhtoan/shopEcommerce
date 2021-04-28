@@ -183,12 +183,12 @@
                                         <div>
                                             @if (@Model.products[i].Sale > 0)
                                             {
-                                            <span class="price">$@Model.products[i].Price  ₫- </span>
+                                            <span class="price">@Model.products[i].Price  ₫- </span>
                                             <span class="sale">@Model.products[i].Sale  ₫</span>
                                             }
                                             else
                                             {
-                                             <span class="price">$@Model.products[i].Price  ₫</span>
+                                             <span class="price">@Model.products[i].Price  ₫</span>
                                             }
 
                                         </div>
@@ -196,7 +196,7 @@
                                     </div>
                                     <ul class="social">
                                         <li><a href="/chi-tiet/@Model.products[i].Slug" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                        <li><a href="" class="js-add-wishlist" data-status="true" data-id="6" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
+                                        <li><a href="javascript:void(0)" class="js-add-wishlist" data-status="true" data-id="6" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
                                         <li><a href="javascript:void(0)" class="js-add-cart" data-status="true" data-id="6" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
                                             </a></li>
                                     </ul>
@@ -253,12 +253,12 @@
                             <div>
                                 @if (@Model.products[4].Sale > 0)
                                 {
-                                    <span class="price">$@Model.products[4].Price  ₫- </span>
+                                    <span class="price">@Model.products[4].Price  ₫- </span>
                                     <span class="sale">@Model.products[4].Sale  ₫</span>
                                 }
                                 else
                                 {
-                                    <span class="price">$@Model.products[4].Price  ₫</span>
+                                    <span class="price">@Model.products[4].Price  ₫</span>
                                 }
 
                             </div>

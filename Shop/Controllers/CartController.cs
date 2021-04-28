@@ -21,6 +21,7 @@ namespace Shop.Controllers
         private readonly shopContext _context;
       //  private readonly IHttpContextAccessor _httpContextAccessor;
         public const string CARTKEY = "cart";
+        public const string WISHKEY = "wishlist";
         public CartController(ILogger<HomeController> logger, IProductService productService, ICategoryService categoryService, shopContext context//, IHttpContextAccessor httpContextAccessor
             )
         {
@@ -56,6 +57,47 @@ namespace Shop.Controllers
             }
          
             return new List<CartItem>();
+        }
+        [HttpGet]
+        public List<Product> GetWishList()
+        {
+            //read cookie from IHttpContextAccessor  
+            // var cookieValueFromContext = _httpContextAccessor.HttpContext.Request.Cookies[CARTKEY];
+            //read cookie from Request object
+            var cookieValueFromReq = Get(WISHKEY);
+            if (cookieValueFromReq != null)
+            {
+
+                var jsonConvert = JsonConvert.DeserializeObject<List<long>>(cookieValueFromReq);
+
+                //var ListId = jsonConvert.Select(x => x.Id);
+                //var product = _context.Product.Include(x => x.Images).ThenInclude(x => x.Media).Include(x => x.Thumbnail)
+                //   .Where(p => ListId.Contains(p.Id)).ToList();
+                var ListWishList = new List<Product>();
+                foreach (var item in jsonConvert)
+                {
+                    var product = _context.Product.Include(x => x.Images).ThenInclude(x => x.Media).Include(x => x.Thumbnail)
+                     .Where(p => p.Id == item).FirstOrDefault();
+                    ListWishList.Add(product);
+                };
+                return ListWishList;
+            }
+
+            return new List<Product>();
+        }
+        List<long> GetWishListItems()
+        {
+            //read cookie from IHttpContextAccessor  
+            // var cookieValueFromContext = _httpContextAccessor.HttpContext.Request.Cookies[CARTKEY];
+            //read cookie from Request object
+            var cookieValueFromReq = Get(WISHKEY);
+            if (cookieValueFromReq != null)
+            {
+                var jsonConvert = JsonConvert.DeserializeObject<List<long>>(cookieValueFromReq);
+
+                return jsonConvert;
+            }
+            return new List<long>();
         }
         List<Cart> GetCartItems()
         {
@@ -141,6 +183,68 @@ namespace Shop.Controllers
 
             return Ok();
         }
+      [HttpPost]
+        public IActionResult AddtoWishList(long productid)
+        {
+            var product = GetListProduct();
+            if (product == null)
+            {
+                return NotFound("Không có sản phẩm yêu thích");
+            }
+            var count = 0;
+            var wishList = GetWishListItems();
+            foreach (var item in wishList)
+            {
+                if (item == productid)
+                {
+                    count++;
+                }
+
+            }
+            if (count > 0)
+            {
+                return Ok();
+            }
+
+            else
+            {
+                wishList.Add(productid);
+            }
+
+            // convert sang json
+            var jsonCart =   JsonConvert.SerializeObject(wishList, new JsonSerializerSettings()
+             {
+                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+             });
+            // luu vao cookies
+            SaveCart(WISHKEY, jsonCart, 30);
+
+            return Ok();
+        }
+        [HttpPost]
+        public IActionResult RemoveWishList(long productid)
+        {
+            var count = 0;
+            var wishList = GetWishListItems();
+            foreach (var item in wishList)
+            {
+                if (item == productid)
+                {
+                    count++;
+                }
+
+            }
+            if (count > 0)
+            {
+                // Đã tồn tại, tăng thêm 1
+                wishList.Remove(productid);
+            }
+            var jsonCart = JsonConvert.SerializeObject(wishList);
+            // luu vao cookies
+            SaveCart(WISHKEY, jsonCart, 30);
+            return RedirectToAction("Cart", "Cart");
+        }
+
         [HttpPost]
         public IActionResult RemoveCart(long productid)
         {
@@ -176,6 +280,12 @@ namespace Shop.Controllers
         public IActionResult Cart()
         {
             return View(GetListProduct());
+        }
+        [HttpGet]
+        [Route("/wishlist")]
+        public IActionResult WishList()
+        {
+            return View(GetWishList());
         }
         //[Route("/checkout")]
         //public IActionResult CheckOut()
@@ -223,7 +333,6 @@ namespace Shop.Controllers
                     PhoneNumber = model.CheckoutModel.PhoneNumber,
                     AddressLine1 = model.CheckoutModel.AddressLine1,
                     AddressLine2 = model.CheckoutModel.AddressLine2,
-                    ApartmentNumber = model.CheckoutModel.ApartmentNumber,
                     Node = model.CheckoutModel.Note,
                     Status = 1,
                 };
@@ -234,6 +343,7 @@ namespace Shop.Controllers
                     {
                         ProductId = item.product.Id,
                         Quantity = item.quantity,
+                        Price = item.product.Price
                     };
 
                     OrderDetails.Add(OrderDetail);

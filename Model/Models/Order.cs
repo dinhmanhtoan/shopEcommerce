@@ -7,7 +7,7 @@ namespace Model.Models
     public class Order
     {
         public long Id { get; set; }
-        public DateTimeOffset CreateOn { set; get; }
+        public DateTimeOffset? CreateOn { set; get; }
         public string FullName { set; get; }
         public string Email { set; get; }
         public string PhoneNumber { set; get; }

@@ -38,6 +38,7 @@ namespace Shop
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IRatingServices, RatingServices>();
+            services.AddTransient<IBrandService, BrandService>();
             services.AddControllersWithViews()
                     .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

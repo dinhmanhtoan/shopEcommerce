@@ -67,73 +67,80 @@
                         <p class="price">
                             @if (Model.product.Sale > 0)
                             {
-                                <span>@Model.product.Sale.GetValueOrDefault(0).ToString("#,#.##") </span> <del>@Model.product.Price.GetValueOrDefault(0).ToString("#,#.##")</del>
+                                <span>@Model.product.Sale.GetValueOrDefault(0).ToString("#,#.##") <small>₫</small> - </span>
+                                <del class="sale">@Model.product.Price.GetValueOrDefault(0).ToString("#,#.##") <small>₫</small></del>
                             }
                             else
                             {
-                                @Model.product.Price.GetValueOrDefault(0).ToString("#,#.##")
+                            <span >
+                                @Model.product.Price.GetValueOrDefault(0).ToString("#,#.##") <small>₫</small>
+                            </span>
                             }
-                            VNĐ
+                          
                         </p>
-                        <div class="product-rating">
-                            <span class="rating star-rating"> @Model.product.Rating.Average(x => x.Scores)</span>
+                        @if (Model.product.Rating.Count > 0)
+                        {
+                            <div class="product-rating">
+                                <span class="rating star-rating">
+                                    @Model.product.Rating.Average(x => x.Scores)
+                                </span>
 
-                            <a href="#reviews" class="review-link" rel="nofollow">(<span class="count">@Model.product.Rating.Count</span> nhận xét)</a>
-                        </div>
-                        <div itemprop="description" class="short-description">
-                            <p>@Model.product.Description</p>
-                        </div>
+                                <a href="#reviews" class="review-link" rel="nofollow">(<span class="count">@Model.product.Rating.Count</span> nhận xét)</a>
+                            </div>
+                            <div itemprop="description" class="short-description">
+                                <p>@Model.product.Description</p>
+                            </div>
+                        }
+                            <!--Số lượng-->
+                            <div class="quantity">
+                                <div class="wrap-num-product">
+                                    <div class="btn-num-product-down">
+                                        <i class="fal fa-minus" aria-hidden="true"></i>
+                                    </div>
+                                    <input class="txt-center num-product" type="number" name="num-product" value="1" data-val="1">
 
-                        <!--Số lượng-->
-                        <div class="quantity">
-                            <div class="wrap-num-product">
-                                <div class="btn-num-product-down">
-                                    <i class="fal fa-minus" aria-hidden="true"></i>
+                                    <div class="btn-num-product-up">
+                                        <i class="fal fa-plus" aria-hidden="true"></i>
+                                    </div>
                                 </div>
-                                <input class="txt-center num-product" type="number" name="num-product" value="1" data-val="1">
+                            </div>
 
-                                <div class="btn-num-product-up">
-                                    <i class="fal fa-plus" aria-hidden="true"></i>
+                            <!--Thêm giỏ hàng-->
+                            <div style="display:flex; float:left; margin-top:10px ">
+                                <div class="add-cart">
+                                    <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>Thêm giỏ hàng</a>
+                                </div>
+                                <div class="checkout-cart">
+                                    <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span> Thanh To</a>
                                 </div>
                             </div>
-                        </div>
 
-                        <!--Thêm giỏ hàng-->
-                        <div style="display:flex; float:left; margin-top:10px ">
-                            <div class="add-cart" >
-                                <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>Thêm giỏ hàng</a>
+                            <div class="clearfix"></div>
+                            <div class="add-wishlist">
+                                <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
                             </div>
-                            <div class="checkout-cart" >
-                                <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>thanh toan</a>
+
+                            <div class="clearfix"></div>
+                            <div class="product-meta">
+                                <span class="product_brand">
+                                    Thương hiệu:
+                                    <a href="#"></a>
+                                </span>
+                                <span class="product_sku">
+                                    Xuất xứ:
+                                    <a href="#">N/A</a>
+                                </span>
+                                <span class="product_category">
+                                    Danh mục:
+                                    <a href="#">@Model.product.Category.Title</a>
+                                </span>
+                                <span class="product_share">
+                                    Chia sẻ:
+                                    <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                                </span>
                             </div>
+                            <div class="clearfix"></div>
                         </div>
-
-                        <div class="clearfix"></div>
-                        <div class="add-wishlist">
-                            <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
-                        </div>
-
-                        <div class="clearfix"></div>
-                        <div class="product-meta">
-                            <span class="product_brand">
-                                Thương hiệu:
-                                <a href="#"></a>
-                            </span>
-                            <span class="product_sku">
-                                Xuất xứ:
-                                <a href="#">N/A</a>
-                            </span>
-                            <span class="product_category">
-                                Danh mục:
-                                <a href="#">@Model.product.Category.Title</a>
-                            </span>
-                            <span class="product_share">
-                                Chia sẻ:
-                                <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
-                            </span>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
 
 
                 </div><!--Thông tin cơ bản-->
@@ -157,12 +164,13 @@
                                     </p>
                                     @if (Model.products[i].Sale > 0)
                                     {
-                                        <p class="price"><span>@Model.products[i].Price ₫</span> - <del>@Model.products[i].Sale</del><small>₫</small> </p>
+                                        <p class="price"><span>@Model.products[i].Price.GetValueOrDefault(0).ToString("#,#.##") ₫</span> - <del class="sale">@Model.products[i].Sale.GetValueOrDefault(0).ToString("#,#.##")</del><small>₫</small> </p>
                                     }
                                     else
                                     {
-                                        <p class="price"><span>@Model.products[i].Price ₫</span> </p>
-                                    }
+                                                         
+                                <p class="price"><span>@Model.products[i].Price.GetValueOrDefault(0).ToString("#,#.##")  <small>₫</small></span> </p>
+                                      }
                                 </div>
                             </li>
                         }

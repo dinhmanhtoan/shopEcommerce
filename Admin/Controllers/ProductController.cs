@@ -24,14 +24,17 @@ namespace Admin.Controllers
     {
         private readonly IProductService _ProductServices;
         private readonly ICategoryService _CategoryServices;
+        private readonly IBrandService _brandServices;
         private readonly IMediaService _mediaService;
         private readonly shopContext _context;
-        public ProductController(IProductService ProductServices, ICategoryService CategoryServices, IMediaService mediaService, shopContext context)
+        public ProductController(IProductService ProductServices, ICategoryService CategoryServices, IMediaService mediaService, shopContext context,
+            IBrandService brandServices)
         {
             _ProductServices = ProductServices;
             _CategoryServices = CategoryServices;
             _mediaService = mediaService;
             _context = context;
+            _brandServices = brandServices;
         }
         [HttpGet]
 
@@ -44,10 +47,12 @@ namespace Admin.Controllers
         public async Task<IActionResult> Create()
         {
             var Category = await _CategoryServices.GetAll();
+            var Brand = await _brandServices.GetAll();
             var FormProduct = new FormProduct();
             var Product = new ProductVm();
             Product.Code = stringHelper.Generate(8);
             Product.categories = Category;
+            Product.brands = Brand;
             FormProduct.Products = Product;
             return View(FormProduct);
         }
@@ -57,6 +62,7 @@ namespace Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+        
                 var Product = new Product()
                 {
                     Code = model.Products.Code,
@@ -65,6 +71,7 @@ namespace Admin.Controllers
                     Description = model.Products.Description,
                     Detail = model.Products.Detail,
                     Price = model.Products.Price,
+                    BrandId = model.Products.BrandId,
                     CategoryId = model.Products.CategoryId,
                     Sale = model.Products.Sale,
                     CreatedOn = DateTime.Now,
@@ -99,6 +106,7 @@ namespace Admin.Controllers
             var Product = await _ProductServices.getById(Id);
             var ListImage = _context.Product.Where(x => x.Id == Id).Include(x => x.Images).ThenInclude(x => x.Media).FirstOrDefault();
             var Category = await _CategoryServices.GetAll();
+            var Brand = await _brandServices.GetAll();
             var FormProduct = new FormProduct();
             var ProductVm = new ProductVm()
             {
@@ -109,6 +117,8 @@ namespace Admin.Controllers
                 Description = Product.Description,
                 Detail = Product.Detail,
                 categories = Category,
+                BrandId = Product.BrandId,
+                brands = Brand,
                 CategoryId = Product.CategoryId,
                 Price = Product.Price,
                 Sale = Product.Sale,
@@ -148,6 +158,7 @@ namespace Admin.Controllers
                 product.Description = model.Products.Description;
                 product.Detail = model.Products.Detail;
                 product.CategoryId = model.Products.CategoryId;
+                product.BrandId = model.Products.BrandId;
                 product.Price = model.Products.Price;
                 product.Sale = model.Products.Sale;
                 product.EditOn = DateTime.Now;

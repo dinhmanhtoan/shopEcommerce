@@ -45,14 +45,17 @@
                             <h3 class="side-title">Thương hiệu</h3>
                             <div class="panel panel-default">
                                 <input id="brands_input" style="display:none" type="text" name="brands">
-                                <ul>
-                                    <li><a href="" class="js-choose-brands" data-status="0"><span class="brands_icon"><i class="fa fa-square-o" aria-hidden="true"></i></span>Zara </a></li>
-                                    <li><a href="" class="js-choose-brands" data-status="0"><span class="brands_icon"><i class="fa fa-square-o" aria-hidden="true"></i></span>Nike </a></li>
-                                    <li><a href="" class="js-choose-brands" data-status="0"><span class="brands_icon"><i class="fa fa-square-o" aria-hidden="true"></i></span>Under Armour </a></li>
-                                    <li><a href="" class="js-choose-brands" data-status="0"><span class="brands_icon"><i class="fa fa-square-o" aria-hidden="true"></i></span>Adidas </a></li>
-                                    <li><a href="" class="js-choose-brands" data-status="0"><span class="brands_icon"><i class="fa fa-square-o" aria-hidden="true"></i></span>Puma</a></li>
-                                    <li><a href="" class="js-choose-brands" data-status="0"><span class="brands_icon"><i class="fa fa-square-o" aria-hidden="true"></i></span>ASICS </a></li>
-                                </ul>
+                            
+                                    @foreach (var item in Model.Brand)
+                                    {
+
+                                        <div class="form-check">
+                                            <input type="radio" class="form-check-input" id="brand-@item.Id" name="brand" value="@item.Id">
+                                            <label class="form-check-label" for="brand-@item.Id">@item.Name</label>
+                                        </div>
+                                    }
+
+
                             </div>
                         </div>
                     </div>
@@ -100,9 +103,9 @@
                                                 <div class="product-content">
                                                     <h3 class="title"><a href="#">@item.Title</a></h3>
                                                     <div >
-                                                        @if (item.Price > 0)
+                                                        @if (item.Sale > 0)
                                                         {
-                                                            <span class="price">$@item.Price.GetValueOrDefault(0).ToString("#,#.##")  ₫ - </span>
+                                                            <span class="price">@item.Price.GetValueOrDefault(0).ToString("#,#.##")  ₫ - </span>
                                                             <span class="sale">@item.Sale.GetValueOrDefault(0).ToString("#,#.##") ₫</span>
                                                         }
                                                         else
@@ -140,7 +143,9 @@
             });
             $(".sort").on('change', function () {
                 getProduct();
-                console.log(1);
+            });
+            $("input[name='brand']").off('click').on('click', function () {
+                getProduct();
             });
 
             function getProduct(category) {
@@ -169,6 +174,7 @@
                 var url = new URL(url_string);
                 var category = url.searchParams.get("category");
                 var sort = url.searchParams.get("sort");
+                var brand = url.searchParams.get("brand");
                 if (sort != undefined) {
                     var options = $(".sort option");
                     $.each(options, function (i, option) {
@@ -184,6 +190,17 @@
                     $.each(categories, function (i, item) {
                         let value = $(item).val();
                         if (value == category) {
+                            $(item).prop('checked', true);
+
+                        }
+
+                    })
+                }
+                if (brand != undefined && brand != null) {
+                    var brands = $("input[name='brand']");
+                    $.each(brands, function (i, item) {
+                        let value = $(item).val();
+                        if (value == brand) {
                             $(item).prop('checked', true);
 
                         }
