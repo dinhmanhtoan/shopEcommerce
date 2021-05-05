@@ -26,15 +26,17 @@ namespace Admin.Controllers
         private readonly ICategoryService _CategoryServices;
         private readonly IBrandService _brandServices;
         private readonly IMediaService _mediaService;
+        private readonly IOptionService _optionService;
         private readonly shopContext _context;
         public ProductController(IProductService ProductServices, ICategoryService CategoryServices, IMediaService mediaService, shopContext context,
-            IBrandService brandServices)
+            IBrandService brandServices, IOptionService optionService)
         {
             _ProductServices = ProductServices;
             _CategoryServices = CategoryServices;
             _mediaService = mediaService;
             _context = context;
             _brandServices = brandServices;
+            _optionService = optionService;
         }
         [HttpGet]
 
@@ -48,12 +50,14 @@ namespace Admin.Controllers
         {
             var Category = await _CategoryServices.GetAll();
             var Brand = await _brandServices.GetAll();
+            var option = await _optionService.GetAll();
             var FormProduct = new FormProduct();
             var Product = new ProductVm();
             Product.Code = stringHelper.Generate(8);
             Product.categories = Category;
             Product.brands = Brand;
             FormProduct.Products = Product;
+            FormProduct.ProductOption = option;
             return View(FormProduct);
         }
         [HttpPost]
@@ -77,6 +81,19 @@ namespace Admin.Controllers
                     CreatedOn = DateTime.Now,
                     //  CreatedBy = model.Title,
                 };
+                var optionIndex = 0;
+                foreach (var option in model.ProductOptionVm)
+                {
+                    Product.AddOptionValue(new ProductOptionValue
+                    {
+                        OptionId = option.Id,
+                        DisplayType = option.DisplayType,
+                        Value = JsonConvert.SerializeObject(option.Values),
+                        SortIndex = optionIndex
+                    });
+
+                    optionIndex++;
+                }
                 await SaveImage(model, Product);
                 await _ProductServices.AddProduct(Product);
                 return Redirect("/Admin/Product/Index");
@@ -103,26 +120,30 @@ namespace Admin.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> Updated(long Id)
         {
-            var Product = await _ProductServices.getById(Id);
+            var product = _context.Product.Where(x => x.Id == Id).Include(x => x.Images).ThenInclude(x => x.Media)
+                .Include(x=> x.Thumbnail)
+                                      .Include(x => x.Category)
+                                  .Include(x => x.OptionValues).ThenInclude(x => x.Option).Include(x => x.Brand).FirstOrDefault(x => x.Id == Id);
+            var option = await _optionService.GetAll();
             var ListImage = _context.Product.Where(x => x.Id == Id).Include(x => x.Images).ThenInclude(x => x.Media).FirstOrDefault();
             var Category = await _CategoryServices.GetAll();
             var Brand = await _brandServices.GetAll();
             var FormProduct = new FormProduct();
             var ProductVm = new ProductVm()
             {
-                Id = Product.Id,
-                Code = Product.Code,
-                Title = Product.Title,
-                Slug = Product.Slug,
-                Description = Product.Description,
-                Detail = Product.Detail,
+                Id = product.Id,
+                Code = product.Code,
+                Title = product.Title,
+                Slug = product.Slug,
+                Description = product.Description,
+                Detail = product.Detail,
                 categories = Category,
-                BrandId = Product.BrandId,
+                BrandId = product.BrandId,
                 brands = Brand,
-                CategoryId = Product.CategoryId,
-                Price = Product.Price,
-                Sale = Product.Sale,
-                ThumbnailImageUrl = Product.Thumbnail.FileName
+                CategoryId = product.CategoryId,
+                Price = product.Price,
+                Sale = product.Sale,
+                ThumbnailImageUrl = product.Thumbnail.FileName
             };
 
             foreach (var productMedia in ListImage.Images.Where(x => x.Media.MediaType == MediaType.Image))
@@ -135,6 +156,16 @@ namespace Admin.Controllers
                 });
             }
             FormProduct.Products = ProductVm;
+            FormProduct.ProductOption = option;
+            FormProduct.ProductOptionVm = product.OptionValues.OrderBy(x => x.SortIndex).Select(x =>
+           new ProductOptionVm
+           {
+               Id = x.OptionId,
+               Name = x.Option.Name,
+               DisplayType = x.DisplayType,
+               Values = JsonConvert.DeserializeObject<IList<ProductOptionValueVm>>(x.Value)
+           }).ToList();
+
             return View(FormProduct);
         }
         [HttpPost("{Id}")]
@@ -143,18 +174,21 @@ namespace Admin.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-            var product = _ProductServices.getById(Id).Result;
+            }               
+            var product = _context.Product.Where(x => x.Id == Id).Include(x => x.Images).ThenInclude(x => x.Media)
+                                            .Include(x=> x.Category)
+                                        .Include(x => x.OptionValues).ThenInclude(x => x.Option).Include(x => x.Brand).FirstOrDefault(x => x.Id == Id);
+            //var product = _ProductServices.getById(Id).Result;
             if (product == null)
             {
                 return NotFound();
             }
             if (ModelState.IsValid)
             {
-
+                product.Id = model.Products.Id;
                 product.Code = model.Products.Code;
                 product.Title = model.Products.Title;
-                product.Slug = model.Products.Slug;
+                product.Slug = model.Products.Slug; // bị tracking nhưng thêm result thì không bị nữa
                 product.Description = model.Products.Description;
                 product.Detail = model.Products.Detail;
                 product.CategoryId = model.Products.CategoryId;
@@ -164,6 +198,7 @@ namespace Admin.Controllers
                 product.EditOn = DateTime.Now;
            
                 await SaveImage(model, product);
+                AddOrDeleteProductOption(model, product);
                 await _ProductServices.UpdateProduct(product);
                 return Redirect("/Admin/Product/Index");
             }
@@ -284,5 +319,39 @@ namespace Admin.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
+        private void AddOrDeleteProductOption(FormProduct model, Product product)
+        {
+            var optionIndex = 0;
+            foreach (var optionVm in model.ProductOptionVm)
+            {
+                var optionValue = product.OptionValues.FirstOrDefault(x => x.OptionId == optionVm.Id);
+                if (optionValue == null)
+                {
+                    product.AddOptionValue(new ProductOptionValue
+                    {
+                        OptionId = optionVm.Id,
+                        DisplayType = optionVm.DisplayType,
+                        Value = JsonConvert.SerializeObject(optionVm.Values),
+                        SortIndex = optionIndex
+                    });
+                }
+                else
+                {
+                    optionValue.Value = JsonConvert.SerializeObject(optionVm.Values);
+                    optionValue.DisplayType = optionVm.DisplayType;
+                    optionValue.SortIndex = optionIndex;
+                }
+
+                optionIndex++;
+            }
+
+            var deletedProductOptionValues = product.OptionValues.Where(x => model.ProductOptionVm.All(vm => vm.Id != x.OptionId)).ToList();
+
+            foreach (var productOptionValue in deletedProductOptionValues)
+            {
+                product.OptionValues.Remove(productOptionValue);
+            }
+        }
+
     }
 }

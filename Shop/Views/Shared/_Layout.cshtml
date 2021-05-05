@@ -667,13 +667,28 @@
         productid: id,
         },
             success: function (result) {
-                debugger;
-            addtowishlist();
+                addtowishlist();
+               window.location.href = '@Url.ActionLink("wishlist", "cart")';
         }
         })
         });
+    
+        $(document).on('click', '.product-item', function (e) {
+            var parent = $(this).children('.product-grid6');
+        var id = parseInt(parent.attr('data-id'));
+        $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("RecentlyViewed", "Cart")',
+            data: {
+                productid: id,
+            },
+            success: function (result) {
+                console.log("click vao");
+            }
+        });
+        });
             });
-
+ 
 </script>
 
     @RenderSection("Scripts", required: false)

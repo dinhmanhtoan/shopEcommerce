@@ -152,90 +152,42 @@
             <div class="container">
                 <div class="row">
                     <h2 class="title">Sản phẩm vừa xem</h2>
-                    <div class="col-md-3 col-6 item-product">
-                        <div class="product-grid6">
-                            <div class="product-image6">
-                                <a href="#">
-                                    <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-1.jpg">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="#">Men's Shirt 1</a></h3>
-                                <div class="price">
-                                    $11.00
-                                    <span>$14.00</span>
+                    @if (Model.Viewed.Count > 0)
+                    {
+                        @foreach (var item in Model.Viewed)
+                        {
+                            <div class="col-md-3 col-6 item-product">
+                                <div class="product-grid6">
+                                    <div class="product-image6">
+                                        <a href="chi-tiet/@item.Slug">
+                                            <img class="pic-1" src="https://localhost:44360/user-content/@item.Thumbnail.FileName">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <h3 class="title"><a href="chi-tiet/@item.Slug">@item.Title</a></h3>
+                                        <div class="price">
+                                            @if (item.Sale > 0)
+                                            {
+                                                <span>@item.Sale ₫</span>
+                                                <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                                <span class="sale"><del>@item.Price ₫</del></span>
+                                            }
+                                            else
+                                            {
+                                                <span><del>@item.Price ₫</del></span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <ul class="social">
+                                        <li><a href="javascript:void(0)" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="javascript:void(0)" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
+                                        <li><a href="javascript:void(0)" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
+                                    </ul>
                                 </div>
                             </div>
-                            <ul class="social">
-                                <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                <li><a href="" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-                                <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6 item-product">
-                        <div class="product-grid6">
-                            <div class="product-image6">
-                                <a href="#">
-                                    <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-2.jpg">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="#">Women's Red Top</a></h3>
-                                <div class="price">
-                                    $8.00
-                                    <span>$12.00</span>
-                                </div>
-                            </div>
-                            <ul class="social">
-                                <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                <li><a href="" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-                                <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6 item-product">
-                        <div class="product-grid6">
-                            <div class="product-image6">
-                                <a href="#">
-                                    <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-3.jpg">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="#">Men's Shirt</a></h3>
-                                <div class="price">
-                                    $11.00
-                                    <span>$14.00</span>
-                                </div>
-                            </div>
-                            <ul class="social">
-                                <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                <li><a href="" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-                                <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6 item-product">
-                        <div class="product-grid6">
-                            <div class="product-image6">
-                                <a href="#">
-                                    <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-4.jpg">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="#">Men's Shirt</a></h3>
-                                <div class="price">
-                                    $11.00
-                                    <span>$14.00</span>
-                                </div>
-                            </div>
-                            <ul class="social">
-                                <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                <li><a href="" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-                                <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
+                        }
+                    }
+
 
 
                 </div>

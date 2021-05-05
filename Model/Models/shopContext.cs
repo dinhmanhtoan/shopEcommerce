@@ -26,8 +26,8 @@ namespace Model.Models
         public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Brand> Brand { get; set; }
-        public virtual DbSet<ProductOption> Options { get; set; }
-        public virtual DbSet<ProductOptionValue> OptionValues { get; set; }
+        public virtual DbSet<ProductOption> ProductOption { get; set; }
+        public virtual DbSet<ProductOptionValue> ProductOptionValue { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

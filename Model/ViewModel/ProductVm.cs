@@ -32,5 +32,7 @@ namespace Model.ViewModel
 
         public string ThumbnailImageUrl { get; set; }
         public IList<ProductMediaVm> ProductImages { get; set; } = new List<ProductMediaVm>();
+
+        public IList<ProductOptionVm> Options { get; set; } = new List<ProductOptionVm>();
     }
 }

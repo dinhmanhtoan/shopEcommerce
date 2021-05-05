@@ -26,13 +26,18 @@ namespace Model.Models
         public IList<OrderDetail> OrderDetails { get; set; }
         public Brand Brand { get; set; }
         public long? BrandId { get; set; }
-        public IList<ProductOptionValue> OptionValues { get; set; }
+        public IList<ProductOptionValue> OptionValues { get; set; } = new List<ProductOptionValue>();
 
 
         public void AddMedia(ProductMedia media)
         {
             media.Product = this;
             Images.Add(media);
+        }
+        public void AddOptionValue(ProductOptionValue optionValue)
+        {
+            optionValue.Product = this;
+            OptionValues.Add(optionValue);
         }
 
     }

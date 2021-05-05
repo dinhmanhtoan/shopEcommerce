@@ -896,3 +896,14 @@ I:\SoureToan\Shop\shop2\Admin\obj\Debug\netcoreapp3.1\Admin.csproj.CopyComplete
 I:\SoureToan\Shop\shop2\Admin\obj\Debug\netcoreapp3.1\Admin.dll
 I:\SoureToan\Shop\shop2\Admin\obj\Debug\netcoreapp3.1\Admin.pdb
 I:\SoureToan\Shop\shop2\Admin\obj\Debug\netcoreapp3.1\Admin.genruntimeconfig.cache
+D:\souc\source\.net\Shop2\shop2\Admin\obj\Debug\netcoreapp3.1\Razor\Views\Option\Index.cshtml.g.cs
+D:\souc\source\.net\Shop2\shop2\Admin\obj\Debug\netcoreapp3.1\Razor\Views\Option\demo.cshtml.g.cs
+D:\souc\source\.net\Shop2\shop2\Admin\obj\Debug\netcoreapp3.1\Razor\Views\Option\Create.cshtml.g.cs
+D:\souc\source\.net\Shop2\shop2\Admin\obj\Debug\netcoreapp3.1\Razor\Views\Option\Deleted.cshtml.g.cs
+D:\souc\source\.net\Shop2\shop2\Admin\obj\Debug\netcoreapp3.1\Razor\Views\Option\Updated.cshtml.g.cs
+D:\souc\source\.net\Shop2\shop2\Admin\bin\Debug\netcoreapp3.1\EntityFramework.SqlServer.dll
+D:\souc\source\.net\Shop2\shop2\Admin\bin\Debug\netcoreapp3.1\EntityFramework.dll
+D:\souc\source\.net\Shop2\shop2\Admin\bin\Debug\netcoreapp3.1\System.CodeDom.dll
+D:\souc\source\.net\Shop2\shop2\Admin\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+D:\souc\source\.net\Shop2\shop2\Admin\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\souc\source\.net\Shop2\shop2\Admin\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

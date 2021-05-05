@@ -13,12 +13,13 @@
     <!-- Custom CSS -->
     <link href="~/css/style.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     @RenderSection("styles", required: false)
+
 </head>
 <body>
     <!-- ============================================================== -->
@@ -308,7 +309,15 @@
                             <a class="sidebar-link" asp-controller="Category" asp-action="Index"
                                aria-expanded="false">
                                 <i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
-                                    Thế Loại 
+                                    Thế Loại
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" asp-controller="Option" asp-action="Index"
+                               aria-expanded="false">
+                                <i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
+                                    Thêm Lựa Chọn
                                 </span>
                             </a>
                         </li>
@@ -367,6 +376,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <!-- apps -->
     <!-- apps -->
     <script src="~/js/app-style-switcher.js"></script>

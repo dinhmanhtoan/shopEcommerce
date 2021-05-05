@@ -101,9 +101,9 @@ namespace Admin.Controllers
         public async Task<IActionResult> Updated(long Id, FormCategory model)
         {
             var Category = _CategoryServices.getById(Id);
-            Category.Id = Id;
+            Category.Id = Id; 
             Category.Code = model.Categorys.Code;
-            Category.Title = model.Categorys.Title;
+            Category.Title = model.Categorys.Title; // không bị tracking
             Category.Slug = model.Categorys.Slug;
             Category.Description = model.Categorys.Description;
             Category.EditOn = DateTime.Now;

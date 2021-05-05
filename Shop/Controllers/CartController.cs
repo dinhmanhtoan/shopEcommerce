@@ -22,6 +22,7 @@ namespace Shop.Controllers
       //  private readonly IHttpContextAccessor _httpContextAccessor;
         public const string CARTKEY = "cart";
         public const string WISHKEY = "wishlist";
+        public const string RECENTLYVIEWED = "recentlyviewed";
         public CartController(ILogger<HomeController> logger, IProductService productService, ICategoryService categoryService, shopContext context//, IHttpContextAccessor httpContextAccessor
             )
         {
@@ -84,6 +85,47 @@ namespace Shop.Controllers
             }
 
             return new List<Product>();
+        }
+        [HttpGet]
+        public List<Product> GetViewed()
+        {
+            //read cookie from IHttpContextAccessor  
+            // var cookieValueFromContext = _httpContextAccessor.HttpContext.Request.Cookies[CARTKEY];
+            //read cookie from Request object
+            var cookieValueFromReq = Get(RECENTLYVIEWED);
+            if (cookieValueFromReq != null)
+            {
+
+                var jsonConvert = JsonConvert.DeserializeObject<List<long>>(cookieValueFromReq);
+
+                //var ListId = jsonConvert.Select(x => x.Id);
+                //var product = _context.Product.Include(x => x.Images).ThenInclude(x => x.Media).Include(x => x.Thumbnail)
+                //   .Where(p => ListId.Contains(p.Id)).ToList();
+                var ListWishList = new List<Product>();
+                foreach (var item in jsonConvert)
+                {
+                    var product = _context.Product.Include(x => x.Images).ThenInclude(x => x.Media).Include(x => x.Thumbnail)
+                     .Where(p => p.Id == item).FirstOrDefault();
+                    ListWishList.Add(product);
+                };
+                return ListWishList;
+            }
+
+            return new List<Product>();
+        }
+        List<long> GetViewedItems()
+        {
+            //read cookie from IHttpContextAccessor  
+            // var cookieValueFromContext = _httpContextAccessor.HttpContext.Request.Cookies[CARTKEY];
+            //read cookie from Request object
+            var cookieValueFromReq = Get(RECENTLYVIEWED);
+            if (cookieValueFromReq != null)
+            {
+                var jsonConvert = JsonConvert.DeserializeObject<List<long>>(cookieValueFromReq);
+
+                return jsonConvert;
+            }
+            return new List<long>();
         }
         List<long> GetWishListItems()
         {
@@ -222,6 +264,43 @@ namespace Shop.Controllers
             return Ok();
         }
         [HttpPost]
+        public IActionResult RecentlyViewed(long productid)
+        {
+            var product = GetViewed();
+            if (product == null)
+            {
+                return NotFound("Không có sản phẩm yêu thích");
+            }
+            var count = 0;
+            var Viewed = GetViewedItems();
+            foreach (var item in Viewed)
+            {
+                if (item == productid)
+                {
+                    count++;
+                }
+
+            }
+            if (count > 0)
+            {
+                return Ok();
+            }
+
+            else
+            {
+                Viewed.Add(productid);
+            }
+            // convert sang json
+            var jsonCart = JsonConvert.SerializeObject(Viewed, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            // luu vao cookies
+            SaveCart(RECENTLYVIEWED, jsonCart, 30);
+
+            return Ok();
+        }
+        [HttpPost]
         public IActionResult RemoveWishList(long productid)
         {
             var count = 0;
@@ -311,8 +390,10 @@ namespace Shop.Controllers
         {
             // Xử lý khi đặt hàng
             var cart = GetListProduct();
+            var Viewed = GetViewed();
             var CheckoutViewModel = new CheckoutViewModel();
             CheckoutViewModel.CartItems = cart;
+            CheckoutViewModel.Viewed = Viewed;
           //  ViewData["cart"] = cart;
             return View(CheckoutViewModel);
         }
