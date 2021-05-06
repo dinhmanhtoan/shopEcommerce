@@ -291,11 +291,11 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions-${ListValue.length - 1}" id="inlineRadio1" value="text" checked>
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions-${ListValue.length - 1}" id="inlineRadio1" value="Text" checked>
                                             <label class="form-check-label" for="inlineRadio1">Display text</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions-${ListValue.length -1}" id="inlineRadio2" value="color">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions-${ListValue.length -1}" id="inlineRadio2" value="Color">
                                             <label class="form-check-label" for="inlineRadio2">Display color</label>
                                         </div>
                                         <input type="text" hidden name="ProductOptionVm[${index}].DisplayType" class ="DisplayType" />
@@ -341,7 +341,7 @@
                     var radioValue = parents.next(".modal").find(`input[name='inlineRadioOptions-${index}']:checked`).val();
                     for (var i in keys) {
                         var item = keys[i];
-                        if (radioValue == 'text') {
+                        if (radioValue == 'Text') {
                             html += `<label class="col-sm-3 col-md-3 control-label">   
                                     ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
                                     </label>
@@ -374,17 +374,6 @@
                         allowBlank: true,
 
                     });
-                    //if (radioValue == 'text') {
-                    //    console.log(parents.next(".modal").find('.text').attr("name")); 
-                    //    parents.next(".modal").find('.text').css("display", "block");
-                    //    parents.next(".modal").find('.DisplayType').val(radioValue);
-                    //    parents.next(".modal").find('.pick-a-color-markup').css("display", "none");
-                    
-                    //} else {
-                    //    parents.next(".modal").find('.text').css("display", "none"); 
-                    //    parents.next(".modal").find('.pick-a-color-markup').css("display", "flex");
-                    //    parents.next(".modal").find('.DisplayType').val("Color");
-                    //}
                     $(`input[name='inlineRadioOptions-${index}']`).off('change').on('change', function () {
                         var html = ``;
                         var value = $(this).val();
@@ -393,7 +382,7 @@
                         var input = $(this).parents(".modal").prev().find('input[data-role=tagsinput]').tagsinput('items');
                         for (var i in input) {
                             var item = input[i];
-                            if (value == 'text') {
+                            if (value == 'Text') {
                                 html += `<label class="col-sm-3 col-md-3 control-label">   
                                     ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
                                     </label>

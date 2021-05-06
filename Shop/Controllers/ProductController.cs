@@ -5,6 +5,7 @@ using Model.Models;
 using Model.Services;
 using Model.ViewModel;
 using Model.ViewModel.Search;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,17 +90,26 @@ namespace Shop.Controllers
         [HttpGet("chi-tiet/{slug}")]
         public async Task<IActionResult> Detail(string slug)
         {
-            var query = _context.Product.Where(x => x.Slug == slug)
+            var query = _context.Product.Include(x => x.OptionValues).ThenInclude(x=> x.Option).Where(x => x.Slug == slug)
+                .Include(x=> x.Brand)
                 .Include(x => x.Category)
                 .Include(x => x.Images).ThenInclude(x => x.Media)
                 .Include(x => x.Thumbnail)
                 .Include(x => x.Rating)
+                    
                 .First();
             var like = _context.Product.Where(x => x.CategoryId == query.CategoryId).Include(x => x.Thumbnail).ToList();
             var DetailsVm = new DetailsVm();
             DetailsVm.product = query;
             DetailsVm.products = like;
-
+            DetailsVm.ProductOptionVm = query.OptionValues.OrderBy(x => x.SortIndex).Select(x =>
+         new ProductOptionVm
+         {
+             Id = x.OptionId,
+             Name = x.Option.Name,
+             DisplayType = x.DisplayType,
+             Values = JsonConvert.DeserializeObject<IList<ProductOptionValueVm>>(x.Value)
+         }).ToList();
             return View(DetailsVm);
         }
        

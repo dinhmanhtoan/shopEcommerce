@@ -42,6 +42,7 @@ function plusSlides(n) {
 }
 
 function currentSlide(n) {
+    console.log(n);
     showSlides(slideIndex = n);
 }
 

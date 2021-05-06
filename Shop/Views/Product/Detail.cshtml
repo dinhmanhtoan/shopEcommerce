@@ -24,6 +24,16 @@
             padding: 2px 10px !important;
             background: #ddd !important;
         }
+   .optionactive {
+        border: 3px solid #000 !important;
+        opacity: 1 !important;
+        }
+ /*   .optionactive {
+        background: #ffffff;
+        opacity: 1 !important;
+        border: 3px solid #000 !important;
+    }*/
+ 
 </style>
    
 }
@@ -38,10 +48,10 @@
                     {
                         <div class="mySlides" style="display: none;">
                             <div class="numbertext">@(i+1) / @Model.product.Images.Count</div>
-                            <a class="zoom " href="https://localhost:44360/user-content/@Model.product.Images[i].Media.FileName" tabindex="0">
+                            <a class="zoom " href="https://localhost:5002/user-content/@Model.product.Images[i].Media.FileName" tabindex="0">
                                 <i class="fal fa-expand"></i>
                             </a>
-                            <img src="https://localhost:44360/user-content/@Model.product.Images[i].Media.FileName" style="width:100%">
+                            <img src="https://localhost:5002/user-content/@Model.product.Images[i].Media.FileName" style="width:100%">
                         </div>
 
                     }
@@ -52,7 +62,7 @@
                         @for (var i = 0; i < Model.product.Images.Count; i++)
                         {
                             <div class="column">
-                                <img class="demo cursor" src="https://localhost:44360/user-content/@Model.product.Images[i].Media.FileName" style="width:100%" onclick="currentSlide(1)" alt="@Model.product.Title">
+                                <img class="demo cursor" src="https://localhost:5002/user-content/@Model.product.Images[i].Media.FileName" style="width:100%" onclick="currentSlide(@i+1)" alt="@Model.product.Title">
                             </div>
 
                         }
@@ -72,11 +82,11 @@
                             }
                             else
                             {
-                            <span >
-                                @Model.product.Price.GetValueOrDefault(0).ToString("#,#.##") <small>₫</small>
-                            </span>
+                                <span>
+                                    @Model.product.Price.GetValueOrDefault(0).ToString("#,#.##") <small>₫</small>
+                                </span>
                             }
-                          
+
                         </p>
                         @if (Model.product.Rating.Count > 0)
                         {
@@ -91,56 +101,103 @@
                                 <p>@Model.product.Description</p>
                             </div>
                         }
-                            <!--Số lượng-->
-                            <div class="quantity">
-                                <div class="wrap-num-product">
-                                    <div class="btn-num-product-down">
-                                        <i class="fal fa-minus" aria-hidden="true"></i>
+
+                        @foreach (var item in Model.ProductOptionVm)
+                        {
+                            @if (item.Name == "Size")
+                                    {
+                                <div class="option">
+                                    <div >
+                                        Kích thước:
+                                        <span></span>
                                     </div>
-                                    <input class="txt-center num-product" type="number" name="num-product" value="1" data-val="1">
+                                    <ul>
+                                        @foreach (var item2 in item.Values)
+                                        {
+                                        <li>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions-@item.Id" id="inlineRadio-@item2.Key" value="@item2.Key" >
+                                                <label class="form-check-label" for="inlineRadio-@item2.Key" data-id="@item.Id">@item2.Display</label>
+                                            </div>
+                                        </li>
+                                        }
 
-                                    <div class="btn-num-product-up">
-                                        <i class="fal fa-plus" aria-hidden="true"></i>
-                                    </div>
+                                    </ul>
                                 </div>
-                            </div>
-
-                            <!--Thêm giỏ hàng-->
-                            <div style="display:flex; float:left; margin-top:10px ">
-                                <div class="add-cart">
-                                    <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>Thêm giỏ hàng</a>
-                                </div>
-                                <div class="checkout-cart">
-                                    <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span> Thanh To</a>
-                                </div>
-                            </div>
-
-                            <div class="clearfix"></div>
-                            <div class="add-wishlist">
-                                <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
-                            </div>
-
-                            <div class="clearfix"></div>
-                            <div class="product-meta">
-                                <span class="product_brand">
-                                    Thương hiệu:
-                                    <a href="#"></a>
-                                </span>
-                                <span class="product_sku">
-                                    Xuất xứ:
-                                    <a href="#">N/A</a>
-                                </span>
-                                <span class="product_category">
-                                    Danh mục:
-                                    <a href="#">@Model.product.Category.Title</a>
-                                </span>
-                                <span class="product_share">
-                                    Chia sẻ:
-                                    <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
-                                </span>
-                            </div>
-                            <div class="clearfix"></div>
+                            }
+                            else
+                            {
+                    <div class="option">
+                        <div >
+                            Màu Sắc:
+                            <span></span>
                         </div>
+                        <ul>
+                            @foreach (var item2 in item.Values)
+                            {
+                                <li >
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-@item.Id" id="inlineRadio-@item2.Key" value="@item2.Key" >
+                                        <label class="form-check-label" for="inlineRadio-@item2.Key" style="background-color:#@item2.Display;border-radius: 50%;" data-id="@item.Id"></label>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                            }
+                        }
+
+
+                        <!--Số lượng-->
+                        <div class="quantity">
+                            <div class="wrap-num-product">
+                                <div class="btn-num-product-down">
+                                    <i class="fal fa-minus" aria-hidden="true"></i>
+                                </div>
+                                <input class="txt-center num-product" type="number" name="num-product" value="1" data-val="1">
+
+                                <div class="btn-num-product-up">
+                                    <i class="fal fa-plus" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Thêm giỏ hàng-->
+                        <div style="display:flex; float:left; margin-top:10px ">
+                            <div class="add-cart">
+                                <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>Thêm giỏ hàng</a>
+                            </div>
+                            <div class="checkout-cart">
+                                <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span> Mua Ngay</a>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="add-wishlist">
+                            <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="product-meta">
+                            <span class="product_brand">
+                                Thương hiệu:
+                                <a href="#">@Model.product.Brand.Name</a>
+                            </span>
+                            <span class="product_sku">
+                                Xuất xứ:
+                                <a href="#">N/A</a>
+                            </span>
+                            <span class="product_category">
+                                Danh mục:
+                                <a href="#">@Model.product.Category.Title</a>
+                            </span>
+                            <span class="product_share">
+                                Chia sẻ:
+                                <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                            </span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
 
 
                 </div><!--Thông tin cơ bản-->
@@ -155,7 +212,7 @@
 
                             <li class="slide item" data-slide-index="@i">
                                 <div>
-                                    <a href="/chi-tiet/@Model.products[i].Slug"><img src="https://localhost:44360/user-content/@Model.products[i].Thumbnail.FileName" style="width: 70px"></a>
+                                    <a href="/chi-tiet/@Model.products[i].Slug"><img src="https://localhost:5002/user-content/@Model.products[i].Thumbnail.FileName" style="width: 70px"></a>
                                 </div>
                             
                                 <div class="product-item-right">
@@ -209,8 +266,9 @@
                     <div id="reviews" class="tab-pane fade in" role="tabpanel" style="min-height: 300px">
                         <div class="col-md-6 list-review">
                             <div class="row">
-                                <h1 class="title">Đánh giá cho sản phẩm này</h1>
+                               
                                 <div>
+                                    <h1 class="title">Đánh giá cho sản phẩm này</h1>
                                     <ul>
                                         @foreach (var rating in Model.product.Rating)
                                         {
@@ -419,5 +477,23 @@
             //init
             carousel = el.owlCarousel(carouselOptions);
         });
+        var optionvalue = @Html.Raw(Json.Serialize(Model.ProductOptionVm.ToList()));
+        for (var i in optionvalue) {
+            var item = optionvalue[i];
+            $(`input[name="inlineRadioOptions-${item.id}"]`).on('click', function () {
+                var id = $(this).next().attr("data-id");
+                var value = $(this).val();
+                $(`.form-check-label[data-id=${id}]`).removeClass('optionactive')
+                $(this).prop('checked', $(this).is(':checked')).next().addClass("optionactive");
+                $(this).parents(".option").find('span').text(value);
+            });
+        }
+        //$('#getCheckboxesButton').live('click', function (event) {
+        //    var checkboxValues = [];
+        //    $('input[type="checkbox"]:checked').each(function (index, elem) {
+        //        checkboxValues.push($(elem).val());
+        //    });
+        //    alert(checkboxValues.join(', '));
+        //});
     </script>
 }

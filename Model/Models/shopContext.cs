@@ -222,6 +222,14 @@ namespace Model.Models
                 o.Property(x => x.SortIndex).IsRequired();
                 o.HasOne(x => x.Product).WithMany(x => x.OptionValues).HasForeignKey(x => x.ProductId);
             });
+            modelBuilder.Entity<ProductOptionCombination>(o =>
+            {
+                o.HasKey(x => new { x.ProductId, x.OptionId });
+
+                o.HasOne(x => x.Product).WithMany(x => x.OptionCombinations).HasForeignKey(x => x.ProductId);
+
+                o.HasOne(x => x.Option).WithMany(x => x.OptionCombinations).HasForeignKey(x => x.OptionId);
+            });
         }
 
         // partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

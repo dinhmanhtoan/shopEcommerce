@@ -62,7 +62,7 @@ namespace Admin.Controllers
                 _CategoryServices.AddCategory(Category);
                 return Redirect("/Admin/Category/Index");
             }
-            return View();
+            return View(model);
         }
         [HttpGet]
         public IActionResult Details(long Id)

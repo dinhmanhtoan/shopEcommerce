@@ -16,6 +16,7 @@ namespace Model.Models
         public IList<ProductMedia> Images { get; set; } = new List<ProductMedia>();
         public decimal? Price { get; set; }
         public decimal? Sale { get; set; }
+        public int StockQuantity { get; set; }
         public DateTime? CreatedOn { get; set; }
         public long? CreatedBy { get; set; }
         public DateTime? EditOn { get; set; }
@@ -28,7 +29,7 @@ namespace Model.Models
         public long? BrandId { get; set; }
         public IList<ProductOptionValue> OptionValues { get; set; } = new List<ProductOptionValue>();
 
-
+     
         public void AddMedia(ProductMedia media)
         {
             media.Product = this;
@@ -39,6 +40,28 @@ namespace Model.Models
             optionValue.Product = this;
             OptionValues.Add(optionValue);
         }
+        public IList<ProductOptionCombination> OptionCombinations { get; protected set; } = new List<ProductOptionCombination>();
 
+        public void AddOptionCombination(ProductOptionCombination combination)
+        {
+            combination.Product = this;
+            OptionCombinations.Add(combination);
+        }
+        public Product Clone()
+        {
+            var product = new Product();
+            product.Code = Code;
+            product.Title = Title;
+            product.Slug = Slug;
+            product.Description = Description;
+            product.Detail = Detail;
+            product.Price = Price;
+            product.Sale = Sale;
+            product.StockQuantity = StockQuantity;
+            product.ThumbnailId = ThumbnailId;
+            product.BrandId = BrandId;
+
+            return product;
+        }
     }
 }

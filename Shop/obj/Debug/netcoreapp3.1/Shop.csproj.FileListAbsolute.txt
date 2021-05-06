@@ -870,3 +870,9 @@ I:\SoureToan\Shop\shop2\Shop\obj\Debug\netcoreapp3.1\Shop.pdb
 I:\SoureToan\Shop\shop2\Shop\obj\Debug\netcoreapp3.1\Shop.genruntimeconfig.cache
 I:\SoureToan\Shop\shop2\Shop\obj\Debug\netcoreapp3.1\Razor\Views\Cart\wishlist.cshtml.g.cs
 D:\souc\source\.net\Shop2\shop2\Shop\obj\Debug\netcoreapp3.1\Razor\Views\Cart\wishlist.cshtml.g.cs
+I:\SoureToan\Shop\shop2\Shop\bin\Debug\netcoreapp3.1\EntityFramework.SqlServer.dll
+I:\SoureToan\Shop\shop2\Shop\bin\Debug\netcoreapp3.1\EntityFramework.dll
+I:\SoureToan\Shop\shop2\Shop\bin\Debug\netcoreapp3.1\System.CodeDom.dll
+I:\SoureToan\Shop\shop2\Shop\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+I:\SoureToan\Shop\shop2\Shop\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+I:\SoureToan\Shop\shop2\Shop\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

@@ -169,8 +169,8 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">@Model.ProductOptionVm[i].Name</span>
                                     </div>
-                                    <input type="number" hidden name="ProductOptionVm[@i].Id" value="@Model.ProductOptionVm[i].Id">
-                                    <input type="text" hidden name="ProductOptionVm[@i].Name" value="@Model.ProductOptionVm[i].Name">
+                                    <input type="number" hidden asp-for="ProductOptionVm[i].Id" value="@Model.ProductOptionVm[i].Id">
+                                    <input type="text" hidden asp-for="ProductOptionVm[i].Name" value="@Model.ProductOptionVm[i].Name">
 
                                     @for (int z = 0; z < Model.ProductOptionVm[i].Values.Count; z++)
                                     {
@@ -224,7 +224,7 @@
                                                     </div>
                                                 }
 
-                                                <input type="text" hidden name="@Model.ProductOptionVm[i].DisplayType" class="DisplayType"  value="@Model.ProductOptionVm[i].DisplayType"/>
+                                                <input type="text"  asp-for="@Model.ProductOptionVm[i].DisplayType" class="DisplayType"  value="@Model.ProductOptionVm[i].DisplayType"  hidden/>
                                                 <div>
 
                                                     <div class="form-group key">
@@ -236,20 +236,20 @@
                                                             {
 
                                                                 <label class="col-sm-3 col-md-3 control-label">
-                                                                    @Model.ProductOptionVm[i].Values[j].Key<input name="@Model.ProductOptionVm[i].Values[j].Key" type="text" value="@Model.ProductOptionVm[i].Values[j].Key" hidden>
+                                                                    @Model.ProductOptionVm[i].Values[j].Key<input asp-for="@Model.ProductOptionVm[i].Values[j].Key" type="text" value="@Model.ProductOptionVm[i].Values[j].Key" hidden>
                                                                 </label>
                                                                 <div class="col-sm-9 col-md-9">
-                                                                    <input class="form-control text" name="@Model.ProductOptionVm[i].Values[j].Display" value="@Model.ProductOptionVm[i].Values[j].Display" />
+                                                                    <input class="form-control text" asp-for="@Model.ProductOptionVm[i].Values[j].Display" value="@Model.ProductOptionVm[i].Values[j].Display" />
 
                                                                 </div>
                                                             }
                                                             else
                                                             {
                                                                 <label class="col-sm-3 col-md-3 control-label">
-                                                                    @Model.ProductOptionVm[i].Values[j].Key<input name="@Model.ProductOptionVm[i].Values[j].Key" type="text" value="@Model.ProductOptionVm[i].Values[j].Key" hidden>
+                                                                    @Model.ProductOptionVm[i].Values[j].Key<input asp-for="@Model.ProductOptionVm[i].Values[j].Key" type="text" value="@Model.ProductOptionVm[i].Values[j].Key" hidden>
                                                                 </label>
                                                                 <div class="col-sm-9 col-md-9">
-                                                                    <input type="text" value="@Model.ProductOptionVm[i].Values[j].Display" name="@Model.ProductOptionVm[i].Values[j].Display" class="pick-a-color form-control ">
+                                                                    <input type="text" value="@Model.ProductOptionVm[i].Values[j].Display" asp-for="@Model.ProductOptionVm[i].Values[j].Display" class="pick-a-color form-control ">
 
                                                                 </div>
                                                             }
@@ -498,6 +498,7 @@
                 var value = parents.find(".input-group-text").text();
                 var index = ListValue.findIndex(x => x.name == value);
                 var radioValue = parents.next(".modal").find(`input[name='inlineRadioOptions-${ListValue[index].id}']:checked`).val();
+ 
                 $('input').off('itemAdded').on('itemAdded', function (event) {
                     // event.item: chứa các item
                     ListValue[index].values.push({ key: event.item, display: '' })
@@ -513,6 +514,7 @@
 
                         </div>`
                             parents.next(".modal").find('.DisplayType').val(radioValue);
+                            console.log(parents.next(".modal").find('.DisplayType').val());
                         } else {
                             html += `<label class="col-sm-3 col-md-3 control-label">
                                     ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
@@ -521,6 +523,7 @@
                             <input type="text" value="${item.display}" name="ProductOptionVm[${index}].Values[${i}].Display"  class="pick-a-color form-control ">
                         </div>`
                             parents.next(".modal").find('.DisplayType').val("Color");
+                            console.log(parents.next(".modal").find('.DisplayType').val());
                         }
 
                     }
@@ -613,6 +616,7 @@
 
                         </div>`
                             parent.find('.DisplayType').val(radioValue);
+                            console.log(parent.find('.DisplayType').val());
                         } else {
                             html += `<label class="col-sm-3 col-md-3 control-label">
                                     ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
@@ -621,6 +625,7 @@
                             <input type="text" value="${item.display}" name="ProductOptionVm[${index}].Values[${i}].Display"  class="pick-a-color form-control ">
                         </div>`
                             parent.find('.DisplayType').val("Color");
+                            console.log(parent.find('.DisplayType').val());
                         }
 
                     }
