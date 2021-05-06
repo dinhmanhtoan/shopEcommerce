@@ -10481,11 +10481,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\souc\\source\\.net\\Shop2\\shop2\\Shop\\Shop.csproj",
+      "projectUniqueName": "D:\\souc\\source\\.net\\shop3\\shop2\\Shop\\Shop.csproj",
       "projectName": "Shop",
-      "projectPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Shop\\Shop.csproj",
+      "projectPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Shop\\Shop.csproj",
       "packagesPath": "C:\\Users\\Toan\\.nuget\\packages\\",
-      "outputPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Shop\\obj\\",
+      "outputPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Shop\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Toan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -10502,8 +10502,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj": {
-              "projectPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj"
+            "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj": {
+              "projectPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj"
             }
           }
         }

@@ -10368,11 +10368,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj",
+      "projectUniqueName": "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj",
       "projectName": "Model",
-      "projectPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj",
+      "projectPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj",
       "packagesPath": "C:\\Users\\Toan\\.nuget\\packages\\",
-      "outputPath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\obj\\",
+      "outputPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Toan\\AppData\\Roaming\\NuGet\\NuGet.Config",

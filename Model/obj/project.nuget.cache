@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fOC9QI87JPnOvBKuekoFIfR1XIrFTX3NCEoi4UHOGnqeTSCFsQQuQBT51CHIdYmRzt75nh1M1jveFFFVktSfVw==",
+  "dgSpecHash": "/T5VNcdJFACoga5zXwG93Tdd+MhLJPiUp9+/FDd06mB9lsx4HSb77R0NceNCqhVg3QIz/YR7nv7zL9WMJBZkuQ==",
   "success": true,
-  "projectFilePath": "D:\\souc\\source\\.net\\Shop2\\shop2\\Model\\Model.csproj",
+  "projectFilePath": "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Toan\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Toan\\.nuget\\packages\\microsoft.aspnetcore\\2.2.0\\microsoft.aspnetcore.2.2.0.nupkg.sha512",
