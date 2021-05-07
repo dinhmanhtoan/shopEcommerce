@@ -358,7 +358,12 @@ namespace Shop.Controllers
         [HttpGet]
         public IActionResult Cart()
         {
-            return View(GetListProduct());
+            var cart = GetListProduct();
+            var Viewed = GetViewed();
+            var CheckoutViewModel = new CheckoutViewModel();
+            CheckoutViewModel.CartItems = cart;
+            CheckoutViewModel.Viewed = Viewed;
+            return View(CheckoutViewModel);
         }
         [HttpGet]
         [Route("/wishlist")]

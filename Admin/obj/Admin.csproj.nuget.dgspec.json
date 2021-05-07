@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "I:\\SoureToan\\Shop\\shop2\\Admin\\Admin.csproj": {}
+    "D:\\souc\\source\\.net\\shop3\\shop2\\Admin\\Admin.csproj": {}
   },
   "projects": {
-    "I:\\SoureToan\\Shop\\shop2\\Admin\\Admin.csproj": {
+    "D:\\souc\\source\\.net\\shop3\\shop2\\Admin\\Admin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "I:\\SoureToan\\Shop\\shop2\\Admin\\Admin.csproj",
+        "projectUniqueName": "D:\\souc\\source\\.net\\shop3\\shop2\\Admin\\Admin.csproj",
         "projectName": "Admin",
-        "projectPath": "I:\\SoureToan\\Shop\\shop2\\Admin\\Admin.csproj",
-        "packagesPath": "C:\\Users\\Thien255\\.nuget\\packages\\",
-        "outputPath": "I:\\SoureToan\\Shop\\shop2\\Admin\\obj\\",
+        "projectPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Admin\\Admin.csproj",
+        "packagesPath": "C:\\Users\\Toan\\.nuget\\packages\\",
+        "outputPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Admin\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Thien255\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Toan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -31,8 +28,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "I:\\SoureToan\\Shop\\shop2\\Model\\Model.csproj": {
-                "projectPath": "I:\\SoureToan\\Shop\\shop2\\Model\\Model.csproj"
+              "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj": {
+                "projectPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj"
               }
             }
           }
@@ -94,6 +91,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.1.13, 3.1.13]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -106,20 +117,17 @@
         }
       }
     },
-    "I:\\SoureToan\\Shop\\shop2\\Model\\Model.csproj": {
+    "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "I:\\SoureToan\\Shop\\shop2\\Model\\Model.csproj",
+        "projectUniqueName": "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj",
         "projectName": "Model",
-        "projectPath": "I:\\SoureToan\\Shop\\shop2\\Model\\Model.csproj",
-        "packagesPath": "C:\\Users\\Thien255\\.nuget\\packages\\",
-        "outputPath": "I:\\SoureToan\\Shop\\shop2\\Model\\obj\\",
+        "projectPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\Model.csproj",
+        "packagesPath": "C:\\Users\\Toan\\.nuget\\packages\\",
+        "outputPath": "D:\\souc\\source\\.net\\shop3\\shop2\\Model\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Thien255\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Toan\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -196,6 +204,16 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"

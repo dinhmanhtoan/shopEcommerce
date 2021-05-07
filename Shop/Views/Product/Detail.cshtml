@@ -179,18 +179,25 @@
 
                         <div class="clearfix"></div>
                         <div class="product-meta">
-                            <span class="product_brand">
-                                Thương hiệu:
-                                <a href="#">@Model.product.Brand.Name</a>
-                            </span>
+                            @if (Model.product.Brand != null)
+                            {
+                                <span class="product_brand">
+                                    Thương hiệu:
+                                    <a href="#">@Model.product.Brand.Name</a>
+                                </span>
+                            }
                             <span class="product_sku">
                                 Xuất xứ:
                                 <a href="#">N/A</a>
                             </span>
-                            <span class="product_category">
-                                Danh mục:
-                                <a href="#">@Model.product.Category.Title</a>
-                            </span>
+                            @if (Model.product.Category != null)
+                            {
+                                <span class="product_category">
+                                    Danh mục:
+                                    <a href="#">@Model.product.Category.Title</a>
+                                </span>
+                            }
+
                             <span class="product_share">
                                 Chia sẻ:
                                 <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
@@ -341,7 +348,6 @@
     <script>
         $(document).ready(function () {
             var el = $('.owl-carousel');
-
             var carousel;
             var carouselOptions = {
                 margin: 20,
@@ -473,8 +479,6 @@
                     updateCarousel();
                 }
             }
-
-            //init
             carousel = el.owlCarousel(carouselOptions);
         });
         var optionvalue = @Html.Raw(Json.Serialize(Model.ProductOptionVm.ToList()));

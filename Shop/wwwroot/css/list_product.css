@@ -35,9 +35,9 @@
 	display: flex;
 	margin-top: 5px;}*/
 
-	.product .title::after {
-		margin-left: 30px;
-	}
+.product .title::after {
+	margin-left: 30px;
+}
 .product-grid6 {
 	position: relative;
 	border-radius: 2px;

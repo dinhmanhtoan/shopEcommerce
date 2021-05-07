@@ -95,7 +95,6 @@
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a></li>
                                 <li class="nav-item"><a class="nav-link active" asp-controller="Product" asp-action="Index">Product</a></li>
-                                <li class="nav-item"><a class="nav-link active" asp-controller="Blog" asp-action="Index">Blog</a></li>
                                 <li class="nav-item"><a class="nav-link active" asp-controller="Contact" asp-action="Index">Contact</a></li>
                             </ul>
                         </div>
@@ -139,7 +138,7 @@
                                 </li>-->
                                 <li id="wishlist-icon">
                                     <a asp-controller="cart" asp-action="wishlist">
-                                        <i class="fal fa-heart"></i>
+                                        <i class="fa fa-heart"></i>
                                         <span class="wishlist-count"></span>
                                     </a>
                                     <input type="number" id="wishlist-count-input-mb" name="wishlist-count">
@@ -251,57 +250,54 @@
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
     @*<script src="~/js/addProduct.js"></script>*@
 <script>
-            $(document).ready(function () {
-    addtocart();
-    addtowishlist();
+     $(document).ready(function () {
+        addtocart();
+        addtowishlist();
     function addtocart() {
-    $.ajax({
-    type: 'GET',
-    url: '@Url.ActionLink("GetListProduct", "Cart")',
-    success: function (result) {
-    var row = ``;
+        $.ajax({
+        type: 'GET',
+        url: '@Url.ActionLink("GetListProduct", "Cart")',
+        success: function (result) {
+        var row = ``;
     if (result != null && result != '') {
-    var cart = result;
+         var cart = result;
 
     } else {
-    $("#cartBody").html('Giỏ hàng trống');
-    $(".total").find(".total-cart").html('');
-    //$(".cart-content").html('Giỏ hàng trống');
-    $(".cart-count").html(`${0}`);
-    return;
+        $("#cartBody").html('Giỏ hàng trống');
+             $(".total").find(".total-cart").html('');
+        //$(".cart-content").html('Giỏ hàng trống');
+            $(".cart-count").html(`${0}`);
+        return;
+        }
+            var count = 0;
+            var totalPriceSales = function () {
+            let totalPriceSale = 0;
+        for (var i = 0; i < cart.length; i++) {
 
-    }
-    var count = 0;
+        if (cart[i].Sale != "") {
+             totalPriceSale += parseFloat(cart[i].product.sale * cart[i].quantity);
+        } else {
+             totalPriceSale += parseFloat(cart[i].product.price * cart[i].quantity);
+        }
+        }
+             return totalPriceSale;
+        };
 
-    var totalPriceSales = function () {
+        var totalPrices = function () {
+        let totalPrice = 0;
 
-    let totalPriceSale = 0;
-    for (var i = 0; i < cart.length; i++) {
+        for (var i = 0; i < cart.length; i++) {
+          totalPrice += parseFloat(cart[i].product.price * cart[i].quantity);
 
-    if (cart[i].Sale != "") {
-    totalPriceSale += parseFloat(cart[i].product.sale * cart[i].quantity);
-    } else {
-    totalPriceSale += parseFloat(cart[i].product.price * cart[i].quantity);
-    }
-    }
-    return totalPriceSale;
-    };
-
-    var totalPrices = function () {
-    let totalPrice = 0;
-
-    for (var i = 0; i < cart.length; i++) {
-    totalPrice += parseFloat(cart[i].product.price * cart[i].quantity);
-
-    }
-    return totalPrice;
-    };
-    var Total = 0;
-    if (totalPriceSales() > 0) {
-    Total = "$" + totalPrices() + "₫" + "-" + "<del style='color: #888'>" + totalPriceSales() + " ₫" + "</del>"
-    } else {
-    Total = "$" + totalPrices() + "₫"
-    }
+        }
+        return totalPrice;
+        };
+             var Total = 0;
+        if (totalPriceSales() > 0) {
+            Total = "$" + totalPrices() + "<small>₫</small>" + " - " + "<del style='color: #888'>" + totalPriceSales() + " <small>₫</small>" + "</del>"
+        } else {
+            Total = "$" + totalPrices() + "<small>₫</small>"
+        }
     $(".total").find(".total-cart").html(Total);
     for (var i = 0; i < cart.length; i++) {
     row += `<li class="item-cart-1" data-id=${cart[i].product.id}>
@@ -315,13 +311,14 @@
                 <i class="fa fa-times" aria-hidden="true"></i>
             </a>
             <a href="/chi-tiet/${cart[i].product.slug}" class="title cart-title">${cart[i].product.title}</a>
-            <p>
-                <span class="price">$${cart[i].product.price} ₫</span>`
-                if (cart[i].product.sale != "" && cart[i].product.sale != null) {
-                row += `- <span class="sale">${cart[i].product.sale} ₫</span>
-            </p> `
-            }
-            row += `<div>
+            <p>`
+        if (cart[i].product.sale != "" && cart[i].product.sale != null) {
+            row += `<span class="price">${cart[i].product.sale} <small>₫</small></span>
+                    - <span class="sale">${cart[i].product.price} <small>₫</small></span>`
+        } else {
+            row += `<span class="price">${cart[i].product.price} <small>₫</small></span>`
+        }
+            row += `</p><div>
                 <p class="quantity">
                     <span class="name">Số lượng: </span>
                     <span>
@@ -336,10 +333,10 @@
 
         </div>
     </li>`;
-    count += cart[i].quantity
+       count += cart[i].quantity
     }
-    $("#cartBody").html(row);
-    $(".cart-count").html(`${count}`);
+        $("#cartBody").html(row);
+        $(".cart-count").html(`${count}`);
     }
 
     })
@@ -347,39 +344,56 @@
     $(document).on('click', '.js-add-cart', function (event) {
     event.preventDefault();
     let parent = $(this).parents('.product-item');
-    let productid = parseInt(parent.find('.product-grid6').attr('data-id'));
-
+        let productid = parseInt(parent.find('.product-grid6').attr('data-id'));
+        debugger;
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("AddToCart", "Cart")',
-    data: {
-    productid: productid,
+        type: 'POST',
+        url: '@Url.ActionLink("AddToCart", "Cart")',
+        data: {
+        productid: productid,
 
-    },
-    success: function (result) {
-    addtocart();
+        },
+        success: function (result) {
+
+        addtocart();
     //window.location.href = '@Url.ActionLink("cart", "cart")';
-    }
+          }
     })
 
     });
+         $(document).on('click', '.add-wishlist', function (event) {
+             event.preventDefault();
+             let parent = $(this).parents('.product-details');
+             let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
+                 $.ajax({
+                    type: 'POST',
+                    url: '@Url.ActionLink("AddtoWishList", "Cart")',
+                    data: {
+                    productid: productid,
+                },
+                success: function (result) {
+                    addtowishlist();
+                }
+            })
+         });
     $(document).on('click', '.add-cart', function (event) {
     event.preventDefault();
-    let parent = $(this).parents('.product-details');
-    let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
-    let quantity = parseInt(parent.find('.num-product').val());
+        let parent = $(this).parents('.product-details');
+        let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
+        let quantity = parseInt(parent.find('.num-product').val());
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("AddToCart", "Cart")',
-    data: {
-    productid: productid,
-    quantity: quantity
-    },
-    success: function (result) {
-    addtocart();
-    //window.location.href = '@Url.ActionLink("cart", "cart")';
-    }
+        type: 'POST',
+        url: '@Url.ActionLink("AddToCart", "Cart")',
+        data: {
+            productid: productid,
+            quantity: quantity
+        },
+        success: function (result) {
+            addtocart();
+        //window.location.href = '@Url.ActionLink("cart", "cart")';
+        }
     })
+
 
     });
     $(document).on('click', '.checkout-cart', function (event) {
@@ -388,16 +402,16 @@
     let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
     let quantity = parseInt(parent.find('.num-product').val());
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("AddToCart", "Cart")',
-    data: {
-    productid: productid,
-    quantity: quantity
-    },
-    success: function (result) {
-    addtocart();
-    window.location.href = '@Url.ActionLink("checkout", "cart")';
-    }
+        type: 'POST',
+        url: '@Url.ActionLink("AddToCart", "Cart")',
+        data: {
+            productid: productid,
+            quantity: quantity
+        },
+        success: function (result) {
+            addtocart();
+            window.location.href = '@Url.ActionLink("checkout", "cart")';
+        }
     })
 
     });
@@ -405,15 +419,15 @@
     var parent = $(this).parents('.item-cart-1');
     var id = parseInt(parent.attr('data-id'));
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("RemoveCart", "Cart")',
-    data: {
-    productid: id,
-    },
-    success: function (result) {
-    addtocart();
-    }
-    })
+        type: 'POST',
+        url: '@Url.ActionLink("RemoveCart", "Cart")',
+        data: {
+            productid: id,
+        },
+            success: function (result) {
+            addtocart();
+        }
+     })
     });
     $(document).on('change', '.count', function () {
     var parent = $(this).parents('.item-cart-1');
@@ -423,19 +437,19 @@
 
     if (value >= 1 && value < 11) {
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("UpdateCart", "Cart")',
-    data: {
-    productid: id,
-    quantity: value,
-    },
-    success: function (result) {
-    addtocart();
-    }
+        type: 'POST',
+        url: '@Url.ActionLink("UpdateCart", "Cart")',
+        data: {
+        productid: id,
+        quantity: value,
+        },
+        success: function (result) {
+        addtocart();
+        }
     });
     } else {
-    alert("Số lượng tối thiểu là 1 và tối đa là 10")
-    parent.find('input[name=qty]').val(prev);
+        alert("Số lượng tối thiểu là 1 và tối đa là 10")
+        parent.find('input[name=qty]').val(prev);
     }
     })
     $(document).on('click', '.plus', function () {
@@ -447,53 +461,51 @@
     if (value > 1 && value <= 10) {
 
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("UpdateCart", "Cart")',
-    data: {
-    productid: id,
-    quantity: value,
-    },
-    success: function (result) {
-    addtocart();
-    }
-    });
-    } else {
-    alert("Không Quá 10 Sản Phẩm");
-    }
+        type: 'POST',
+        url: '@Url.ActionLink("UpdateCart", "Cart")',
+        data: {
+        productid: id,
+        quantity: value,
+        },
+        success: function (result) {
+        addtocart();
+        }
+        });
+        } else {
+        alert("Không Quá 10 Sản Phẩm");
+        }
 
 
     });
     $(document).on('click', '.minus', function () {
-    var parent = $(this).parents('.item-cart-1');
-    var id = parseInt(parent.attr('data-id'));
-    var value = parseInt(parent.find('.count').val());
-    if (value == 1) {
-    $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("RemoveCart", "Cart")',
-    data: {
-    productid: id,
-    },
-    success: function (result) {
-    addtocart();
+        var parent = $(this).parents('.item-cart-1');
+        var id = parseInt(parent.attr('data-id'));
+        var value = parseInt(parent.find('.count').val());
+        if (value == 1) {
+            $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("RemoveCart", "Cart")',
+            data: {
+            productid: id,
+            },
+            success: function (result) {
+            addtocart();
+            }
+        });
+        } else {
+        value--;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("UpdateCart", "Cart")',
+            data: {
+            productid: id,
+            quantity: value,
+            },
+            success: function (result) {
+            addtocart();
+            }
+        });
     }
-    });
-    } else {
-    value--;
-    $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("UpdateCart", "Cart")',
-    data: {
-    productid: id,
-    quantity: value,
-    },
-    success: function (result) {
-    addtocart();
-    }
-    });
-    }
-
-
     });
     $(".cart-togget").on("click", function (e) {
 
@@ -545,154 +557,268 @@
 
     });
     $('.add-cart').on('click', function () {
-    var cart = $('#cart');
-    var imgtodrag = $(this).parents('.product-details').prev(".gallery-lb").find("img").eq(0);
-    if (imgtodrag) {
-    var imgclone = imgtodrag.clone()
-    .offset({
-    top: imgtodrag.offset().top,
-    left: imgtodrag.offset().left
-    })
-    .css({
-    'opacity': '0.5',
-    'position': 'absolute',
-    'height': '150px',
-    'width': '150px',
-    'z-index': '100'
-    })
-    .appendTo($('body'))
-    .animate({
-    'top': cart.offset().top + 10,
-    'left': cart.offset().left + 10,
-    'width': 50,
-    'height': 50
-    }, 1000, 'easeInOutExpo');
-
-    setTimeout(function () {
-    cart.effect("shake", {
-    times: 2
-    }, 200);
-    }, 1500);
-
-    imgclone.animate({
-    'width': 0,
-    'height': 0
-    }, function () {
-    $(this).detach()
-    });
-    setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
-    }
-
-    });
-    $('.js-add-wishlist').on('click', function () {
-    var cart = $('#wishlist-icon');
-    var imgtodrag = $(this).parents('.product-grid6').find("img").eq(0);
-    if (imgtodrag) {
-    var imgclone = imgtodrag.clone()
-    .offset({
-    top: imgtodrag.offset().top,
-    left: imgtodrag.offset().left
-    })
-    .css({
-    'opacity': '0.5',
-    'position': 'absolute',
-    'height': '150px',
-    'width': '150px',
-    'z-index': '100'
-    })
-    .appendTo($('body'))
-    .animate({
-    'top': cart.offset().top + 10,
-    'left': cart.offset().left + 10,
-    'width': 50,
-    'height': 50
-    }, 1000, 'easeInOutExpo');
-
-    setTimeout(function () {
-    cart.effect("shake", {
-    times: 2
-    }, 200);
-    }, 1500);
-
-    imgclone.animate({
-    'width': 0,
-    'height': 0
-    }, function () {
-    $(this).detach()
-    });
-    }
-
-    });
-    $(document).on('click', '.js-add-wishlist', function (event) {
-    event.preventDefault();
-    let parent = $(this).parents('.product-item');
-    let productid = parseInt(parent.find('.product-grid6').attr('data-id'));
-
-    $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("AddtoWishList", "Cart")',
-    data: {
-    productid: productid,
-    },
-    success: function (result) {
-        addtowishlist();
-    //window.location.href = '@Url.ActionLink("cart", "cart")';
-    }
-    })
-
-    });
-    function addtowishlist() {
-    $.ajax({
-    type: 'GET',
-    url: '@Url.ActionLink("GetWishList", "Cart")',
-    success: function (result) {
-        var count = 0;
-    if (result != null && result != '') {
-    count = result.length;
-    } else {
-    $(".wishlist-count").html(`${0}`);
-    return;
-    }
-    $(".wishlist-count").html(`${count}`);
-    }
-    })
-                };
-  $(document).on('click', '.remove-wishlish', function (e) {
-      var parent = $(this).parents('.product-grid6');
-        var id = parseInt(parent.attr('data-id'));
-        $.ajax({
-        type: 'POST',
-        url: '@Url.ActionLink("RemoveWishList", "Cart")',
-        data: {
-        productid: id,
-        },
-            success: function (result) {
-                addtowishlist();
-               window.location.href = '@Url.ActionLink("wishlist", "cart")';
-        }
+        var cart = $('#cart');
+        var imgtodrag = $(this).parents('.product-details').prev(".gallery-lb").find("img").eq(0);
+        if (imgtodrag) {
+        var imgclone = imgtodrag.clone()
+        .offset({
+            top: imgtodrag.offset().top,
+            left: imgtodrag.offset().left
         })
+        .css({
+            'opacity': '0.5',
+            'position': 'absolute',
+            'height': '150px',
+            'width': '150px',
+            'z-index': '100'
+        })
+        .appendTo($('body'))
+        .animate({
+            'top': cart.offset().top + 10,
+            'left': cart.offset().left + 10,
+            'width': 50,
+            'height': 50
+        }, 1000, 'easeInOutExpo');
+
+        setTimeout(function () {
+            cart.effect("shake", {
+            times: 2
+        }, 200);
+        }, 1500);
+
+        imgclone.animate({
+            'width': 0,
+            'height': 0
+        }, function () {
+        $(this).detach()
         });
-    
-        $(document).on('click', '.product-item', function (e) {
-            var parent = $(this).children('.product-grid6');
-        var id = parseInt(parent.attr('data-id'));
+        setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
+        }
+
+    });
+    $('.add-wishlist').on('click', function () {
+             var wishlist = $('#wishlist-icon');
+            var imgtodrag = $(this).parents('.product-details').prev(".gallery-lb").find("img").eq(0);
+            if (imgtodrag) {
+                var imgclone = imgtodrag.clone()
+                    .offset({
+                        top: imgtodrag.offset().top,
+                        left: imgtodrag.offset().left
+                    })
+                    .css({
+                        'opacity': '0.5',
+                        'position': 'absolute',
+                        'height': '150px',
+                        'width': '150px',
+                        'z-index': '100'
+                    })
+                    .appendTo($('body'))
+                    .animate({
+                        'top': wishlist.offset().top + 10,
+                        'left': wishlist.offset().left + 10,
+                        'width': 50,
+                        'height': 50
+                    }, 1000, 'easeInOutExpo');
+
+                setTimeout(function () {
+                    wishlist.effect("shake", {
+                        times: 2
+                    }, 200);
+                }, 1500);
+
+                imgclone.animate({
+                    'width': 0,
+                    'height': 0
+                }, function () {
+                    $(this).detach()
+                });
+                setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
+            }
+
+        });
+     
+           
+   
+
+    @*$(document).on('click', '.js-add-wishlist', function (event) {
+        event.preventDefault();
+        let parent = $(this).parents('.product-item');
+        let productid = parseInt(parent.find('.product-grid6').attr('data-id'));
         $.ajax({
             type: 'POST',
-            url: '@Url.ActionLink("RecentlyViewed", "Cart")',
+            url: '@Url.ActionLink("AddtoWishList", "Cart")',
             data: {
-                productid: id,
+            productid: productid,
             },
             success: function (result) {
-                console.log("click vao");
+                addtowishlist();
+            //window.location.href = '@Url.ActionLink("cart", "cart")';
+            }
+        })
+    });*@
+
+$(document).on('click', '.remove-wishlish', function (e) {
+    var parent = $(this).parents('.product-grid6');
+    var id = parseInt(parent.attr('data-id'));
+    $.ajax({
+    type: 'POST',
+    url: '@Url.ActionLink("RemoveWishList", "Cart")',
+    data: {
+    productid: id,
+    },
+        success: function (result) {
+            addtowishlist();
+            window.location.href = '@Url.ActionLink("wishlist", "cart")';
+    }
+    })
+});
+$(document).on('click', '.product-item', function (e) {
+    var parent = $(this).children('.product-grid6');
+    var id = parseInt(parent.attr('data-id'));
+    $.ajax({
+        type: 'POST',
+        url: '@Url.ActionLink("RecentlyViewed", "Cart")',
+        data: {
+            productid: id,
+        },
+        success: function (result) {
+            console.log("click vao");
+        }
+    });
+    });
+});
+  //add to wishList
+$('.js-add-wishlist').on('click',function(e){
+    e.preventDefault();
+    var productid = parseInt($(this).data('id'));//ID sản phẩm
+   
+    var status = $(this).data('status');
+    if (status) {
+        $(this).addClass('active_item');
+        $(this).data('status', false);
+        $(this).attr('data-tip', 'REMOVE WISHLIST');
+        animation(this);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("AddtoWishList", "Cart")',
+            data: {
+                productid: productid,
+            },
+            success: function (result) {
+                addtowishlist();
             }
         });
+    } else {
+        $(this).removeClass('active_item');
+        $(this).data('status', true);
+        $(this).attr('data-tip', 'ADD TO WISHLIST');
+          $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("RemoveWishList", "Cart")',
+            data: {
+                productid: productid,
+            },
+            success: function (result) {
+                addtowishlist();
+               // window.location.href = '@Url.ActionLink("wishlist", "cart")';
+            }
         });
+
+        }
+});
+function addtowishlist() {
+    $.ajax({
+        type: 'GET',
+        url: '@Url.ActionLink("GetWishList", "Cart")',
+        success: function (result) {
+            var count = 0;
+            if (result != null && result != '') {
+                count = result.length;
+           
+            } else {
+                $(".wishlist-count").html(`${0}`);
+                //$("#wishlist-icon .fa-heart").css("color","");
+                return;
+            }
+            $(".wishlist-count").html(`${count}`);
+            $("#wishlist-icon .fa-heart").css("color", "#080000 !important");
+        }
+    });
+    };
+   //add to cart
+function animation(e) {
+        var wishlist = $('#wishlist-icon');
+        var imgtodrag = $(e).parents('.product-grid6').find("img").eq(0);
+        if (imgtodrag) {
+            var imgclone = imgtodrag.clone()
+                .offset({
+                    top: imgtodrag.offset().top,
+                    left: imgtodrag.offset().left
+                })
+                .css({
+                    'opacity': '0.5',
+                    'position': 'absolute',
+                    'height': '150px',
+                    'width': '150px',
+                    'z-index': '100'
+                })
+                .appendTo($('body'))
+                .animate({
+                    'top': wishlist.offset().top + 10,
+                    'left': wishlist.offset().left + 10,
+                    'width': 50,
+                    'height': 50
+                }, 1000, 'easeInOutExpo');
+
+            setTimeout(function () {
+                wishlist.effect("shake", {
+                    times: 2
+                }, 200);
+            }, 1500);
+            imgclone.animate({
+                'width': 0,
+                'height': 0
+            }, function () {
+                $(this).detach()
             });
- 
+        }
+    }
+$('.js-add-cart').on('click', function (e) {
+    e.preventDefault();
+    var productid = parseInt($(this).data('id')); //ID sản phẩm
+    var status = $(this).data('status');
+    if (status) {
+        $(this).addClass('ACTIVE_ITEM');
+        $(this).data('status', false);
+        $(this).attr('data-tip', 'REMOVE Cart');
+        $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("AddToCart", "Cart")',
+            data: {
+                productid: productid,
+            },
+            success: function (result) {
+                addtocart();
+            }
+        });
+    } else {
+        $(this).removeClass('ACTIVE_ITEM');
+        $(this).data('STATUS', true);
+        $(this).attr('data-tip', 'ADD TO Cart');
+        $.ajax({
+        type: 'POST',
+        url: '@Url.ActionLink("RemoveCart", "Cart")',
+        data: {
+            productid: id,
+        },
+            success: function (result) {
+            addtocart();
+        }
+     })
+    }
+
+});
 </script>
-
     @RenderSection("Scripts", required: false)
-
-
 </body>
 </html>
