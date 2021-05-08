@@ -15,7 +15,7 @@ namespace Model.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.13")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -255,19 +255,26 @@ namespace Model.Migrations
 
             modelBuilder.Entity("Model.Models.OrderDetail", b =>
                 {
-                    b.Property<long>("OrderId")
-                        .HasColumnType("bigint");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("ProductId")
+                    b.Property<long>("OrderId")
                         .HasColumnType("bigint");
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("Quantity")
                         .HasColumnType("bigint");
 
-                    b.HasKey("OrderId", "ProductId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
@@ -366,12 +373,42 @@ namespace Model.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("Name")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Options");
+                    b.ToTable("ProductOption");
+                });
+
+            modelBuilder.Entity("Model.Models.ProductOptionCombination", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("OptionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("SortIndex")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(450)")
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OptionId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductOptionCombination");
                 });
 
             modelBuilder.Entity("Model.Models.ProductOptionValue", b =>
@@ -404,7 +441,7 @@ namespace Model.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OptionValues");
+                    b.ToTable("ProductOptionValue");
                 });
 
             modelBuilder.Entity("Model.Models.Rating", b =>
@@ -605,7 +642,7 @@ namespace Model.Migrations
                             Id = 10L,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "101cd6ae-a8ef-4a37-97fd-04ac2dd630e4",
-                            CreatedOn = new DateTime(2021, 4, 29, 23, 26, 57, 335, DateTimeKind.Local).AddTicks(6332),
+                            CreatedOn = new DateTime(2021, 5, 7, 18, 39, 18, 329, DateTimeKind.Local).AddTicks(7761),
                             EmailConfirmed = false,
                             FullName = "System User",
                             Guid = new Guid("5f72f83b-7436-4221-869c-1b69b2e23aae"),
@@ -724,6 +761,21 @@ namespace Model.Migrations
                     b.HasOne("Model.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("Model.Models.ProductOptionCombination", b =>
+                {
+                    b.HasOne("Model.Models.ProductOption", "Option")
+                        .WithMany("OptionCombinations")
+                        .HasForeignKey("OptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Models.Product", "Product")
+                        .WithMany("OptionCombinations")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Model.Models.ProductOptionValue", b =>

@@ -179,18 +179,25 @@
 
                         <div class="clearfix"></div>
                         <div class="product-meta">
-                            <span class="product_brand">
-                                Thương hiệu:
-                                <a href="#">@Model.product.Brand.Name</a>
-                            </span>
+                            @if (Model.product.Brand != null)
+                            {
+                                <span class="product_brand">
+                                    Thương hiệu:
+                                    <a href="#">@Model.product.Brand.Name</a>
+                                </span>
+                            }
                             <span class="product_sku">
                                 Xuất xứ:
                                 <a href="#">N/A</a>
                             </span>
-                            <span class="product_category">
-                                Danh mục:
-                                <a href="#">@Model.product.Category.Title</a>
-                            </span>
+                            @if (Model.product.Category != null)
+                            {
+                                <span class="product_category">
+                                    Danh mục:
+                                    <a href="#">@Model.product.Category.Title</a>
+                                </span>
+                            }
+
                             <span class="product_share">
                                 Chia sẻ:
                                 <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
@@ -341,7 +348,6 @@
     <script>
         $(document).ready(function () {
             var el = $('.owl-carousel');
-
             var carousel;
             var carouselOptions = {
                 margin: 20,
@@ -473,9 +479,8 @@
                     updateCarousel();
                 }
             }
-
-            //init
             carousel = el.owlCarousel(carouselOptions);
+
         });
         var optionvalue = @Html.Raw(Json.Serialize(Model.ProductOptionVm.ToList()));
         for (var i in optionvalue) {
@@ -495,5 +500,124 @@
         //    });
         //    alert(checkboxValues.join(', '));
         //});
+    $(document).ready(function () {
+        $('.add-cart').on('click', function () {
+        var cart = $('#cart');
+        var imgtodrag = $(this).parents('.product-details').prev(".gallery-lb").find("img").eq(0);
+        if (imgtodrag) {
+        var imgclone = imgtodrag.clone()
+        .offset({
+            top: imgtodrag.offset().top,
+            left: imgtodrag.offset().left
+        })
+        .css({
+            'opacity': '0.5',
+            'position': 'absolute',
+            'height': '150px',
+            'width': '150px',
+            'z-index': '100'
+        })
+        .appendTo($('body'))
+        .animate({
+            'top': cart.offset().top + 10,
+            'left': cart.offset().left + 10,
+            'width': 50,
+            'height': 50
+        }, 1000, 'easeInOutExpo');
+
+        setTimeout(function () {
+            cart.effect("shake", {
+            times: 2
+        }, 200);
+        }, 1500);
+
+        imgclone.animate({
+            'width': 0,
+            'height': 0
+        }, function () {
+        $(this).detach()
+        });
+        setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
+        }
+
+    });
+    $(document).on('click', '.add-cart', function (event) {
+    event.preventDefault();
+        let parent = $(this).parents('.product-details');
+        let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
+        let quantity = parseInt(parent.find('.num-product').val());
+    $.ajax({
+        type: 'POST',
+        url: '@Url.ActionLink("AddToCart", "Cart")',
+        data: {
+            productid: productid,
+            quantity: quantity
+        },
+        success: function (result) {
+            addtocart();
+        //window.location.href = '@Url.ActionLink("cart", "cart")';
+        }
+    })
+
+
+    });
+    $('.add-wishlist').on('click', function () {
+             var wishlist = $('#wishlist-icon');
+            var imgtodrag = $(this).parents('.product-details').prev(".gallery-lb").find("img").eq(0);
+            if (imgtodrag) {
+                var imgclone = imgtodrag.clone()
+                    .offset({
+                        top: imgtodrag.offset().top,
+                        left: imgtodrag.offset().left
+                    })
+                    .css({
+                        'opacity': '0.5',
+                        'position': 'absolute',
+                        'height': '150px',
+                        'width': '150px',
+                        'z-index': '100'
+                    })
+                    .appendTo($('body'))
+                    .animate({
+                        'top': wishlist.offset().top + 10,
+                        'left': wishlist.offset().left + 10,
+                        'width': 50,
+                        'height': 50
+                    }, 1000, 'easeInOutExpo');
+
+                setTimeout(function () {
+                    wishlist.effect("shake", {
+                        times: 2
+                    }, 200);
+                }, 1500);
+
+                imgclone.animate({
+                    'width': 0,
+                    'height': 0
+                }, function () {
+                    $(this).detach()
+                });
+                setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
+            }
+
+    });
+    $(document).on('click', '.add-wishlist', function (event) {
+        event.preventDefault();
+        let parent = $(this).parents('.product-details');
+        let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
+            $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("AddtoWishList", "Cart")',
+            data: {
+            productid: productid,
+        },
+        success: function (result) {
+            addtowishlist();
+        }
+    })
+    });
+        });
+  // Product Details Add and Remove
+
     </script>
 }

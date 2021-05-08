@@ -358,7 +358,12 @@ namespace Shop.Controllers
         [HttpGet]
         public IActionResult Cart()
         {
-            return View(GetListProduct());
+            var cart = GetListProduct();
+            var Viewed = GetViewed();
+            var CheckoutViewModel = new CheckoutViewModel();
+            CheckoutViewModel.CartItems = cart;
+            CheckoutViewModel.Viewed = Viewed;
+            return View(CheckoutViewModel);
         }
         [HttpGet]
         [Route("/wishlist")]
@@ -403,9 +408,9 @@ namespace Shop.Controllers
         public IActionResult CheckOut(CheckoutViewModel model)
         {
             var cart = GetListProduct();
+            var Viewed = GetViewed();
             if (ModelState.IsValid)
             {
-       
                 var Order = new Order()
                 {
                     CreateOn = DateTime.Now,
@@ -433,11 +438,15 @@ namespace Shop.Controllers
                 _context.Orders.Add(Order);
                 _context.SaveChanges();
                 ClearCart();
-                return RedirectToAction("Index", "Product");
+                return RedirectToAction("checkoutSuccess");
             }
             model.CartItems = cart;
+            model.Viewed = Viewed;
             return View(model);
-
+        }
+        public IActionResult checkoutSuccess()
+        {
+            return View();
         }
     }
 }

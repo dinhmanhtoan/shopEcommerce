@@ -15,24 +15,24 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-7">
-                        <form asp-action="Checkout" method="post" class="checkout-adress" >
+                        <form asp-action="Checkout" method="post" class="checkout-adress">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <h3>Thông tin cơ bản</h3>
-                                <div class="form-group">
-                                    <span class="first-name">
-                                        <label asp-for="@Model.CheckoutModel.FirstName" class="control-label"></label>
-                                        <span>*</span>
-                                        <input asp-for="@Model.CheckoutModel.FirstName " type="text" class="form-control " required />
-                                        <span asp-validation-for="@Model.CheckoutModel.FirstName" class="text-danger"></span>
-                                    </span>
-                                        <span class="last-name">
-                                            <label asp-for="@Model.CheckoutModel.LastName" class="control-label"></label>
-                                            <span>*</span>
-                                            <input asp-for="@Model.CheckoutModel.LastName" type="text" class="form-control" required />
-                                            <span asp-validation-for="@Model.CheckoutModel.LastName" class="text-danger"></span>
-                                        </span>
-                                    </div>
-                           <div class="clearfix"></div>
+                            <div class="form-group">
+                                <span class="first-name">
+                                    <label asp-for="@Model.CheckoutModel.FirstName" class="control-label"></label>
+                                    <span>*</span>
+                                    <input asp-for="@Model.CheckoutModel.FirstName " type="text" class="form-control " required />
+                                    <span asp-validation-for="@Model.CheckoutModel.FirstName" class="text-danger"></span>
+                                </span>
+                                <span class="last-name">
+                                    <label asp-for="@Model.CheckoutModel.LastName" class="control-label"></label>
+                                    <span>*</span>
+                                    <input asp-for="@Model.CheckoutModel.LastName" type="text" class="form-control" required />
+                                    <span asp-validation-for="@Model.CheckoutModel.LastName" class="text-danger"></span>
+                                </span>
+                            </div>
+                            <div class="clearfix"></div>
                             <div class="form-group">
                                 <label asp-for="@Model.CheckoutModel.PhoneNumber" class="control-label"></label>
                                 <span>*</span>
@@ -64,7 +64,9 @@
 
                         </form>
                         <hr>
-                        <a class="return-shop" href="#"><i class="fa fa-angle-left" aria-hidden="true"></i> Tiếp tục mua hàng </a>
+                        <span style="float:right"> * trường này là bắt buộc</span>
+                        <a class="return-shop" asp-controller="Product" asp-action="Index"><i class="fa fa-angle-left" aria-hidden="true"></i> Tiếp tục mua hàng </a>
+
                     </div>
                         <div class="col-md-5 total">
                             <div class="box">
@@ -165,7 +167,7 @@
                                     </div>
                                     <div class="product-content">
                                         <h3 class="title"><a href="chi-tiet/@item.Slug">@item.Title</a></h3>
-                                        <div class="price">
+                                        <div >
                                             @if (item.Sale > 0)
                                             {
                                                 <span>@item.Sale ₫</span>
@@ -179,9 +181,9 @@
                                         </div>
                                     </div>
                                     <ul class="social">
-                                        <li><a href="javascript:void(0)" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                        <li><a href="javascript:void(0)" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-                                        <li><a href="javascript:void(0)" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
+                                        <li><a href="/chi-tiet/@item.Slug" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="" class="js-add-wishlist" data-status="true" data-id="6" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
+                                        <li><a href="" class="js-add-cart" data-status="true" data-id="6" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
                                     </ul>
                                 </div>
                             </div>

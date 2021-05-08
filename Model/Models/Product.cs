@@ -16,7 +16,7 @@ namespace Model.Models
         public IList<ProductMedia> Images { get; set; } = new List<ProductMedia>();
         public decimal? Price { get; set; }
         public decimal? Sale { get; set; }
-        public int StockQuantity { get; set; }
+        //public int StockQuantity { get; set; }
         public DateTime? CreatedOn { get; set; }
         public long? CreatedBy { get; set; }
         public DateTime? EditOn { get; set; }
@@ -57,7 +57,7 @@ namespace Model.Models
             product.Detail = Detail;
             product.Price = Price;
             product.Sale = Sale;
-            product.StockQuantity = StockQuantity;
+            //product.StockQuantity = StockQuantity;
             product.ThumbnailId = ThumbnailId;
             product.BrandId = BrandId;
 
