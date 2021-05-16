@@ -19,7 +19,9 @@ namespace Model.ViewModel
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Thông tin Chi Tiết")]
         public string Detail { get; set; }
         public List<Category> categories { get; set; } = new List<Category>();
+        public Category Category { get; set; }
         public List<Brand> brands { get; set; } = new List<Brand>();
+        public Brand Brand { get; set; } 
         public long? BrandId { get; set; }
         [Required( ErrorMessage = "Vui Lòng Nhập Giá")]
         public decimal? Price { get; set; }
@@ -29,10 +31,11 @@ namespace Model.ViewModel
         public DateTime? EditOn { get; set; }
         public long? EditBy { get; set; }
         public long? CategoryId { get; set; }
+        public IList<Rating> Rating { get; set; } = new List<Rating>();
 
         public string ThumbnailImageUrl { get; set; }
         public IList<ProductMediaVm> ProductImages { get; set; } = new List<ProductMediaVm>();
-
+        public IList<ProductOptionVm> ProductOptionVm { get; set; } = new List<ProductOptionVm>();
         public IList<ProductOptionVm> Options { get; set; } = new List<ProductOptionVm>();
     }
 }

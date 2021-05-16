@@ -40,8 +40,15 @@ using Model.ViewModel;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 5 "D:\souc\source\.net\shop3\shop2\Shop\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"e2ed374a0d6768d1726c93000c0633637bcae9a1", @"/Views/Shared/Components/ProductByCategory/Default.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fe425b70ed0e4808eadefa6fc69a5d5cbf4cc194", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b236bb95781802e1115c25487087cd06d071a85b", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Components_ProductByCategory_Default : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<List<Model.Models.Product>>
     {
         #pragma warning disable 1998

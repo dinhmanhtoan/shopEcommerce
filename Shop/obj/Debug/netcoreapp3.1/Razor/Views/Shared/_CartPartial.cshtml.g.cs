@@ -41,6 +41,13 @@ using Model.ViewModel;
 #line hidden
 #nullable disable
 #nullable restore
+#line 5 "D:\souc\source\.net\shop3\shop2\Shop\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 1 "D:\souc\source\.net\shop3\shop2\Shop\Views\Shared\_CartPartial.cshtml"
 using Microsoft.AspNetCore.Http;
 
@@ -55,7 +62,7 @@ using Newtonsoft.Json;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a821b655c70110d9ccdc2a92ff8b093c2494d693", @"/Views/Shared/_CartPartial.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fe425b70ed0e4808eadefa6fc69a5d5cbf4cc194", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b236bb95781802e1115c25487087cd06d071a85b", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__CartPartial : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-controller", "cart", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -106,7 +113,7 @@ using Newtonsoft.Json;
             <span class=""total-cart""></span>
         </div>
         ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a821b655c70110d9ccdc2a92ff8b093c2494d6935719", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a821b655c70110d9ccdc2a92ff8b093c2494d6935900", async() => {
                 WriteLiteral("Giỏ Hàng");
             }
             );
@@ -125,7 +132,7 @@ using Newtonsoft.Json;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a821b655c70110d9ccdc2a92ff8b093c2494d6937173", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a821b655c70110d9ccdc2a92ff8b093c2494d6937354", async() => {
                 WriteLiteral("Thanh toán");
             }
             );

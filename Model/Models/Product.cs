@@ -21,6 +21,8 @@ namespace Model.Models
         public long? CreatedBy { get; set; }
         public DateTime? EditOn { get; set; }
         public long? EditBy { get; set; }
+        public bool IsFuture { get; set; }
+        public bool IsHot { get; set; }
         public long? CategoryId { get; set; }
         public Category Category { get; set; }
         public IList<Rating> Rating { get; set; }
@@ -28,8 +30,9 @@ namespace Model.Models
         public Brand Brand { get; set; }
         public long? BrandId { get; set; }
         public IList<ProductOptionValue> OptionValues { get; set; } = new List<ProductOptionValue>();
+        public IList<CartItem> cartItems { get; set; } = new List<CartItem>();
 
-     
+
         public void AddMedia(ProductMedia media)
         {
             media.Product = this;

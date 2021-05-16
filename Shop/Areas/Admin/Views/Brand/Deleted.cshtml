@@ -1,0 +1,49 @@
+﻿@model Brand
+
+@{
+    ViewData["Title"] = "Xóa";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">@ViewData["Title"]</h3>
+        <p class="card-subtitle">Bạn có thực sự muốn xóa thương hiệu này?</p>
+    </div>
+    <div class="card-body">
+        <div>
+            <h4>Product</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Tên thương hiệu
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    đường dẫn
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Slug)
+                </dd>
+                <dt class="col-sm-2">
+                    Mô Tả
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-2">
+                    Hiển thị
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IsPublished)
+                </dd>
+            </dl>
+            <form asp-action="DeletedById" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <a asp-action="Index">Back to List</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -40,8 +40,15 @@ using Model.ViewModel;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 5 "D:\souc\source\.net\shop3\shop2\Shop\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2a80c02c335e88ce2e592fd1d1d22dc41110feeb", @"/Views/Cart/Index2.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fe425b70ed0e4808eadefa6fc69a5d5cbf4cc194", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b236bb95781802e1115c25487087cd06d071a85b", @"/Views/_ViewImports.cshtml")]
     public class Views_Cart_Index2 : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

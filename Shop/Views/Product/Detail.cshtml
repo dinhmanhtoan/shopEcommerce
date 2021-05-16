@@ -24,10 +24,7 @@
             padding: 2px 10px !important;
             background: #ddd !important;
         }
-   .optionactive {
-        border: 3px solid #000 !important;
-        opacity: 1 !important;
-        }
+
  /*   .optionactive {
         background: #ffffff;
         opacity: 1 !important;
@@ -46,23 +43,37 @@
                 <div class="col-md-6 single-left gallery-lb">
                     @for (var i = 0; i < Model.product.Images.Count; i++)
                     {
-                        <div class="mySlides" style="display: none;">
-                            <div class="numbertext">@(i+1) / @Model.product.Images.Count</div>
-                            <a class="zoom " href="https://localhost:5002/user-content/@Model.product.Images[i].Media.FileName" tabindex="0">
-                                <i class="fal fa-expand"></i>
-                            </a>
-                            <img src="https://localhost:5002/user-content/@Model.product.Images[i].Media.FileName" style="width:100%">
-                        </div>
+                        if (i == 0)
+                        {
+                            <div class="mySlides" style="display: block;">
+                                <div class="numbertext">@(i+1) / @Model.product.Images.Count</div>
+                                <a class="zoom " href="/user-content/@Model.product.Images[i].Media.FileName" tabindex="0">
+                                    <i class="fal fa-expand"></i>
+                                </a>
+                                <img src="/user-content/@Model.product.Images[i].Media.FileName" style="width:100%">
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mySlides" style="display: none;">
+                                <div class="numbertext">@(i+1) / @Model.product.Images.Count</div>
+                                <a class="zoom " href="/user-content/@Model.product.Images[i].Media.FileName" tabindex="0">
+                                    <i class="fal fa-expand"></i>
+                                </a>
+                                <img src="/user-content/@Model.product.Images[i].Media.FileName" style="width:100%">
+                            </div>
+                        }
+
 
                     }
-                    <button class="img-prev" onclick="plusSlides(-1)"><i class="fal fa-angle-left" aria-hidden="true"></i></button>
-                    <button class="img-next" onclick="plusSlides(1)"><i class="fal fa-angle-right" aria-hidden="true"></i></button>
+                    <button class="img-prev" onclick="plusSlides(-1,this)"><i class="fal fa-angle-left" aria-hidden="true"></i></button>
+                    <button class="img-next" onclick="plusSlides(1,this)"><i class="fal fa-angle-right" aria-hidden="true"></i></button>
 
                     <div class="image-slide">
                         @for (var i = 0; i < Model.product.Images.Count; i++)
                         {
                             <div class="column">
-                                <img class="demo cursor" src="https://localhost:5002/user-content/@Model.product.Images[i].Media.FileName" style="width:100%" onclick="currentSlide(@i+1)" alt="@Model.product.Title">
+                                <img class="demo cursor" src="/user-content/@Model.product.Images[i].Media.FileName" style="width:100%" onclick="currentSlide(@i+1,this)" alt="@Model.product.Title">
                             </div>
 
                         }
@@ -116,7 +127,7 @@
                                         {
                                         <li>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadioOptions-@item.Id" id="inlineRadio-@item2.Key" value="@item2.Key" >
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions-@item.Id" id="inlineRadio-@item2.Key" value="@item2.Key">
                                                 <label class="form-check-label" for="inlineRadio-@item2.Key" data-id="@item.Id">@item2.Display</label>
                                             </div>
                                         </li>
@@ -137,7 +148,7 @@
                             {
                                 <li >
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-@item.Id" id="inlineRadio-@item2.Key" value="@item2.Key" >
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-@item.Id" id="inlineRadio-@item2.Key" value="@item2.Key">
                                         <label class="form-check-label" for="inlineRadio-@item2.Key" style="background-color:#@item2.Display;border-radius: 50%;" data-id="@item.Id"></label>
                                     </div>
                                 </li>
@@ -173,8 +184,8 @@
                         </div>
 
                         <div class="clearfix"></div>
-                        <div class="add-wishlist">
-                            <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
+                        <div class="add-wishlist" data-status="true" data-tip="ADD TO WISHLIST">
+                            <a href="javascript:void(0)"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
                         </div>
 
                         <div class="clearfix"></div>
@@ -219,7 +230,7 @@
 
                             <li class="slide item" data-slide-index="@i">
                                 <div>
-                                    <a href="/chi-tiet/@Model.products[i].Slug"><img src="https://localhost:5002/user-content/@Model.products[i].Thumbnail.FileName" style="width: 70px"></a>
+                                    <a href="/chi-tiet/@Model.products[i].Slug"><img src="/user-content/@Model.products[i].Thumbnail.FileName" style="width: 70px"></a>
                                 </div>
                             
                                 <div class="product-item-right">
@@ -344,8 +355,9 @@
 
 </div>
 @section Scripts{
-    <script type="text/javascript" src="~/js/single.js"></script>
+
     <script>
+        var ListoptionValue = [];
         $(document).ready(function () {
             var el = $('.owl-carousel');
             var carousel;
@@ -480,24 +492,156 @@
                 }
             }
             carousel = el.owlCarousel(carouselOptions);
+
         });
         var optionvalue = @Html.Raw(Json.Serialize(Model.ProductOptionVm.ToList()));
         for (var i in optionvalue) {
             var item = optionvalue[i];
+            var input = $(`input[name='inlineRadioOptions-${item.id}']`);
+            input.each(function (i,item2) {
+                if (i == 0) {
+                    var value = $(this).val();
+                    var id = parseInt($(this).next().attr("data-id"));
+                    let item = { OptionId: id, OptionName: null, OptionValues: value };
+                    ListoptionValue.push(item);
+                    $(`.form-check-label[data-id=${item.id}]`).removeClass('optionactive')
+                    $(this).prop('checked', $(input).is(':checked')).next().addClass("optionactive");
+                    $(this).parents(".option").find('span').text(value);
+                }
+            })
+            $(`input[name='inlineRadioOptions-${item.id}']`).change(function () {
+                var checked = $(this).val();
+                var id = parseInt($(this).next().attr("data-id"));
+                let item = { OptionId: id, OptionName: null, OptionValues: checked };
+                var yet = ListoptionValue.findIndex(x => x.OptionId == id);
+                if (yet != -1) {
+                    ListoptionValue.splice(yet, 1);
+                }
+                if ($(this).is(':checked')) {
+                    ListoptionValue.push(item);
+                }
+            });
             $(`input[name="inlineRadioOptions-${item.id}"]`).on('click', function () {
-                var id = $(this).next().attr("data-id");
+                var id = parseInt($(this).next().attr("data-id"));
                 var value = $(this).val();
-                $(`.form-check-label[data-id=${id}]`).removeClass('optionactive')
-                $(this).prop('checked', $(this).is(':checked')).next().addClass("optionactive");
-                $(this).parents(".option").find('span').text(value);
+                    $(`.form-check-label[data-id=${id}]`).removeClass('optionactive')
+                    $(this).prop('checked', $(this).is(':checked')).next().addClass("optionactive");
+                    $(this).parents(".option").find('span').text(value);
+
             });
         }
-        //$('#getCheckboxesButton').live('click', function (event) {
-        //    var checkboxValues = [];
-        //    $('input[type="checkbox"]:checked').each(function (index, elem) {
-        //        checkboxValues.push($(elem).val());
-        //    });
-        //    alert(checkboxValues.join(', '));
-        //});
+
+    $(document).on('click', '.add-cart', function (event) {
+    event.preventDefault();
+        let parent = $(this).parents('.product-details');
+        let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
+        let quantity = parseInt(parent.find('.num-product').val());
+        var sortArr = ListoptionValue.sort(function (a, b) {
+            return a.OptionId - b.OptionId;
+        });
+        var values = JSON.stringify(sortArr)
+        animation(this);
+    $.ajax({
+        type: 'POST',
+        url: '@Url.ActionLink("AddToCart", "Cart")',
+        data: {
+            productid: productid,
+            quantity: quantity,
+            values: values
+        },
+        success: function (result) {
+            addtocart();
+
+        }
+    })
+    });
+     function animation(e) {
+            var animation;
+            console.log(e);
+            if ($(e).hasClass("add-wishlist")) {
+                animation = $('#wishlist-icon');
+            } else {
+                animation = $('#cart');
+            }
+
+            var imgtodrag = $(e).parents('.product-details').prev(".gallery-lb").find("img").eq(0);
+            if (imgtodrag) {
+                var imgclone = imgtodrag.clone()
+                    .offset({
+                        top: imgtodrag.offset().top,
+                        left: imgtodrag.offset().left
+                    })
+                    .css({
+                        'opacity': '0.5',
+                        'position': 'absolute',
+                        'height': '150px',
+                        'width': '150px',
+                        'z-index': '100'
+                    })
+                    .appendTo($('body'))
+                    .animate({
+                        'top': animation.offset().top + 10,
+                        'left': animation.offset().left + 10,
+                        'width': 50,
+                        'height': 50
+                    }, 1000, 'easeInOutExpo');
+
+                setTimeout(function () {
+                    animation.effect("shake", {
+                        times: 2
+                    }, 200);
+                }, 1500);
+                imgclone.animate({
+                    'width': 0,
+                    'height': 0
+                }, function () {
+                    $(this).detach()
+                });
+                if ($(e).hasClass("add-cart")) {
+                    setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
+                }
+
+            }
+        }
+    $(document).on('click', '.add-wishlist', function (event) {
+        event.preventDefault();
+        let parent = $(this).parents('.product-details');
+        let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
+        var status = $(this).data("status");
+        if (status == true) {
+            $(this).find("i").css('font-weight', '900');
+            $(this).data('status', false);
+            $(this).attr('data-tip', 'Remove TO WISHLIST');
+            animation(this);
+            $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("AddtoWishList", "Cart")',
+                data: {
+                    productid: productid,
+                },
+                success: function (result) {
+                    addtowishlist();
+                }
+            });
+        } else {
+            $(this).find("i").css('font-weight','300');
+            $(this).data('status', true);
+        $(this).attr('data-tip', 'ADD TO WISHLIST');
+          $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("RemoveWishList", "Cart")',
+            data: {
+                productid: productid,
+            },
+            success: function (result) {
+                addtowishlist();
+            }
+        });
+        }
+
+        });
+  
+  // Product Details Add and Remove
+
     </script>
 }

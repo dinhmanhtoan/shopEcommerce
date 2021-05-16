@@ -3,7 +3,7 @@
 
     <link href="~/css/checkout.css" rel="stylesheet" />
 }
-@if (Model.CartItems.Count > 0)
+@if (Model.CartItemVms.Count > 0)
 {
     decimal? Total = 0;
 
@@ -15,24 +15,24 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-7">
-                        <form asp-action="Checkout" method="post" class="checkout-adress" >
+                        <form asp-action="Checkout" method="post" class="checkout-adress">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <h3>Thông tin cơ bản</h3>
-                                <div class="form-group">
-                                    <span class="first-name">
-                                        <label asp-for="@Model.CheckoutModel.FirstName" class="control-label"></label>
-                                        <span>*</span>
-                                        <input asp-for="@Model.CheckoutModel.FirstName " type="text" class="form-control " required />
-                                        <span asp-validation-for="@Model.CheckoutModel.FirstName" class="text-danger"></span>
-                                    </span>
-                                        <span class="last-name">
-                                            <label asp-for="@Model.CheckoutModel.LastName" class="control-label"></label>
-                                            <span>*</span>
-                                            <input asp-for="@Model.CheckoutModel.LastName" type="text" class="form-control" required />
-                                            <span asp-validation-for="@Model.CheckoutModel.LastName" class="text-danger"></span>
-                                        </span>
-                                    </div>
-                           <div class="clearfix"></div>
+                            <div class="form-group">
+                                <span class="first-name">
+                                    <label asp-for="@Model.CheckoutModel.FirstName" class="control-label"></label>
+                                    <span>*</span>
+                                    <input asp-for="@Model.CheckoutModel.FirstName " type="text" class="form-control " required />
+                                    <span asp-validation-for="@Model.CheckoutModel.FirstName" class="text-danger"></span>
+                                </span>
+                                <span class="last-name">
+                                    <label asp-for="@Model.CheckoutModel.LastName" class="control-label"></label>
+                                    <span>*</span>
+                                    <input asp-for="@Model.CheckoutModel.LastName" type="text" class="form-control" required />
+                                    <span asp-validation-for="@Model.CheckoutModel.LastName" class="text-danger"></span>
+                                </span>
+                            </div>
+                            <div class="clearfix"></div>
                             <div class="form-group">
                                 <label asp-for="@Model.CheckoutModel.PhoneNumber" class="control-label"></label>
                                 <span>*</span>
@@ -64,47 +64,49 @@
 
                         </form>
                         <hr>
-                        <a class="return-shop" href="#"><i class="fa fa-angle-left" aria-hidden="true"></i> Tiếp tục mua hàng </a>
+                        <span style="float:right"> * trường này là bắt buộc</span>
+                        <a class="return-shop" asp-controller="Product" asp-action="Index"><i class="fa fa-angle-left" aria-hidden="true"></i> Tiếp tục mua hàng </a>
+
                     </div>
                         <div class="col-md-5 total">
                             <div class="box">
                                 <h3 class="title">Đơn hàng của bạn</h3>
                                 <ul class="scroll-js list-product-checkout scroll-y">
 
-                                    @foreach (var item in Model.CartItems)
+                                    @foreach (var item in Model.CartItemVms)
                                     {
                                         decimal? thanhtien = 0;
-                                        if (item.product.Sale == null)
+                                        if (item.ProductVm.Sale == null)
                                         {
-                                            thanhtien += item.quantity * item.product.Price;
+                                            thanhtien += item.Quantity * item.ProductVm.Price;
                                             Total += thanhtien;
                                         }
                                         else
                                         {
-                                            thanhtien += item.quantity * item.product.Sale;
+                                            thanhtien += item.Quantity * item.ProductVm.Sale;
                                             Total += thanhtien;
                                         }
                                         <li>
                                             <div class="img-left">
-                                                <a href="chi-tiet/@item.product.Slug"><img src="https://localhost:5002/user-content/@item.product.Thumbnail.FileName" style="width: 100%"></a>
+                                                <a href="chi-tiet/@item.ProductVm.Slug"><img src="/user-content/@item.ProductVm.ThumbnailImageUrl" style="width: 100%"></a>
                                             </div>
                                             <div class="meta-right">
                                                 <a href="" class="remove-item"><i class="fa fa-times" aria-hidden="true"></i></a>
-                                                <a href="chi-tiet/@item.product.Slug">@item.product.Title</a>
+                                                <a href="chi-tiet/@item.ProductVm.Slug">@item.ProductVm.Title</a>
                                                 <p class="price">
-                                                    @if (item.product.Sale > 0)
+                                                    @if (item.ProductVm.Sale > 0)
                                                     {
-                                                    <span>@item.product.Sale ₫</span>
+                                                    <span>@item.ProductVm.Sale ₫</span>
                                                         <i class="fa fa-caret-left" aria-hidden="true"></i>
-                                                        <span class="sale"><del>@item.product.Price ₫</del></span>
+                                                        <span class="sale"><del>@item.ProductVm.Price.GetValueOrDefault().ToString("#,###") ₫</del></span>
                                                     }
                                                     else
                                                     {
-                                                        <span ><del>@item.product.Price ₫</del></span>
+                                                        <span ><del>@item.ProductVm.Price.GetValueOrDefault().ToString("#,###") ₫</del></span>
                                                     }
 
                                                 </p>
-                                                <p class="quantity"><span class="name">Số lượng: </span><span>@item.quantity</span></p>
+                                                <p class="quantity"><span class="name">Số lượng: </span><span>@item.Quantity</span></p>
                                             </div>
                                             <div class="clearfixr"></div>
                                         </li>
@@ -115,7 +117,7 @@
                                 <table class="table">
                                     <tr>
                                         <td>Tổng</td>
-                                        <td class="text-right">@Total ₫</td>
+                                        <td class="text-right">@Total.GetValueOrDefault().ToString("#,###") ₫</td>
                                     </tr>
                                     <tr>
                                         <td>Phí vận chuyển</td>
@@ -123,22 +125,9 @@
                                     </tr>
                                     <tr>
                                         <td>Thanh toán</td>
-                                        <td class="text-right">@(Total - 25000) ₫</td>
+                                        <td class="text-right">@((Total - 25000).GetValueOrDefault().ToString("#,###")) ₫</td>
                                     </tr>
                                 </table>
-                                @*<div class="payment">
-                                    <ul>
-                                        <li class="choose-payment">
-                                            <input type="radio" name="payment" checked>
-                                            <label>Thanh toán khi nhận hàng</label>
-
-                                        </li>
-                                        <li class="choose-payment">
-                                            <input type="radio" name="payment">
-                                            <label>Thanh toán online</label>
-                                        </li>
-                                    </ul>
-                                </div>*@
                                 <p class="text-center"><button class="btn btn-black checkout">Thanh toán</button></p>
                             </div>
                         </div>
@@ -148,7 +137,7 @@
 
         </div>
         <div class="clearfix"></div>
-        <div class="product">
+        @*<div class="product">
             <div class="container">
                 <div class="row">
                     <h2 class="title">Sản phẩm vừa xem</h2>
@@ -160,7 +149,7 @@
                                 <div class="product-grid6">
                                     <div class="product-image6">
                                         <a href="chi-tiet/@item.Slug">
-                                            <img class="pic-1" src="https://localhost:5002/user-content/@item.Thumbnail.FileName">
+                                            <img class="pic-1" src="/user-content/@item.Thumbnail.FileName">
                                         </a>
                                     </div>
                                     <div class="product-content">
@@ -170,11 +159,11 @@
                                             {
                                                 <span>@item.Sale ₫</span>
                                                 <i class="fa fa-caret-left" aria-hidden="true"></i>
-                                                <span class="sale"><del>@item.Price ₫</del></span>
+                                                <span class="sale"><del>@item.Price.GetValueOrDefault().ToString("#,###") ₫</del></span>
                                             }
                                             else
                                             {
-                                                <span><del>@item.Price ₫</del></span>
+                                                <span><del>@item.Price.GetValueOrDefault().ToString("#,###") ₫</del></span>
                                             }
                                         </div>
                                     </div>
@@ -192,7 +181,7 @@
 
                 </div>
             </div>
-        </div>
+        </div>*@
     </main>
 }
 else
