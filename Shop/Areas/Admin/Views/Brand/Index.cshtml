@@ -1,0 +1,63 @@
+﻿@model List<Brand>;
+@{
+    ViewData["Title"] = "Danh sách thương hiệu";
+}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="card-title">@ViewData["Title"]</h4>
+            </div>
+            <div class="col-md-6">
+                <div class="text-right">
+                    <a class="btn btn-primary" asp-controller="Brand" asp-action="Create">
+                        Thêm mới
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+
+
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#Id</th>
+                        <th scope="col">Thương hiệu</th>
+                        <th scope="col">Đường dẫn</th>
+                        <th scope="col">Miêu Tả</th>
+                        <th scope="col">Hiển Thị</th>
+                        <th scope="col">Hành Động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.Name</td>
+                        <td>@item.Slug</td>
+                        <td> @item.Description</td>
+                        @if (item.IsPublished == true)
+                        {
+                            <td>Có</td>
+                        }
+                        else
+                        {
+                            <td>Chưa</td>
+                        }
+                        <td>
+                            <a asp-action="Updated" asp-route-id="@item.Id">Sửa</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                            <a asp-action="Deleted" asp-route-id="@item.Id">Xóa</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -9,7 +9,7 @@
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
 
     <link href="~/lib/owl.carousel/owl.carousel.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/style2.css">
     <link rel="stylesheet" href="~/css/list_product.css">
 
     <link rel="stylesheet" href="~/css/custom-select.css">
@@ -70,11 +70,11 @@
                         <a href="" class="js-show-modal-search"><i class="fa fa-search" aria-hidden="true"></i></a>
                     </li>
                     <li class="wishlist-icon">
-                        <a href="~/html/wishlist.html"><i class="fal fa-heart"></i> <span class="wishlist-count">2</span></a>
+                        <a asp-controller="cart" asp-action="wishlist"><i class="fal fa-heart"></i> <span class="wishlist-count">2</span></a>
                         <input type="number" id="wishlist-count-input-mb" name="wishlist-count">
                     </li>
                     <li class="cart-icon">
-                        <a href="~/html/cart.html"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <span class="cart-count">0</span></a>
+                        <a asp-controller="cart" asp-action="cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <span class="cart-count">0</span></a>
                         <input type="number" id="cart-count-input-mb" name="cart-count">
                     </li>
                     <li class="open-close">
@@ -95,7 +95,6 @@
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a></li>
                                 <li class="nav-item"><a class="nav-link active" asp-controller="Product" asp-action="Index">Product</a></li>
-                                <li class="nav-item"><a class="nav-link active" asp-controller="Blog" asp-action="Index">Blog</a></li>
                                 <li class="nav-item"><a class="nav-link active" asp-controller="Contact" asp-action="Index">Contact</a></li>
                             </ul>
                         </div>
@@ -106,40 +105,9 @@
                                 <li>
                                     <a href="javascript:void(0)" class="js-show-modal-search"><i class="fa fa-search" aria-hidden="true"></i></a>
                                 </li>
-                                <!--<li class="login-icon">
-                                    <a href="~/html/login.html">LOG IN / SIGN UP</a>
-                                    <div class="login-content content-dropdown">
-                                        <form>
-                                            <label>Tên đăng nhập</label>
-                                            <input type="text" name="username" autocomplete="off">
-                                            <label>Mật khẩu</label>
-                                            <input type="password" name="password" autocomplete="off">
-                                            <div class="note">
-                                                <span><i class="fa fa-square-o" aria-hidden="true"></i> ghi nhớ</span>
-                                                <a href="" style="float: right;">Quên mật khẩu</a>
-                                            </div>
-                                            <button class="btn btn-black">Đăng nhập</button>
-                                            <div class="note">
-                                                <span>Khách hàng mới</span>
-                                                <a href="" style="padding-left: 10px;">Đăng ký</a>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </li>
-                                <li class="wishlist-icon">
-                                    <a href="~/html/wishlist.html"><i class="fal fa-heart"></i> <span class="wishlist-count">2</span></a>
-                                    <input type="number" id="wishlist-count-input" name="wishlist-count" value="2">
-                                    <div class="wishlist-content content-dropdown">
-                                        <ul class="scroll-js scroll-y">-->
-                                <!-- Danh sách sản phẩm yêu thích -->
-                                <!--</ul>
-                                        <hr>
-                                        <a href="~/html/cart.html" class="btn btn-black">Xem danh sách</a>
-                                    </div>
-                                </li>-->
                                 <li id="wishlist-icon">
                                     <a asp-controller="cart" asp-action="wishlist">
-                                        <i class="fal fa-heart"></i>
+                                        <i class="fa fa-heart"></i>
                                         <span class="wishlist-count"></span>
                                     </a>
                                     <input type="number" id="wishlist-count-input-mb" name="wishlist-count">
@@ -156,11 +124,11 @@
                             <i class="fa fa-window-close-o" aria-hidden="true"></i>
                         </button>
 
-                        <form class="wrap-search-header">
+                        <form class="wrap-search-header" asp-controller="Product" asp-action="Index" method="get">
                             <button class="trans-04">
                                 <i class="fa fa-search"></i>
                             </button>
-                            <input type="text" name="search" placeholder="Tìm kiếm...">
+                            <input type="text" name="query" placeholder="Tìm kiếm...">
                         </form>
                     </div>
                 </div>
@@ -203,18 +171,18 @@
                     <div class="col-md-3 col-sm-6 application">
                         <h3>Tải ứng dụng</h3>
                         <ul>
-                            <li><a href="#" class="btn btn-black"><i class="fa fa-apple" aria-hidden="true"></i><span><small>Download on the</small> App Store</span></a></li>
-                            <li><a href="#" class="btn btn-gray"><i class="fa fa-android" aria-hidden="true"></i><span><small>Download it from </small>Play Store</span></a></li>
+                            <li><a href="#" class="btn btn-black"><i class="fab fa-apple" aria-hidden="true"></i><span><small>Download on the</small> App Store</span></a></li>
+                            <li><a href="#" class="btn btn-gray"><i class="fab fa-android" aria-hidden="true"></i><span><small>Download it from </small>Play Store</span></a></li>
                         </ul>
                     </div>
                     <div class="col-md-3 col-sm-6">
                         <h3>Fan</h3>
                         <ul class="nav icon">
                             <li>
-                                <a href="#"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                                <a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
                             </li>
-                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
                         </ul>
                     </div>
 
@@ -240,88 +208,121 @@
         </div>
 
     </footer>
+    <div class="modal fade" id="exampleModal-1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container bg0">
+                        <div class="p-t-15 p-b-20 how-pos3">
+                            <div style="float:right">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div id="modal-item"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay-modal2"></div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/owl.carousel/owl.carousel.js"></script>
     <script src="~/js/custom-select.js"></script>
     @*<script src="~/js/main.js"></script>*@
-
-
+    <script src="~/js/numeral.min.js"></script>
+    <script src="~/js/single.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
     @*<script src="~/js/addProduct.js"></script>*@
-<script>
-            $(document).ready(function () {
-    addtocart();
-    addtowishlist();
+    <script>
+
+     addtocart();
+     addtowishlist();
+
+    // add cart,WishList html
     function addtocart() {
-    $.ajax({
-    type: 'GET',
-    url: '@Url.ActionLink("GetListProduct", "Cart")',
-    success: function (result) {
-    var row = ``;
-    if (result != null && result != '') {
-    var cart = result;
+        $.ajax({
+        type: 'GET',
+        url: '@Url.ActionLink("GetCart", "Cart")',
+        success: function (result) {
+            var row = ``;
+
+            if (result.cartItemVms != null && result.cartItemVms != '') {
+                var cart = result.cartItemVms;
 
     } else {
-    $("#cartBody").html('Giỏ hàng trống');
-    $(".total").find(".total-cart").html('');
-    //$(".cart-content").html('Giỏ hàng trống');
-    $(".cart-count").html(`${0}`);
-    return;
+        $("#cartBody").html('Giỏ hàng trống');
+             $(".total").find(".total-cart").html('');
+        //$(".cart-content").html('Giỏ hàng trống');
+            $(".cart-count").html(`${0}`);
+        return;
+            }
+            console.log(cart);
+            var count = 0;
+            var totalPriceSales = function () {
+            let totalPriceSale = 0;
+        for (var i = 0; i < cart.length; i++) {
 
-    }
-    var count = 0;
+            if (cart[i].productVm.sale != "") {
+            totalPriceSale += parseFloat(cart[i].productVm.sale * cart[i].quantity);
+        } else {
+            totalPriceSale += parseFloat(cart[i].productVm.price * cart[i].quantity);
+        }
+                }
+                
+             return totalPriceSale;
+        };
 
-    var totalPriceSales = function () {
+        var totalPrices = function () {
+        let totalPrice = 0;
 
-    let totalPriceSale = 0;
-    for (var i = 0; i < cart.length; i++) {
+        for (var i = 0; i < cart.length; i++) {
+            totalPrice += parseFloat(cart[i].productVm.price * cart[i].quantity);
 
-    if (cart[i].Sale != "") {
-    totalPriceSale += parseFloat(cart[i].product.sale * cart[i].quantity);
-    } else {
-    totalPriceSale += parseFloat(cart[i].product.price * cart[i].quantity);
-    }
-    }
-    return totalPriceSale;
-    };
-
-    var totalPrices = function () {
-    let totalPrice = 0;
-
-    for (var i = 0; i < cart.length; i++) {
-    totalPrice += parseFloat(cart[i].product.price * cart[i].quantity);
-
-    }
-    return totalPrice;
-    };
-    var Total = 0;
-    if (totalPriceSales() > 0) {
-    Total = "$" + totalPrices() + "₫" + "-" + "<del style='color: #888'>" + totalPriceSales() + " ₫" + "</del>"
-    } else {
-    Total = "$" + totalPrices() + "₫"
-    }
+            }
+            numeral(totalPrice).format('0,000')
+        return totalPrice;
+        };
+             var Total = 0;
+        if (totalPriceSales() > 0) {
+            Total = "$" + numeral(totalPrices()).format('0,000') + "<small>₫</small>" + " - " + "<del style='color: #888'>" + numeral(totalPriceSales()).format('0,000') + " <small>₫</small>" + "</del>"
+        } else {
+            Total = "$" + numeral(totalPrices()).format('0,000') + "<small>₫</small>"
+        }
     $(".total").find(".total-cart").html(Total);
-    for (var i = 0; i < cart.length; i++) {
-    row += `<li class="item-cart-1" data-id=${cart[i].product.id}>
+            for (var i = 0; i < cart.length; i++) {
+
+                row += `<li class="item-cart-1" data-id=${cart[i].id}>
         <div class="img-left">
-            <a href="/chi-tiet/${cart[i].product.slug}">
-                <img src="https://localhost:44360/user-content/${cart[i].product.thumbnail.fileName}" style="width: 100%">
+            <a href="/chi-tiet/${cart[i].productVm.slug}">
+                <img src="/user-content/${cart[i].productVm.thumbnailImageUrl}" style="width: 100%">
             </a>
         </div>
         <div class="meta-right">
             <a href="javascript:void(0)" class="remove-item">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </a>
-            <a href="/chi-tiet/${cart[i].product.slug}" class="title cart-title">${cart[i].product.title}</a>
-            <p>
-                <span class="price">$${cart[i].product.price} ₫</span>`
-                if (cart[i].product.sale != "" && cart[i].product.sale != null) {
-                row += `- <span class="sale">${cart[i].product.sale} ₫</span>
-            </p> `
-            }
-            row += `<div>
+            <a href="/chi-tiet/${cart[i].productVm.slug}" class="title cart-title">${cart[i].productVm.title}</a>
+            <p>`
+                for (var j in cart[i].values) {
+                    var item2 = cart[i].values[j];
+                    if (item2.optionName == "Size") {
+                        row += `<p class="cart-size">kích thước : <span>${item2.optionValues}</span></p>`
+                    } else {
+                        row += `<p class="cart-color">màu sắc : <span>${item2.optionValues}</span></p>`
+                    }
+
+                }
+                if (cart[i].productVm.sale != "" && cart[i].productVm.sale != null) {
+                    row += `<span class="price">${numeral(cart[i].productVm.sale).format('0,000')} <small>₫</small></span>
+                    - <span class="sale">${numeral(cart[i].productVm.price).format('0,000')} <small>₫</small></span>`
+        } else {
+                    row += `<span class="price">${numeral(cart[i].productVm.price).format('0,000')} <small>₫</small></span>`
+        }
+            row += `</p><div>
                 <p class="quantity">
                     <span class="name">Số lượng: </span>
                     <span>
@@ -336,363 +337,674 @@
 
         </div>
     </li>`;
-    count += cart[i].quantity
+       count += cart[i].quantity
     }
-    $("#cartBody").html(row);
-    $(".cart-count").html(`${count}`);
+        $("#cartBody").html(row);
+        $(".cart-count").html(`${count}`);
     }
 
     })
     };
-    $(document).on('click', '.js-add-cart', function (event) {
-    event.preventDefault();
-    let parent = $(this).parents('.product-item');
-    let productid = parseInt(parent.find('.product-grid6').attr('data-id'));
-
+    function addtowishlist() {
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("AddToCart", "Cart")',
-    data: {
-    productid: productid,
+        type: 'GET',
+        url: '@Url.ActionLink("GetWishList", "Cart")',
+        success: function (result) {
+            var count = 0;
+            if (result != null && result != '') {
+                count = result.length;
 
-    },
-    success: function (result) {
-    addtocart();
-    //window.location.href = '@Url.ActionLink("cart", "cart")';
-    }
-    })
-
+            } else {
+                $(".wishlist-count").html(`${0}`);
+                //$("#wishlist-icon .fa-heart").css("color","");
+                return;
+            }
+            $(".wishlist-count").html(`${count}`);
+            $("#wishlist-icon .fa-heart").css("color", "#080000 !important");
+        }
     });
-    $(document).on('click', '.add-cart', function (event) {
-    event.preventDefault();
-    let parent = $(this).parents('.product-details');
-    let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
-    let quantity = parseInt(parent.find('.num-product').val());
-    $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("AddToCart", "Cart")',
-    data: {
-    productid: productid,
-    quantity: quantity
-    },
-    success: function (result) {
-    addtocart();
-    //window.location.href = '@Url.ActionLink("cart", "cart")';
-    }
-    })
+    };
 
-    });
+    // Checkout Cart
     $(document).on('click', '.checkout-cart', function (event) {
     event.preventDefault();
-    let parent = $(this).parents('.product-details');
-    let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
-    let quantity = parseInt(parent.find('.num-product').val());
+        let parent = $(this).parents('.product-details');
+        let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
+        let quantity = parseInt(parent.find('.num-product').val());
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("AddToCart", "Cart")',
-    data: {
-    productid: productid,
-    quantity: quantity
-    },
-    success: function (result) {
-    addtocart();
-    window.location.href = '@Url.ActionLink("checkout", "cart")';
-    }
+        type: 'POST',
+        url: '@Url.ActionLink("AddToCart", "Cart")',
+        data: {
+            productid: productid,
+            quantity: quantity
+        },
+        success: function (result) {
+            addtocart();
+            window.location.href = '@Url.ActionLink("checkout", "cart")';
+        }
     })
 
     });
+
+    // Remove Cart
     $(document).on('click', '.remove-item', function (e) {
-    var parent = $(this).parents('.item-cart-1');
-    var id = parseInt(parent.attr('data-id'));
+        var parent = $(this).parents('.item-cart-1');
+        var CartId = parseInt(parent.attr('data-id'));
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("RemoveCart", "Cart")',
-    data: {
-    productid: id,
-    },
-    success: function (result) {
-    addtocart();
-    }
-    })
+        type: 'POST',
+        url: '@Url.ActionLink("RemoveCart", "Cart")',
+        data: {
+            CartId: CartId,
+        },
+            success: function (result) {
+            addtocart();
+        }
+     })
     });
+
+    // Quantity Product
     $(document).on('change', '.count', function () {
-    var parent = $(this).parents('.item-cart-1');
-    var id = parseInt(parent.attr('data-id'));
-    var prev = parseInt(parent.find('input[name=qty]').data('val'));
-    var value = parseInt($(this).val());
+        var parent = $(this).parents('.item-cart-1');
+        var CartId = parseInt(parent.attr('data-id'));
+        var prev = parseInt(parent.find('input[name=qty]').data('val'));
+        var value = parseInt($(this).val());
 
     if (value >= 1 && value < 11) {
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("UpdateCart", "Cart")',
-    data: {
-    productid: id,
-    quantity: value,
-    },
-    success: function (result) {
-    addtocart();
-    }
+        type: 'POST',
+        url: '@Url.ActionLink("UpdateCart", "Cart")',
+        data: {
+        CartId: CartId,
+        quantity: value,
+        },
+        success: function (result) {
+        addtocart();
+        }
     });
     } else {
-    alert("Số lượng tối thiểu là 1 và tối đa là 10")
-    parent.find('input[name=qty]').val(prev);
+        alert("Số lượng tối thiểu là 1 và tối đa là 10")
+        parent.find('input[name=qty]').val(prev);
     }
     })
     $(document).on('click', '.plus', function () {
-
-    var parent = $(this).parents('.item-cart-1');
-    var id = parseInt(parent.attr('data-id'));
-    var value = parseInt(parent.find('.count').val());
-    value++;
+        var parent = $(this).parents('.item-cart-1');
+        var CartId = parseInt(parent.attr('data-id'));
+        var value = parseInt(parent.find('.count').val());
+        value++;
     if (value > 1 && value <= 10) {
 
     $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("UpdateCart", "Cart")',
-    data: {
-    productid: id,
-    quantity: value,
-    },
-    success: function (result) {
-    addtocart();
-    }
-    });
-    } else {
-    alert("Không Quá 10 Sản Phẩm");
-    }
+        type: 'POST',
+        url: '@Url.ActionLink("UpdateCart", "Cart")',
+        data: {
+             CartId: CartId,
+             quantity: value,
+        },
+        success: function (result) {
+             addtocart();
+        }
+        });
+        } else {
+             alert("Không Quá 10 Sản Phẩm");
+        }
 
 
     });
     $(document).on('click', '.minus', function () {
-    var parent = $(this).parents('.item-cart-1');
-    var id = parseInt(parent.attr('data-id'));
-    var value = parseInt(parent.find('.count').val());
-    if (value == 1) {
-    $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("RemoveCart", "Cart")',
-    data: {
-    productid: id,
-    },
-    success: function (result) {
-    addtocart();
-    }
-    });
-    } else {
-    value--;
-    $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("UpdateCart", "Cart")',
-    data: {
-    productid: id,
-    quantity: value,
-    },
-    success: function (result) {
-    addtocart();
-    }
-    });
-    }
-
-
-    });
-    $(".cart-togget").on("click", function (e) {
-
-    $(".cart-content").toggleClass("fadein");
-
-    });
-    $(".close-cart i").on("click", function () {
-    $(".cart-content").removeClass("fadein");
-    });
-    $('.js-add-cart').on('click', function () {
-    var cart = $('#cart');
-
-    var imgtodrag = $(this).parents('.product-grid6').find("img").eq(0);
-    if (imgtodrag) {
-    var imgclone = imgtodrag.clone()
-    .offset({
-    top: imgtodrag.offset().top,
-    left: imgtodrag.offset().left
-    })
-    .css({
-    'opacity': '0.5',
-    'position': 'absolute',
-    'height': '150px',
-    'width': '150px',
-    'z-index': '100'
-    })
-    .appendTo($('body'))
-    .animate({
-    'top': cart.offset().top + 10,
-    'left': cart.offset().left + 10,
-    'width': 50,
-    'height': 50
-    }, 1000, 'easeInOutExpo');
-
-    setTimeout(function () {
-    cart.effect("shake", {
-    times: 2
-    }, 200);
-    }, 1500);
-
-    imgclone.animate({
-    'width': 0,
-    'height': 0
-    }, function () {
-    $(this).detach()
-    });
-    setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
-    }
-
-    });
-    $('.add-cart').on('click', function () {
-    var cart = $('#cart');
-    var imgtodrag = $(this).parents('.product-details').prev(".gallery-lb").find("img").eq(0);
-    if (imgtodrag) {
-    var imgclone = imgtodrag.clone()
-    .offset({
-    top: imgtodrag.offset().top,
-    left: imgtodrag.offset().left
-    })
-    .css({
-    'opacity': '0.5',
-    'position': 'absolute',
-    'height': '150px',
-    'width': '150px',
-    'z-index': '100'
-    })
-    .appendTo($('body'))
-    .animate({
-    'top': cart.offset().top + 10,
-    'left': cart.offset().left + 10,
-    'width': 50,
-    'height': 50
-    }, 1000, 'easeInOutExpo');
-
-    setTimeout(function () {
-    cart.effect("shake", {
-    times: 2
-    }, 200);
-    }, 1500);
-
-    imgclone.animate({
-    'width': 0,
-    'height': 0
-    }, function () {
-    $(this).detach()
-    });
-    setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
-    }
-
-    });
-    $('.js-add-wishlist').on('click', function () {
-    var cart = $('#wishlist-icon');
-    var imgtodrag = $(this).parents('.product-grid6').find("img").eq(0);
-    if (imgtodrag) {
-    var imgclone = imgtodrag.clone()
-    .offset({
-    top: imgtodrag.offset().top,
-    left: imgtodrag.offset().left
-    })
-    .css({
-    'opacity': '0.5',
-    'position': 'absolute',
-    'height': '150px',
-    'width': '150px',
-    'z-index': '100'
-    })
-    .appendTo($('body'))
-    .animate({
-    'top': cart.offset().top + 10,
-    'left': cart.offset().left + 10,
-    'width': 50,
-    'height': 50
-    }, 1000, 'easeInOutExpo');
-
-    setTimeout(function () {
-    cart.effect("shake", {
-    times: 2
-    }, 200);
-    }, 1500);
-
-    imgclone.animate({
-    'width': 0,
-    'height': 0
-    }, function () {
-    $(this).detach()
-    });
-    }
-
-    });
-    $(document).on('click', '.js-add-wishlist', function (event) {
-    event.preventDefault();
-    let parent = $(this).parents('.product-item');
-    let productid = parseInt(parent.find('.product-grid6').attr('data-id'));
-
-    $.ajax({
-    type: 'POST',
-    url: '@Url.ActionLink("AddtoWishList", "Cart")',
-    data: {
-    productid: productid,
-    },
-    success: function (result) {
-        addtowishlist();
-    //window.location.href = '@Url.ActionLink("cart", "cart")';
-    }
-    })
-
-    });
-    function addtowishlist() {
-    $.ajax({
-    type: 'GET',
-    url: '@Url.ActionLink("GetWishList", "Cart")',
-    success: function (result) {
-        var count = 0;
-    if (result != null && result != '') {
-    count = result.length;
-    } else {
-    $(".wishlist-count").html(`${0}`);
-    return;
-    }
-    $(".wishlist-count").html(`${count}`);
-    }
-    })
-                };
-  $(document).on('click', '.remove-wishlish', function (e) {
-      var parent = $(this).parents('.product-grid6');
-        var id = parseInt(parent.attr('data-id'));
-        $.ajax({
-        type: 'POST',
-        url: '@Url.ActionLink("RemoveWishList", "Cart")',
-        data: {
-        productid: id,
-        },
-            success: function (result) {
-                addtowishlist();
-               window.location.href = '@Url.ActionLink("wishlist", "cart")';
-        }
-        })
+            var parent = $(this).parents('.item-cart-1');
+            var CartId = parseInt(parent.attr('data-id'));
+            var value = parseInt(parent.find('.count').val());
+        if (value == 1) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("RemoveCart", "Cart")',
+                data: {
+                    CartId: CartId,
+                },
+                success: function (result) {
+                    addtocart();
+                }
         });
-    
-        $(document).on('click', '.product-item', function (e) {
-            var parent = $(this).children('.product-grid6');
-        var id = parseInt(parent.attr('data-id'));
+        } else {
+        value--;
         $.ajax({
             type: 'POST',
-            url: '@Url.ActionLink("RecentlyViewed", "Cart")',
+            url: '@Url.ActionLink("UpdateCart", "Cart")',
             data: {
-                productid: id,
+                CartId: CartId,
+                quantity: value,
             },
             success: function (result) {
-                console.log("click vao");
+                addtocart();
             }
         });
+    }
+    });
+
+    //fadeIn fadeOut Cart
+    $(".cart-togget").on("click", function (e) {
+        $(".cart-content").toggleClass("fadein");
+    });
+    $(".close-cart i").on("click", function () {
+         $(".cart-content").removeClass("fadein");
+    });
+
+
+
+
+    //Remove WishList
+    $(document).on('click', '.remove-wishlish', function (e) {
+    var parent = $(this).parents('.product-grid6');
+    var id = parseInt(parent.attr('data-id'));
+    $.ajax({
+    type: 'POST',
+    url: '@Url.ActionLink("RemoveWishList", "Cart")',
+    data: {
+    productid: id,
+    },
+        success: function (result) {
+            addtowishlist();
+            window.location.href = '@Url.ActionLink("wishlist", "cart")';
+    }
+    })
+});
+
+    // add to RecentlyViewed: Sản phẩm mới xem;
+    $(document).on('click', '.product-item', function (e) {
+    var parent = $(this).children('.product-grid6');
+    var id = parseInt(parent.attr('data-id'));
+    $.ajax({
+        type: 'POST',
+        url: '@Url.ActionLink("RecentlyViewed", "Cart")',
+        data: {
+            productid: id,
+        },
+        success: function (result) {
+            console.log("click vao");
+        }
+    });
+    });
+
+      //add to wishList
+    $('.js-add-wishlist').on('click',function(e){
+    e.preventDefault();
+    var productid = parseInt($(this).data('id'));//ID sản phẩm
+
+    var status = $(this).data('status');
+    if (status) {
+        $(this).addClass('active_item');
+        $(this).data('status', false);
+        $(this).attr('data-tip', 'REMOVE WISHLIST');
+        animation(this);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("AddtoWishList", "Cart")',
+            data: {
+                productid: productid,
+            },
+            success: function (result) {
+                addtowishlist();
+            }
         });
+    } else {
+        $(this).removeClass('active_item');
+        $(this).data('status', true);
+        $(this).attr('data-tip', 'ADD TO WISHLIST');
+          $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("RemoveWishList", "Cart")',
+            data: {
+                productid: productid,
+            },
+            success: function (result) {
+                addtowishlist();
+            }
+        });
+
+        }
+});
+
+    function animation(e) {
+             var animation;
+             if ($(e).hasClass("js-add-wishlist")) {
+                 animation = $('#wishlist-icon');
+             } else {
+                 animation = $('#cart');
+             }
+
+        var imgtodrag = $(e).parents('.product-grid6').find("img").eq(0);
+        if (imgtodrag) {
+            var imgclone = imgtodrag.clone()
+                .offset({
+                    top: imgtodrag.offset().top,
+                    left: imgtodrag.offset().left
+                })
+                .css({
+                    'opacity': '0.5',
+                    'position': 'absolute',
+                    'height': '150px',
+                    'width': '150px',
+                    'z-index': '100'
+                })
+                .appendTo($('body'))
+                .animate({
+                    'top': animation.offset().top + 10,
+                    'left': animation.offset().left + 10,
+                    'width': 50,
+                    'height': 50
+                }, 1000, 'easeInOutExpo');
+
+            setTimeout(function () {
+                animation.effect("shake", {
+                    times: 2
+                }, 200);
+            }, 1500);
+            imgclone.animate({
+                'width': 0,
+                'height': 0
+            }, function () {
+                $(this).detach()
             });
- 
-</script>
+            if ($(e).hasClass("togget-add-cart")) {
+                setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
+            }
 
+        }
+        }
+        var Listvalue = [];
+        $(".togget-add-cart").on('click', function (e) {
+            e.preventDefault();
+            var productid = parseInt($(this).data('id')); //ID sản phẩm
+            var values = JSON.stringify(Listvalue);
+                    if (window.location.href == "https://localhost:5001/cart/cart") {
+                    } else {
+                        animation(this);
+                    }
+                    $(this).addClass('active_item');
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.ActionLink("AddToCart", "Cart")',
+                        data: {
+                            productid: productid,
+                            values: values
+                        },
+                        success: function (result) {
+                            addtocart();
+                            if (window.location.href == "https://localhost:5001/cart/cart") {
+                                window.location.href = '@Url.ActionLink("cart","cart")';
+                                alert("thêm thành công");
+                            }
+                        }
+                    });
+        });
+       //add to cart
+    $('.js-add-cart').on('click', function (e) {
+        e.preventDefault();
+        var parent = $(this).parents((".product-grid6"));
+        var contentoption = parent.find(".add-option-value").text().trim();
+        if (contentoption == "") {
+            return;
+        }
+        var Size = $("input[type='radio']:checked").val();
+        if (Size == undefined) {
+            alert("vui lòng chọn kích thước");
+            return;
+        }
+        var productid = parseInt($(this).data('id')); //ID sản phẩm
+        parent.find(".product-add-option").removeClass("active-option");
+            if (window.location.href == "https://localhost:5001/cart/cart") {
+            } else {
+                animation(this);
+            }
+        $(this).addClass('active_item');
+        $(this).data('status', false);
+        $(this).attr('data-tip', 'Remove Cart');
+        $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("AddToCart", "Cart")',
+            data: {
+                productid: productid,
+                Size: Size,
+            },
+            success: function (result) {
+                addtocart();
+                if (window.location.href == "https://localhost:5001/cart/cart") {
+                    window.location.href = '@Url.ActionLink("cart","cart")';
+                    alert("thêm thành công");
+                }
+            }
+        });
+
+});
+        /*==================================================================[ Show modal Search ]*/
+        $('.js-show-modal-search').on('click', function (e) {
+            e.preventDefault();
+            $('.modal-search-header').addClass('show-modal-search');
+            $(this).css('opacity', '0');
+        });
+        /*==================================================================[ Hidden modal Search ]*/
+        $('.js-hide-modal-search').on('click', function () {
+            $('.modal-search-header').removeClass('show-modal-search');
+            $('.js-show-modal-search').css('opacity', '1');
+        });
+
+        $('.container-search-header').on('click', function (e) {
+            e.stopPropagation();
+        });
+
+        /*==================================================================[ Show modal1 ]*/
+        $('.js-show-modal1').on('click', function (e) {
+            e.preventDefault();
+            $('.js-modal1').addClass('show-modal1');
+        });
+        /*==================================================================[ Hidden modal1 ]*/
+        $('.js-hide-modal1').on('click', function () {
+            $('.js-modal1').removeClass('show-modal1');
+        });
+
+        /*==================================================================[ Show menu mobile ]*/
+        $('.open-close').on('click', function (e) {
+            e.preventDefault();
+            $('#header-mid').addClass('show-menu');
+            $('.overlay-modal2').addClass('js-show-modal2');
+        });
+
+        /*==================================================================[ Hidden menu mobile ]*/
+        $('.close-open').on('click', function (e) {
+            e.preventDefault();
+            $('#header-mid').removeClass('show-menu');
+            $('.overlay-modal2').removeClass('js-show-modal2');
+
+        });
+        /*==================================================================[ Hidden menu mobile ]*/
+        $('.overlay-modal2').on('click', function () {
+            $('#header-mid').removeClass('show-menu');
+            $('.overlay-modal2').removeClass('js-show-modal2');
+
+        });
+        $('input[name="query"]').on('keypress', function (e) {
+            if (e.which == 13) {
+                var value = $(this).val();
+                if (value == "") {
+                    e.preventDefault();
+                }
+            }
+        });
+        $(".trans-04").on("click", function (e) {
+            var value = $('input[name="query"]').val();
+            if (value == "") {
+                e.preventDefault();
+            }
+        });
+
+        function loadevent(result) {
+            var ListChecked = [];
+            var optionvalue = result.productOptionVm;
+            for (var i in optionvalue) {
+                var item = optionvalue[i];
+                var input = $(`input[name='inlineRadioOptions-${item.id}']`);
+
+                input.each(function (i,index) {
+                    if (i == 0) {
+                        var id = parseInt($(this).next().attr("data-id"));
+                        debugger;
+                        var value = $(this).val();
+                        $(`.form-check-label[data-id=${id}]`).removeClass('optionactive')
+                        $(this).prop('checked', $(input).is(':checked')).next().addClass("optionactive");
+                        $(this).parents(".option").find('span').text(value);
+                        let item = {
+                            OptionId: id, OptionName : null, OptionValues: value };
+                        ListChecked.push(item);
+                    }
+                })
+            }
+            for (let i in optionvalue) {
+                var item = optionvalue[i];
+                $(`input[name='inlineRadioOptions-${item.id}']`).change(function () {
+                    var checked = $(this).val();
+
+                    var id = parseInt($(this).next().attr("data-id"));
+                    let item = { OptionId: id, OptionValues: checked };
+                    var yet = ListChecked.findIndex(x => x.optionId == id);
+                    if (yet != -1) {
+                        ListChecked.splice(yet, 1);
+                    }
+                    if ($(this).is(':checked')) {
+                        ListChecked.push(item);
+                    }
+                    console.log(ListChecked);
+                });
+                $(`input[name="inlineRadioOptions-${item.id}"]`).on('click', function () {
+                    var id = parseInt($(this).next().attr("data-id"));
+                    var value = $(this).val();
+                    $(`.form-check-label[data-id=${id}]`).removeClass('optionactive')
+                    $(this).prop('checked', $(this).is(':checked')).next().addClass("optionactive");
+                    $(this).parents(".option").find('span').text(value);
+
+                });
+
+
+            }
+              $(document).on('click', '.update-cart', function (e) {
+                  var parent = $(this).parents('.product-details-item');
+                  var productid = parseInt(parent.attr('data-id'));
+                  var quantity = parseInt(parent.find(".num-product").val());
+                  var sortArr = ListoptionValue.sort(function (a, b) {
+                      return a.OptionId - b.OptionId;
+                  });
+                  var values = JSON.stringify(sortArr)
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.ActionLink("AddToCart", "Cart")',
+                        data: {
+                            productid: productid,
+                            quantity: quantity,
+                            values: values
+
+                        },
+                        success: function (result) {
+                             addtocart();
+                            //window.location.href = '@Url.ActionLink("cart", "cart")';
+                        }
+                    })
+            });
+        }
+
+
+        function LoadModal(result) {
+            var html = "";
+            var item = result;
+            console.log(item);
+                html += `<div class="col-md-12">
+                        <div class="col-md-6 single-left gallery-lb">`
+            for (var i = 0; i < item.product.images.length; i++) {
+                    if (i == 0)
+                        {
+                            html += ` <div class="mySlides" style="display: block;">
+                                <div class="numbertext">${i + 1} / ${item.product.images.length}  </div>
+                                <a class="zoom " href="/user-content/${item.product.images[i].media.fileName}" tabindex="0">
+                                    <i class="fal fa-expand"></i>
+                                </a>
+                                <img src="/user-content/${item.product.images[i].media.fileName}" style="width:100%">
+                            </div>`
+                        }
+                        else
+                        {
+                                html +=  ` <div class="mySlides" style="display: none;">
+                                <div class="numbertext">${i + 1} / ${item.product.images.length}  </div>
+                                <a class="zoom " href="/user-content/${item.product.images[i].media.fileName}" tabindex="0">
+                                    <i class="fal fa-expand"></i>
+                                </a>
+                                <img src="/user-content/${item.product.images[i].media.fileName}" style="width:100%">
+                                </div>`
+                        }
+                    }
+                        html +=  `<button class="img-prev" onclick="plusSlides(-1,this)"><i class="fal fa-angle-left" aria-hidden="true"></i></button>
+                        <button class="img-next" onclick="plusSlides(1,this)"><i class="fal fa-angle-right" aria-hidden="true"></i></button>
+
+                        <div class="image-slide">`
+            for (var i = 0; i < item.product.images.length; i++)
+                    {
+                        html +=  `<div class="column">
+                            <img class="demo cursor" src="/user-content/${item.product.images[i].media.fileName}" style="width:100%" onclick="currentSlide(${i+1},this)" alt="${item.product.title}">
+                        </div>`
+                    }
+               html+= ` </div>
+                    </div><!--Hình ảnh-->
+                    <div class="col-md-6 single-right pd-xs-0 product-details">
+                        <div class=" product-details-item" data-id="${item.product.id}">
+                            <h1 class="single-title">${item.product.title}</h1>
+                            <p >`
+                if (item.product.sale > 0)
+                {
+                    html += `<span class="price">${numeral(item.product.sale).format('0,000,00')}<small>₫</small> - </span>
+                                <del class="sale">${numeral(item.product.price).format('0,000,00')} <small>₫</small></del> `
+                        }
+                        else
+                        {
+                            html += ` <span>
+                                ${item.product.price.GetValueOrDefault(0).ToString("#,#.##")}<small>₫</small>
+                            </span>`
+                        }
+                     html += ` </p>`
+                    if (item.product.rating.length > 0)
+                            {
+                                html += `<div class="product-rating">
+                                    <span class="rating star-rating">`
+                             for (var i = 0; i < item.product.rating.length; i++) {
+                                         html += `${item.product.rating[i].scores}`
+                                    }
+
+                                 html +=  `</span>
+
+                                    <a href="#reviews" class="review-link" rel="nofollow">(<span class="count">${item.product.rating.length}</span> nhận xét)</a>
+                                </div>
+                                <div itemprop="description" class="short-description">
+                                    <p>${item.product.description} </p>
+                                </div>`
+                            }
+
+                 for (var i in item.productOptionVm) {
+                            var item2 = item.productOptionVm[i];
+
+                                if (item2.name == "Size")
+                                {
+                                html +=  `<div class="option">
+                                        <div>
+                                            Kích thước:
+                                            <span></span>
+                                        </div>
+                                        <ul>`
+                                    for (var i in item2.values) {
+                                        var item3 = item2.values[i]
+                                            html += ` <li>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-${item2.id}" id="inlineRadio-${item3.key}" value="${item3.key}">
+                                                        <label class="form-check-label" for="inlineRadio-${item3.key}" data-id="${item2.id}">${item3.display}</label>
+                                                    </div>
+                                                </li>`
+                                            }
+
+                                    html += ` </ul>
+                                        </div>`
+                                }
+                                else
+                                {
+
+                                    html +=` <div class="option">
+                                        <div>
+                                            Màu Sắc:
+                                            <span></span>
+                                        </div>
+                                        <ul>`
+                                    for (var i in item2.values) {
+
+                                                        var item3 = item2.values[i]
+                                                    html += ` <li>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-${item2.id}" id="inlineRadio-${item3.key}" value="${item3.key}">
+                                                        <label class="form-check-label" for="inlineRadio-${item3.key}" style="background-color:#${item3.display};border-radius: 50%;" data-id="${item2.id}"></label>
+                                                    </div>
+                                                     </li>`
+                                                }
+                                    html +=`</ul></div>`
+                                }
+                 }
+                     // so luong
+                   html +=`<div class="quantity">
+                            <div class="wrap-num-product">
+                                <div class="btn-num-product-down">
+                                    <i class="fal fa-minus" aria-hidden="true"></i>
+                                </div>
+                                <input class="txt-center num-product" type="number" name="num-product" value="1" data-val="1">
+
+                                <div class="btn-num-product-up">
+                                    <i class="fal fa-plus" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div> <div class="clearfix"></div>`
+                            //update giỏ hàng
+            html +=` <div class="update-cart" data-id="${item.product.id}">
+                                Cập nhật giỏ hàng
+                                <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="add-wishlist">
+                                <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
+                            </div>
+
+
+                            <div class="product-meta">`
+                            if (item.product.brand != null)
+                            {
+                                html +=` <span class="product_brand">
+                                        Thương hiệu:
+                                        <a href="#">${item.product.brand.name}</a>
+                                    </span>`
+                            }
+                                html +=` <span class="product_sku">
+                                            Xuất xứ:
+                                            <a href="#">N/A</a>
+                                        </span>`
+                            if (item.product.category != null)
+                            {
+                                html +=`<span class="product_category">
+                                    Danh mục:
+                                    <a href="#">${item.product.category.title}</a>
+                                </span>`
+                            }
+
+                            html +=`    <span class="product_share">
+                                Chia sẻ:
+                                <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                            </span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                        </div>
+                    </div>
+                    </div><!--Thông tin cơ bản-->
+               `;
+            $("#modal-item").html(html);
+          
+            Rating();
+            quantity();
+        }
+      $(document).on('click', '.js-show-modal', function (e) {
+          var productId = $(this).data("id");
+            $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("Detail", "Product")',
+                data: {
+                    Id: productId,
+                },
+                success: function (result) {
+                    LoadModal(result);
+                    loadevent(result);
+                }
+            })
+        });
+    </script>
     @RenderSection("Scripts", required: false)
-
-
 </body>
 </html>

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Shop.Components
 {
-    public class ProductByCategoryComponent : ViewComponent
+    public class ProductByCategoryViewComponent : ViewComponent
     {
         private readonly shopContext _shopContext;
-        public ProductByCategoryComponent(shopContext shopContext)
+        public ProductByCategoryViewComponent(shopContext shopContext)
         {
             _shopContext = shopContext;
         }

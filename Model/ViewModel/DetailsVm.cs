@@ -9,5 +9,6 @@ namespace Model.ViewModel
     {
         public Product product { get; set; }
         public List<Product> products { get; set; }
+        public IList<ProductOptionVm> ProductOptionVm { get; set; } = new List<ProductOptionVm>();
     }
 }

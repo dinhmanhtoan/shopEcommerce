@@ -28,12 +28,15 @@ namespace Model.Models
         public virtual DbSet<Brand> Brand { get; set; }
         public virtual DbSet<ProductOption> ProductOption { get; set; }
         public virtual DbSet<ProductOptionValue> ProductOptionValue { get; set; }
+        public virtual DbSet<ProductOptionCombination> ProductOptionCombination { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<Cart> Cart { get; set; }
+        public virtual DbSet<CartItem> CartItem { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.;Database=shop;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=.;Database=shop2;Trusted_Connection=True;");
             }
         }
 
@@ -41,67 +44,6 @@ namespace Model.Models
         {
             base.OnModelCreating(modelBuilder);
             CoreSeedData.SeedData(modelBuilder);
-            //modelBuilder.Entity<Category>(entity =>
-            //{
-            //    entity.ToTable("category");
-
-            //    entity.HasIndex(e => e.Code)
-            //        .HasName("UQ__category__A25C5AA7EAA66A4E")
-            //        .IsUnique();
-
-            //    entity.Property(e => e.Id).HasColumnName("ID");
-
-            //    entity.Property(e => e.Code)
-            //        .IsRequired()
-            //        .HasMaxLength(20)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-            //    entity.Property(e => e.Description).HasMaxLength(1000);
-
-            //    entity.Property(e => e.EditOn).HasColumnType("datetime");
-
-            //    entity.Property(e => e.Thumbnail).HasMaxLength(250);
-
-            //    entity.Property(e => e.Title)
-            //        .IsRequired()
-            //        .HasMaxLength(250);
-            //});
-
-            //modelBuilder.Entity<Product>(entity =>
-            //{
-            //    entity.ToTable("product");
-
-            //    entity.HasIndex(e => e.Code)
-            //        .HasName("UQ__product__A25C5AA7805FBE52")
-            //        .IsUnique();
-
-            //    entity.Property(e => e.Id).HasColumnName("ID");
-
-            //    entity.Property(e => e.Code)
-            //        .IsRequired()
-            //        .HasMaxLength(20)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-            //    entity.Property(e => e.Description).HasMaxLength(1000);
-
-            //    entity.Property(e => e.EditOn).HasColumnType("datetime");
-
-            //    entity.Property(e => e.Images).HasColumnType("xml");
-
-            //    entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
-
-            //    entity.Property(e => e.Sale).HasColumnType("decimal(18, 2)");
-
-            //    entity.Property(e => e.Thumbnail).HasMaxLength(250);
-
-            //    entity.Property(e => e.Title)
-            //        .IsRequired()
-            //        .HasMaxLength(250);
-            //});
             modelBuilder.Entity<Category>(c =>
             {
                 c.HasKey(m => m.Id);
@@ -190,7 +132,7 @@ namespace Model.Models
             modelBuilder.Entity<OrderDetail>(o =>
             {
 
-                o.HasKey(x => new { x.OrderId, x.ProductId });
+                o.HasKey(x => x.Id);
 
                 o.HasOne(x => x.Order).WithMany(x => x.OrderDetails).HasForeignKey(x => x.OrderId);
 
@@ -221,6 +163,25 @@ namespace Model.Models
                 o.Property(x => x.DisplayType).HasMaxLength(450);
                 o.Property(x => x.SortIndex).IsRequired();
                 o.HasOne(x => x.Product).WithMany(x => x.OptionValues).HasForeignKey(x => x.ProductId);
+            });
+            modelBuilder.Entity<ProductOptionCombination>(o =>
+            {
+                o.HasKey(x => x.Id);
+
+                o.HasOne(x => x.Product).WithMany(x => x.OptionCombinations).HasForeignKey(x => x.ProductId);
+
+                o.HasOne(x => x.Option).WithMany(x => x.OptionCombinations).HasForeignKey(x => x.OptionId);
+            });
+            modelBuilder.Entity<Cart>(c =>
+            {
+                c.HasKey(x => x.Id);
+            });
+            modelBuilder.Entity<CartItem>(c =>
+            {
+                c.HasKey(x => x.Id);
+                c.HasOne(x => x.Cart).WithMany(x => x.cartItems).HasForeignKey(x => x.CartId);
+                c.HasOne(x => x.Product).WithMany(x => x.cartItems).HasForeignKey(x => x.ProductId);
+
             });
         }
 

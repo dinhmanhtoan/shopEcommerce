@@ -244,22 +244,41 @@ namespace Admin.Controllers
             if (model.ThumbnailImage != null)
             {
                 var ThumbnailImage = _context.Product.Include(x => x.Thumbnail).FirstOrDefault();
-                if (!(ThumbnailImage.Thumbnail.FileName == model.ThumbnailImage.FileName))
+                if (ThumbnailImage == null)
                 {
-
                     var fileName = await SaveFile(model.ThumbnailImage);
                     if (product.Thumbnail != null)
                     {
                         RemoveFile(product.Thumbnail.FileName);
                         product.Thumbnail.FileName = fileName;
-                     
+
                     }
                     else
                     {
-                  
+
                         product.Thumbnail = new Media { FileName = fileName };
                     }
                 }
+                else
+                {
+                    if (!(ThumbnailImage.Thumbnail.FileName == model.ThumbnailImage.FileName))
+                    {
+
+                        var fileName = await SaveFile(model.ThumbnailImage);
+                        if (product.Thumbnail != null)
+                        {
+                            RemoveFile(product.Thumbnail.FileName);
+                            product.Thumbnail.FileName = fileName;
+
+                        }
+                        else
+                        {
+
+                            product.Thumbnail = new Media { FileName = fileName };
+                        }
+                    }
+                }
+
             }
           
 

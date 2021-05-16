@@ -1,0 +1,666 @@
+﻿
+@model FormProduct
+@{
+    ViewData["Title"] = "Updated";
+ 
+}
+@section styles{
+    <link href="~/lib/media-preview-upload/css/style.css" rel="stylesheet" />
+    <link href="~/lib/tag-input/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="~/lib/color/build/1.2.3/css/pick-a-color-1.2.3.min.css" rel="stylesheet" />
+    <style>
+        .fade {
+            display: none;
+        }
+
+        .show {
+            display: block !important;
+        }
+    </style>
+
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">
+            Cập nhật sản phẩm
+        </h3>
+        <p class="card-subtitle">@Model.Products.Title</p>
+    </div>
+
+    <div class="card-body">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="product-tab" data-toggle="tab" href="#product" role="tab" aria-controls="product" aria-selected="true">Sản phẩm</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="option-tab" data-toggle="tab" href="#option" role="tab" aria-controls="option" aria-selected="false">Biến Thể</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="row">
+                <div class="col-md-12">
+                    <form asp-action="Updated" method="post" enctype="multipart/form-data">
+                        <div class="tab-pane fade show active" id="product" role="tabpanel" aria-labelledby="product-tab">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Products.Id" value="@Model.Products.Id" />
+                            <div class="form-group">
+                                <label asp-for="Products.Code" class="control-label"></label>
+                                <input asp-for="Products.Code" type="text" class="form-control" value="@Model.Products.Code" />
+                                <span asp-validation-for="Products.Code" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products.Title" class="control-label"></label>
+                                <input asp-for="Products.Title" type="text" class="form-control Title" value="@Model.Products.Title" />
+                                <span asp-validation-for="Products.Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products.Slug" class="control-label"></label>
+                                <input asp-for="Products.Slug" type="text" class="form-control" value="@Model.Products.Slug" id="permalink" readonly />
+                                <span asp-validation-for="Products.Slug" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products.Description" class="control-label"></label>
+                                <input asp-for="Products.Description" type="text" class="form-control" value="@Model.Products.Description" />
+                                <span asp-validation-for="Products.Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products.Detail" class="control-label"></label>
+                                <input asp-for="Products.Detail" type="text" class="form-control" value="@Model.Products.Detail" />
+                                <span asp-validation-for="Products.Detail" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products.CategoryId" class="control-label"></label>
+                                <select asp-for="Products.CategoryId" class="form-control">
+                                    <option value="-1">Chọn</option>
+                                    @foreach (var item in Model.Products.categories)
+                                    {
+                                        if (Model.Products.CategoryId == item.Id)
+                                        {
+                                            <option value="@item.Id" selected>@item.Title</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Title</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="Products.CategoryId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products.BrandId" class="control-label"></label>
+                                <select asp-for="Products.BrandId" class="form-control">
+                                    <option value="-1">Chọn</option>
+                                    @foreach (var item in Model.Products.brands)
+                                    {
+                                        if (Model.Products.BrandId == item.Id)
+                                        {
+                                            <option value="@item.Id" selected>@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="Products.BrandId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products.Price" class="control-label"></label>
+                                <input asp-for="Products.Price" class="form-control" value="@Model.Products.Price" />
+                                <span asp-validation-for="Products.Price" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products.Sale" class="control-label"></label>
+                                <input asp-for="Products.Sale" class="form-control" value="@Model.Products.Sale" />
+                                <span asp-validation-for="Products.Sale" class="text-danger"></span>
+                            </div>
+                            @*="~/user-content/@Model.Products.ThumbnailImageUrl*@
+                            <div class="form-group ">
+                                <label class="control-label">Ảnh</label>
+
+                                <input asp-for="ThumbnailImage" class="form-control-file" type="file" id="thumbnail" onchange="previewFile(this)" hidden />
+                                <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
+                                <br />
+                                <img id="previewThumbnail" src="~/user-content/@Model.Products.ThumbnailImageUrl" width="90" />
+                                <br />
+                                <label for="thumbnail" class="btn btn-primary mt-1">Chọn ảnh</label>
+
+                                <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Danh sách hình ảnh</label>
+                                <ul class="media-list" id="media-list">
+                                    @foreach (var item in Model.Products.ProductImages)
+                                    {
+                                        <li>
+                                            <img src="@item.MediaUrl" />
+                                            <div class="post-thumb"><div class="inner-post-thumb"><a href="javascript:void(0);" data-id="@item.Media" class="remove-pic"><i class="fa fa-times" aria-hidden="true"></i></a><div></div></div></div>
+                                        </li>
+                                    }
+                                    <li class="myupload">
+                                        <span>
+                                            <i class="fa fa-plus" aria-hidden="true" for="ProductImages"></i>
+                                            <input asp-for="ProductImages" class="form-control-file " id="ProductImages" type="file" multiple name="ProductImages" />
+                                        </span>
+                                        <input asp-for="ListDelete" id="Delete" name="ListDelete" hidden />
+                                    </li>
+                                </ul>
+                                <span asp-validation-for="ProductImages" class="text-danger"></span>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="option" role="tabpanel" aria-labelledby="option-tab">
+                            <div class="input-group mb-3">
+                                <select class="custom-select" id="add-option">
+                                    <option selected>Chọn</option>
+                                    @foreach (var item in Model.ProductOption)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                                <div class="input-group-append">
+                                    <button id="option" class="btn btn-outline-secondary" type="button">Chọn</button>
+                                </div>
+                            </div>
+                            @for (int i = 0; i < Model.ProductOptionVm.Count; i++)
+                            {
+                                var value = "";
+                                <div class="input-group fade show mb-3 option-value">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">@Model.ProductOptionVm[i].Name</span>
+                                    </div>
+                                    <input type="number" hidden asp-for="ProductOptionVm[i].Id" value="@Model.ProductOptionVm[i].Id">
+                                    <input type="text" hidden asp-for="ProductOptionVm[i].Name" value="@Model.ProductOptionVm[i].Name">
+
+                                    @for (int z = 0; z < Model.ProductOptionVm[i].Values.Count; z++)
+                                    {
+
+                                        value += string.Concat(Model.ProductOptionVm[i].Values[z].Key, ',');
+                                    }
+
+                                    <input type="text" data-role="tagsinput" value="@value">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary option-type" data-toggle="modal" data-target="#exampleModal-@Model.ProductOptionVm[i].Id">
+                                        Cấu hình hiển thị
+                                    </button>
+                                    <button type="button" class="btn btn-danger removeoption">
+                                        Xóa
+                                    </button>
+
+                                </div>
+                                <div class="modal fade" id="exampleModal-@Model.ProductOptionVm[i].Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Chọn Kiểu </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div>
+
+                                            </div>
+                                            <div class="modal-body">
+                                                @if (Model.ProductOptionVm[i].DisplayType == "Text")
+                                                {
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-@Model.ProductOptionVm[i].Id" id="inlineRadio1" value="Text" checked>
+                                                        <label class="form-check-label" for="inlineRadio1">Display text</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-@Model.ProductOptionVm[i].Id" id="inlineRadio2" value="Color">
+                                                        <label class="form-check-label" for="inlineRadio2">Display color</label>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-@Model.ProductOptionVm[i].Id" id="inlineRadio1" value="Text">
+                                                        <label class="form-check-label" for="inlineRadio1">Display text</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-@Model.ProductOptionVm[i].Id" id="inlineRadio2" value="Color" checked>
+                                                        <label class="form-check-label" for="inlineRadio2">Display color</label>
+                                                    </div>
+                                                }
+
+                                                <input type="text"  asp-for="@Model.ProductOptionVm[i].DisplayType" class="DisplayType"  value="@Model.ProductOptionVm[i].DisplayType"  hidden/>
+                                                <div>
+
+                                                    <div class="form-group key">
+                                                        <input type="hidden" name="value" />
+
+                                                        @for (int j = 0; j < Model.ProductOptionVm[i].Values.Count; j++)
+                                                        {
+                                                            @if (Model.ProductOptionVm[i].DisplayType == "Text")
+                                                            {
+
+                                                                <label class="col-sm-3 col-md-3 control-label">
+                                                                    @Model.ProductOptionVm[i].Values[j].Key<input asp-for="@Model.ProductOptionVm[i].Values[j].Key" type="text" value="@Model.ProductOptionVm[i].Values[j].Key" hidden>
+                                                                </label>
+                                                                <div class="col-sm-9 col-md-9">
+                                                                    <input class="form-control text" asp-for="@Model.ProductOptionVm[i].Values[j].Display" value="@Model.ProductOptionVm[i].Values[j].Display" />
+
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label class="col-sm-3 col-md-3 control-label">
+                                                                    @Model.ProductOptionVm[i].Values[j].Key<input asp-for="@Model.ProductOptionVm[i].Values[j].Key" type="text" value="@Model.ProductOptionVm[i].Values[j].Key" hidden>
+                                                                </label>
+                                                                <div class="col-sm-9 col-md-9">
+                                                                    <input type="text" value="@Model.ProductOptionVm[i].Values[j].Display" asp-for="@Model.ProductOptionVm[i].Values[j].Display" class="pick-a-color form-control ">
+
+                                                                </div>
+                                                            }
+                                                        }
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">ok</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-footer">
+        <a asp-action="Index" class="card-link">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/Slug/speakingurl.min.js"></script>
+    <script src="~/lib/Slug/jquery.stringtoslug.js"></script>
+    <script src="~/lib/color/build/dependencies/tinycolor-0.9.15.min.js"></script>
+    <script src="~/lib/tag-input/bootstrap-tagsinput.js"></script>
+    <script src="~/lib/color/build/1.2.3/js/pick-a-color-1.2.3.min.js"></script>
+    <script>
+        function previewFile(input) {
+            var file = $(input).get(0).files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    $("#previewThumbnail").attr("src", reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        };
+        $(function () {
+            var names = @Html.Raw(Json.Serialize(Model.Products.ProductImages.Select(x => x.Media).ToList()));
+            var ListDelete = [];
+            function previewFile(input) {
+                var file = $(input).get(0).files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        $("#previewThumbnail").attr("src", reader.result);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            };
+            $('body').on('change', '#ProductImages', function (event) {
+                var files = event.target.files;
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    names.push($(this).get(0).files[i].name);
+                    if (file.type.match('image')) {
+
+                        var picReader = new FileReader();
+                        picReader.fileName = file.name
+                        picReader.addEventListener("load", function (event) {
+
+                            var picFile = event.target;
+
+                            var div = document.createElement("li");
+
+                            div.innerHTML = "<img src='" + picFile.result + "'" +
+                                "title='" + picFile.name + "'/><div  class='post-thumb'><div class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
+
+                            $("#media-list").prepend(div);
+
+                        });
+                    } else {
+                        var picReader = new FileReader();
+                        picReader.fileName = file.name
+                        picReader.addEventListener("load", function (event) {
+
+                            var picFile = event.target;
+
+                            var div = document.createElement("li");
+
+                            div.innerHTML = "<video src='" + picFile.result + "'" +
+                                "title='" + picFile.name + "'></video><div class='post-thumb'><div  class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
+
+                            $("#media-list").prepend(div);
+
+                        });
+                    }
+                    picReader.readAsDataURL(file);
+
+                }
+
+            });
+            $('body').on('click', '.remove-pic', function () {
+                $(this).parent().parent().parent().remove();
+                var removeItem = $(this).attr('data-id');
+                var yet = names.indexOf(removeItem);
+                ListDelete.push(removeItem);
+                var ListDeleteStr = JSON.stringify(ListDelete);
+                $('#Delete').val(ListDeleteStr);
+                if (yet != -1) {
+                    names.splice(yet, 1);
+                }
+             });
+            });
+
+        $(document).ready(function () {
+            $(".Title").stringToSlug();
+
+        });
+        $("#permalink").change(() => {
+            console.log($("#permalink").val());
+        })
+        $(".pick-a-color").each(function (i, item) {
+            $(this).pickAColor({
+                showSavedColors: true,
+                saveColorsPerElement: true,
+                fadeMenuToggle: true,
+                showAdvanced: true,
+                showBasicColors: true,
+                showHexInput: true,
+                allowBlank: true,
+            });
+
+        });
+        $(function () {
+            $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
+        });
+
+        var ListValue = @Html.Raw(Json.Serialize(Model.ProductOptionVm.ToList()));
+        var ValueCount = 0;
+        $(document).off('click', '#option[type="button"]').on('click', '#option[type="button"]', function () {
+            var optiontext = $("#add-option").find(":selected").text();
+            var optionvalue = $("#add-option").find(":selected").val()
+            for (var i in ListValue) {
+                var items = ListValue[i].name;
+                if (items == optiontext) {
+                    alert("bạn đã chọn biến thể này ")
+                    return;
+                };
+            }
+            if (optiontext == "Chọn") {
+                alert("Vui lòng chọn biến thể ")
+                return;
+            }
+            var item = { id: optionvalue, name: optiontext, displayType : '' , values : [] }
+            ListValue.push(item);
+            console.log(ListValue);
+            var index = ListValue.findIndex(x => x.name == optiontext);
+            var html = ``;
+            html += `  <div class="input-group fade show mb-3 option-value">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">${optiontext}</span>
+                  </div>
+                        <input type="number" hidden name="ProductOptionVm[${index}].Id" value="${optionvalue}">
+                         <input type="text" hidden name="ProductOptionVm[${index}].Name" value="${optiontext}">
+
+
+                    <input  type="text" data-role="tagsinput"  >
+                <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary option-type" data-toggle="modal" data-target="#exampleModal-${optionvalue}" >
+                        Cấu hình hiển thị
+                    </button>
+                <button type="button" class="btn btn-danger removeoption" >
+                        Xóa
+                    </button>
+                </div>
+              <div class="modal fade" id="exampleModal-${optionvalue}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Chọn Kiểu </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div >
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions-${optionvalue}" id="inlineRadio1" value="Text" checked>
+                                            <label class="form-check-label" for="inlineRadio1">Display text</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions-${optionvalue}" id="inlineRadio2" value="Color">
+                                            <label class="form-check-label" for="inlineRadio2">Display color</label>
+                                        </div>
+                                        <input type="text" hidden name="ProductOptionVm[${index}].DisplayType" class ="DisplayType" />
+                                        <div>
+
+                                            <div class="form-group key" >
+                                                    <input  type="hidden" name="value"/>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">ok</button>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div> `
+            $("#option").append(html);
+            $(".removeoption").on("click", function () {
+
+                var parent = $(this).parent();
+                var removeItem = parent.find(".input-group-text").text();
+                var yet = ListValue.indexOf(removeItem);
+                if (yet != -1) {
+                    ListValue.splice(yet, 1);
+                }
+                parent.remove();
+            });
+            $(function () {
+                $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
+            });
+
+            values();
+        });
+        $(document).ready(function () {
+            values();
+
+        });
+        function values() {
+            $("input[data-role=tagsinput]").off('change').on("change", function (e) {
+      
+                e.preventDefault();
+                var html = ``;
+                var parents = $(this).parent(".option-value");
+                var value = parents.find(".input-group-text").text();
+                var index = ListValue.findIndex(x => x.name == value);
+                var radioValue = parents.next(".modal").find(`input[name='inlineRadioOptions-${ListValue[index].id}']:checked`).val();
+ 
+                $('input').off('itemAdded').on('itemAdded', function (event) {
+                    // event.item: chứa các item
+                    ListValue[index].values.push({ key: event.item, display: '' })
+                    for (var i = 0; i < ListValue[index].values.length; i++) {
+                        var item = ListValue[index].values[i];
+
+                        if (radioValue == 'Text') {
+                            html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
+                                    </label>
+                                 <div class="col-sm-9 col-md-9">
+                                 <input  class="form-control text" value="${item.display}"  name="ProductOptionVm[${index}].Values[${i}].Display"   />
+
+                        </div>`
+                            parents.next(".modal").find('.DisplayType').val(radioValue);
+                            console.log(parents.next(".modal").find('.DisplayType').val());
+                        } else {
+                            html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
+                                    </label>
+                                 <div class="col-sm-9 col-md-9">
+                            <input type="text" value="${item.display}" name="ProductOptionVm[${index}].Values[${i}].Display"  class="pick-a-color form-control ">
+                        </div>`
+                            parents.next(".modal").find('.DisplayType').val("Color");
+                            console.log(parents.next(".modal").find('.DisplayType').val());
+                        }
+
+                    }
+
+                    parents.next().find(".key").html(html);
+
+                    parents.next().find(".pick-a-color").pickAColor({
+
+                        showSavedColors: true,
+                        saveColorsPerElement: true,
+                        fadeMenuToggle: true,
+                        showAdvanced: true,
+                        showBasicColors: true,
+                        showHexInput: true,
+                        allowBlank: true,
+
+                    });
+                });
+                $('input').off('itemRemoved').on('itemRemoved', function (event) {
+                    // event.item: chứa các item
+                    var yet = ListValue[index].values.findIndex(x => x.key == event.item);
+                    if (yet != -1) {
+                        ListValue[index].values.splice(yet, 1);
+                    }
+                    for (var i = 0; i < ListValue[index].values.length; i++) {
+                        var item = ListValue[index].values[i];
+
+                        if (radioValue == 'Text') {
+                            html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
+                                    </label>
+                                 <div class="col-sm-9 col-md-9">
+                                 <input  class="form-control text" value="${item.display}"  name="ProductOptionVm[${index}].Values[${i}].Display"   />
+
+                        </div>`
+                            parents.next(".modal").find('.DisplayType').val(radioValue);
+                        } else {
+                            html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
+                                    </label>
+                                 <div class="col-sm-9 col-md-9">
+                            <input type="text" value="${item.display}" name="ProductOptionVm[${index}].Values[${i}].Display"  class="pick-a-color form-control ">
+                        </div>`
+                            parents.next(".modal").find('.DisplayType').val("Color");
+                        }
+
+                    }
+
+
+                    parents.next().find(".key").html(html);
+
+                    parents.next().find(".pick-a-color").pickAColor({
+
+                        showSavedColors: true,
+                        saveColorsPerElement: true,
+                        fadeMenuToggle: true,
+                        showAdvanced: true,
+                        showBasicColors: true,
+                        showHexInput: true,
+                        allowBlank: true,
+
+                    });
+                });
+            });
+            for (var i in ListValue) {
+
+                $(`input[name='inlineRadioOptions-${ListValue[i].id}']`).off('click').on('click', function () {
+           
+                    var html = ``;
+                    var radioValue = $(this).val();
+                    var parent = $(this).parents(".modal");
+                    var name = parent.prev('.option-value').find('.input-group-text').text();
+                    var input = $(this).parents(".modal").prev().find('input[data-role=tagsinput]').tagsinput('items');
+
+                    var index = ListValue.findIndex(x => x.name == name);
+                    if (index != undefined || index != -1) {
+
+                        if (ListValue[index].values != null) {
+
+
+                    for (var i = 0; i < ListValue[index].values.length; i++) {
+                        var item = ListValue[index].values[i];
+
+                        if (radioValue == 'Text') {
+                            html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
+                                    </label>
+                                 <div class="col-sm-9 col-md-9">
+                                 <input  class="form-control text" value="${item.display}"  name="ProductOptionVm[${index}].Values[${i}].Display"   />
+
+                        </div>`
+                            parent.find('.DisplayType').val(radioValue);
+                            console.log(parent.find('.DisplayType').val());
+                        } else {
+                            html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
+                                    </label>
+                                 <div class="col-sm-9 col-md-9">
+                            <input type="text" value="${item.display}" name="ProductOptionVm[${index}].Values[${i}].Display"  class="pick-a-color form-control ">
+                        </div>`
+                            parent.find('.DisplayType').val("Color");
+                            console.log(parent.find('.DisplayType').val());
+                        }
+
+                    }
+                    parent.find(".key").html(html);
+
+                    parent.find(".pick-a-color").pickAColor({
+
+                        showSavedColors: true,
+                        saveColorsPerElement: true,
+                        fadeMenuToggle: true,
+                        showAdvanced: true,
+                        showBasicColors: true,
+                        showHexInput: true,
+                        allowBlank: true,
+
+                    });
+                        }
+                    }
+                });
+            }
+            $(".removeoption").on("click", function () {
+
+                var parent = $(this).parents('.option-value');
+                console.log(parent);
+                var removeItem = parent.find(".input-group-text").text();
+                var yet = ListValue.findIndex(x => x.name == removeItem);
+                if (yet != -1) {
+                    ListValue.splice(yet, 1);
+                }
+          
+                parent.next('.modal').remove();
+                parent.remove();
+            });
+        }
+    </script>
+    <script src="~/lib/media-preview-upload/js/app.js"></script>
+
+}

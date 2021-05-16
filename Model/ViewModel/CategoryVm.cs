@@ -21,7 +21,7 @@ namespace Model.ViewModel
         public long? CreatedBy { get; set; }
         public DateTime? EditOn { get; set; }
         public long? EditBy { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Chọn Ảnh")]
+
         public ProductMediaVm ProductImages { get; set; } 
     }
 }

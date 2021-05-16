@@ -9,6 +9,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Model.Models;
+using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shop.Controllers
 {
@@ -28,29 +30,33 @@ namespace Shop.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var Product = await _productService.GetAll();
-            Product.Take(5).ToList();
-            var category = await _categoryService.GetAll();
-            var ProductList = new ProductList();
-            foreach (var item in Product)
+            var query = _context.Product.Where(x => x.IsFuture == true).Include(x => x.Thumbnail).Include(x => x.OptionValues).ThenInclude(x => x.Option).ToList();
+            var productvms = new List<ProductVm>();
+            foreach (var item in query)
             {
-                var ProductThumbnail = new ProductThumbnail()
+                var productvm = new ProductVm()
                 {
                     Id = item.Id,
                     Code = item.Code,
                     Title = item.Title,
                     Slug = item.Slug,
                     Description = item.Description,
-                    ThumbnailImage = _context.Medias.Where(x => x.Id == item.ThumbnailId).FirstOrDefault(),
                     Detail = item.Detail,
+                    BrandId = item.BrandId,
                     Price = item.Price,
                     Sale = item.Sale,
+                    ThumbnailImageUrl = item.Thumbnail.FileName,
                 };
-                ProductList.products.Add(ProductThumbnail);
+                productvm.Options = item.OptionValues.OrderBy(x => x.SortIndex).Select(x => new ProductOptionVm()
+                {
+                    Id = x.OptionId,
+                    Name = x.Option.Name,
+                    DisplayType = x.DisplayType,
+                    Values = JsonConvert.DeserializeObject<IList<ProductOptionValueVm>>(x.Value)
+                }).ToList();
+                productvms.Add(productvm);
             }
-            ProductList.categories = category;
-
-            return View(ProductList);
+                return View(productvms);
         }
         //[HttpGet("{Id}")]
         //public async Task<IActionResult> Details(long Id)

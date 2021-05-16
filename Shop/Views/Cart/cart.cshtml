@@ -1,390 +1,607 @@
-﻿@model List<CartItem>
+﻿@model CheckoutViewModel
 
 <h2>GIỎ HÀNG</h2>
 @section head{
     <link rel="stylesheet" href="../css/cart.css">
 }
-@if (Model.Count > 0)
+@if (Model.CartItemVms.Count > 0)
 {
     decimal? total = 0;
     int stt = 1;
+<main>
+    <div id="woocommerce">
 
-    @*<table class="table">
-            <tr>
-                <th>#</th>
-                <th>Sản phẩm</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
-                <th>Thành tiền</th>
-                <th></th>
-            </tr>
-            @foreach (var cartItem in Model)
-            {
-                var thanhtien = cartItem.quantity * cartItem.product.Price;
-                total += thanhtien;
-
-                <tr>
-                    <td>@(stt++)</td>
-                    <td>@cartItem.product.Title</td>
-                    <td>@(cartItem.product.Price?.ToString("n0"))</td>
-                    <td><input asp-for="@cartItem.quantity" id="@($"quantity-{cartItem.product.Id}")" /></td>
-                    <td>@(thanhtien?.ToString("n0"))</td>
-                    <td>
-                        <button class="btn btn-success updatecartitem" data-productid="@cartItem.product.Id">Cập nhật</button>
-                        <a asp-controller="cart" asp-action="removecart" asp-route-productid="@cartItem.product.Id"
-                           class="btn btn-danger">Xóa</a>
-                    </td>
-                </tr>
-            }
-            <tr>
-                <td colspan="4" class="text-right">Tổng tiền</td>
-                <td>@(total?.ToString("n0"))</td>
-                <td></td>
-            </tr>
-        </table>*@
-    <main>
-        <div id="woocommerce">
-
-        </div>
-        <div id="cart">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="cart">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <td scope="col"><span class="hidden-sm-down ">Sản phẩm</span></td>
-                                        <td scope="col"  width="120" class="hidden-sm-down ">Giá</td>
-                                        <td scope="col" width="100">Số lượng</td>
-                                        <td scope="col" width="120" class="hidden-sm-down ">Tổng</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
+    </div>
+    <div id="cart">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="cart">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td scope="col"><span class="hidden-sm-down ">Sản phẩm</span></td>
+                                    <td scope="col" width="120" class="hidden-sm-down ">Giá</td>
+                                    <td scope="col" width="100">Số lượng</td>
+                                    <td scope="col" width="120" class="hidden-sm-down ">Tổng</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.CartItemVms)
+                                {
+                                    decimal? thanhtien = 0;
+                                    if (item.ProductVm.Sale == null)
                                     {
-                                        decimal? thanhtien = 0;
-                                        if (item.product.Sale == null)
-                                        {
-                                            thanhtien += item.quantity * item.product.Price;
-                                            total += thanhtien;
-                                        }
-                                        else
-                                        {
-                                            thanhtien += item.quantity * item.product.Sale;
-                                            total += thanhtien;
-                                        }
+                                        thanhtien += item.Quantity * item.ProductVm.Price;
+                                        total += thanhtien;
+                                    }
+                                    else
+                                    {
+                                        thanhtien += item.Quantity * item.ProductVm.Sale;
+                                        total += thanhtien;
+                                    }
 
-                                        <tr class="item-in-cart" data-id="@item.Id">
-                                            <td>
-                                                <div class="cart-item-details" style="display:flex;">
-                                                    <div>
-                                                        <a href="../html/single.html"><img src="https://localhost:44360/user-content/@item.product.Thumbnail.FileName"></a>
-                                                    </div>
-                                                 
-                                            
-                                                    <div class="cart-item-price hidden-md-up">
-                                                        <a href="../html/single.html">@item.product.Title</a>
-                                                        <p class="no-margin">
-                                                            <span>@item.quantity</span> X <span class="price">
-                                                                @if (item.product.Sale == null)
-                                                                {
-                                                                    @(item.product.Price)
-                                                                }
-                                                                else
-                                                                {
-                                                                    @(item.product.Sale)
-                                                                }
-                                                            </span>
-                                                        </p>
-                                                        <a class="remove-in-cart">Remove</a>
-                                                    </div>
-                                     
+                                    <tr class="item-in-cart" data-id="@item.ProductId">
+                                        <td>
+                                            <div class="cart-item-details" style="display:flex;" data-id="@item.Id">
+                                                <div>
+                                                    <a href="../html/single.html"><img src="/user-content/@item.ProductVm.ThumbnailImageUrl"></a>
                                                 </div>
-                                            </td>
-                                            <td class="hidden-sm-down">
-                                                <div class="cart-item-price">
-                                                    @if (item.product.Sale == null)
+
+
+                                                <div class="cart-item-price hidden-md-up">
+                                                    <a href="../html/single.html">@item.ProductVm.Title</a>
+                                                    @if (item.Values.Count > 0)
                                                     {
-                                                        <span style="color:black">@item.product.Price</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span  style="color:black">@item.product.Sale</span>
-                                                        <i class="fa fa-caret-left" aria-hidden="true"></i>
-                                                        <span><del>@item.product.Price</del></span>
-                                                    }
+                                                        <button type="button" class="option-modal" data-toggle="modal" data-target="#exampleModal-1" data-id="@item.Id">
 
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="cart-item-quantity">
-                                                    <div class="quantity">
-                                                        <div class="wrap-num-product">
-                                                            <div class="btn-num-product-down">
-                                                                <i class="fa fa-minus" aria-hidden="true"></i>
-                                                            </div>
-                                                            <input class="txt-center num-product" type="number" name="num-product" value="@item.quantity">
 
-                                                            <div class="btn-num-product-up">
-                                                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
+                                                            @for (int i = 0; i < item.Values.Count; i++)
+                                                            {
+
+                                                                <span class="optionValues" data-id="@item.Values[i].OptionId">
+                                                                    @item.Values[i].OptionValues
+                                                                </span>
+                                                                @if (i != item.Values.Count - 1)
+                                                                {
+                                                                    <span>/</span>
+                                                                }
+                                                            }
+                                                            <span><i class="fas fa-caret-down"></i></span>
+
+                                                        </button>
+                                                    }
+                                                    <p class="no-margin">
+                                                        <span>@item.Quantity</span> X <span class="price">
+                                                                    @if (item.ProductVm.Sale == null)
+                                                                    {
+                                                                        <span>@(item.ProductVm.Price.GetValueOrDefault().ToString("#,###")) <small>₫</small></span>
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span> @(item.ProductVm.Sale.GetValueOrDefault().ToString("#,###")) <small>₫</small></span>
+                                                                    }
+                                                                </span>
+                                                    </p>
+                                                    <a class="remove-in-cart">Remove</a>
                                                 </div>
-                                            </td>
-                                            <td class="hidden-sm-down">
-                                                @if (item.product.Sale == null)
+
+                                            </div>
+                                        </td>
+                                        <td class="hidden-sm-down">
+                                            <div class="cart-item-price">
+                                                @if (item.ProductVm.Sale == null)
                                                 {
-                                                    @(item.product.Price * item.quantity)
+                                                <span style="color:black">@item.ProductVm.Price.GetValueOrDefault().ToString("#,###") </span>
                                                 }
                                                 else
                                                 {
-                                                    @(item.product.Sale * item.quantity)
+                                            <span style="color:black">@item.ProductVm.Sale.GetValueOrDefault().ToString("#,###") </span>
+                                                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                                    <span><del>@item.ProductVm.Price.GetValueOrDefault().ToString("#,###") </del></span>
                                                 }
-                                            </td>
-                                        </tr>
-                                    }
 
-                                </tbody>
-                            </table>
-                        </div>
-                      
-                        <hr>
-                        <a class="return-shop" asp-controller="Product" asp-action="index"><i class="fa fa-angle-left" aria-hidden="true"></i> Tiếp tục mua hàng </a>
-                    </div>
-                    <div class="col-md-4 total">
-                        <div class="box">
-
-                            <h3 class="title">Tổng đơn hàng</h3>
-
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>Tổng</td>
-                                        <td class="text-right">@total</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phí vận chuyển</td>
-                                        <td class="text-right">25.000</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            Mã giảm giá
-                                            <br>
-                                            <input class="input_style1 m_t_10" type="text" name="discount">
+                                            </div>
                                         </td>
+                                        <td class="text-center">
+                                            <div class="cart-item-quantity">
+                                                <div class="quantity">
+                                                    <div class="wrap-num-product">
+                                                        <div class="btn-num-product-down">
+                                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                                        </div>
+                                                        <input class="txt-center num-product" type="number" name="num-product" value="@item.Quantity">
 
-                                    </tr>
-                                    <tr>
-                                        <td>Thanh toán</td>
-                                        <td class="text-right">@(total - 25000)</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <a asp-controller="cart" asp-action="checkout" class="btn btn-black">Thanh toán</a>
+                                                        <div class="btn-num-product-up">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="hidden-sm-down">
+                                            @if (item.ProductVm.Sale == null)
+                                            {   
+                                            <span> @((item.ProductVm.Price * item.Quantity).GetValueOrDefault().ToString("#,###"))<small>₫</small></span>
 
-                        </div>
+                                               
+                                            }
+                                            else
+                                            {
+                                            <span>
+                                                @((item.ProductVm.Sale * item.Quantity).GetValueOrDefault().ToString("#,###")) <small>₫</small></span>
+                                              
+                                            }
+                                        </td>
+                                    </tr>
+
+                                }
+                                @*Modal*@
+                                <div class="modal fade" id="exampleModal-1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="container bg0">
+                                                    <div class="p-t-15 p-b-20 how-pos3">
+                                                        <div style="float:right">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div id="modal-item"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="modal-item"></div>
+                    <hr>
+                    <a class="return-shop" asp-controller="Product" asp-action="index"><i class="fa fa-angle-left" aria-hidden="true"></i> Tiếp tục mua hàng </a>
+                </div>
+                <div class="col-md-4 total">
+                    <div class="box">
+
+                        <h3 class="title">Tổng đơn hàng</h3>
+
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Tổng</td>
+                                    <td class="text-right">@total.GetValueOrDefault().ToString("#,###")  <small>₫</small></td>
+                                </tr>
+                                <tr>
+                                    <td>Phí vận chuyển</td>
+                                    <td class="text-right">25.000 <small>₫</small></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        Mã giảm giá
+                                        <br>
+                                        <input class="input_style1 m_t_10" type="text" name="discount">
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>Thanh toán</td>
+                                    <td class="text-right">@((total + 25000).GetValueOrDefault().ToString("#,###") ) <small>₫</small></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a asp-controller="cart" asp-action="checkout" class="btn btn-black">Thanh toán</a>
+
                     </div>
                 </div>
-
             </div>
 
         </div>
-        <div class="clearfix"></div>
-        <div class="product">
 
+    </div>
+ 
+    <div class="clearfix"></div>
+    @*<div class="product">
             <div class="container">
                 <div class="row">
-
                     <h2 class="title">Sản phẩm vừa xem</h2>
-                    <div class="col-md-3 col-6">
-                        <div class="product-grid6">
-                            <div class="product-image6">
-                                <a href="#">
-                                    <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-1.jpg">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="#">Men's Shirt 1</a></h3>
-                                <div class="price">
-                                    $11.00
-                                    <span>$14.00</span>
+                    @if (Model.Viewed.Count > 0)
+                    {
+                        @foreach (var item in Model.Viewed)
+                        {
+                            <div class="col-md-3 col-6 item-product">
+                                <div class="product-grid6">
+                                    <div class="product-image6">
+                                        <a href="/chi-tiet/@item.Slug">
+                                            <img class="pic-1" src="/user-content/@item.Thumbnail.FileName">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <h3 class="title"><a href="chi-tiet/@item.Slug">@item.Title</a></h3>
+                                        <div>
+                                            @if (item.Sale > 0)
+                                            {
+                                                <span>@item.Sale.GetValueOrDefault().ToString("#,###") ₫</span>
+                                                <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                                <span class="sale"><del>@item.Price.GetValueOrDefault().ToString("#,###") ₫</del></span>
+                                            }
+                                            else
+                                            {
+                                                <span><del>@item.Price.GetValueOrDefault().ToString("#,###") ₫</del></span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <ul class="social">
+                                        <li><a href="/chi-tiet/@item.Slug" class="js-show-modal1" data-id="@item.Id" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="" class="js-add-wishlist" data-status="true" data-id="@item.Id" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
+                                        <li><a href="" class="js-add-cart" data-status="true" data-id="@item.Id" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
+                                    </ul>
                                 </div>
                             </div>
-                            <ul class="social">
-                                <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                <li><a href="" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-                                <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="product-grid6">
-                            <div class="product-image6">
-                                <a href="#">
-                                    <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-2.jpg">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="#">Women's Red Top</a></h3>
-                                <div class="price">
-                                    $8.00
-                                    <span>$12.00</span>
-                                </div>
-                            </div>
-                            <ul class="social">
-                                <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                <li><a href="" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-                                <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="product-grid6">
-                            <div class="product-image6">
-                                <a href="#">
-                                    <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-3.jpg">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="#">Men's Shirt</a></h3>
-                                <div class="price">
-                                    $11.00
-                                    <span>$14.00</span>
-                                </div>
-                            </div>
-                            <ul class="social">
-                                <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                <li><a href="" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-                                <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <div class="product-grid6">
-                            <div class="product-image6">
-                                <a href="#">
-                                    <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-4.jpg">
-                                </a>
-                            </div>
-                            <div class="product-content">
-                                <h3 class="title"><a href="#">Men's Shirt</a></h3>
-                                <div class="price">
-                                    $11.00
-                                    <span>$14.00</span>
-                                </div>
-                            </div>
-                            <ul class="social">
-                                <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                <li><a href="" class="js-add-wishlist" data-status="true" data-id="0" data-tip="Add to Wishlist"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
-                                <li><a href="" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-
+                        }
+                    }
                 </div>
             </div>
-        </div>
-    </main>
+        </div>*@
+</main>
 }
 else
 {
     <p class="alert alert-danger">Giỏ hàng trống</p>
 }
 @section Scripts{
+    <script type="text/javascript" src="~/js/single.js"></script>
     <script>
+    $(document).on('click', '.remove-in-cart', function (e) {
+        var parent = $(this).parents('.item-in-cart');
+        var id = parseInt(parent.attr('data-id'));
+        var CartId = parseInt(parent.find(".cart-item-details").data("id"));
 
-        $(document).on('click', '.remove-in-cart', function (e) {
-            var parent = $(this).parents('.item-in-cart');
-                var id = parseInt(parent.attr('data-id'));
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.ActionLink("RemoveCart","Cart")',
-                    data: {
-                        productid: id,
-                    },
-                    success: function (result) {
-                      //  addtocart();
-                        window.location.href = '@Url.ActionLink("cart","cart")';
+            $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("RemoveCart", "Cart")',
+                data: {
+                    productid: id,
+                    CartId: CartId
+                },
+                success: function (result) {
+                    //  addtocart();
+                    window.location.href = '@Url.ActionLink("cart", "cart")';
+                }
+            })
+        });
+    $(document).on('change', '.num-product', function () {
+        var parent = $(this).parents('.item-in-cart');
+        var id = parseInt(parent.attr('data-id'));
+        var value = parseInt($(this).val());
+        var CartId = parseInt(parent.find(".cart-item-details").data("id"));
+
+        console.log(value);
+        if (value == null || value == '') {
+            (this).val();
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("UpdateCart", "Cart")',
+                data: {
+                    productid: id,
+                    quantity: value,
+                    CartId: CartId
+                },
+                success: function (result) {
+                    //addtocart();
+                            window.location.href = '@Url.ActionLink("cart", "cart")';
+                }
+            });
+        }
+    })
+    $(document).on('click', '.fa-plus', function () {
+        var parent = $(this).parents('.item-in-cart');
+        var id = parseInt(parent.attr('data-id'));
+        var value = parseInt(parent.find('.num-product').val());
+        var CartId = parseInt(parent.find(".cart-item-details").data("id"));
+        value++;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.ActionLink("UpdateCart", "Cart")',
+            data: {
+                productid: id,
+                quantity: value,
+                CartId: CartId
+            },
+            success: function (result) {
+                // addtocart();
+                        window.location.href = '@Url.ActionLink("cart", "cart")';
+            }
+        });
+    });
+    $(document).on('click', '.fa-minus', function () {
+        var parent = $(this).parents('.item-in-cart');
+        var id = parseInt(parent.attr('data-id'));
+        var value = parseInt(parent.find('.num-product').val());
+        var CartId = parseInt(parent.find(".cart-item-details").data("id"));
+        if (value == 1) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("RemoveCart", "Cart")',
+                data: {
+                    productid: id,
+                    CartId: CartId
+                },
+                success: function (result) {
+                    addtocart();
+                }
+            });
+        } else
+        {
+            value--;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("UpdateCart", "Cart")',
+                data: {
+                    productid: id,
+                    quantity: value,
+                    CartId: CartId
+                },
+                success: function (result) {
+                    // addtocart();
+                    window.location.href = '@Url.ActionLink("cart", "cart")';
+                }
+            });
+        }
+    });
+
+
+        function loadevent(result) {
+            var quantity = result.quantity;
+            var ListChecked = result.values;
+            var optionvalue = result.productVm.productOptionVm;
+            for (var i in ListChecked) {
+                var item = ListChecked[i];
+                var input = $(`input[name='inlineRadioOptions-${item.optionId}']`);
+                input.each(function () {
+                    if ($(this).val() == item.optionValues) {
+                        $(`.form-check-label[data-id=${item.optionId}]`).removeClass('optionactive')
+                        $(this).prop('checked', $(input).is(':checked')).next().addClass("optionactive");
+                        $(this).parents(".option").find('span').text(item.optionValues);
                     }
                 })
-            });
-            $(document).on('change', '.num-product', function () {
-                var parent = $(this).parents('.item-in-cart');
-                var id = parseInt(parent.attr('data-id'));
-                var value = parseInt($(this).val());
-                console.log(value);
-                if (value == null || value == '') {
-                    (this).val();
-                } else {
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.ActionLink("UpdateCart", "Cart")',
-                        data: {
-                            productid: id,
-                            quantity: value,
-                        },
-                        success: function (result) {
-                            //addtocart();
-                                  window.location.href = '@Url.ActionLink("cart","cart")';
-                        }
-                    });
+            }
+            for (let i in optionvalue) {
+                var item = optionvalue[i];
+                $(`input[name='inlineRadioOptions-${item.id}']`).change(function () {
+                    var checked = $(this).val();
 
-                }
-
-            })
-            $(document).on('click', '.fa-plus', function () {
-
-                var parent = $(this).parents('.item-in-cart');
-                var id = parseInt(parent.attr('data-id'));
-                var value = parseInt(parent.find('.num-product').val());
-                value++;
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.ActionLink("UpdateCart", "Cart")',
-                    data: {
-                        productid: id,
-                        quantity: value,
-                    },
-                    success: function (result) {
-                       // addtocart();
-                              window.location.href = '@Url.ActionLink("cart","cart")';
+                    var id = parseInt($(this).next().attr("data-id"));
+                    let item = { OptionId: id, OptionValues: checked };
+                    var yet = ListChecked.findIndex(x => x.optionId == id);
+                    if (yet != -1) {
+                        ListChecked.splice(yet, 1);
                     }
+                    if ($(this).is(':checked')) {
+                        ListChecked.push(item);
+                    }
+                    console.log(ListChecked);
                 });
-            });
-            $(document).on('click', '.fa-minus', function () {
-                var parent = $(this).parents('.item-in-cart');
-                var id = parseInt(parent.attr('data-id'));
-                var value = parseInt(parent.find('.num-product').val());
-                if (value == 1) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.ActionLink("RemoveCart", "Cart")',
-                        data: {
-                            productid: id,
-                        },
-                        success: function (result) {
-                            addtocart();
-                        }
-                    });
-                } else {
-                    value--;
+                $(`input[name="inlineRadioOptions-${item.id}"]`).on('click', function () {
+                    var id = parseInt($(this).next().attr("data-id"));
+                    var value = $(this).val();
+                    $(`.form-check-label[data-id=${id}]`).removeClass('optionactive')
+                    $(this).prop('checked', $(this).is(':checked')).next().addClass("optionactive");
+                    $(this).parents(".option").find('span').text(value);
+
+                });
+
+
+            }
+              $(document).on('click', '.update-cart', function (e) {
+                  var parent = $(this).parents('.product-details-item');
+                   var productid = parseInt(parent.attr('data-id'));
+                   debugger;
+                  var CartId = parseInt($(this).data("id"));
+                  var sortArr = ListoptionValue.sort(function (a, b) {
+                      return a.OptionId - b.OptionId;
+                  });
+                  var values = JSON.stringify(sortArr)
                     $.ajax({
                         type: 'POST',
                         url: '@Url.ActionLink("UpdateCart", "Cart")',
                         data: {
-                            productid: id,
-                            quantity: value,
+                            productid: productid,
+                            CartId: CartId,
+                            quantity: quantity,
+                            values: values
+                            
                         },
                         success: function (result) {
-                           // addtocart();
-                            window.location.href = '@Url.ActionLink("cart","cart")';
+                            //  addtocart();
+                            window.location.href = '@Url.ActionLink("cart", "cart")';
                         }
-                    });
-                }
+                    })
             });
+        }
+
+
+        function LoadModal(result) {
+            var html = "";
+            var item = result;
+            console.log(item.productVm.productImages.length);
+                html += `<div class="col-md-12">
+                        <div class="col-md-6 single-left gallery-lb">`
+                 for (var i = 0; i < item.productVm.productImages.length; i++) {
+                    if (i == 0)
+                        {
+                            html += ` <div class="mySlides" style="display: block;">
+                                <div class="numbertext">${i+1} / ${item.productVm.productImages.length}  </div>
+                                <a class="zoom " href="${item.productVm.productImages[i].mediaUrl}" tabindex="0">
+                                    <i class="fal fa-expand"></i>
+                                </a>
+                                <img src="${item.productVm.productImages[i].mediaUrl}" style="width:100%">
+                            </div>`
+                        }
+                        else
+                        {
+                                html +=  ` <div class="mySlides" style="display: none;">
+                                <div class="numbertext">${i+1} / ${item.productVm.productImages.length}  </div>
+                                <a class="zoom " href="${item.productVm.productImages[i].mediaUrl}" tabindex="0">
+                                    <i class="fal fa-expand"></i>
+                                </a>
+                                <img src="${item.productVm.productImages[i].mediaUrl}" style="width:100%">
+                                </div>`
+                        }
+                    }
+                        html +=  `<button class="img-prev" onclick="plusSlides(-1,this)"><i class="fal fa-angle-left" aria-hidden="true"></i></button>
+                        <button class="img-next" onclick="plusSlides(1,this)"><i class="fal fa-angle-right" aria-hidden="true"></i></button>
+
+                        <div class="image-slide">`
+                    for (var i = 0; i < item.productVm.productImages.length; i++)
+                    {
+                        html +=  `<div class="column">
+                            <img class="demo cursor" src="${item.productVm.productImages[i].mediaUrl}" style="width:100%" onclick="currentSlide(${i+1},this)" alt="${item.productVm.title}">
+                        </div>`
+                    }
+               html+= ` </div>
+                    </div><!--Hình ảnh-->
+                    <div class="col-md-6 single-right pd-xs-0 product-details">
+                        <div class=" product-details-item" data-id="${item.productVm.id}">
+                            <h1 class="single-title">${item.productVm.title}</h1>
+                            <p class="price">`
+                if (item.productVm.sale > 0)
+                { /*.GetValueOrDefault(0).toString("#,#.##")*/
+                    html += `<span>${numeral(item.productVm.sale).format('0,000') }<small>₫</small> - </span>
+                                <del class="sale">${numeral(item.productVm.price).format('0,000') } <small>₫</small></del>`
+                        }
+                        else
+                        {
+                            html += ` <span>
+                                ${numeral(item.productVm.price).format('0,000') }<small>₫</small>
+                            </span>`
+                        }
+                     html += ` </p>`
+                    if (item.productVm.rating.length > 0)
+                            {
+                                html += `<div class="product-rating">
+                                    <span class="rating star-rating">
+                                        ${item.ProductVm.rating.scores}
+                                    </span>
+
+                                    <a href="#reviews" class="review-link" rel="nofollow">(<span class="count">${item.productVm.rating.length}</span> nhận xét)</a>
+                                </div>
+                                <div itemprop="description" class="short-description">
+                                    <p>${item.productVm.description} </p>
+                                </div>`
+                            }
+
+                 for (var i in item.productVm.productOptionVm) {
+                            var item2 = item.productVm.productOptionVm[i];
+
+                                if (item2.name == "Size")
+                                {
+                                html +=  `<div class="option">
+                                        <div>
+                                            Kích thước:
+                                            <span></span>
+                                        </div>
+                                        <ul>`
+                                    for (var i in item2.values) {
+                                        var item3 = item2.values[i]
+                                            html += ` <li>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-${item2.id}" id="inlineRadio-${item3.key}" value="${item3.key}">
+                                                        <label class="form-check-label" for="inlineRadio-${item3.key}" data-id="${item2.id}">${item3.display}</label>
+                                                    </div>
+                                                </li>`
+                                            }
+
+                                    html += ` </ul>
+                                        </div>`
+                                }
+                                else
+                                {
+
+                                    html +=` <div class="option">
+                                        <div>
+                                            Màu Sắc:
+                                            <span></span>
+                                        </div>
+                                        <ul>`
+                                    for (var i in item2.values) {
+
+                                                        var item3 = item2.values[i]
+                                                    html += ` <li>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions-${item2.id}" id="inlineRadio-${item3.key}" value="${item3.key}">
+                                                        <label class="form-check-label" for="inlineRadio-${item3.key}" style="background-color:#${item3.display};border-radius: 50%;" data-id="${item2.id}"></label>
+                                                    </div>
+                                                     </li>`
+                                                }
+                                    html +=`</ul></div>`
+                                }
+                            }
+
+                            //update giỏ hàng
+              html +=` <div class="update-cart" data-id="${item.id}">
+                                Cập nhật giỏ hàng
+                                <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="add-wishlist">
+                                <a href="#"> <span><i class="fal fa-heart" aria-hidden="true"></i></span>Thêm danh sách yêu thích</a>
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="product-meta">`
+                            if (item.productVm.brand != null)
+                            {
+                                html +=` <span class="product_brand">
+                                        Thương hiệu:
+                                        <a href="#">${item.productVm.brand.name}</a>
+                                    </span>`
+                            }
+                                html +=` <span class="product_sku">
+                                            Xuất xứ:
+                                            <a href="#">N/A</a>
+                                        </span>`
+                            if (item.productVm.category != null)
+                            {
+                                html +=`<span class="product_category">
+                                    Danh mục:
+                                    <a href="#">${item.productVm.category.title}</a>
+                                </span>`
+                            }
+
+                            html +=`    <span class="product_share">
+                                Chia sẻ:
+                                <a href="#" class="share-facebook" style="color: #025aa5 !important"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                            </span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                        </div>
+                    </div>
+                    </div><!--Thông tin cơ bản-->
+               `;
+            Rating();
+            $("#modal-item").html(html);
+        }
+        $(document).on('click', '.option-modal', function (e) {
+            var CartId = $(this).data("id");
+            $.ajax({
+                type: 'POST',
+                url: '@Url.ActionLink("Cart","Cart")',
+                data: {
+                    CartId: CartId,
+                },
+                success: function (result) {
+
+                    LoadModal(result);
+                    loadevent(result);
+                }
+            })
+        });
 
     </script>
 }

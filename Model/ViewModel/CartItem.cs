@@ -7,6 +7,8 @@ namespace Model.ViewModel
 {
    public class CartItem:  Cart
     {
-        public Product product { set; get; }
+        public ProductVm product { set; get; }
+        public IList<Product> Viewed { get; set; }
+
     }
 }

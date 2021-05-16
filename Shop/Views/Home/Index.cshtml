@@ -1,39 +1,34 @@
-﻿@model ProductList 
+﻿@model List<ProductVm>
 @{
     ViewData["Title"] = "Home Page";
 }
-@section head{ 
-<style>
-    .owl-prev {
-        position: absolute;
-        top: 50%;
-        left: 0%;
-    }
+@section head{
+    <style>
+        .owl-prev {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+        }
 
-    .owl-next {
-        position: absolute;
-        top: 50%;
-        right: 0%;
-    }
-</style>
+        .owl-next {
+            position: absolute;
+            top: 50%;
+            right: 0%;
+        }
+        .owlCarousel_slider2 .owl-item{
+            padding: 0 15px;
+        }
+        .owlCarousel_slider2 {
+            list-style:none;
+        }
+        .optionactive{
+            opacity: 1 !important;
+            border: 2px solid black !important;
+        }
+    </style>
 }
-@section Scripts{ 
-    <script>
-        $(".owlCarousel_slider").owlCarousel({
-            autoplay: true, // tự động chuyển slider
-            //loop: true,
-            items: 1,
-            nav: true, // hiện thị bật tắt nút next,back
-            dots: true,
-            lazyLoad: true,
-            // slideBy:1,
-            // // lazyLoadEager: 4,
-            // // lazyLoad : true,
-            autoHeight: true,
-            navText: ['<i class="fa fa-chevron-left" aria-hidden="true"></i>', '<i class="fa fa-chevron-right" aria-hidden="true"></i>'] /// nút next,back
-        });
-    </script>
-}
+
+
 <div class="banner">
     <div id="banner" class="carousel slide" data-ride="carousel">
         <div class="owl-carousel owlCarousel_slider owl-theme">
@@ -67,217 +62,114 @@
     <div class="container">
         <div class="row">
             <h2 class="title">Sản phẩm mới</h2>
-            <!-- <div class="col-md-3 col-6">
-                    <div class="product-grid6" id="item_1">
-                        <div class="product-image6">
-                            <a href="#">
-                                <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-1.jpg">
-                            </a>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="title"><a href="#">Men's Shirt 1</a></h3>
-                            <div class="price">$11.00
-                                <span>$14.00</span>
-                            </div>
-                        </div>
-                        <ul class="social">
-                            <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                            <li><a href="" class="js-add-wishlist"  data-status="true" data-id="1" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
-                            <li><a href="" class="js-add-cart" data-status="true" data-id="1" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="product-grid6" id="item_2">
-                        <div class="product-image6">
-                            <a href="#">
-                                <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-2.jpg">
-                            </a>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="title"><a href="#">Women's Red Top</a></h3>
-                            <div class="price">$8.00
-                                <span>$12.00</span>
-                            </div>
-                        </div>
-                        <ul class="social">
-                            <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                            <li><a href="" class="js-add-wishlist" data-status="true" data-id="2" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
-                            <li><a href="" class="js-add-cart" data-status="true" data-id="2" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="product-grid6" id="item_3">
-                        <div class="product-image6">
-                            <a href="#">
-                                <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-3.jpg">
-                            </a>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="title"><a href="#">Men's Shirt</a></h3>
-                            <div class="price">$11.00
-                                <span>$14.00</span>
-                            </div>
-                        </div>
-                        <ul class="social">
-                            <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                            <li><a href="" class="js-add-wishlist" data-status="true" data-id="3" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
-                            <li><a href="" class="js-add-cart" data-status="true" data-id="3" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-3 col-6">
-                    <div class="product-grid6" id="item_4">
-                        <div class="product-image6">
-                            <a href="#">
-                                <img class="pic-1" src="http://bestjquery.com/tutorial/product-grid/demo10/images/img-4.jpg">
-                            </a>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="title"><a href="#">Men's Shirt</a></h3>
-                            <div class="price">$11.00
-                                <span>$14.00</span>
-                            </div>
-                        </div>
-                        <ul class="social">
-                            <li><a href="" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                            <li><a href="" class="js-add-wishlist" data-status="true" data-id="4" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
-                            <li><a href="" class="js-add-cart" data-status="true" data-id="4" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-                </div> -->
-
+            @await Component.InvokeAsync("ProductFuture");
 
         </div>
     </div>
 </div>
-<div class="product">
 
-    <div class="container ">
-        <div class="row">
-            @*@await Component.InvokeAsync("ProductByCategory", new { category = 1 })*@
-            <h2 class="title">Sản phẩm hot</h2>
-            @if (Model.products == null)
-            {
-                <h1>khong co san pham nao</h1>
-            }
-            else
-            {
-                <div class="col-md-6">
-                    @for (int i = 0; i < Model.products.Count; i++)
-                    {
-
-                        if (i <= 3 && Model.products.Count >= 3)
-                        {
-
-                            <div class="col-md-6 col-6 product-item" >
-                                <div class="product-grid6 " id="item_@Model.products[i].Id" data-id="@Model.products[i].Id">
-                                    <div class="product-image6">
-                                        <a href="/chi-tiet/@Model.products[i].Slug">
-                                            <img class="pic-1" src="https://localhost:44360/user-content/@Model.products[i].ThumbnailImage.FileName" alt="@Model.products[i].Title">
-                                        </a>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"><a href="#">@Model.products[i].Title</a></h3>
-                                        <div>
-                                            @if (@Model.products[i].Sale > 0)
-                                            {
-                                            <span class="price">@Model.products[i].Price  ₫- </span>
-                                            <span class="sale">@Model.products[i].Sale  ₫</span>
-                                            }
-                                            else
-                                            {
-                                             <span class="price">@Model.products[i].Price  ₫</span>
-                                            }
-
-                                        </div>
-                                       
-                                    </div>
-                                    <ul class="social">
-                                        <li><a href="/chi-tiet/@Model.products[i].Slug" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                        <li><a href="javascript:void(0)" class="js-add-wishlist" data-status="true" data-id="6" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
-                                        <li><a href="javascript:void(0)" class="js-add-cart" data-status="true" data-id="6" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                                            </a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        }
-                    }
-                </div>
-                <div class="col-md-6 product-item">
-                    <div class="product-grid6" id="item_@Model.products[4].Id" data-id="@Model.products[4].Id">
-                        @*<div id="clockdiv">
-            <div>
-                <span class="days"></span>
-                <div class="smalltext">Days</div>
-            </div>
-            <div>
-                <span class="hours"></span>
-                <div class="smalltext">Hours</div>
-            </div>
-            <div>
-                <span class="minutes"></span>
-                <div class="smalltext">Minutes</div>
-            </div>
-            <div>
-                <span class="seconds"></span>
-                <div class="smalltext">Seconds</div>
-            </div>
-        </div>*@<div id="clockdiv">
-                            <div>
-                                <span class="days"></span>
-                                <div class="smalltext"></div>
-                            </div>
-                            <div>
-                                <span class="hours"></span>
-                                <div class="smalltext"></div>
-                            </div>
-                            <div>
-                                <span class="minutes"></span>
-                                <div class="smalltext"></div>
-                            </div>
-                            <div>
-                                <span class="seconds"></span>
-                                <div class="smalltext"></div>
-                            </div>
-                        </div>
-
-                        <div class="product-image6">
-                            <a href="/chi-tiet/@Model.products[4].Slug">
-                                <img class="pic-1" src="https://localhost:44360/user-content/@Model.products[4].ThumbnailImage.FileName">
-                            </a>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="title"><a href="#">@Model.products[4].Title</a></h3>
-                            <div>
-                                @if (@Model.products[4].Sale > 0)
-                                {
-                                    <span class="price">@Model.products[4].Price  ₫- </span>
-                                    <span class="sale">@Model.products[4].Sale  ₫</span>
-                                }
-                                else
-                                {
-                                    <span class="price">@Model.products[4].Price  ₫</span>
-                                }
-
-                            </div>
-
-                        </div>
-                        <ul class="social">
-                            <li><a href="/chi-tiet/@Model.products[4].Slug" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                            <li><a href="" class="js-add-wishlist" data-status="true" data-id="6" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
-                            <li><a href="javascript:void(0)" class="js-add-cart" data-status="true" data-id="6" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
-                        </ul>
-                        <span class="product-new-label">Sale</span>
-                        <span class="product-discount-label">20%</span>
-                    </div>
-
-                </div>  
-            }
-        </div>
-    </div>
-</div>
 <div id="product-hot" class="product">
-
+    @await Component.InvokeAsync("ProductHot");
 </div>
+@section Scripts{
+    <script src="~/js/single.js"></script>
+    <script>
+        $(".owlCarousel_slider").owlCarousel({
+            autoplay: true, // tự động chuyển slider
+            //loop: true,
+            items: 1,
+            nav: true, // hiện thị bật tắt nút next,back
+            dots: true,
+            lazyLoad: true,
+            // slideBy:1,
+            // // lazyLoadEager: 4,
+            // // lazyLoad : true,
+            autoHeight: true,
+            navText: ['<i class="fa fa-chevron-left" aria-hidden="true"></i>', '<i class="fa fa-chevron-right" aria-hidden="true"></i>'] /// nút next,back
+        });
+        $(".owlCarousel_slider2").owlCarousel({
+            autoplay: true, // tự động chuyển slider
+            //loop: true,
+            nav: false, // hiện thị bật tắt nút next,back
+            dots: false,
+            lazyLoad: true,
+            // slideBy:1,
+            // // lazyLoadEager: 4,
+            // // lazyLoad : true,
+            autoHeight: true,
+             responsive: {
+                0: {
+                    items: 2
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 4
+                }
+            }
+
+        });
+        // time;
+        $(document).ready(function () {
+            // Set the date we're counting down to
+            var countDownDate = new Date("June 20, 2021 00:00:00").getTime();
+
+            // Update the count down every 1 second
+            var x = setInterval(function () {
+
+                // Get today's date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result in the element with id="demo"
+                $("#clockdiv").html(`
+                            <div>
+                                <span class="days">${days}</span>
+                                <div class="smalltext">ngày</div>
+                            </div>
+                            <div>
+                                <span class="hours">${hours}</span>
+                                <div class="smalltext">giờ</div>
+                            </div>
+                            <div>
+                                <span class="minutes">${minutes}</span>
+                                <div class="smalltext">phút</div>
+                            </div>
+                            <div>
+                                <span class="seconds">${seconds}</span>
+                                <div class="smalltext">giây</div>
+                            </div>`);
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    $("#clockdiv").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+
+        })
+        //chon file
+        $(document).ready(function () {
+        var optionvalue = @Html.Raw(Json.Serialize(Model.Select(x => x.Options).ToList()));
+        for (var i in optionvalue) {
+            var item = optionvalue[i];
+            if (item != null && item != undefined && item != "") {
+            $(`input[name="inlineRadioOptions-${item[0].id}"]`).on('click', function () {
+                var id = $(this).next().attr("data-id");
+                $(`.form-check-label[data-id=${id}]`).removeClass('optionactive')
+                $(this).prop('checked', $(this).is(':checked')).next().addClass("optionactive");
+            });
+            }
+            };
+        });
+    </script>
+}

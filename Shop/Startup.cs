@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Model.Models;
 using Model.Services;
 using Newtonsoft.Json;
+using Shop.Areas.Admin.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,11 +35,42 @@ namespace Shop
             services.AddDbContext<shopContext>(options =>
               options.UseSqlServer(
                       Configuration.GetConnectionString("default")));
+            services.AddIdentity<User, Role>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 0;
+                //options.ClaimsIdentity.UserNameClaimType = JwtRegisteredClaimNames.Sub;
+            })
+            .AddEntityFrameworkStores<shopContext>().AddDefaultTokenProviders();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/account/accessdenied");
+                options.Cookie.Name = "shop";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
+                options.LoginPath = "/login";
+                // ReturnUrlParameter requires 
+                //using Microsoft.AspNetCore.Authentication.Cookies;
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
+            services.AddTransient<IMediaService, MediaService>();
+            services.AddTransient<IStorageService, LocalStorageService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IRatingServices, RatingServices>();
             services.AddTransient<IBrandService, BrandService>();
+            services.AddScoped<IOptionService, OptionService>();
+            services.AddTransient<IWorkContext, WorkContext>();
+            services.AddTransient<ICartService, CartService>();  
+            services.AddTransient<UserManager<User>, UserManager<User>>();
+            services.AddTransient<SignInManager<User>, SignInManager<User>>();
+            services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
             services.AddControllersWithViews()
                     .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

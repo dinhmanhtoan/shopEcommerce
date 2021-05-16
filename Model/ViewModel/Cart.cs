@@ -9,5 +9,7 @@ namespace Model.ViewModel
     {
         public long Id { get; set; }
         public long quantity { get; set; }
+        public string Size { get; set; }
+        public string Color { get; set; }
     }
 }

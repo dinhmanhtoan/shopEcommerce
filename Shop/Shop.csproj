@@ -5,6 +5,299 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.0.0\css\bootstrap-2.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.0.0\css\pick-a-color-1.0.0.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.0.0\js\jquery-1.9.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.0.0\js\pick-a-color-1.0.0.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.0.0\js\pick-a-color-1.0.0.min.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.0.0\js\tinycolor-0.9.12.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.0.0\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.0\css\bootstrap-2.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.0\css\pick-a-color-1.1.0.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.0\js\jquery-1.9.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.0\js\pick-a-color-1.1.0.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.0\js\tinycolor-0.9.14.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.0\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.1\css\bootstrap-2.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.1\css\pick-a-color-1.1.1.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.1\css\pick-a-color-1.1.1.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.1\js\jquery-1.9.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.1\js\pick-a-color-1.1.1.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.1\js\pick-a-color-1.1.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.1\js\tinycolor-0.9.14.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.1\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.2\css\bootstrap-2.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.2\css\pick-a-color-1.1.2.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.2\css\pick-a-color-1.1.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.2\js\jquery-1.9.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.2\js\pick-a-color-1.1.2.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.2\js\pick-a-color-1.1.2.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.2\js\tinycolor-0.9.14.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.2\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.3\css\bootstrap-2.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.3\css\pick-a-color-1.1.3.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.3\css\pick-a-color-1.1.3.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.3\js\jquery-1.9.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.3\js\pick-a-color-1.1.3.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.3\js\pick-a-color-1.1.3.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.3\js\tinycolor-0.9.14.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.3\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.4\css\bootstrap-2.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.4\css\pick-a-color-1.1.4.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.4\css\pick-a-color-1.1.4.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.4\js\jquery-1.9.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.4\js\pick-a-color-1.1.4.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.4\js\pick-a-color-1.1.4.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.4\js\tinycolor-0.9.14.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.4\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.5\css\bootstrap-2.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.5\css\pick-a-color-1.1.3.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.5\css\pick-a-color-1.1.5.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.5\css\pick-a-color-1.1.5.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.5\js\jquery-1.9.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.5\js\pick-a-color-1.1.5.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.5\js\pick-a-color-1.1.5.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.5\js\tinycolor-0.9.14.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.5\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.6\css\bootstrap-2.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.6\css\pick-a-color-1.1.6.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.6\js\jquery-1.9.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.6\js\pick-a-color-1.1.6.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.6\js\tinycolor-0.9.14.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.6\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.7\css\pick-a-color-1.1.7.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.7\js\pick-a-color-1.1.7.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.7\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.8\css\pick-a-color-1.1.8.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.8\js\pick-a-color-1.1.8.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.1.8\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.2.0\css\pick-a-color-1.2.0.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.2.0\js\pick-a-color-1.2.0.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.2.0\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.2.2\css\pick-a-color-1.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.2.2\js\pick-a-color-1.2.2.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.2.2\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.2.3\css\pick-a-color-1.2.3.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.2.3\js\pick-a-color-1.2.3.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.2.3\sample.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\dependencies\bootstrap-2.2.2.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\dependencies\bootstrap-3.0.0.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\dependencies\jquery-1.9.1.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\dependencies\tinycolor-0.9.15.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\fullcalendar.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\fullcalendar.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\fullcalendar.print.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\gcal.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale-all.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\af.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ar-dz.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ar-kw.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ar-ly.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ar-ma.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ar-sa.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ar-tn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ar.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\be.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\bg.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\bs.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ca.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\cs.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\da.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\de-at.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\de-ch.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\de.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\el.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\en-au.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\en-ca.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\en-gb.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\en-ie.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\en-nz.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\es-do.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\es-us.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\es.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\et.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\eu.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\fa.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\fi.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\fr-ca.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\fr-ch.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\fr.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\gl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\he.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\hi.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\hr.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\hu.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\id.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\is.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\it.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ja.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ka.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\kk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ko.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\lb.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\lt.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\lv.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\mk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ms-my.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ms.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\nb.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\nl-be.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\nl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\nn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\pl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\pt-br.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\pt.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ro.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\ru.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\sk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\sl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\sq.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\sr-cyrl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\sr.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\sv.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\th.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\tr.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\uk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\vi.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\zh-cn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\zh-hk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\fullcalendar\dist\locale\zh-tw.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\ender.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\af.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ar-dz.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ar-kw.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ar-ly.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ar-ma.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ar-sa.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ar-tn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ar.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\az.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\be.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\bg.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\bm.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\bn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\bo.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\br.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\bs.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ca.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\cs.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\cv.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\cy.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\da.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\de-at.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\de-ch.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\de.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\dv.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\el.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\en-au.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\en-ca.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\en-gb.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\en-ie.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\en-il.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\en-nz.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\en-SG.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\eo.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\es-do.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\es-us.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\es.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\et.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\eu.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\fa.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\fi.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\fo.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\fr-ca.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\fr-ch.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\fr.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\fy.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ga.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\gd.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\gl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\gom-latn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\gu.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\he.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\hi.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\hr.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\hu.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\hy-am.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\id.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\is.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\it-ch.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\it.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ja.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\jv.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ka.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\kk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\km.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\kn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ko.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ku.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ky.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\lb.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\lo.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\lt.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\lv.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\me.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\mi.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\mk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ml.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\mn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\mr.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ms-my.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ms.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\mt.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\my.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\nb.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ne.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\nl-be.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\nl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\nn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\pa-in.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\pl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\pt-br.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\pt.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ro.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ru.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\sd.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\se.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\si.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\sk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\sl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\sq.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\sr-cyrl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\sr.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ss.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\sv.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\sw.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ta.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\te.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\tet.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\tg.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\th.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\tl-ph.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\tlh.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\tr.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\tzl.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\tzm-latn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\tzm.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ug-cn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\uk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\ur.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\uz-latn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\uz.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\vi.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\x-pseudo.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\yo.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\zh-cn.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\zh-hk.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\locale\zh-tw.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\min\locales.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\min\moment-with-locales.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\min\moment.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\moment.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\moment\package.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
@@ -25,6 +318,361 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\themes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\LICENSE">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\chart.js\dist\Chart.bundle.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\chart.js\dist\Chart.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\chart.js\dist\Chart.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\chartist-plugin-tooltips\dist\chartist-plugin-tooltip.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\chartist-plugin-tooltips\dist\chartist-plugin-tooltip.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\chartist\dist\chartist.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\chartist\dist\chartist.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\datatables.net-bs4\css\dataTables.bootstrap4.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\datatables.net-bs4\js\dataTables.bootstrap4.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery-validation\dist\additional-methods.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery-validation\dist\additional-methods.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery-validation\dist\jquery.validate.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery-validation\LICENSE.md">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery\dist\core.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery\dist\jquery.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery\dist\jquery.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery\dist\jquery.min.map">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery\dist\jquery.slim.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\jquery\LICENSE.txt">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\media-preview-upload\css\style.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\media-preview-upload\example.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\media-preview-upload\images\cam_ico.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\media-preview-upload\images\video_ico.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\media-preview-upload\js\app.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\media-preview-upload\LICENSE">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\media-preview-upload\README.md">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\morris.js\bower.travis.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\morris.js\morris.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\morris.js\morris.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\perfect-scrollbar\dist\css\perfect-scrollbar.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\perfect-scrollbar\dist\js\perfect-scrollbar.jquery.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\perfect-scrollbar\dist\js\perfect-scrollbar.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\perfect-scrollbar\dist\perfect-scrollbar.common.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\perfect-scrollbar\dist\perfect-scrollbar.esm.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\perfect-scrollbar\dist\perfect-scrollbar.jquery.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\perfect-scrollbar\dist\perfect-scrollbar.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\popper.js\dist\esm\popper-utils.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\popper.js\dist\esm\popper.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\popper.js\dist\popper-utils.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\popper.js\dist\popper.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\popper.js\dist\umd\popper-utils.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\popper.js\dist\umd\popper.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\popper.js\dist\umd\poppper.js.flow">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\raphael\dev\banner.txt">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\raphael\dev\raphael.amd.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\raphael\dev\raphael.core.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\raphael\dev\raphael.svg.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\raphael\dev\raphael.vml.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\raphael\dev\raphaelTest.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\raphael\license.txt">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\raphael\raphael.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\raphael\raphael.no-deps.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\Slug\jquery.stringtoslug.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\Slug\speakingurl.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\tag-input\bootstrap-tagsinput.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\tag-input\bootstrap-tagsinput.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\upload\image-uploader.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\upload\image-uploader.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\upload\image-uploader.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\upload\image-uploader.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\upload\tower-file-input.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\upload\tower-file-input.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
