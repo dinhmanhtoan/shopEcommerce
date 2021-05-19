@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Model.Services;
@@ -11,6 +12,7 @@ namespace Shop.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("[controller]/[action]")]
+    [Authorize(Roles = "admin")]
     public class BrandController : Controller
     {
         private readonly ICategoryService _CategoryServices;

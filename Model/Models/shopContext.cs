@@ -32,6 +32,8 @@ namespace Model.Models
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Cart> Cart { get; set; }
         public virtual DbSet<CartItem> CartItem { get; set; }
+        public virtual DbSet<Slider> Slider { get; set; }
+        public virtual DbSet<Contact> Contact { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -182,6 +184,18 @@ namespace Model.Models
                 c.HasOne(x => x.Cart).WithMany(x => x.cartItems).HasForeignKey(x => x.CartId);
                 c.HasOne(x => x.Product).WithMany(x => x.cartItems).HasForeignKey(x => x.ProductId);
 
+            });
+            modelBuilder.Entity<Slider>(c =>
+            {
+                c.HasKey(x => x.Id);
+                c.HasOne(x => x.Thumbnail)
+                .WithMany()
+                .HasForeignKey(x => x.ThumbnailId);
+            });
+            modelBuilder.Entity<Contact>(c =>
+            {
+                c.HasKey(x => x.Id);
+       
             });
         }
 

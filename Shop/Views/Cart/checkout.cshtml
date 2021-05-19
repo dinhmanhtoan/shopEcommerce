@@ -125,7 +125,7 @@
                                     </tr>
                                     <tr>
                                         <td>Thanh toán</td>
-                                        <td class="text-right">@((Total - 25000).GetValueOrDefault().ToString("#,###")) ₫</td>
+                                        <td class="text-right">@((Total + 25000).GetValueOrDefault().ToString("#,###")) ₫</td>
                                     </tr>
                                 </table>
                                 <p class="text-center"><button class="btn btn-black checkout">Thanh toán</button></p>
@@ -137,7 +137,7 @@
 
         </div>
         <div class="clearfix"></div>
-        @*<div class="product">
+        <div class="product">
             <div class="container">
                 <div class="row">
                     <h2 class="title">Sản phẩm vừa xem</h2>
@@ -146,7 +146,7 @@
                         @foreach (var item in Model.Viewed)
                         {
                             <div class="col-md-3 col-6 item-product">
-                                <div class="product-grid6">
+                                <div class="product-grid6" data-id="@item.Id">
                                     <div class="product-image6">
                                         <a href="chi-tiet/@item.Slug">
                                             <img class="pic-1" src="/user-content/@item.Thumbnail.FileName">
@@ -168,9 +168,9 @@
                                         </div>
                                     </div>
                                     <ul class="social">
-                                        <li><a href="/chi-tiet/@item.Slug" class="js-show-modal1" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
-                                        <li><a href="" class="js-add-wishlist" data-status="true" data-id="6" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
-                                        <li><a href="" class="js-add-cart" data-status="true" data-id="6" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
+                                        @*<li><a href="javascript:void(0)" class="js-show-modal" data-toggle="modal" data-target="#exampleModal-1" data-id="@item.Id" data-tip="Quick view"><i class="fa fa-search"></i></a></li>*@
+                                        <li><a href="" class="js-add-wishlist" data-status="true" data-id="@item.Id" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
+                                   
                                     </ul>
                                 </div>
                             </div>
@@ -181,7 +181,7 @@
 
                 </div>
             </div>
-        </div>*@
+        </div>
     </main>
 }
 else
@@ -194,7 +194,9 @@ else
         $('.checkout').on('click', function () {
             $('.checkout-adress').submit();
         });
+
     });
+    $("#cart").css("display", "none");
         // Example starter JavaScript for disabling form submissions if there are invalid fields
     
 </script>

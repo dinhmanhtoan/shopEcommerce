@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Model.Models;
 using Model.Services;
 using System;
@@ -10,6 +11,7 @@ namespace Shop.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("[controller]/[action]")]
+    [Authorize(Roles = "admin")]
     public class OptionController : Controller
     {
         private readonly ICategoryService _CategoryServices;

@@ -140,7 +140,7 @@
                                     <li class="myupload">
                                         <span>
                                             <i class="fa fa-plus" aria-hidden="true" for="ProductImages"></i>
-                                            <input asp-for="ProductImages" class="form-control-file " id="ProductImages" type="file" multiple name="ProductImages" />
+                                            <input asp-for="ProductImages" class="form-control-file " id="ProductImages" type="file" multiple  />
                                         </span>
                                         <input asp-for="ListDelete" id="Delete" name="ListDelete" hidden />
                                     </li>
@@ -153,7 +153,7 @@
                             <div class="input-group mb-3">
                                 <select class="custom-select" id="add-option">
                                     <option selected>Chọn</option>
-                                    @foreach (var item in Model.ProductOption)
+                                    @foreach (var item in Model.ProductOptionVm)
                                     {
                                         <option value="@item.Id">@item.Name</option>
                                     }

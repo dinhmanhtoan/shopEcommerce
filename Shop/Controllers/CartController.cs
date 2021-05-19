@@ -66,7 +66,7 @@ namespace Shop.Controllers
         public async Task<CheckoutViewModel> GetCart()
         {
             var currentUser = await _workContext.GetCurrentUser();
-            var query = _cartService.GetActiveCart(currentUser.Id);
+            var query = await _cartService.GetActiveCart(currentUser.Id);
             if (query == null)
             {
                 var CheckoutViewModel = new CheckoutViewModel();
@@ -74,7 +74,7 @@ namespace Shop.Controllers
             }
             else
             {
-                var CartitemVm = query.Result.cartItems.Select(x => new CartItemVm
+                var CartitemVm = query.cartItems.Select(x => new CartItemVm
                 {
                     CartId = x.CartId,
                     Id = x.Id,
@@ -127,8 +127,8 @@ namespace Shop.Controllers
                     // neu co gia tri
                     foreach (var item2 in item.Values)
                     {
-                        var OptionName = _context.ProductOption.Where(x => x.Id == item2.OptionId).Select(x => x.Name).FirstOrDefault();
-                        item2.OptionName = OptionName;
+                        var OptionName = _context.ProductOption.Where(x => x.Id == item2.optionId).Select(x => x.Name).FirstOrDefault();
+                        item2.optionName = OptionName;
                     };
                     // kiem tra xem neu khong co gia tri
                     if (item.Values.Count == 0)
@@ -137,8 +137,8 @@ namespace Shop.Controllers
                         {
                             var value = product.OptionValues.Select(x => new OptionVariationVm
                             {
-                                OptionId = x.OptionId,
-                                OptionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
+                                optionId = x.OptionId,
+                                optionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
                             }).FirstOrDefault();
                             item.Values.Add(value);
 
@@ -156,7 +156,9 @@ namespace Shop.Controllers
         {
             var CheckoutViewModel = new CheckoutViewModel();
             CheckoutViewModel = await GetCart();
-                return View(CheckoutViewModel);
+            var Viewed = GetViewed();
+            CheckoutViewModel.Viewed = Viewed;
+            return View(CheckoutViewModel);
             
         }
 
@@ -223,7 +225,7 @@ namespace Shop.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> RemoveCart(long productid, long CartId)
+        public async Task<IActionResult> RemoveCart(long CartId)
         {
             var currentUser = await _workContext.GetCurrentUser();
             var cart = _context.Cart.Include(x => x.cartItems).FirstOrDefault(x => x.CustomerId == currentUser.Id);
@@ -284,75 +286,75 @@ namespace Shop.Controllers
             return Request.Cookies[key];
         }
 
-            List<long> GetViewedItems()
+        List<long> GetViewedItems()
+        {
+            var cookieValueFromReq = Get(RECENTLYVIEWED);
+            if (cookieValueFromReq != null)
             {
-                var cookieValueFromReq = Get(RECENTLYVIEWED);
-                if (cookieValueFromReq != null)
-                {
-                    var jsonConvert = JsonConvert.DeserializeObject<List<long>>(cookieValueFromReq);
+                var jsonConvert = JsonConvert.DeserializeObject<List<long>>(cookieValueFromReq);
 
-                    return jsonConvert;
-                }
-                return new List<long>();
+                return jsonConvert;
             }
-          [HttpPost]
-          public IActionResult RecentlyViewed(long productid)
-          {
-              var product = GetViewed();
-              if (product == null)
-              {
-                  return NotFound("Không có sản phẩm yêu thích");
-              }
-              var count = 0;
-              var Viewed = GetViewedItems();
-              foreach (var item in Viewed)
-              {
-                  if (item == productid)
-                  {
-                      count++;
-                  }
+            return new List<long>();
+        }
+        [HttpPost]
+        public IActionResult RecentlyViewed(long productid)
+        {
+            var product = GetViewed();
+            if (product == null)
+            {
+                return NotFound("Không có sản phẩm yêu thích");
+            }
+            var count = 0;
+            var Viewed = GetViewedItems();
+            foreach (var item in Viewed)
+            {
+                if (item == productid)
+                {
+                    count++;
+                }
 
-              }
-              if (count > 0)
-              {
-                  return Ok();
-              }
+            }
+            if (count > 0)
+            {
+                return Ok();
+            }
 
-              else
-              {
-                  Viewed.Add(productid);
-              }
-              // convert sang json
-              var jsonCart = JsonConvert.SerializeObject(Viewed, new JsonSerializerSettings()
-              {
-                  ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-              });
-            // luu vao cookies
-            SaveCookies(RECENTLYVIEWED, jsonCart, 30);
+            else
+            {
+                Viewed.Add(productid);
+            }
+            // convert sang json
+            var jsonCart = JsonConvert.SerializeObject(Viewed, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+        // luu vao cookies
+        SaveCookies(RECENTLYVIEWED, jsonCart, 30);
 
-              return Ok();
-          }
-           public void ClearCookies(string Key)
-           {
-               Response.Cookies.Delete(Key);
-           }
-           public void SaveCookies(string key, string value, int? expireTime)
-           {
-               CookieOptions option = new CookieOptions();
-               if (expireTime.HasValue)
-                   option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
-               else
-                   option.Expires = DateTime.Now.AddMinutes(10);
-               Response.Cookies.Append(key, value, option);
-           }
-            [HttpGet]
-            [Route("/wishlist")]
-            public IActionResult WishList()
+            return Ok();
+        }
+        public void ClearCookies(string Key)
+        {
+            Response.Cookies.Delete(Key);
+        }
+        public void SaveCookies(string key, string value, int? expireTime)
+        {
+            CookieOptions option = new CookieOptions();
+            if (expireTime.HasValue)
+                option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
+            else
+                option.Expires = DateTime.Now.AddMinutes(10);
+            Response.Cookies.Append(key, value, option);
+        }
+        [HttpGet]
+        [Route("/wishlist")]
+         public IActionResult WishList()
             {
                 return View(GetWishList());
             }
-          [HttpGet]
-          public List<Product> GetWishList()
+        [HttpGet]
+        public List<Product> GetWishList()
           {
               var cookieValueFromReq = Get(WISHKEY);
               if (cookieValueFromReq != null)
@@ -371,7 +373,7 @@ namespace Shop.Controllers
 
               return new List<Product>();
           }
-            List<long> GetWishListItems()
+        List<long> GetWishListItems()
            {
                var cookieValueFromReq = Get(WISHKEY);
                if (cookieValueFromReq != null)
@@ -416,7 +418,7 @@ namespace Shop.Controllers
             return Ok();
         }
         [HttpPost]
-          public IActionResult RemoveWishList(long productid)
+        public IActionResult RemoveWishList(long productid)
           {
               var count = 0;
               var wishList = GetWishListItems();
@@ -497,6 +499,7 @@ namespace Shop.Controllers
                 return RedirectToAction("checkoutSuccess");
             }
             model.Viewed = Viewed;
+            model.CartItemVms = CheckoutViewModel.CartItemVms;
             return View(model);
         }
         public IActionResult checkoutSuccess()

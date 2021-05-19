@@ -14,7 +14,7 @@ namespace Model.ViewModel.Web
         public decimal? PriceStart { get; set; }
         public decimal? PriceEnd { get; set; }
         public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
         public int TotalRecords { get; set; }
         public int PageCount
         {
