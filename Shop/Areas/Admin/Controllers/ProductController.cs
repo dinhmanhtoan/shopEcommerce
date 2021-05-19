@@ -20,6 +20,7 @@ namespace Shop.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("[controller]/[action]")]
+    [Authorize(Roles = "admin")]
     public class ProductController : Controller
     {
         private readonly IProductService _ProductServices;
@@ -57,16 +58,41 @@ namespace Shop.Areas.Admin.Controllers
             Product.categories = Category;
             Product.brands = Brand;
             FormProduct.Products = Product;
-            FormProduct.ProductOption = option;
+            var ProductOptionVms = new List<ProductOptionVm>();
+            foreach (var item in option)
+            {
+                var ProductOptionVm = new ProductOptionVm()
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                };
+                ProductOptionVms.Add(ProductOptionVm);
+            }
+            FormProduct.ProductOptionVm = ProductOptionVms;
             return View(FormProduct);
         }
         [HttpPost]
 
         public async Task<IActionResult> Create(FormProduct model)
         {
+            if (model.Products.Sale != null)
+            {
+                if (model.Products.Price < model.Products.Sale)
+                {
+                    ModelState.AddModelError("Products.Price", "Giá Tiền Không Được Nhỏ Hơn Giá Khuyễn Mãi");
+                }
+            }
+            if (model.Products.CategoryId == -1)
+            {
+                model.Products.CategoryId = null;
+            }
+            if (model.Products.BrandId ==-1)
+            {
+                model.Products.BrandId = null;
+            }
             if (ModelState.IsValid)
             {
-        
+             
                 var Product = new Product()
                 {
                     Code = model.Products.Code,
@@ -156,7 +182,17 @@ namespace Shop.Areas.Admin.Controllers
                 });
             }
             FormProduct.Products = ProductVm;
-            FormProduct.ProductOption = option;
+            var ProductOptionVms = new List<ProductOptionVm>();
+            foreach (var item in option)
+            {
+                var ProductOptionVm = new ProductOptionVm()
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                };
+                ProductOptionVms.Add(ProductOptionVm);
+            }
+            FormProduct.ProductOptionVm = ProductOptionVms;
             FormProduct.ProductOptionVm = product.OptionValues.OrderBy(x => x.SortIndex).Select(x =>
            new ProductOptionVm
            {
@@ -171,17 +207,28 @@ namespace Shop.Areas.Admin.Controllers
         [HttpPost("{Id}")]
         public async Task<IActionResult> Updated(long Id, FormProduct model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }               
             var product = _context.Product.Where(x => x.Id == Id).Include(x => x.Images).ThenInclude(x => x.Media)
-                                            .Include(x=> x.Category)
-                                        .Include(x => x.OptionValues).ThenInclude(x => x.Option).Include(x => x.Brand).FirstOrDefault(x => x.Id == Id);
+                                   .Include(x => x.Category).Include(x => x.Thumbnail)
+                               .Include(x => x.OptionValues).ThenInclude(x => x.Option).Include(x => x.Brand).FirstOrDefault(x => x.Id == Id);
+            var ListImage = _context.Product.Where(x => x.Id == Id).Include(x => x.Images).ThenInclude(x => x.Media).FirstOrDefault();
+            if (model.Products.Price < model.Products.Sale)
+            {
+                ModelState.AddModelError("Products.Price", "Giá Tiền Không Được Nhỏ Hơn Giá Khuyễn Mãi");
+            }    
+   
             //var product = _ProductServices.getById(Id).Result;
             if (product == null)
             {
                 return NotFound();
+            }
+       
+            if (model.Products.CategoryId == -1)
+            {
+                model.Products.CategoryId = null;
+            }
+            if (model.Products.BrandId == -1)
+            {
+                model.Products.BrandId = null;
             }
             if (ModelState.IsValid)
             {
@@ -202,7 +249,24 @@ namespace Shop.Areas.Admin.Controllers
                 await _ProductServices.UpdateProduct(product);
                 return RedirectToAction("Index");
             }
-            return View(ModelState);
+            if (model.Products.ThumbnailImageUrl == null)
+            {
+                model.Products.ThumbnailImageUrl = product.Thumbnail.FileName;
+            }
+            if (model.Products.ProductImages.Count == 0)
+            {
+                foreach (var productMedia in ListImage.Images.Where(x => x.Media.MediaType == MediaType.Image))
+                {
+                    model.Products.ProductImages.Add(new ProductMediaVm
+                    {
+                        Id = productMedia.Id,
+                        MediaUrl = _mediaService.GetThumbnailUrl(productMedia.Media),
+                        Media = productMedia.Media.FileName
+                    });
+                }
+            }
+           
+            return View(model);
 
 
         }

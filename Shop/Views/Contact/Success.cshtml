@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Thành Công";
+}
+<h1>Gửi thành công</h1>
+<h3>
+    bạn sẽ quay lại trang chủ trong
+    <span class="rederect-to"></span>
+</h3>
+@*sau một khoảng thời gian tự refresh*@
+@*<meta http-equiv="refresh" content="10 ; URL='https://localhost:5001'">*@
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var seconds = 5;
+            setInterval(function () {
+                seconds--;
+                $(".rederect-to").html(seconds + " giây");
+                if (seconds == 0) {
+                    window.location = "/";
+                }
+            }, 1000);
+        })
+    </script>
+}

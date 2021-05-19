@@ -11,7 +11,6 @@ namespace Model.ViewModel
         public string ThumbnailImageUrl { get; set; }
         public long Id { get; set; }
         public string Code { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Slug is not require")]
         public string Slug { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Tiêu Đề")]
         public string Title { get; set; }

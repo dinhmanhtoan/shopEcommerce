@@ -19,7 +19,8 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     @RenderSection("styles", required: false)
-
+   @using Model.Services; 
+  @inject IWorkContext WorkContext
 </head>
 <body>
     <!-- ============================================================== -->
@@ -228,7 +229,7 @@
                                 <img src="~/images/users/profile-pic.jpg" alt="user" class="rounded-circle"
                                      width="40">
                                 <span class="ml-2 d-none d-lg-inline-block">
-                                    <span>Hello,</span> <span class="text-dark">Jason Doe</span> <i data-feather="chevron-down"
+                                    <span>Hello</span> <span class="text-dark"> @((WorkContext.GetCurrentUser()).Result.FullName)</span> <i data-feather="chevron-down"
                                                                                                     class="svg-icon"></i>
                                 </span>
                             </a>
@@ -255,11 +256,11 @@
                                     Account Setting
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)">
-                                    <i data-feather="power"
-                                       class="svg-icon mr-2 ml-1"></i>
-                                    Logout
-                                </a>
+                                <form class="dropdown-item"  asp-area="Admin" asp-controller="Account" asp-action="logoff" method="post">
+                                    <button type="submit" class="btn btn-success">
+                                        <i data-feather="power" class="svg-icon mr-2 ml-1"></i>Logout
+                                    </button> 
+                                </form>
                                 <div class="dropdown-divider"></div>
                                 <div class="pl-4 p-3">
                                     <a href="javascript:void(0)" class="btn btn-sm btn-info">
@@ -289,7 +290,7 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li class="sidebar-item">
-                            <a class="sidebar-link sidebar-link" href="index.html"
+                            <a class="sidebar-link sidebar-link" asp-area="Admin" asp-controller="Home" asp-action="Index"
                                aria-expanded="false">
                                 <i data-feather="home" class="feather-icon"></i><span class="hide-menu">Dashboard</span>
                             </a>
@@ -326,6 +327,14 @@
                                aria-expanded="false">
                                 <i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
                                     Thương hiệu
+                                </span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" asp-controller="Slider" asp-action="Index"
+                               aria-expanded="false">
+                                <i data-feather="tag" class="feather-icon"></i><span class="hide-menu">
+                                    Slider
                                 </span>
                             </a>
                         </li>

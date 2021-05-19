@@ -49,11 +49,14 @@
 .table img{
 		width: 80px;
 	}
+.option-modal{
+	display:block;
+}
 @media (max-width: 767px) {
-	.cart-item-quantity .wrap-num-product{
+	/*.cart-item-quantity .wrap-num-product{
 		width: 45px !important;
 		height: 90px !important;
-	}
+	}*/
 	.cart-item-quantity .wrap-num-product .btn-num-product-down,.cart-item-quantity .wrap-num-product .btn-num-product-up{
 		height: 30px;
 		float: left;
@@ -64,5 +67,8 @@
 	}
 	.table img{
 		width: 60px;
+	}
+	.hidden-sm-down{
+		display:none !important;
 	}
 }

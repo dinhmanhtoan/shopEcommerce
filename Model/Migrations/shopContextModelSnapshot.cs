@@ -228,6 +228,33 @@ namespace Model.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("Model.Models.Contact", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contact");
+                });
+
             modelBuilder.Entity("Model.Models.Media", b =>
                 {
                     b.Property<long>("Id")
@@ -615,6 +642,29 @@ namespace Model.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Model.Models.Slider", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPublisher")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("ThumbnailId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ThumbnailId");
+
+                    b.ToTable("Slider");
+                });
+
             modelBuilder.Entity("Model.Models.User", b =>
                 {
                     b.Property<long>("Id")
@@ -701,7 +751,7 @@ namespace Model.Migrations
                             Id = 10L,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "101cd6ae-a8ef-4a37-97fd-04ac2dd630e4",
-                            CreatedOn = new DateTime(2021, 5, 16, 14, 30, 10, 243, DateTimeKind.Local).AddTicks(9173),
+                            CreatedOn = new DateTime(2021, 5, 18, 21, 8, 46, 438, DateTimeKind.Local).AddTicks(7424),
                             EmailConfirmed = false,
                             FullName = "System User",
                             Guid = new Guid("5f72f83b-7436-4221-869c-1b69b2e23aae"),
@@ -889,6 +939,13 @@ namespace Model.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Model.Models.Slider", b =>
+                {
+                    b.HasOne("Model.Models.Media", "Thumbnail")
+                        .WithMany()
+                        .HasForeignKey("ThumbnailId");
                 });
 
             modelBuilder.Entity("Model.Models.UserRole", b =>

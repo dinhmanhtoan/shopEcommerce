@@ -46,7 +46,7 @@ namespace Model.Services
 
             var cartItems = cart.cartItems.Where(x => x.ProductId == productId).ToList();
            
-            if (cartItems == null)
+            if (cartItems.Count == 0)
             {
             
              var cartItem = new Models.CartItem
@@ -63,8 +63,8 @@ namespace Model.Services
                     {
                         var value = query.OptionValues.Select(x => new OptionVariationVm
                         {
-                            OptionId = x.OptionId,
-                            OptionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
+                            optionId = x.OptionId,
+                            optionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
                         }).ToList();
                         var valuedefault = JsonConvert.SerializeObject(value);
                         cartItem.Values = valuedefault;
@@ -78,19 +78,19 @@ namespace Model.Services
                         {
                             var value = query.OptionValues.Select(x => new OptionVariationVm
                             {
-                                OptionId = x.OptionId,
-                                OptionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
+                                optionId = x.OptionId,
+                                optionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
                             }).ToList();
                             foreach (var item in value)
                             {
                                 foreach (var item2 in optionvalues)
                                 {
-                                    if (item.OptionId != item2.OptionId)
+                                    if (item.optionId != item2.optionId)
                                     {
                                     var OptionVariationVm = new OptionVariationVm()
                                     {
-                                        OptionId = item.OptionId,
-                                        OptionValues = item.OptionValues
+                                        optionId = item.optionId,
+                                        optionValues = item.optionValues
                                     };
                                     optionvalues.Add(OptionVariationVm);
                                     }
@@ -118,17 +118,18 @@ namespace Model.Services
                     var query = _context.Product.Include(x => x.OptionValues).ThenInclude(x => x.Option).FirstOrDefault(x => x.Id == cartItem.ProductId);
                     if (values == "[]")
                     {
+                       
                         if (query.OptionValues.Count > 0)
                         {
                             var value = query.OptionValues.Select(x => new OptionVariationVm
                             {
-                                OptionId = x.OptionId,
-                                OptionName = null,
-                                OptionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
+                                optionId = x.OptionId,
+                                optionName = null,
+                                optionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
                             }).ToList();
                             var valuedefault = JsonConvert.SerializeObject(value);
-                     
-                                if (cartItem.Values != valuedefault)
+                         
+                            if (cartItem.Values != valuedefault)
                                 {
                                      cartItem.Values = valuedefault;
                                 }
@@ -140,7 +141,11 @@ namespace Model.Services
                             var cartItem2 = cartItems.Find(x => x.Values == cartItem.Values);
                             if (cartItem2 != null)
                             {
-                                cartItem.Quantity++;
+                                cartItem2.Quantity++;
+                            }
+                            else
+                            {
+                                cart.cartItems.Add(cartItem);
                             }
 
                         }
@@ -155,19 +160,19 @@ namespace Model.Services
                         {
                             var value = query.OptionValues.Select(x => new OptionVariationVm
                             {
-                                OptionId = x.OptionId,
-                                OptionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
+                                optionId = x.OptionId,
+                                optionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
                             }).ToList();
                             foreach (var item in value)
                             {
                                 foreach (var item2 in optionvalues)
                                 {
-                                    if (item.OptionId != item2.OptionId)
+                                    if (item.optionId != item2.optionId)
                                     {
                                         var OptionVariationVm = new OptionVariationVm()
                                         {
-                                            OptionId = item.OptionId,
-                                            OptionValues = item.OptionValues
+                                            optionId = item.optionId,
+                                            optionValues = item.optionValues
                                         };
                                         optionvalues.Add(OptionVariationVm);
                                     }
@@ -176,10 +181,15 @@ namespace Model.Services
                             }
                             var valuedefault = JsonConvert.SerializeObject(optionvalues);
                             cartItem.Values = valuedefault;
-                         }
+                        }
+                        else
+                        {
+                            cart.cartItems.Add(cartItem);
+                        }
 
                     }
-                    cart.cartItems.Add(cartItem);
+  
+                    
                 }
                 else
                 {

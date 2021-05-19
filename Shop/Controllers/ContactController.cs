@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model.ViewModel;
+using Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,79 +11,51 @@ namespace Shop.Controllers
 {
     public class ContactController : Controller
     {
-        // GET: ContactController
+        private readonly shopContext _context;
+        public ContactController(shopContext context)
+        {
+            _context = context;
+        }
+        // GET: ContactController/Details/5
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: ContactController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: ContactController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
         // POST: ContactController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Index(ContactForm model)
         {
-            try
+
+        
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var Contact = new Contact()
+                {
+                    Name = model.Name,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+                    Note = model.Note,
+                    IsDeleted = false,
+                    CreatedOn = DateTimeOffset.Now
+                };
+                _context.Contact.Add(Contact);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Success));
             }
-            catch
-            {
-                return View();
-            }
+         
+                return View(model);
+
         }
 
         // GET: ContactController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Success()
         {
             return View();
         }
 
-        // POST: ContactController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: ContactController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ContactController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

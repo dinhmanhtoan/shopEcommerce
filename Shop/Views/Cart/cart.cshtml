@@ -4,7 +4,14 @@
 @section head{
     <link rel="stylesheet" href="../css/cart.css">
 }
-@if (Model.CartItemVms.Count > 0)
+@{ 
+    var Count = 0;
+}
+@if (Model.CartItemVms != null)
+{
+    Count = Model.CartItemVms.Count;
+}
+@if (Count > 0 )
 {
     decimal? total = 0;
     int stt = 1;
@@ -45,23 +52,23 @@
                                         <td>
                                             <div class="cart-item-details" style="display:flex;" data-id="@item.Id">
                                                 <div>
-                                                    <a href="../html/single.html"><img src="/user-content/@item.ProductVm.ThumbnailImageUrl"></a>
+                                                    <a href="@item.ProductVm.Slug"><img src="/user-content/@item.ProductVm.ThumbnailImageUrl"></a>
                                                 </div>
 
 
                                                 <div class="cart-item-price hidden-md-up">
-                                                    <a href="../html/single.html">@item.ProductVm.Title</a>
+                                                    <a href="@item.ProductVm.Slug">@item.ProductVm.Title</a>
                                                     @if (item.Values.Count > 0)
                                                     {
-                                                        <button type="button" class="option-modal" data-toggle="modal" data-target="#exampleModal-1" data-id="@item.Id">
+                                                        <button type="button" class="option-modal" data-toggle="modal" data-target="#exampleModal-2" data-id="@item.Id">
 
 
 
                                                             @for (int i = 0; i < item.Values.Count; i++)
                                                             {
 
-                                                                <span class="optionValues" data-id="@item.Values[i].OptionId">
-                                                                    @item.Values[i].OptionValues
+                                                                <span class="optionValues" data-id="@item.Values[i].optionId">
+                                                                    @item.Values[i].optionValues
                                                                 </span>
                                                                 @if (i != item.Values.Count - 1)
                                                                 {
@@ -139,7 +146,7 @@
 
                                 }
                                 @*Modal*@
-                                <div class="modal fade" id="exampleModal-1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="exampleModal-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-body">
@@ -150,7 +157,7 @@
                                                                 <i class="fa fa-times" aria-hidden="true"></i>
                                                             </button>
                                                         </div>
-                                                        <div id="modal-item"></div>
+                                                        <div id="modal-item2"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,7 +167,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="modal-item"></div>
+                    @*<div id="modal-item2"></div>*@
                     <hr>
                     <a class="return-shop" asp-controller="Product" asp-action="index"><i class="fa fa-angle-left" aria-hidden="true"></i> Tiếp tục mua hàng </a>
                 </div>
@@ -204,7 +211,7 @@
     </div>
  
     <div class="clearfix"></div>
-    @*<div class="product">
+    <div class="product">
             <div class="container">
                 <div class="row">
                     <h2 class="title">Sản phẩm vừa xem</h2>
@@ -213,7 +220,7 @@
                         @foreach (var item in Model.Viewed)
                         {
                             <div class="col-md-3 col-6 item-product">
-                                <div class="product-grid6">
+                                <div class="product-grid6" data-id="@item.Id">
                                     <div class="product-image6">
                                         <a href="/chi-tiet/@item.Slug">
                                             <img class="pic-1" src="/user-content/@item.Thumbnail.FileName">
@@ -235,9 +242,9 @@
                                         </div>
                                     </div>
                                     <ul class="social">
-                                        <li><a href="/chi-tiet/@item.Slug" class="js-show-modal1" data-id="@item.Id" data-tip="Quick View"><i class="fa fa-search"></i></a></li>
+                                        <li><a href="javascript:void(0)" class="js-show-modal" data-toggle="modal" data-target="#exampleModal-1" data-id="@item.Id" data-tip="Quick view"><i class="fa fa-search"></i></a></li>
                                         <li><a href="" class="js-add-wishlist" data-status="true" data-id="@item.Id" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a></li>
-                                        <li><a href="" class="js-add-cart" data-status="true" data-id="@item.Id" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
+                                        <li><a href="" class="togget-add-cart" data-status="true" data-id="@item.Id" data-tip="Add to Cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -245,7 +252,7 @@
                     }
                 </div>
             </div>
-        </div>*@
+        </div>
 </main>
 }
 else
@@ -253,7 +260,6 @@ else
     <p class="alert alert-danger">Giỏ hàng trống</p>
 }
 @section Scripts{
-    <script type="text/javascript" src="~/js/single.js"></script>
     <script>
     $(document).on('click', '.remove-in-cart', function (e) {
         var parent = $(this).parents('.item-in-cart');
@@ -355,7 +361,7 @@ else
     });
 
 
-        function loadevent(result) {
+        function loadevent2(result) {
             var quantity = result.quantity;
             var ListChecked = result.values;
             var optionvalue = result.productVm.productOptionVm;
@@ -376,7 +382,7 @@ else
                     var checked = $(this).val();
 
                     var id = parseInt($(this).next().attr("data-id"));
-                    let item = { OptionId: id, OptionValues: checked };
+                    let item = { optionId: id, optionName:null, optionValues: checked };
                     var yet = ListChecked.findIndex(x => x.optionId == id);
                     if (yet != -1) {
                         ListChecked.splice(yet, 1);
@@ -397,13 +403,14 @@ else
 
 
             }
-              $(document).on('click', '.update-cart', function (e) {
+            $(document).on('click', '.update-cart', function (e) {
+            
                   var parent = $(this).parents('.product-details-item');
                    var productid = parseInt(parent.attr('data-id'));
                    debugger;
                   var CartId = parseInt($(this).data("id"));
-                  var sortArr = ListoptionValue.sort(function (a, b) {
-                      return a.OptionId - b.OptionId;
+                var sortArr = ListChecked.sort(function (a, b) {
+                      return a.optionId - b.optionId;
                   });
                   var values = JSON.stringify(sortArr)
                     $.ajax({
@@ -425,7 +432,7 @@ else
         }
 
 
-        function LoadModal(result) {
+        function LoadModal2(result) {
             var html = "";
             var item = result;
             console.log(item.productVm.productImages.length);
@@ -484,9 +491,11 @@ else
                     if (item.productVm.rating.length > 0)
                             {
                                 html += `<div class="product-rating">
-                                    <span class="rating star-rating">
-                                        ${item.ProductVm.rating.scores}
-                                    </span>
+                                    <span class="rating star-rating">`
+                                for (var i = 0; i < item.productVm.rating.length; i++) {
+                                         html += `${ item.productVm.rating[i].scores }`
+                                    }
+                        html += `   </span>
 
                                     <a href="#reviews" class="review-link" rel="nofollow">(<span class="count">${item.productVm.rating.length}</span> nhận xét)</a>
                                 </div>
@@ -584,8 +593,10 @@ else
                     </div>
                     </div><!--Thông tin cơ bản-->
                `;
+
+        
+            $("#modal-item2").html(html);
             Rating();
-            $("#modal-item").html(html);
         }
         $(document).on('click', '.option-modal', function (e) {
             var CartId = $(this).data("id");
@@ -597,8 +608,8 @@ else
                 },
                 success: function (result) {
 
-                    LoadModal(result);
-                    loadevent(result);
+                    LoadModal2(result);
+                    loadevent2(result);
                 }
             })
         });

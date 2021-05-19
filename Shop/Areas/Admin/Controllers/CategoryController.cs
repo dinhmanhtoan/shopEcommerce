@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Shop.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _CategoryServices;
@@ -95,6 +96,7 @@ namespace Shop.Areas.Admin.Controllers
             };
             var FormCategory = new FormCategory();
             FormCategory.Categorys = CategoryVm;
+            FormCategory.Categorys.ThumbnailImageUrl = Category.Thumbnail.FileName;
             return View(FormCategory);
         }
         [HttpPost("Category/Updated/{Id}")]

@@ -10,7 +10,6 @@ namespace Model.ViewModel
     public class FormCategory
     {
         public CategoryVm Categorys { get; set; } = new CategoryVm();
-        [Required(AllowEmptyStrings = true, ErrorMessage = "Vui Lòng Nhập chọn Ảnh")]
         public IFormFile ThumbnailImage { get; set; }
     }
 }

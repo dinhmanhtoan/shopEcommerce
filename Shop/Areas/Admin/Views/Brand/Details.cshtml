@@ -31,7 +31,14 @@
                Hiển thị
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.IsPublished)
+                @if (Model.IsPublished == true)
+                {
+                    <span>Có</span>
+                }
+                else
+                {
+                    <span>Chưa</span>
+                }
             </dd>
         </dl>
     </div>

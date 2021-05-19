@@ -174,7 +174,7 @@
                         </div>
 
                         <!--Thêm giỏ hàng-->
-                        <div style="display:flex; float:left; margin-top:10px ">
+                        <div class="btn-cart">
                             <div class="add-cart">
                                 <a href="#" class="btn btn-black"> <span><i class="fal fa-shopping-basket" aria-hidden="true"></i></span>Thêm giỏ hàng</a>
                             </div>
@@ -355,8 +355,9 @@
 
 </div>
 @section Scripts{
-
+   
     <script>
+        var origin = window.location.origin;
         var ListoptionValue = [];
         $(document).ready(function () {
             var el = $('.owl-carousel');
@@ -502,7 +503,7 @@
                 if (i == 0) {
                     var value = $(this).val();
                     var id = parseInt($(this).next().attr("data-id"));
-                    let item = { OptionId: id, OptionName: null, OptionValues: value };
+                    let item = { optionId: id, optionName: null, optionValues: value };
                     ListoptionValue.push(item);
                     $(`.form-check-label[data-id=${item.id}]`).removeClass('optionactive')
                     $(this).prop('checked', $(input).is(':checked')).next().addClass("optionactive");
@@ -512,8 +513,8 @@
             $(`input[name='inlineRadioOptions-${item.id}']`).change(function () {
                 var checked = $(this).val();
                 var id = parseInt($(this).next().attr("data-id"));
-                let item = { OptionId: id, OptionName: null, OptionValues: checked };
-                var yet = ListoptionValue.findIndex(x => x.OptionId == id);
+                let item = { optionId: id, optionName: null, optionValues: checked };
+                var yet = ListoptionValue.findIndex(x => x.optionId == id);
                 if (yet != -1) {
                     ListoptionValue.splice(yet, 1);
                 }
@@ -530,32 +531,7 @@
 
             });
         }
-
-    $(document).on('click', '.add-cart', function (event) {
-    event.preventDefault();
-        let parent = $(this).parents('.product-details');
-        let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
-        let quantity = parseInt(parent.find('.num-product').val());
-        var sortArr = ListoptionValue.sort(function (a, b) {
-            return a.OptionId - b.OptionId;
-        });
-        var values = JSON.stringify(sortArr)
-        animation(this);
-    $.ajax({
-        type: 'POST',
-        url: '@Url.ActionLink("AddToCart", "Cart")',
-        data: {
-            productid: productid,
-            quantity: quantity,
-            values: values
-        },
-        success: function (result) {
-            addtocart();
-
-        }
-    })
-    });
-     function animation(e) {
+        function animation2(e) {
             var animation;
             console.log(e);
             if ($(e).hasClass("add-wishlist")) {
@@ -603,45 +579,72 @@
 
             }
         }
-    $(document).on('click', '.add-wishlist', function (event) {
-        event.preventDefault();
+    $(document).on('click', '.add-cart', function (event) {
+    event.preventDefault();
         let parent = $(this).parents('.product-details');
         let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
-        var status = $(this).data("status");
-        if (status == true) {
-            $(this).find("i").css('font-weight', '900');
-            $(this).data('status', false);
-            $(this).attr('data-tip', 'Remove TO WISHLIST');
-            animation(this);
+        let quantity = parseInt(parent.find('.num-product').val());
+        var sortArr = ListoptionValue.sort(function (a, b) {
+            return a.optionId - b.optionId;
+        });
+        var values = JSON.stringify(sortArr)
+        animation2(this);
+    $.ajax({
+        type: 'POST',
+        url: `${origin}/Cart/AddToCart`,
+        data: {
+            productid: productid,
+            quantity: quantity,
+            values: values
+        },
+        success: function (result) {
+            addtocart();
+
+        }
+    })
+    });
+    // Checkout Cart
+    $(document).on('click', '.checkout-cart', function (event) {
+    event.preventDefault();
+        let parent = $(this).parents('.product-details');
+        let productid = parseInt(parent.find('.product-details-item').attr('data-id'));
+        let quantity = parseInt(parent.find('.num-product').val());
+        var sortArr = ListoptionValue.sort(function (a, b) {
+            return a.optionId - b.optionId;
+        });
+        var values = JSON.stringify(sortArr)
+    $.ajax({
+        type: 'POST',
+        url: `${origin}/Cart/AddToCart`,
+        data: {
+            productid: productid,
+            quantity: quantity,
+            values: values
+        },
+        success: function (result) {
+            addtocart();
+            window.location.href = `${origin}/checkout`;
+        }
+    })
+
+    });
+
+
+       // add to RecentlyViewed: Sản phẩm mới xem;
+        function RecentlyViewed() {
+          var id = parseInt($(".product-details-item").attr('data-id'));
             $.ajax({
                 type: 'POST',
-                url: '@Url.ActionLink("AddtoWishList", "Cart")',
+                url: `${origin}/Cart/RecentlyViewed`,
                 data: {
-                    productid: productid,
+                    productid: id,
                 },
                 success: function (result) {
-                    addtowishlist();
+                    console.log("click vao");
                 }
             });
-        } else {
-            $(this).find("i").css('font-weight','300');
-            $(this).data('status', true);
-        $(this).attr('data-tip', 'ADD TO WISHLIST');
-          $.ajax({
-            type: 'POST',
-            url: '@Url.ActionLink("RemoveWishList", "Cart")',
-            data: {
-                productid: productid,
-            },
-            success: function (result) {
-                addtowishlist();
-            }
-        });
         }
-
-        });
-  
-  // Product Details Add and Remove
+        RecentlyViewed();
 
     </script>
 }

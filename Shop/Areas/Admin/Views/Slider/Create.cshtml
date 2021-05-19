@@ -1,0 +1,76 @@
+﻿@model SliderForm
+
+@{
+    ViewData["Title"] = "Create";
+
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-subtitle">Thêm Mới Slider</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label>Vị Trí</label>
+                        <select asp-for="Sliders.Index" class="form-control">
+                            <option value="-1">Chọn</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+
+                        </select>
+                        <span asp-validation-for="Sliders.Index" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Chọn Ảnh Slider</label>
+                        <input asp-for="ThumbnailImage" class="form-control-file" type="file" id="thumbnail" onchange="previewFile(this)" hidden />
+                        <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
+                        <br />
+                        <img id="previewThumbnail" style="max-width: 100%; height: auto;" />
+                        <br />
+                        <label for="thumbnail" class="btn btn-primary mt-1">Chọn ảnh</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input asp-for="Sliders.IsPublisher" class="form-check-input" type="checkbox" id="IsPublished">
+                            <label class="form-check-label" for="IsPublished">
+                                Hiển thị
+                            </label>
+                            <span asp-validation-for="Sliders.IsPublisher" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/Slug/speakingurl.min.js"></script>
+    <script src="~/lib/Slug/jquery.stringtoslug.js"></script>
+    <script>
+        function previewFile(input) {
+            var file = $(input).get(0).files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    $("#previewThumbnail").attr("src", reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        };
+    </script>
+}

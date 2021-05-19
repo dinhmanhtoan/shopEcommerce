@@ -48,7 +48,7 @@ namespace Shop
             .AddEntityFrameworkStores<shopContext>().AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(options =>
             {
-                options.AccessDeniedPath = new PathString("/account/accessdenied");
+                options.AccessDeniedPath = new PathString("/");
                 options.Cookie.Name = "shop";
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromDays(1);
@@ -65,6 +65,7 @@ namespace Shop
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IRatingServices, RatingServices>();
             services.AddTransient<IBrandService, BrandService>();
+            services.AddTransient<ISliderService, SliderService>();
             services.AddScoped<IOptionService, OptionService>();
             services.AddTransient<IWorkContext, WorkContext>();
             services.AddTransient<ICartService, CartService>();  
