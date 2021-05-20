@@ -1,0 +1,18 @@
+﻿.Remove-Combinationitem {
+    text-align: center;
+}
+.table thead tr {
+    background: aliceblue;
+}
+
+.table thead tr th {
+    text-align: center;
+    color: #655f5f;
+}
+.table tbody tr td {
+    text-align: center;
+
+}
+.Combination-Thumnail{
+    display:block;
+}
