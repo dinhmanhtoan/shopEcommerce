@@ -24,7 +24,7 @@ namespace Shop.Components
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var query = _shopContext.Product.Where(x => x.IsFuture == true).Include(x => x.Images).ThenInclude(x => x.Media).Include(x => x.Brand).Include(x => x.Category)
+            var query = _shopContext.Product.Where(x => x.IsHot == true).Include(x => x.Images).ThenInclude(x => x.Media).Include(x => x.Brand).Include(x => x.Category)
                   .Include(x => x.Thumbnail).Include(x => x.OptionValues).ThenInclude(x => x.Option).Include(x => x.Rating).ToList().Take(5);
             var productvms = new List<ProductVm>();
 

@@ -1,6 +1,6 @@
 ﻿@model CheckoutViewModel
 
-<h2>GIỎ HÀNG</h2>
+<h2 class="mt-2">GIỎ HÀNG</h2>
 @section head{
     <link rel="stylesheet" href="../css/cart.css">
 }
@@ -257,7 +257,10 @@
 }
 else
 {
+<div class="mt-2">
     <p class="alert alert-danger">Giỏ hàng trống</p>
+</div>
+   
 }
 @section Scripts{
     <script>
@@ -284,8 +287,6 @@ else
         var id = parseInt(parent.attr('data-id'));
         var value = parseInt($(this).val());
         var CartId = parseInt(parent.find(".cart-item-details").data("id"));
-
-        console.log(value);
         if (value == null || value == '') {
             (this).val();
         } else {
@@ -304,7 +305,7 @@ else
             });
         }
     })
-    $(document).on('click', '.fa-plus', function () {
+        $(document).on('click', '.fa-plus', function () {
         var parent = $(this).parents('.item-in-cart');
         var id = parseInt(parent.attr('data-id'));
         var value = parseInt(parent.find('.num-product').val());
@@ -338,7 +339,7 @@ else
                     CartId: CartId
                 },
                 success: function (result) {
-                    addtocart();
+                  window.location.href = '@Url.ActionLink("cart", "cart")';
                 }
             });
         } else
@@ -353,7 +354,6 @@ else
                     CartId: CartId
                 },
                 success: function (result) {
-                    // addtocart();
                     window.location.href = '@Url.ActionLink("cart", "cart")';
                 }
             });
@@ -390,7 +390,6 @@ else
                     if ($(this).is(':checked')) {
                         ListChecked.push(item);
                     }
-                    console.log(ListChecked);
                 });
                 $(`input[name="inlineRadioOptions-${item.id}"]`).on('click', function () {
                     var id = parseInt($(this).next().attr("data-id"));
@@ -404,11 +403,9 @@ else
 
             }
             $(document).on('click', '.update-cart', function (e) {
-            
-                  var parent = $(this).parents('.product-details-item');
-                   var productid = parseInt(parent.attr('data-id'));
-                   debugger;
-                  var CartId = parseInt($(this).data("id"));
+                var parent = $(this).parents('.product-details-item');
+                var productid = parseInt(parent.attr('data-id'));
+                var CartId = parseInt($(this).data("id"));
                 var sortArr = ListChecked.sort(function (a, b) {
                       return a.optionId - b.optionId;
                   });
@@ -421,7 +418,7 @@ else
                             CartId: CartId,
                             quantity: quantity,
                             values: values
-                            
+
                         },
                         success: function (result) {
                             //  addtocart();
@@ -435,7 +432,6 @@ else
         function LoadModal2(result) {
             var html = "";
             var item = result;
-            console.log(item.productVm.productImages.length);
                 html += `<div class="col-md-12">
                         <div class="col-md-6 single-left gallery-lb">`
                  for (var i = 0; i < item.productVm.productImages.length; i++) {
@@ -594,7 +590,7 @@ else
                     </div><!--Thông tin cơ bản-->
                `;
 
-        
+
             $("#modal-item2").html(html);
             Rating();
         }

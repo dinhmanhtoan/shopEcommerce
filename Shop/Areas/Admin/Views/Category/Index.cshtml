@@ -37,27 +37,22 @@
                         @Html.DisplayNameFor(model => model.Id)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Title)
+                       Tiêu đề
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Description)
+                        Miêu Tả
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Thumbnail)
+                        hình nhỏ
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.CreatedOn)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CreatedBy)
-                    </th>
+       
                     <th>
                         @Html.DisplayNameFor(model => model.EditOn)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.EditBy)
-                    </th>
-                    <th></th>
+                    <th>Hành Động</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,19 +75,12 @@
                                 <img id="previewThumbnail" width="90" height="100" src="~/user-content/@item.Thumbnail.FileName" />
                                 <br />
                             }
-
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CreatedOn)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CreatedBy)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.EditOn)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EditBy)
                         </td>
                         <td>
                             <a asp-action="Updated" asp-route-id="@item.Id">Sửa</a> |

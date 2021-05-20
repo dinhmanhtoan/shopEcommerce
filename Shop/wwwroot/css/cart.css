@@ -52,6 +52,18 @@
 .option-modal{
 	display:block;
 }
+.col{
+	font-weight:600;
+}
+.hidden-md-up > a{
+	font-weight: 600;
+}
+.hidden-sm-down span {
+	font-weight: 600;
+}
+thead tr td {
+	font-weight: 600;
+}
 @media (max-width: 767px) {
 	/*.cart-item-quantity .wrap-num-product{
 		width: 45px !important;

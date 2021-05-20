@@ -39,6 +39,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="tab-pane fade show active" id="product" role="tabpanel" aria-labelledby="product-tab">
 
                     <div class="form-group">
@@ -112,13 +113,6 @@
 
                     </div>
                     <div class="form-group ">
-                        @*<input asp-for="ProductImages" class="form-control-file" type="file" multiple id="images" onchange="previewImages(this)" hidden />
-                <span asp-validation-for="ProductImages" class="text-danger"></span>
-                <br />
-                <div class="previewImages row"></div>
-                <br />
-                <label for="images" class="btn btn-primary">Chọn ảnh</label>*@
-
                         <label>Danh sách hình ảnh</label>
                         <ul class="media-list" id="media-list">
                             @foreach (var item in Model.Products.ProductImages)
@@ -138,6 +132,24 @@
                         <span asp-validation-for="ProductImages" class="text-danger"></span>
 
 
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input asp-for="Products.IsHot" class="form-check-input" type="checkbox" id="IsHot">
+                            <label class="form-check-label" for="IsHot">
+                                IsHot
+                            </label>
+                            <span asp-validation-for="Products.IsHot" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input asp-for="Products.IsFuture" class="form-check-input" type="checkbox" id="IsFuture">
+                            <label class="form-check-label" for="IsFuture">
+                                IsFuture
+                            </label>
+                            <span asp-validation-for="Products.IsFuture" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="option" role="tabpanel" aria-labelledby="option-tab">
@@ -167,6 +179,7 @@
     </div>
 
     @section Scripts{
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
         <script src="~/lib/Slug/speakingurl.min.js"></script>
         <script src="~/lib/Slug/jquery.stringtoslug.js"></script>
         <script src="~/lib/color/build/dependencies/tinycolor-0.9.15.min.js"></script>
@@ -265,8 +278,8 @@
                   </div>
                         <input type="number" hidden name="ProductOptionVm[${index}].Id" value="${demo22}">
                          <input type="text" hidden name="ProductOptionVm[${index}].Name" value="${value}">
-                          
-           
+
+
                     <input  type="text" data-role="tagsinput"  >
                 <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary option-type" data-toggle="modal" data-target="#exampleModal-${ListValue.length - 1}" >
@@ -287,7 +300,7 @@
                                         </button>
                                     </div>
                                     <div >
-                                       
+
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-check form-check-inline">
@@ -300,10 +313,10 @@
                                         </div>
                                         <input type="text" hidden name="ProductOptionVm[${index}].DisplayType" class ="DisplayType" />
                                         <div>
-                           
+
                                             <div class="form-group key" >
                                                     <input  type="hidden" name="value"/>
-                                   
+
                                             </div>
                                         </div>
 
@@ -313,7 +326,7 @@
                                         </div>
                                     </div>
                             </div>
-                        </div> `    
+                        </div> `
                 $("#option").append(html);
                 $(".removeoption").on("click", function () {
 
@@ -323,7 +336,9 @@
                     if (yet != -1) {
                         ListValue.splice(yet, 1);
                     }
+                    parent.next(".modal").remove();
                     parent.remove();
+
                 });
 
                 $(function () {
@@ -335,34 +350,34 @@
                     var html = ``;
                     var parents = $(this).parent(".option-value");
                     var keys = $(this).tagsinput('items');
-                
+
                     var value = parents.find(".input-group-text").text();
                     var index = ListValue.indexOf(value);
                     var radioValue = parents.next(".modal").find(`input[name='inlineRadioOptions-${index}']:checked`).val();
                     for (var i in keys) {
                         var item = keys[i];
                         if (radioValue == 'Text') {
-                            html += `<label class="col-sm-3 col-md-3 control-label">   
-                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
+                            html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>
                                     </label>
                                  <div class="col-sm-9 col-md-9">
                                  <input  class="form-control text" name="ProductOptionVm[${index}].Values[${i}].Display"   />
-                       
+
                         </div>`
                             parents.next(".modal").find('.DisplayType').val(radioValue);
                         } else {
-                            html += `<label class="col-sm-3 col-md-3 control-label">   
-                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
+                            html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>
                                     </label>
                                  <div class="col-sm-9 col-md-9">
                             <input type="text" value="222" name="ProductOptionVm[${index}].Values[${i}].Display" class="pick-a-color form-control ">
                         </div>`
                             parents.next(".modal").find('.DisplayType').val("Color");
                         }
-                     
+
                     }
                     parents.next().find(".key").html(html);
-          
+
                     parents.next().find(".pick-a-color").pickAColor({
 
                         showSavedColors: true,
@@ -378,22 +393,22 @@
                         var html = ``;
                         var value = $(this).val();
                         var parent = $(this).parents(".modal");
-                   
+
                         var input = $(this).parents(".modal").prev().find('input[data-role=tagsinput]').tagsinput('items');
                         for (var i in input) {
                             var item = input[i];
                             if (value == 'Text') {
-                                html += `<label class="col-sm-3 col-md-3 control-label">   
-                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
+                                html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>
                                     </label>
                                  <div class="col-sm-9 col-md-9">
                                  <input  class="form-control text" name="ProductOptionVm[${index}].Values[${i}].Display"   />
-                       
+
                         </div>`
                                 parent.find('.DisplayType').val(value);
                             } else {
-                                html += `<label class="col-sm-3 col-md-3 control-label">   
-                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
+                                html += `<label class="col-sm-3 col-md-3 control-label">
+                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>
                                     </label>
                                  <div class="col-sm-9 col-md-9">
                             <input type="text" value="222" name="ProductOptionVm[${index}].Values[${i}].Display" class="pick-a-color form-control ">
@@ -403,7 +418,7 @@
 
                         }
                         parent.find(".key").html(html);
-                 
+
                         parent.find(".pick-a-color").pickAColor({
 
                             showSavedColors: true,
@@ -416,11 +431,11 @@
 
                         });
                     });
-                
+
                 });
-            
+
         });
-          
+
         </script>
 
     }

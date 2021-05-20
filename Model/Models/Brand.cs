@@ -12,6 +12,7 @@ namespace Model.Models
         public string Name { get; set; }
         public string Slug { get; set; }
         public IList<Product> Products { get; set; }
+        [Required(ErrorMessage = "Vui Lòng Nhập Chi Tiết")]
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsPublished { get; set; }

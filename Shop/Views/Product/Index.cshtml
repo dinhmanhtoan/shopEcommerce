@@ -77,10 +77,10 @@
 
 
                                     <select id="themes" name="pageSize">
-                                        <option value="12">12</option>
-                                        <option value="24">24</option>
-                                        <option value="36">36</option>
                                         <option value="-1">Tất cả</option>
+                                        <option value="6">6</option>
+                                        <option value="12">12</option>
+                                        <option value="18">18</option>
                                     </select>
                                 </div>
                             </div>
@@ -219,6 +219,9 @@
             $(".sort").on('change', function () {
                 getProduct();
             });
+            $("#themes").on('change', function () {
+                getProduct();
+            });
             $("input[name='brand']").off('click').on('click', function () {
                 getProduct();
             });
@@ -228,6 +231,7 @@
                 var category = $("input[name='category']:checked").val();
                 var brand = $("input[name='brand']:checked").val();
                 var sort = $(".sort option:selected").val();
+                var pageSize = $("#themes option:selected").val();
                 //var url_string = window.location.href;
                 //var url = new URL(url_string);
                 //var PageNumber = url.searchParams.get("PageNumber");
@@ -249,6 +253,9 @@
                 if (sort != null && sort != -1) {
                     query += (query.length == 0 ? "?" : "&") + "sort=" + sort;
                 }
+                if (pageSize != null && pageSize != -1) {
+                    query += (query.length == 0 ? "?" : "&") + "pageSize=" + pageSize;
+                }
                 window.location = window.location.origin + window.location.pathname + query;
             }
 
@@ -267,11 +274,22 @@
                 var category = url.searchParams.get("category");
                 var sort = url.searchParams.get("sort");
                 var brand = url.searchParams.get("brand");
+                var pageSize = url.searchParams.get("pageSize");
                 if (sort != undefined) {
                     var options = $(".sort option");
                     $.each(options, function (i, option) {
                         let value = $(option).val();
                         if (value == sort) {
+                            $(option).prop("selected", true);
+                        }
+                    })
+
+                }
+                if (pageSize != undefined) {
+                    var options = $("#themes option");
+                    $.each(options, function (i, option) {
+                        let value = $(option).val();
+                        if (value == pageSize) {
                             $(option).prop("selected", true);
                         }
                     })

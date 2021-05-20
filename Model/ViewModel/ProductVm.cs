@@ -22,7 +22,7 @@ namespace Model.ViewModel
         public Brand Brand { get; set; }
 
         public long? BrandId { get; set; }
-        [Required( ErrorMessage = "Vui Lòng Nhập Giá")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Giá")]
         public decimal? Price { get; set; }
         public decimal? Sale { get; set; }
         public DateTime? CreatedOn { get; set; }
@@ -31,6 +31,8 @@ namespace Model.ViewModel
         public long? EditBy { get; set; }
 
         public long? CategoryId { get; set; }
+        public bool IsFuture { get; set; }
+        public bool IsHot { get; set; }
         public IList<Rating> Rating { get; set; } = new List<Rating>();
 
         public string ThumbnailImageUrl { get; set; }

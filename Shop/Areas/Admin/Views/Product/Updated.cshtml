@@ -2,7 +2,7 @@
 @model FormProduct
 @{
     ViewData["Title"] = "Updated";
- 
+
 }
 @section styles{
     <link href="~/lib/media-preview-upload/css/style.css" rel="stylesheet" />
@@ -44,32 +44,32 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Products.Id" value="@Model.Products.Id" />
                             <div class="form-group">
-                                <label asp-for="Products.Code" class="control-label"></label>
+                                <label class="control-label">Mã</label>
                                 <input asp-for="Products.Code" type="text" class="form-control" value="@Model.Products.Code" />
                                 <span asp-validation-for="Products.Code" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Products.Title" class="control-label"></label>
+                                <label class="control-label">Tên</label>
                                 <input asp-for="Products.Title" type="text" class="form-control Title" value="@Model.Products.Title" />
                                 <span asp-validation-for="Products.Title" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Products.Slug" class="control-label"></label>
+                                <label class="control-label">Slug</label>
                                 <input asp-for="Products.Slug" type="text" class="form-control" value="@Model.Products.Slug" id="permalink" readonly />
                                 <span asp-validation-for="Products.Slug" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Products.Description" class="control-label"></label>
+                                <label class="control-label">Miêu tả</label>
                                 <input asp-for="Products.Description" type="text" class="form-control" value="@Model.Products.Description" />
                                 <span asp-validation-for="Products.Description" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Products.Detail" class="control-label"></label>
+                                <label class="control-label">Chi tiết</label>
                                 <input asp-for="Products.Detail" type="text" class="form-control" value="@Model.Products.Detail" />
                                 <span asp-validation-for="Products.Detail" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Products.CategoryId" class="control-label"></label>
+                                <label class="control-label">Danh mục</label>
                                 <select asp-for="Products.CategoryId" class="form-control">
                                     <option value="-1">Chọn</option>
                                     @foreach (var item in Model.Products.categories)
@@ -87,7 +87,7 @@
                                 <span asp-validation-for="Products.CategoryId" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Products.BrandId" class="control-label"></label>
+                                <label class="control-label">Thương hiệu</label>
                                 <select asp-for="Products.BrandId" class="form-control">
                                     <option value="-1">Chọn</option>
                                     @foreach (var item in Model.Products.brands)
@@ -105,26 +105,27 @@
                                 <span asp-validation-for="Products.BrandId" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Products.Price" class="control-label"></label>
+                                <label class="control-label">Giá</label>
                                 <input asp-for="Products.Price" class="form-control" value="@Model.Products.Price" />
                                 <span asp-validation-for="Products.Price" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Products.Sale" class="control-label"></label>
+                                <label lass="control-label">Giá Khuyễn mãi</label>
                                 <input asp-for="Products.Sale" class="form-control" value="@Model.Products.Sale" />
                                 <span asp-validation-for="Products.Sale" class="text-danger"></span>
                             </div>
-                            @*="~/user-content/@Model.Products.ThumbnailImageUrl*@
                             <div class="form-group ">
                                 <label class="control-label">Ảnh</label>
 
                                 <input asp-for="ThumbnailImage" class="form-control-file" type="file" id="thumbnail" onchange="previewFile(this)" hidden />
                                 <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
                                 <br />
-                                <img id="previewThumbnail" src="~/user-content/@Model.Products.ThumbnailImageUrl" width="90" />
+                                @if (Model.Products.ThumbnailImageUrl != "")
+                                {
+                                    <img id="previewThumbnail" src="~/user-content/@Model.Products.ThumbnailImageUrl" width="90" />
+                                }
                                 <br />
                                 <label for="thumbnail" class="btn btn-primary mt-1">Chọn ảnh</label>
-
                                 <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -140,20 +141,59 @@
                                     <li class="myupload">
                                         <span>
                                             <i class="fa fa-plus" aria-hidden="true" for="ProductImages"></i>
-                                            <input asp-for="ProductImages" class="form-control-file " id="ProductImages" type="file" multiple  />
+                                            <input asp-for="ProductImages" class="form-control-file " id="ProductImages" type="file" multiple />
                                         </span>
                                         <input asp-for="ListDelete" id="Delete" name="ListDelete" hidden />
                                     </li>
                                 </ul>
                                 <span asp-validation-for="ProductImages" class="text-danger"></span>
                             </div>
-
+                            <div class="form-group">
+                                <div class="form-check">
+                                    @if (Model.Products.IsHot == true)
+                                    {
+                                        <input asp-for="Products.IsHot" class="form-check-input" type="checkbox" id="IsHot" checked>
+                                        <label class="form-check-label" for="IsHot">
+                                            IsHot
+                                        </label>
+                                        <span asp-validation-for="Products.IsHot" class="text-danger"></span>
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="Products.IsHot" class="form-check-input" type="checkbox" id="IsHot">
+                                        <label class="form-check-label" for="IsHot">
+                                            IsHot
+                                        </label>
+                                        <span asp-validation-for="Products.IsHot" class="text-danger"></span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    @if (Model.Products.IsFuture == true)
+                                    {
+                                        <input asp-for="Products.IsFuture" class="form-check-input" type="checkbox" id="IsFuture" checked>
+                                        <label class="form-check-label" for="IsFuture">
+                                            IsFuture
+                                        </label>
+                                        <span asp-validation-for="Products.IsFuture" class="text-danger"></span>
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="Products.IsFuture" class="form-check-input" type="checkbox" id="IsFuture">
+                                        <label class="form-check-label" for="IsFuture">
+                                            IsFuture
+                                        </label>
+                                        <span asp-validation-for="Products.IsFuture" class="text-danger"></span>
+                                    }
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="option" role="tabpanel" aria-labelledby="option-tab">
                             <div class="input-group mb-3">
                                 <select class="custom-select" id="add-option">
                                     <option selected>Chọn</option>
-                                    @foreach (var item in Model.ProductOptionVm)
+                                    @foreach (var item in Model.ProductOption)
                                     {
                                         <option value="@item.Id">@item.Name</option>
                                     }
@@ -224,7 +264,7 @@
                                                     </div>
                                                 }
 
-                                                <input type="text"  asp-for="@Model.ProductOptionVm[i].DisplayType" class="DisplayType"  value="@Model.ProductOptionVm[i].DisplayType"  hidden/>
+                                                <input type="text" asp-for="@Model.ProductOptionVm[i].DisplayType" class="DisplayType" value="@Model.ProductOptionVm[i].DisplayType" hidden />
                                                 <div>
 
                                                     <div class="form-group key">
@@ -277,7 +317,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="card-footer">
@@ -286,6 +325,7 @@
 </div>
 
 @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/lib/Slug/speakingurl.min.js"></script>
     <script src="~/lib/Slug/jquery.stringtoslug.js"></script>
     <script src="~/lib/color/build/dependencies/tinycolor-0.9.15.min.js"></script>
@@ -375,7 +415,6 @@
 
         });
         $("#permalink").change(() => {
-            console.log($("#permalink").val());
         })
         $(".pick-a-color").each(function (i, item) {
             $(this).pickAColor({
@@ -411,7 +450,6 @@
             }
             var item = { id: optionvalue, name: optiontext, displayType : '' , values : [] }
             ListValue.push(item);
-            console.log(ListValue);
             var index = ListValue.findIndex(x => x.name == optiontext);
             var html = ``;
             html += `  <div class="input-group fade show mb-3 option-value">
@@ -491,14 +529,14 @@
         });
         function values() {
             $("input[data-role=tagsinput]").off('change').on("change", function (e) {
-      
+
                 e.preventDefault();
                 var html = ``;
                 var parents = $(this).parent(".option-value");
                 var value = parents.find(".input-group-text").text();
                 var index = ListValue.findIndex(x => x.name == value);
                 var radioValue = parents.next(".modal").find(`input[name='inlineRadioOptions-${ListValue[index].id}']:checked`).val();
- 
+
                 $('input').off('itemAdded').on('itemAdded', function (event) {
                     // event.item: chứa các item
                     ListValue[index].values.push({ key: event.item, display: '' })
@@ -514,7 +552,6 @@
 
                         </div>`
                             parents.next(".modal").find('.DisplayType').val(radioValue);
-                            console.log(parents.next(".modal").find('.DisplayType').val());
                         } else {
                             html += `<label class="col-sm-3 col-md-3 control-label">
                                     ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
@@ -523,7 +560,6 @@
                             <input type="text" value="${item.display}" name="ProductOptionVm[${index}].Values[${i}].Display"  class="pick-a-color form-control ">
                         </div>`
                             parents.next(".modal").find('.DisplayType').val("Color");
-                            console.log(parents.next(".modal").find('.DisplayType').val());
                         }
 
                     }
@@ -591,7 +627,7 @@
             for (var i in ListValue) {
 
                 $(`input[name='inlineRadioOptions-${ListValue[i].id}']`).off('click').on('click', function () {
-           
+
                     var html = ``;
                     var radioValue = $(this).val();
                     var parent = $(this).parents(".modal");
@@ -616,7 +652,7 @@
 
                         </div>`
                             parent.find('.DisplayType').val(radioValue);
-                            console.log(parent.find('.DisplayType').val());
+
                         } else {
                             html += `<label class="col-sm-3 col-md-3 control-label">
                                     ${item.key}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item.key} hidden>
@@ -625,7 +661,6 @@
                             <input type="text" value="${item.display}" name="ProductOptionVm[${index}].Values[${i}].Display"  class="pick-a-color form-control ">
                         </div>`
                             parent.find('.DisplayType').val("Color");
-                            console.log(parent.find('.DisplayType').val());
                         }
 
                     }
@@ -649,13 +684,12 @@
             $(".removeoption").on("click", function () {
 
                 var parent = $(this).parents('.option-value');
-                console.log(parent);
                 var removeItem = parent.find(".input-group-text").text();
                 var yet = ListValue.findIndex(x => x.name == removeItem);
                 if (yet != -1) {
                     ListValue.splice(yet, 1);
                 }
-          
+
                 parent.next('.modal').remove();
                 parent.remove();
             });

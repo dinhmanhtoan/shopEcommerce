@@ -4,6 +4,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_PublishTargetUrl>C:\Users\Toan\Desktop\publisher</_PublishTargetUrl>
+    <_PublishTargetUrl>I:\SoureToan\publisher</_PublishTargetUrl>
+    <History>True|2021-05-20T13:55:07.1294497Z;</History>
   </PropertyGroup>
 </Project>

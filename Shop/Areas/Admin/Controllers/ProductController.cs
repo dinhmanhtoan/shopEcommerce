@@ -104,26 +104,49 @@ namespace Shop.Areas.Admin.Controllers
                     BrandId = model.Products.BrandId,
                     CategoryId = model.Products.CategoryId,
                     Sale = model.Products.Sale,
-                    CreatedOn = DateTime.Now,
-                    //  CreatedBy = model.Title,
+                    IsFuture = model.Products.IsFuture,
+                    IsHot = model.Products.IsHot,
+                    CreatedOn = DateTime.Now
                 };
                 var optionIndex = 0;
                 foreach (var option in model.ProductOptionVm)
                 {
-                    Product.AddOptionValue(new ProductOptionValue
+                    
+                    foreach (var item in option.Values)
                     {
-                        OptionId = option.Id,
-                        DisplayType = option.DisplayType,
-                        Value = JsonConvert.SerializeObject(option.Values),
-                        SortIndex = optionIndex
-                    });
-
+                        if (item.Key != null)
+                        {
+                            Product.AddOptionValue(new ProductOptionValue
+                            {
+                                OptionId = option.Id,
+                                DisplayType = option.DisplayType,
+                                Value = JsonConvert.SerializeObject(option.Values),
+                                SortIndex = optionIndex
+                            });
+                        }
+                    }
                     optionIndex++;
                 }
                 await SaveImage(model, Product);
                 await _ProductServices.AddProduct(Product);
                 return RedirectToAction("Index");
             }
+            var Category = await _CategoryServices.GetAll();
+            var Brand = await _brandServices.GetAll();
+            var option2 = await _optionService.GetAll();
+            model.Products.categories = Category;
+            model.Products.brands = Brand;
+            var ProductOptionVms = new List<ProductOptionVm>();
+            foreach (var item in option2)
+            {
+                var ProductOptionVm = new ProductOptionVm()
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                };
+                ProductOptionVms.Add(ProductOptionVm);
+            }
+            model.ProductOptionVm = ProductOptionVms;
             return View(model);
         }
         [HttpGet]
@@ -169,7 +192,9 @@ namespace Shop.Areas.Admin.Controllers
                 CategoryId = product.CategoryId,
                 Price = product.Price,
                 Sale = product.Sale,
-                ThumbnailImageUrl = product.Thumbnail.FileName
+                IsFuture = product.IsFuture,
+                IsHot = product.IsHot,
+                ThumbnailImageUrl = product.Thumbnail != null ? product.Thumbnail.FileName : ""
             };
 
             foreach (var productMedia in ListImage.Images.Where(x => x.Media.MediaType == MediaType.Image))
@@ -182,17 +207,18 @@ namespace Shop.Areas.Admin.Controllers
                 });
             }
             FormProduct.Products = ProductVm;
-            var ProductOptionVms = new List<ProductOptionVm>();
+            var ProductOptionVms = new List<ProductOption>();
             foreach (var item in option)
             {
-                var ProductOptionVm = new ProductOptionVm()
+                var ProductOption = new ProductOption()
                 {
                     Id = item.Id,
                     Name = item.Name
                 };
-                ProductOptionVms.Add(ProductOptionVm);
+                
+                ProductOptionVms.Add(ProductOption);
             }
-            FormProduct.ProductOptionVm = ProductOptionVms;
+            FormProduct.ProductOption = ProductOptionVms;
             FormProduct.ProductOptionVm = product.OptionValues.OrderBy(x => x.SortIndex).Select(x =>
            new ProductOptionVm
            {
@@ -210,6 +236,7 @@ namespace Shop.Areas.Admin.Controllers
             var product = _context.Product.Where(x => x.Id == Id).Include(x => x.Images).ThenInclude(x => x.Media)
                                    .Include(x => x.Category).Include(x => x.Thumbnail)
                                .Include(x => x.OptionValues).ThenInclude(x => x.Option).Include(x => x.Brand).FirstOrDefault(x => x.Id == Id);
+            var option = _context.ProductOption.ToList();
             var ListImage = _context.Product.Where(x => x.Id == Id).Include(x => x.Images).ThenInclude(x => x.Media).FirstOrDefault();
             if (model.Products.Price < model.Products.Sale)
             {
@@ -242,6 +269,8 @@ namespace Shop.Areas.Admin.Controllers
                 product.BrandId = model.Products.BrandId;
                 product.Price = model.Products.Price;
                 product.Sale = model.Products.Sale;
+                product.IsFuture = model.Products.IsFuture;
+                product.IsHot = model.Products.IsHot;
                 product.EditOn = DateTime.Now;
            
                 await SaveImage(model, product);
@@ -265,7 +294,26 @@ namespace Shop.Areas.Admin.Controllers
                     });
                 }
             }
-           
+            var ProductOptionVms = new List<ProductOption>();
+            foreach (var item in option)
+            {
+                var ProductOption = new ProductOption()
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                };
+
+                ProductOptionVms.Add(ProductOption);
+            }
+            model.ProductOption = ProductOptionVms;
+            model.ProductOptionVm = product.OptionValues.OrderBy(x => x.SortIndex).Select(x =>
+           new ProductOptionVm
+           {
+               Id = x.OptionId,
+               Name = x.Option.Name,
+               DisplayType = x.DisplayType,
+               Values = JsonConvert.DeserializeObject<IList<ProductOptionValueVm>>(x.Value)
+           }).ToList();
             return View(model);
 
 
@@ -410,21 +458,27 @@ namespace Shop.Areas.Admin.Controllers
                 var optionValue = product.OptionValues.FirstOrDefault(x => x.OptionId == optionVm.Id);
                 if (optionValue == null)
                 {
-                    product.AddOptionValue(new ProductOptionValue
+                    foreach (var item in optionVm.Values)
                     {
-                        OptionId = optionVm.Id,
-                        DisplayType = optionVm.DisplayType,
-                        Value = JsonConvert.SerializeObject(optionVm.Values),
-                        SortIndex = optionIndex
-                    });
+                        if (item.Key != null)
+                        {
+                            product.AddOptionValue(new ProductOptionValue
+                            {
+                                OptionId = optionVm.Id,
+                                DisplayType = optionVm.DisplayType,
+                                Value = JsonConvert.SerializeObject(optionVm.Values),
+                                SortIndex = optionIndex
+                            });
+                        }
+                    }
+
                 }
                 else
                 {
                     optionValue.Value = JsonConvert.SerializeObject(optionVm.Values);
                     optionValue.DisplayType = optionVm.DisplayType;
-                    optionValue.SortIndex = optionIndex;
+                    optionValue.SortIndex = optionIndex;    
                 }
-
                 optionIndex++;
             }
 

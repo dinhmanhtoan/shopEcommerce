@@ -27,6 +27,8 @@
                         <th scope="col">Tên</th>
                         <th scope="col">Giá tiền</th>
                         <th scope="col">Giá khuyến mại</th>
+                        <th scope="col">IsHot</th>
+                        <th scope="col">IsFuture</th>
                         <th scope="col">Ngày tạo</th>
                         <th scope="col">Thao tác</th>
                     </tr>
@@ -40,12 +42,32 @@
                         <td>@item.Title</td>
                         <td>@item.Price.GetValueOrDefault(0).ToString("#,#.##")</td>
                         <td>@item.Sale.GetValueOrDefault(0).ToString("#,#.##")</td>
-                        <td>@item.CreatedOn</td>
                         <td>
-                            <a asp-action="Updated" asp-route-id="@item.Id">Sửa</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Chi Tiết</a> |
-                            <a asp-action="Deleted" asp-route-id="@item.Id">Xóa</a>
+                            @if (item.IsHot == true)
+                            {
+                                <span> Có</span>
+                            }
+                            else
+                            {
+                                <span>Không</span>
+                            }
                         </td>
+                        <td>
+                            @if (item.IsFuture == true)
+                            {
+                                <span> Có</span>
+                            }
+                            else
+                            {
+                                <span>Không</span>
+                            }
+                        </td>
+                    <td>@item.CreatedOn</td>
+                    <td>
+                        <a asp-action="Updated" asp-route-id="@item.Id">Sửa</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Chi Tiết</a> |
+                        <a asp-action="Deleted" asp-route-id="@item.Id">Xóa</a>
+                    </td>
                     </tr>
                     }
                 </tbody>

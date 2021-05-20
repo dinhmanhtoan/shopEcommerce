@@ -18,19 +18,19 @@
             <dl class="row">
 
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Code)
+                    Mã
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.Code)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Title)
+                    Tên
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.Title)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Description)
+                    Chi Tiết
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.Description)
@@ -45,16 +45,23 @@
                     }
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.CreatedOn)
+                    Ngày Tạo
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.CreatedOn)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.CreatedBy)
+                    @Html.DisplayNameFor(model => model.IsFuture)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.CreatedBy)
+                    @if (Model.IsFuture == true)
+                    {
+                        <span>Có</span>
+                    }
+                    else
+                    {
+                        <span>Không</span>
+                    }
                 </dd>
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.EditOn)
@@ -63,10 +70,17 @@
                     @Html.DisplayFor(model => model.EditOn)
                 </dd>
                 <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.EditBy)
+                    @Html.DisplayNameFor(model => model.IsHot)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.EditBy)
+                    @if (Model.IsHot == true)
+                    {
+                        <span>Có</span>
+                    }
+                    else
+                    {
+                        <span>Không</span>
+                    }
                 </dd>
             </dl>
 
