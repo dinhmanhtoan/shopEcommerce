@@ -1,17 +1,15 @@
 ﻿@model List<ProductOption>
-@{
-    ViewData["Title"] = "Danh Sách Lựa Chọn";
-}
 <div class="card">
     <div class="card-header">
         <div class="row">
             <div class="col-md-6">
-                <h4 class="card-title">@ViewData["Title"]</h4>
+                <h2 class="text-secondary">List Option</h2>
             </div>
             <div class="col-md-6">
                 <div class="text-right">
                     <a class="btn btn-primary" asp-controller="Option" asp-action="Create">
-                        Thêm mới
+                        <i class="fas fa-plus"></i>
+                        Add Items
                     </a>
                 </div>
             </div>
@@ -19,11 +17,12 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-bordered" id="zero_config">
                 <thead>
                     <tr>
                         <th scope="col">#Id</th>
-                        <th scope="col">Tên</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,8 +32,14 @@
                             <th scope="row">@item.Id</th>
                             <td>@item.Name</td>
                             <td>
-                                <a asp-action="Updated" asp-route-id="@item.Id">Sửa</a> |
-                                <a asp-action="Deleted" asp-route-id="@item.Id">Xóa</a>
+                                <a asp-action="Updated" asp-route-id="@item.Id">
+                                    <div class="btn btn-success">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                </a>
+                                <button class="btn btn-danger " onclick="Delete(@item.Id)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
                             </td>
                         </tr>
                     }
@@ -43,3 +48,18 @@
         </div>
     </div>
 </div>
+@section Scripts{
+<script>
+    function Delete(id) {
+        onModifyOption(function () {
+            var url = '@Url.Content("~/")' + "Option/DeletedById";
+            $.post(url, { id: id }).then(function () {
+                toastr.success("Thành Công");
+                window.location = window.location.href;
+            }).catch(function (eroor) {
+                toastr.error(eroor);
+            });
+        });
+    }
+</script>
+}

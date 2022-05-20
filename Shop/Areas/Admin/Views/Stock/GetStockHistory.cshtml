@@ -1,0 +1,35 @@
+﻿@model List<StockHistoryVm>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Stock History</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Created On</th>
+                    <th>Created By</th>
+                    <th>Adjusted Quantity</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <th>@item.ProductName</th>
+                    <td>@item.CreatedOn</td>
+                    <td>@item.UserFullName</td>
+                    <td>@item.AdjustedQuantity</td>
+                    <td>@item.Note</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <a asp-action="Index" class="btn btn-success">Back</a>
+    </div>
+</div>

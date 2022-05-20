@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Model.Services;
 
-namespace Model.Services
+public interface IStorageService
 {
-    public interface IStorageService
-    {
-        string GetMediaUrl(string fileName);
+    string GetMediaUrl(string fileName);
 
-        Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null);
+    Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null);
 
-        Task DeleteMediaAsync(string fileName);
-    }
+    Task DeleteMediaAsync(string fileName);
 }
+

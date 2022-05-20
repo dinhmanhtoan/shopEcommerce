@@ -1,0 +1,120 @@
+﻿@model CartRuleForm
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Create Cart Rule</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" class="col-md-12">
+            <ul class="nav nav-tabs mb-3">
+                <li><a class="nav-link active" data-toggle="tab" href="#home">Infomation</a></li>
+                <li><a class="nav-link" data-toggle="tab" href="#Product">Product Section</a></li>
+            </ul>
+            <div class="col-md-10 offset-md-2" id="loaderror"></div>
+            <div class="tab-content">
+                <div id="home" class="tab-pane active">
+                    <div class="form-group row">
+                        <label asp-for="Name" class="col-md-2 col-form-label">Name *</label>
+                        <div class="col-md-10">
+                            <input asp-for="Name" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Description" class="col-md-2 col-form-label">Description</label>
+                        <div class="col-md-10">
+                            <textarea asp-for="Description" type="text" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="CouponCode" class="col-md-2 col-form-label">Coupon code *</label>
+                        <div class="col-md-10">
+                            <input asp-for="CouponCode" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="UsageLimitPerCoupon" class="col-md-2 col-form-label">Usage limit per coupon</label>
+                        <div class="col-md-10">
+                            <input asp-for="UsageLimitPerCoupon" type="text" class="form-control number-validate" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="UsageLimitPerCustomer" class="col-md-2 col-form-label">Usage limit per customer</label>
+                        <div class="col-md-10">
+                            <input asp-for="UsageLimitPerCustomer" type="text" class="form-control number-validate" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Start</label>
+                        <div class="col-md-10">
+                            <div class="datepicker input-group">
+                                <input asp-for="StartOn" type="text" data-input />
+                                <a class="input-button" title="toggle" data-toggle>
+                                    <i class="far fa-calendar"></i>
+                                </a>
+                                <a class="input-button" title="clear" data-clear>
+                                    <i class="far fa-times-circle"></i>
+                                </a>
+                            </div>
+                            <span asp-validation-for="StartOn" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">End</label>
+                        <div class="col-md-10">
+                            <div class="datepicker input-group">
+                                <input asp-for="EndOn" type="text" data-input />
+                                <a class="input-button" title="toggle" data-toggle>
+                                    <i class="far fa-calendar"></i>
+                                </a>
+                                <a class="input-button" title="clear" data-clear>
+                                    <i class="far fa-times-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="RuleToApply" class="col-md-2 col-form-label">Apply *</label>
+                        <div class="col-md-10">
+                            <select class="form-control" asp-for="RuleToApply">
+                                <option value="cart_fixed">Fixed amount discount for whole cart</option>
+                                <option value="by_percent">Percent of product price discount</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="DiscountAmount" class="col-md-2 col-form-label">Discount Amount *</label>
+                        <div class="col-md-10">
+                            <input asp-for="DiscountAmount" type="text" class="form-control number-validate" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="MaxDiscountAmount" class="col-md-2 col-form-label">MaxDiscountAmount</label>
+                        <div class="col-md-10">
+                            <input asp-for="MaxDiscountAmount" type="text" class="form-control number-validate" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="IsActive" class="col-md-2 col-form-label">IsActive</label>
+                        <div class="col-md-10 form-check">
+                            <input asp-for="IsActive" type="checkbox" class="form-input-check" />
+                        </div>
+                    </div>
+                </div>
+                <div id="Product" class="tab-pane fade">
+                         @await Html.PartialAsync("_product", new ProductPTV{Id = 3, Title="cartRuleProducts", CartRuleProducts = new List<CartRuleProductVm>()})
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                <div class="col-md-10 offset-md-2">
+                     <button class="btn btn-success" id="btn-submit">Save</button>
+                     <a class="btn btn-light" asp-action="Index">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+        @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

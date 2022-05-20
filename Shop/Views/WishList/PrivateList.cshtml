@@ -1,0 +1,79 @@
+﻿@using cloudscribe.Web.Pagination;
+@model WishListVm
+@{
+    ViewData["Title"] = "Wish List";
+}
+
+@section head
+{
+    <link rel="stylesheet" href="~/css/private-list.css" />
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="_AccountMenu" />
+    </div>
+    <div class="wishlist col-md-9">
+        <h2>Wish List</h2>
+        <hr />
+        @if (Model.Items.TotalItems > 0)
+        {
+            foreach (var item in Model.Items.Data)
+            {
+                <div class="row item">
+                    <div class="col-md-3">
+                        <img alt="@item.ProductName" class="img-fluid" src="@item.ProductImage">
+                    </div>
+                    <div class="col-md-9">
+                        <h4>@item.ProductName</h4>
+                        <form>
+                            <input type="hidden" name="itemId" value="@item.Id" />
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Quantity</label>
+                                <div class="col-md-8"><input type="number" name="qty" class="quantity-field form-control" value="@item.Quantity" /></div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">Description</label>
+                                <div class="col-sm-8"><textarea  class="form-control" name="description">@item.Description</textarea></div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-md-4 col-md-8">
+                                    <button type="button" class="btn btn-sm btn-add-cart btn-primary">Add to cart</button>
+                                    <button type="button" class="btn btn-sm remove-from-wishlist btn-danger">Remove</button>
+                                    <button type="button" class="btn btn-sm update-wishlist btn-success">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+            <div class="text-right">
+                <a class="btn btn-primary"  asp-controller="WishList" asp-action="Share">Share Wish List</a>
+            </div>
+            <div>
+                <cs-pager cs-paging-pagesize="@Model.Items.PageSize"
+                          cs-paging-pagenumber="@Model.Items.PageNumber"
+                          cs-paging-totalitems="@Model.Items.TotalItems"
+                          cs-pagenumber-param="pageNumber"
+                          asp-controller="WishList"
+                          asp-action="PrivateList"
+                          asp-route-id="@Model.Id"
+                          asp-route-pageSize="@Model.Items.PageSize"
+                          cs-pager-li-current-class="page-item active"
+                          cs-pager-li-other-class="page-item"
+                          cs-pager-li-non-active-class="page-item disabled"
+                          cs-pager-link-current-class="page-link"
+                          cs-pager-link-other-class="page-link"></cs-pager>
+            </div>
+        }
+        else
+        {
+            <p>There are currently no items in your wish list.</p>
+        }
+    </div>
+</div>
+@section Scripts
+{
+     <script src="~/js/add-to-cart.js" /></script>
+}

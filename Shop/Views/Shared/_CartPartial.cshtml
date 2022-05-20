@@ -4,33 +4,25 @@
 
 
 
-<li class="cart-icon " id="cart">
-    <div class="cart-togget" style="display:flex; cursor:pointer">
-        <i class="fa fa-shopping-basket" aria-hidden="true" style="font-size: 20px;"></i>
-        <span class="cart-count">0</span>
+
+<div class="cart-togget" style="display:flex; cursor:pointer">
+    <i class="fa fa-shopping-basket" aria-hidden="true" style="font-size: 20px;"></i>
+    <span class="cart-count">0</span>
+</div>
+
+@*<a asp-action="cart" asp-controller="cart"></a>*@
+<input type="number" id="cart-count-input" name="cart-count">
+<div class="cart-content content-dropdown">
+    <div class="close-cart"><i class="fa fa-times" aria-hidden="true"></i></div>
+    <ul class="scroll-js scroll-y" id="cartBody">
+
+    </ul>
+    <div class="total">
+        <label>Tổng:</label>
+        <span class="total-cart"></span>
     </div>
+    <a asp-controller="cart" asp-action="cart" class="btn btn-black">Giỏ Hàng</a>
+    <a asp-controller="cart" asp-action="checkout" class="btn btn-black">Thanh toán</a>
+</div>
 
-    @*<a asp-action="cart" asp-controller="cart"></a>*@
-    <input type="number" id="cart-count-input" name="cart-count">
-    <div class="cart-content content-dropdown">
-        <div class="close-cart"><i class="fa fa-times" aria-hidden="true"></i></div>
-        <ul class="scroll-js scroll-y" id="cartBody">
-        </ul>
-        <div class="total">
-            <label>Tổng:</label>
-            <span class="total-cart"></span>
-        </div>
-        <a asp-controller="cart" asp-action="cart" class="btn btn-black">Giỏ Hàng</a>
-        <a asp-controller="cart" asp-action="checkout" class="btn btn-black">Thanh toán</a>
-    </div>
-</li>
-
-@*@{ var cookies = HttpContextAccessor.HttpContext.Request.Cookies[Shop.Controllers.CartController.CARTKEY];
-    if (cookies != null)
-    {
-        var cart = JsonConvert.DeserializeObject<List<Cart>>(cookies);
-
-    }
-
-}*@
 

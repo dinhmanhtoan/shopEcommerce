@@ -1,0 +1,88 @@
+﻿@model List<Warehouse>;
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-secondary">Warehouses</h2>
+            </div>
+            <div class="col-md-6">
+                <div class="text-right">
+                    <a class="btn btn-primary" asp-controller="Warehouse" asp-action="Create">
+                    <i class="fas fa-plus"></i>    
+                        Add Items
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="example">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#example").DataTable({
+                "language": {
+                    "processing": "loading data",
+                    "info": "bản ghi từ _START_ đến _END_ và có tổng _TOTAL_ bản ghi",
+                    "emptyTable": "Không tìm thấy bản ghi",
+                    "search": "Tìm kiếm",
+                    "lengthMenu":"Xem _MENU_ bản ghi"
+                },
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "ajax": {
+                    "url": "/Warehouse/List",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs": [
+                {
+                    "targets": [1],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false,
+                }],
+                "columns": [
+                    { "data": "name", "name": "Name"},
+                    {
+                        "data": "id",
+                        "render": function (data, row) {
+                            return `<a href="/Warehouse/Edit/${data}">
+                                    <button class='btn btn-success' >
+                                            <i class="fas fa-edit"></i>
+                                    </button>
+                                    </a>
+                                    <button  class='btn btn-danger' onclick='DeleteData(${data})'>
+                                            <i class="fas fa-trash-alt"></i>
+                                    </button>`;
+                        }
+                    }
+                ]
+         });
+        });
+        function DeleteData(id) {
+            onModifyOption(function () {
+                var url = '@Url.Content("~/")' + "Warehouse/Delete";
+                $.post(url, { id:id }).then(function(){
+                       oTable = $('#example').DataTable();
+                       oTable.draw();
+                }).catch(function(){
+                     toastr.error("Something Went Wrong!");
+                });
+            });
+        }
+    </script>
+
+}

@@ -1,0 +1,17 @@
+﻿@model NewsItemThumbnail
+
+<div class="col-md-3 col-6">
+    <div class="news-item">
+        <a href="~/@Model.Slug">
+            <div class="thumbnail">
+                <img src="@Model.ImageUrl" alt="" />
+            </div>
+            <div class="news-item-published-on">
+                <h1>@Model.PublishedOn.GetValueOrDefault().ToString("dd/MM/yyyy")</h1>
+            </div>
+            <div class="news-item-short-description">
+                @Html.Raw(Model.ShortContent)
+            </div>
+        </a>
+    </div>
+</div>

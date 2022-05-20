@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Reply";
+}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-secondary">Reply</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="example" style="width:100%" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ReplierName</th>
+                        <th>Entity Name</th>
+                        <th>Title</th>
+                        <th>Comment</th>
+                        <th>CreateOn</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#example").DataTable({
+                "language": {
+                    "processing": "loading data",
+                    "info": "bản ghi từ _START_ đến _END_ và có tổng _TOTAL_ bản ghi",
+                    "emptyTable": "Không tìm thấy bản ghi",
+                    "search": "Tìm kiếm",
+                    "lengthMenu":"Xem _MENU_ bản ghi"
+                },
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "ajax": {
+                    "url": "/Reply/query",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+               "columnDefs": [
+                  {
+                    "targets": [6],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false,
+                }],
+                "columns": [
+                    { "data": "replierName", "name": "ReplierName" },
+                    { "data": "entityName", "name": "EntityName" },
+                    { "data": "reviewTitle", "name": "ReviewTitle" },
+                    { "data": "comment", "name": "Comment" },
+                    {
+                        "data": "createdOn", "name": "CreatedOn",
+                        "render": function (data, type, row) {
+                            if (type === "sort" || type === "type" || data == null) {
+                                return data;
+                            };
+                            return moment(data).format("MM-DD-YYYY");
+                        }
+                    },
+                    {
+                        "data": "status", "name": "Status",
+                        "render": function (status, type, full, meta) {
+                            if (full.status == 1) {
+                                return `<h3 class="text-white">
+                                             <span class="badge bg-warning">
+                                                pendding
+                                            </span>
+                                        </h3>`;
+                            }
+                            if (full.status == 5) {
+                                return `<h3 class="text-white">
+                                             <span class="badge bg-success">
+                                                Approve
+                                            </span>
+                                        </h3>`;
+                            }
+                            return null;
+                        }
+                    },
+                    {
+                        "render": function (status, type, full, meta) {
+                            if (full.status == 1) {
+                                return `<button  title="Approve" onclick="approve(${full.id},5)" class="btn btn-primary btn-xs">Approve</button>`;
+                            }
+                            return null;
+                        }
+                    }
+                ]
+         });
+        });
+        function approve(id, statusId) {
+            onModifyOption(function () {
+                var url = '@Url.Content("~/")' + `Reply/ChangeStatus/change-status/${id}`;
+                $.post(url, { statusId: statusId }).then(function (data) {
+                    oTable = $('#example').DataTable();
+                    oTable.draw();
+                }).catch(function (error) {
+                    toastr.error(error);
+                });
+            });
+        }
+    </script>
+}

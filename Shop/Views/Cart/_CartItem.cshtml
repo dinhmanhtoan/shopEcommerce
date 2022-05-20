@@ -1,0 +1,66 @@
+﻿@model IList<CartItemVm>
+@{
+    Layout = null;
+}
+<div class="cart">
+    <table class="table table-striped cartitems">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th class="hidden-sm-down text-right">Price</th>
+                <th class="hidden-sm-down text-center">Quantity</th>
+                <th class="hidden-sm-down text-center">remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="item-in-cart" data-id="@item.Id">
+                    <td class="cart-item-image">
+                        <div data-id="@item.Id">
+                            <img src="@item.ProductImage">
+                        </div>
+                            <div class="hidden-md-up">
+                            <span class="cart-item-price">@item.ProductName</span>
+                            @if (item.VariationOptions.Count() > 0)
+                            {
+                                <ul class="list-unstyled">
+                                    @foreach (var option in item.VariationOptions)
+                                    {
+                                        <li>
+                                            <span>@option.OptionName : </span>
+                                            @option.Value
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            @if (!item.IsProductAvailabeToOrder)
+                            {
+                                <span class="badge badge-pill badge-danger">Not availabe any more</span>
+
+                            }
+                            @if (item.ProductStockTrackingIsEnabled && item.ProductStockQuantity < item.Quantity)
+                            {
+                                <span class="badge badge-pill badge-danger">Not enough stock. Available: @item.ProductStockQuantity</span>
+
+                            }
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="cart-item-price">
+                            @item.ProductPriceString
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="quantity-button" name="subtract" value="-">-</button>
+                        <input type="text" class="quantity-field" value="@item.Quantity" readonly="readonly">
+                        <button type="button" class="quantity-button" name="subtract" value="+">+</button>
+                    </td>
+                    <td class="text-center">
+                        <span class="remove-in-cart"><i class="fas fa-times"></i></span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

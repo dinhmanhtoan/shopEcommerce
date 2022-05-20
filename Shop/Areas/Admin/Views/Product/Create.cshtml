@@ -1,119 +1,213 @@
 ﻿@model FormProduct
-@{
-     ViewData["Title"] = "Thêm sản phẩm";
-}
 @section styles{
-    <link href="~/lib/media-preview-upload/css/style.css" rel="stylesheet" />
-    <link href="~/lib/tag-input/bootstrap-tagsinput.css" rel="stylesheet" />
-    <link href="~/lib/color/build/1.2.3/css/pick-a-color-1.2.3.min.css" rel="stylesheet" />
-    <link href ="~/css/productadmin.css"  rel="stylesheet" />
+<link href="~/lib/media-preview-upload/css/style.css" rel="stylesheet" />
+<link href="~/lib/tag-input/bootstrap-tagsinput.css" rel="stylesheet" />
+<link href="~/lib/color/build/1.2.3/css/pick-a-color-1.2.3.min.css" rel="stylesheet" />
+<link href="~/css/productadmin.css" rel="stylesheet" />
 <style>
-    .fade {
-        display: none ;
+    #thumbnail {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
     }
-    .show{
-        display:block !important;
+
+    #ProductImages {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+    .categorys {
+        transform: scale(1.5,1.5);
+    }
+
+    .vImage {
+        margin: 0 auto;
+    }
+
+    .vThumnail {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+        cursor: not-allowed;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        opacity: .65;
+    }
+
+    .input-number label{
+        white-space: nowrap;
+    }
+    .bootstrap-tagsinput{
+        width:100%;
     }
 </style>
 }
 <div class="card">
     <div class="card-header">
-        <div class="row">
-            <div class="col-md-6">
-                <h4 class="card-title">Dannh sách sản phẩm</h4>
-            </div>
-            <div class="col-md-6 ">
-                <div class="text-right">
-                    <button class="btn btn-primary">Lưu</button>
-                </div>
-            </div>
-        </div>
+        <h2 class="text-secondary">Add new products</h2>
     </div>
     <div class="card-body">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="product-tab" data-toggle="tab" href="#product" role="tab" aria-controls="product" aria-selected="true">Sản phẩm</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="option-tab" data-toggle="tab" href="#option" role="tab" aria-controls="option" aria-selected="false">Biến Thể</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <form asp-action="Create" method="post" enctype="multipart/form-data">
-                <div class="tab-pane fade show active" id="product" role="tabpanel" aria-labelledby="product-tab">
-
-                    <div class="form-group">
-                        <label>Code</label>
-                        <input asp-for="Products.Code" class="form-control" placeholder="Code" maxlength="12" value="@(Model != null ? Model.Products.Code : "")" />
-                        <span asp-validation-for="Products.Code" class="text-danger"></span>
+        <form method="post" enctype="multipart/form-data" id="addProduct">
+            <div class="col-md-10 offset-md-2 d-none" asp-validation-summary="All"></div>
+            <div id="loaderror" class="col-md-10 offset-md-2"></div>
+            <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#product-info" role="tab" aria-controls="home" aria-selected="true">product-info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#product-variation" role="tab" aria-controls="profile" aria-selected="false">product-variation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#product-attributes" role="tab" aria-controls="contact" aria-selected="false">product-attributes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#product-category" role="tab" aria-controls="contact" aria-selected="false">product-category</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#product-rulated" role="tab" aria-controls="contact" aria-selected="false">product-rulated</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#product-crossSell" role="tab" aria-controls="contact" aria-selected="false">product-crossSell</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#product-seo" role="tab" aria-controls="contact" aria-selected="false">product-seo</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="product-info" role="tabpanel" aria-labelledby="product-info">
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Name *</label>
+                        <div class="col-md-10">
+                            <input id="Name" class="form-control Name" placeholder="Name" name="Products.Name" type="text" maxlength="250" />
+                            <small>max length 250 char</small>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label>Tên</label>
-                        <input asp-for="Products.Title" class="form-control Title" placeholder="Tên sản phẩm" required maxlength="250" />
-                        <small>Tối đa 250 ký tự</small>
-                        <span asp-validation-for="Products.Title" class="text-danger"></span>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Slug *</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control Slug" placeholder="Slug" value="@Model.Products.Slug" id="permalink" name="Products.Slug" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Brand</label>
+                        <div class="col-md-10">
+                            <select class="form-control Brand" name="Products.BrandId">
+                                <option value=""></option>
+                                @foreach (var item in Model.Products.brands)
+                                {
+                                    <option value=@item.Id>@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Short Description</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control ShortDescription editor" placeholder="Short Description" name="Products.ShortDescription" id="ShortDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Description</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control Description editor" placeholder="Description" name="Products.Description" id="Description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Specification</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control Specification editor" placeholder="Specification" name="Products.Specification" id="Specification"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Sku</label>
+                        <div class="col-md-10">
+                            <input class="form-control Sku" placeholder="Sku" name="Products.Sku" maxlength="12" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Gtin</label>
+                        <div class="col-md-10">
+                            <input class="form-control Gtin" placeholder="Gtin" name="Products.Gtin" maxlength="12" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Price *</label>
+                        <div class="col-md-10">
+                            <div class="input-number">
+                                <input class="form-control Price number-validate" type="text" placeholder="Price" maxlength="12" name="Products.Price" id="Price" value="0" />
+                                <label for="Price" class="form-control">0</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">OldPrice</label>
+                        <div class="col-md-10">
+                            <div class="input-number">
+                                <input class="form-control OldPrice number-validate" type="text" placeholder="OldPrice" name="Products.OldPrice" id="OldPrice" maxlength="12" />
+                                <label for="OldPrice" class="form-control"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Special Price</label>
+                        <div class="col-md-10">
+                            <div class="input-number">
+                                <input class="form-control SpecialPrice number-validate" type="text" placeholder="SpecialPrice" name="Products.SpecialPrice" id="SpecialPrice"  maxlength="12" />
+                                <label for="SpecialPrice" class="form-control"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Special Price Start</label>
+                        <div class="col-md-10">
+                            <div class="datepicker input-group">
+                                <input name="Products.SpecialPriceStart" type="text" id="SpecialPriceStart" data-input />
+                                <a class="input-button" title="toggle" data-toggle>
+                                    <i class="far fa-calendar"></i>
+                                </a>
+                                <a class="input-button" title="clear" data-clear>
+                                    <i class="far fa-times-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Special Price End</label>
+                        <div class="col-md-10">
+                            <div class="datepicker input-group">
+                                <input name="Products.SpecialPriceEnd" type="text" id="SpecialPriceEnd" data-input />
+                                <a class="input-button" title="toggle" data-toggle>
+                                    <i class="far fa-calendar"></i>
+                                </a>
+                                <a class="input-button" title="clear" data-clear>
+                                    <i class="far fa-times-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">TaxClassId</label>
+                        <div class="col-md-10">
+                            <select class="form-control" asp-for="@Model.Products.TaxClassId" asp-items="@Model.Products.TaxClassListItem" name="Products.TaxClassId">
+                                <option value=""></option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Products.Slug" class="control-label"></label>
-                        <input asp-for="Products.Slug" type="text" class="form-control" value="@Model.Products.Slug" id="permalink" readonly />
-                        <span asp-validation-for="Products.Slug" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Danh mục</label>
-                        <select asp-for="Products.CategoryId" class="form-control">
-                            <option value="-1">Chọn</option>
-                            @foreach (var item in Model.Products.categories)
-                            {
-                                <option value=@item.Id>@item.Title</option>
-                            }
-                        </select>
-                        <span asp-validation-for="Products.CategoryId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Thương hiệu</label>
-                        <select asp-for="Products.BrandId" class="form-control">
-                            <option value="-1">Chọn</option>
-                            @foreach (var item in Model.Products.brands)
-                            {
-                                <option value=@item.Id>@item.Name</option>
-                            }
-                        </select>
-                        <span asp-validation-for="Products.CategoryId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Giá tiền</label>
-                        <input asp-for="Products.Price" class="form-control" placeholder="Giá tiền" maxlength="12" />
-                        <span asp-validation-for="Products.Price" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Giá khuyến mại</label>
-                        <input asp-for="Products.Sale" class="form-control" placeholder="Giá khuyến mại" maxlength="12" />
-                        <span asp-validation-for="Products.Sale" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Mô tả</label>
-                        <textarea asp-for="Products.Description" class="form-control" placeholder="Mô tả"></textarea>
-                        <span asp-validation-for="Products.Description" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Chi tiết</label>
-                        <textarea asp-for="Products.Detail" class="form-control" placeholder="Chi tiết"></textarea>
-                        <span asp-validation-for="Products.Detail" class="text-danger"></span>
-                    </div>
-                    <div class="form-group ">
-                        <label class="control-label">Ảnh</label>
-
-                        <input asp-for="ThumbnailImage" class="form-control-file" type="file" id="thumbnail" onchange="previewFile(this)" hidden />
-                        <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
+                        <label class="col-form-label">ThumbnailImage</label>
+                        <input class="form-control-file" type="file" id="thumbnail" onchange="previewFile(this)" name="ThumbnailImage" accept="image/*" />
                         <br />
                         <img id="previewThumbnail" width="90" />
                         <br />
                         <label for="thumbnail" class="btn btn-primary mt-1">Chọn ảnh</label>
-
                     </div>
                     <div class="form-group ">
-                        <label>Danh sách hình ảnh</label>
+                        <label class="col-form-label">ProductImages</label>
+                        <input class="form-control-file " id="ProductImages" type="file" multiple name="ProductImages" accept="image/*" />
                         <ul class="media-list" id="media-list">
                             @foreach (var item in Model.Products.ProductImages)
                             {
@@ -124,416 +218,1322 @@
                             }
                             <li class="myupload">
                                 <span>
-                                    <i class="fa fa-plus" aria-hidden="true" for="ProductImages"></i>
-                                    <input asp-for="ProductImages" class="form-control-file " id="ProductImages" type="file" multiple name="ProductImages" />
+                                    <label for="ProductImages" class="form-control-file" style=" height: 100%;">
+                                        <i class="fa fa-plus" aria-hidden="true" for="ProductImages"></i>
+                                    </label>
                                 </span>
                             </li>
                         </ul>
-                        <span asp-validation-for="ProductImages" class="text-danger"></span>
-
-
                     </div>
-                </div>
-                <div class="tab-pane fade" id="option" role="tabpanel" aria-labelledby="option-tab">
-                    <div class="input-group mb-3">
-                        <select class="custom-select" id="add-option">
-                            <option selected>Chọn</option>
-                            @foreach (var item in Model.ProductOptionVm)
-                            {
-                                <option value="@item.Id">@item.Name</option>
-                            }
-                        </select>
-                        <div class="input-group-append">
-                            <button id="option" class="btn btn-outline-secondary" type="button">Chọn</button>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input IsHot" type="checkbox" name="Products.IsHot" id="IsHot" value="true">
+                            <label class="form-check-label" for="IsHot">IsHot</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input IsFuture" type="checkbox" name="Products.IsFuture" id="IsFuture" value="true">
+                            <label class="form-check-label" for="IsFuture">IsFuture</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input StockTrackingIsEnabled" type="checkbox" name="Products.StockTrackingIsEnabled" id="StockTrackingIsEnabled" value="true">
+                            <label class="form-check-label" for="StockTrackingIsEnabled">StockTrackingIsEnabled</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input IsAllowToOrder" type="checkbox" name="Products.IsAllowToOrder" id="IsAllowToOrder" value="true">
+                            <label class="form-check-label" for="IsAllowToOrder">IsAllowToOrder</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input IsPublished" type="checkbox" name="Products.IsPublished" id="IsPublished" value="true">
+                            <label class="form-check-label" for="IsPublished">IsPublished</label>
                         </div>
                     </div>
                 </div>
-                <table class="table ">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                
-                                OptionCombinations
-                            </th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Thumbnails</th>
-                            <th scope="col">Images</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <select class="custom-select">
-                                    <option>value</option>
-                                </select>
-                            </td>
-                            <td>
-                                <div>
-                                    <input class="form-control" type="text" name="CombinationPrice" />
+                <div class="tab-pane fade" id="product-variation" role="tabpanel" aria-labelledby="product-variation">
+                    <div class="tab-pane" id="option">
+                        <div class="form-group row mb-3">
+                            <label class="col-md-2 col-form-label">Available Options</label>
+                            <div class="col-md-10">
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <select class="custom-select" id="add-option">
+                                            <option value="-1" selected></option>
+                                            @foreach (var item in Model.Products.ProductOption)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <button id="option" class="btn btn-success ml-3" type="button">Add Option</button>
                                 </div>
-                            </td>
-
-                            <td>
-                                <div class="form-group">
-                                    <input class="form-control-file input-thumnail" type="file" onchange="previewFileCombination(this)" id="Thumnail-1" hidden />
-                                    <img class="Combination-Thumnail" width="90" />
-                                    <label for="Thumnail-1" class="btn btn-primary mt-1">Chọn ảnh</label>
-                                </div>
-                            </td>
-                            <td>
-                                <div>
-                                    <ul class="Combination-Image media-list">
-                                        <li class="myupload">
-                                            <span>
-                                                <i class="fa fa-plus" aria-hidden="true" for="ProductImages"></i>
-                                                <input class="form-control-file CombinationImages" type="file" multiple name="CombinationImages" />
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="Remove-Combinationitem">
-                                    <i class="fas fa-trash-alt"></i>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="form-group">
-                    <button class="btn btn-primary" type="submit">
-                        Lưu
-                    </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="append-option">
+                    </div>
+                    <button class="btn btn-primary my-3" id="generateOption" type="button" onclick="generateOptionCombination()">GenerateCombinations</button>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="col-md-2">
+                                        OptionCombinations
+                                    </th>
+                                    <th scope="col" class="col-md-1">Sku</th>
+                                    <th scope="col" class="col-md-1">Gtin</th>
+                                    <th scope="col" class="col-md-1">Price</th>
+                                    <th scope="col" class="col-md-1">OldPrice</th>
+                                    <th scope="col" class="col-md-3">Thumbnails</th>
+                                    <th scope="col" class="col-md-4">Images</th>
+                                    <th scope="col" class="col-md-1">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productOption">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="OptionCombinations"></div>
                 </div>
-            </form>
-        </div>
+                <div class="tab-pane fade" id="product-attributes" role="tabpanel" aria-labelledby="product-attributes">
+                    <div class="col-md-12 mt-3">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Product Templates</label>
+                            <div class="col-md-10">
+                                <div class="form-group row" id="Template">
+                                    <div class="col-md-4">
+                                        <select asp-items="@Model.Products.TemplateListItem" type="text" name="template" class="form-control"></select>
+                                    </div>
+                                    <div class="btn btn-success mx-3" id="addTemplate" type="button">Apply</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Available Attributes</label>
+                            <div class="col-md-10">
+                                <div class="form-group row" id="Attribute">
+                                    <div class="col-md-4">
+                                        <select asp-items="@Model.Products.AttributesListItem" type="text" name="attribute" class="form-control"></select>
+                                    </div>
+                                    <div class="btn btn-success mx-3" id="addAttibute"  type="button">Add Attribute</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Product Attributes</label>
+                            <div class="col-md-10">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Attribute Name</th>
+                                            <th>Value</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productAttibute">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="product-category" role="tabpanel" aria-labelledby="product-category">
+                    <div class="col-md-12 mt-3">
+                        <div class="form-group">
+                            @foreach (var item in Model.Products.CategoryListItem)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input categorys" type="checkbox" name="Products.CategoryIds" value="@item.Id" id="flexCheckDefault-@item.Id" onchange="toggleCategories(@item.Id)" />
+                                    <label class="form-check-label" for="flexCheckDefault-@item.Id">
+                                        @item.Name
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="product-rulated" role="tabpanel" aria-labelledby="product-rulated">
+                    <div class="col-md-12 mt-3">
+                        @await Html.PartialAsync("_product", new ProductPTV {Id = 1,Title = "productRulated" , RelatedProducts = new List<ProductLinkVm>() })
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="product-crossSell" role="tabpanel" aria-labelledby="product-crossSell">
+                    <div class="col-md-12 mt-3">
+                        @await Html.PartialAsync("_product", new ProductPTV {Id = 2,Title = "productCrossSell", CrossSellProducts = new List<ProductLinkVm>() })
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="product-seo" role="tabpanel" aria-labelledby="product-seo">
+                    <div class="col-md-12 mt-3">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">MetaTitle</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="Products.MetaTitle" Id="MetaTitle" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">MetaKeywords</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="Products.MetaKeywords" Id="MetaKeywords" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">MetaDescription</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" name="Products.MetaDescription" Id="MetaDescription" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success" type="submit" id="save">Save</button>
+                <a asp-action="Index" class="btn btn-light">Back</a>
+            </div>
+        </form>
     </div>
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+</div>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script src="~/lib/Slug/speakingurl.min.js"></script>
+<script src="~/lib/Slug/jquery.stringtoslug.js"></script>
+<script src="~/lib/color/build/dependencies/tinycolor-0.9.15.min.js"></script>
+<script src="~/lib/tag-input/bootstrap-tagsinput.js"></script>
+<script src="~/lib/color/build/1.2.3/js/pick-a-color-1.2.3.min.js"></script>
+<script src="~/lib/ckeditor5-build-classic/ckeditor.js"></script>
+<script src="~/js/upload-file.js"></script>
+<script>
 
-    @section Scripts{
-        <script src="~/lib/Slug/speakingurl.min.js"></script>
-        <script src="~/lib/Slug/jquery.stringtoslug.js"></script>
-        <script src="~/lib/color/build/dependencies/tinycolor-0.9.15.min.js"></script>
-        <script src="~/lib/tag-input/bootstrap-tagsinput.js"></script>
-        <script src="~/lib/color/build/1.2.3/js/pick-a-color-1.2.3.min.js"></script>
-        <script>
-            $(window).resize(function () {
-                var width = $(window).width();
-                if (width < 1200) {
-                    
-                }
-            });
-        function previewFile(input) {
-            var file = $(input).get(0).files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function () {
-                    $("#previewThumbnail").attr("src", reader.result);
-                }
-                reader.readAsDataURL(file);
+        var categoryIds = [];
+        var Images = [];
+        var NewImages = [];
+        var variations = [];
+        var Editor = [];
+        var addOption = [];
+        var productAttrList = [];
+        var ValueCount = 0;
+        var categories = @Html.Raw(Json.Serialize(Model.Products.CategoryListItem.ToList()));
+
+        // Add slug
+         $(".Name").stringToSlug();
+
+        // FileList
+          function FileListItems (files) {
+              var b = new ClipboardEvent("").clipboardData || new DataTransfer()
+              for (var i = 0, len = files.length; i<len; i++) b.items.add(files[i])
+              return b.files
             }
-            };
-            function previewFileCombination(input) {
-                var file = $(input).get(0).files[0];
-                if (file) {
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        $(input).next(".Combination-Thumnail").attr("src", reader.result);
-                    }
-                    reader.readAsDataURL(file);
+
+        // checkImagesAlready
+          function checkImagesAlready(...files){
+              var file,index;
+              if(arguments.length == 1){
+                   file = Array.from(files[0]);
+                for (var i = 0; i < file.length; i++) {
+                     if(file.length == 0) break;
+                   for(var z = 0 ; z < Images.length ; z++){
+                       if(Images[z].name == file[i].name){
+                           file.splice(i,1);
+                       }
+                   }
                 }
-            };
-            $('body').on('change', '.CombinationImages', function (event) {
-                var files = event.target.files;
-                var element = event.target;
-                for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    names.push($(this).get(0).files[i].name);
-                    if (file.type.match('image')) {
-
-                        var picReader = new FileReader();
-                        picReader.fileName = file.name
-                        picReader.addEventListener("load", function (event) {
-
-                            var picFile = event.target;
-
-                            var div = document.createElement("li");
-
-                            div.innerHTML = "<img id='demo' width='50' src='" + picFile.result + "'" +
-                                "title='" + picFile.name + "'/><div  class='post-thumb'><div class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
-                            $(element).parents(".Combination-Image").append(div);
-                        });
-                    } else {
-                        var picReader = new FileReader();
-                        picReader.fileName = file.name
-                        picReader.addEventListener("load", function (event) {
-
-                            var picFile = event.target;
-
-                            var div = document.createElement("li");
-
-                            div.innerHTML = "<video src='" + picFile.result + "'" +
-                                "title='" + picFile.name + "'></video><div class='post-thumb'><div  class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
-                            $(element).parents(".Combination-Image").prepend(div);
-                        });
-                    }
-                    picReader.readAsDataURL(file);
+              }
+              if(arguments.length == 2){
+                   file = Array.from(files[0]);
+                   index = files[1];
+                for (var i = 0; i < file.length; i++) {
+                   for(var z = 0 ; z < NewImages[index].length ; z++){
+                       if(file.length == 0) break;
+                       if(file[i].name == NewImages[index][z].name){
+                           file.splice(i,1);
+                       }
+                   }
                 }
-            });
-        var names = @Html.Raw(Json.Serialize(Model.Products.ProductImages.Select(x => x.Media).ToList()));
-        $('body').on('change', '#ProductImages', function (event) {
-            var files = event.target.files;
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-            names.push($(this).get(0).files[i].name);
-            if (file.type.match('image')) {
+              }
+               file = FileListItems(file)
+            return file;
+           }
 
-                var picReader = new FileReader();
-                picReader.fileName = file.name
-                picReader.addEventListener("load", function (event) {
+        // Add category Check
+            function getParentCategoryIds(categoryId) {
+            if (!categoryId) {
+                return [];
+            }
+            var category = categories.find(function (item) { return item.id === categoryId; });
 
-                    var picFile = event.target;
-
-                    var div = document.createElement("li");
-
-                    div.innerHTML = "<img id='demo' src='" + picFile.result + "'" +
-                        "title='" + picFile.name + "'/><div  class='post-thumb'><div class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
-
-                    $("#media-list").prepend(div);
-
+            return category ? [category.id].concat(getParentCategoryIds(category.parentId)) : [];
+            }
+            function getChildCategoryIds(categoryId) {
+            if (!categoryId) {
+                return [];
+            }
+            var result = [];
+            var queue = [];
+            queue.push(categoryId);
+            while (queue.length > 0) {
+                var current = queue.shift();
+                result.push(current);
+                var childCategories = categories.filter(function (item) { return item.parentId === current; });
+                childCategories.forEach(function pushChildCategoryToTheQueue(childCategory) {
+                    queue.push(childCategory.id);
+                });
+            }
+            return result;
+            }
+            function toggleCategories(categoryId) {
+            var index = categoryIds.indexOf(categoryId);
+            if (index > -1) {
+                categoryIds.slice(index, 1);
+                var childCategoryIds = getChildCategoryIds(categoryId);
+                childCategoryIds.forEach(function spliceChildCategory(childCategoryId) {
+                    index = categoryIds.indexOf(childCategoryId);
+                    if (index > -1) {
+                        categoryIds.splice(index, 1);
+                    }
                 });
             } else {
-                var picReader = new FileReader();
-                picReader.fileName = file.name
-                picReader.addEventListener("load", function (event) {
+                categoryIds.push(categoryId)
+                var category = categories.find(function (item) { return item.id === categoryId; });
+                if (category) {
+                    var parentCategoryIds = getParentCategoryIds(category.parentId);
+                    parentCategoryIds.forEach(function pushParentCategory(parentCategoryId) {
+                        if (categoryIds.indexOf(parentCategoryId) < 0) {
+                            categoryIds.push(parentCategoryId);
 
-                    var picFile = event.target;
-
-                    var div = document.createElement("li");
-
-                    div.innerHTML = "<video src='" + picFile.result + "'" +
-                        "title='" + picFile.name + "'></video><div class='post-thumb'><div  class='inner-post-thumb'><a href='javascript:void(0);' data-id='" + event.target.fileName + "' class='remove-pic'><i class='fa fa-times' aria-hidden='true'></i></a><div></div>";
-
-                    $("#media-list").prepend(div);
-
-                });
-            }
-            picReader.readAsDataURL(file);
-        }
-            $('#demo').error(function () {
-                alert('Image does not exist !!');
-            });
-
-        });
-            $('body').on('click', '.remove-pic', function () {
-                var parent = $(this).parent().parent().parent();
-              
-                var value = parent.parents(".media-list").find("input[type=file]")
-                debugger;
-                console.log(value.get(0).files.get(0).File);
-
-            var removeItem = $(this).attr('data-id');
-            var yet = names.indexOf(removeItem);
-             if (yet != -1) {
-                 names.splice(yet, 1);
-                 parent.remove();
-            }
-        });
-        $(document).ready(function () {
-            $(".Title").stringToSlug();
-        });
-            var ListValue = [];
-            var ValueCount = 0;
-            $(document).off('click', '#option[type="button"]').on('click', '#option[type="button"]', function () {
-                var value = $("#add-option").find(":selected").text();
-                var demo22 = $("#add-option").find(":selected").val()
-                for (var i in ListValue) {
-                    var item = ListValue[i];
-                    if (item == value) {
-                        alert("bạn đã chọn biến thể này ")
-                        return;
-                    };
+                        }
+                    });
                 }
-                if (value == "Chọn") {
-                    alert("Vui lòng chọn biến thể ")
+            }
+
+            categoryIdsChecked();
+            }
+            function categoryIdsChecked() {
+
+            $(".categorys").each(function () {
+                var checked = parseInt($(this).val());
+                    var index = categoryIds.indexOf(checked);
+                    if (index > -1) {
+                        $(this).prop('checked', true);
+                    } else {
+                        $(this).prop('checked', false);
+                    }
+                });
+            };
+
+        // Add Editor
+         var allEditors = document.querySelectorAll('.editor');
+         for (var i = 0; i < allEditors.length; ++i) {
+             ClassicEditor.create(allEditors[i], { extraPlugins: [MyCustomUploadAdapterPlugin] }).then(newEditor => {
+                 Editor.push(newEditor);
+             }).catch(error => {
+                 console.error(error);
+             });
+         }
+         function ckEditor(name) {
+             for (var i = 0; i < Editor.length; i++) {
+                 if (Editor[i].sourceElement.id === name) return Editor[i];
+             }
+
+             return null;
+         }
+        
+        // Add thumnail product
+           function previewFile(input) {
+               var file = $(input).get(0).files[0];
+               if (file) {
+                   var reader = new FileReader();
+                   reader.onload = function () {
+                       $("#previewThumbnail").attr("src", reader.result);
+                   }
+                   reader.readAsDataURL(file);
+               }
+           };
+           
+        // Add thumnail Vartion
+           function previewFileCombination(input) {
+             var file = $(input).get(0).files[0];
+             if (file) {
+                 var reader = new FileReader();
+                 reader.onload = function () {
+                     $(input).next(".vThumnail").attr("src", reader.result);
+                 }
+                 reader.readAsDataURL(file);
+             }
+           };
+
+        // Add ImageVartion
+           function addImage(){
+              $(variations).each(function (j) {
+                 $(`#vNewImages-${j}`).off("change").on('change', function (event) {
+                   var files = event.target.files;
+                   
+                   if(NewImages.length != 0 && NewImages[j])
+                   {
+                      files = checkImagesAlready(files,j);
+                   }
+                 
+                   if(files.length == 0){
+                    if(NewImages[j]){
+                         $(this)[0].files = FileListItems(NewImages[j]);
+                         return;
+                    }
+                    }
+                   var element = event.target;
+                   var arr = [];
+                 
+                    for (var i = 0; i < files.length; i++) {
+                     var file = files[i];
+                     arr.push(file);
+                     if (file.type.match('image')) {
+                         var picReader = new FileReader();
+                         picReader.fileName = file.name
+                         picReader.addEventListener("load", function (event) {
+                           var picFile = event.target;
+                           var div = document.createElement("li");
+                           div.innerHTML = `
+                                       <img id='demo' width='50' src='${picFile.result}' title='${picFile.name}' />
+                                       <div class='post-thumb'>
+                                           <div class='inner-post-thumb'>
+                                               <a href='javascript:void(0);' data-name='${event.target.fileName}' data-id='0' class='remove-pic-${j}'>
+                                                  <i class='fa fa-times' aria-hidden='true'></i>
+                                               </a>
+                                           <div>
+                                       </div>`;
+                           $(element).parents(".vImage").append(div);
+                           removeImageVarition();
+                         });
+                     }
+                     picReader.readAsDataURL(file);
+                    }
+                    if(arr.length > 0){
+                        if(NewImages[j]){
+                              NewImages[j] =  NewImages[j].concat(arr);
+                        }else{
+                              NewImages[j] = arr;
+                        }
+                        $(this)[0].files = FileListItems(NewImages[j]);
+                        console.log(NewImages)
+                    }
+                 });
+              });
+           }
+
+        // Remove ImageVarition
+           function removeImageVarition() {
+              $(variations).each(function(j){
+                $(`.remove-pic-${j}`).off("click").on('click', function () {
+                  var parent = $(this).parent().parent().parent();
+                  var removeItem = $(this).attr('data-id');
+                  var Id = parseInt($(this).attr('data-id'));
+                  var Name = $(this).attr('data-name');
+                      parent.remove();
+                      if(NewImages.length != 0 && NewImages[j] != undefined){
+                         for (var i = 0; i < NewImages[j].length; i++) {
+                           if (NewImages[j][i].name == Name) {
+                               NewImages[j].splice(i, 1);
+                               $(`#vNewImages-${j}`)[0].files = FileListItems(NewImages[j]);
+                               console.log(NewImages[j]);
+                           }
+                         }
+                      }
+           
+                 });
+              });
+           }
+
+        // Add ProductImages
+             $('#ProductImages').on('change', function (event) {
+                 var files = event.target.files;
+                 if(files.length > 0){
+                    files = checkImagesAlready(files);
+                 }else{
+                     $(this)[0].files = FileListItems(Images);
+                 }
+                 for (var i = 0; i < files.length; i++) {
+                     var file = files[i];
+                     Images.push(file);
+                     $(this)[0].files = FileListItems(Images);
+                     if (file.type.match('image')) {
+
+                         var picReader = new FileReader();
+                         picReader.fileName = file.name
+                         picReader.addEventListener("load", function (event) {
+                             var picFile = event.target;
+                             var div = document.createElement("li");
+                             div.innerHTML = `
+                                             <img src='${picFile.result}'title='${picFile.name}'/>
+                                             <div  class='post-thumb'>
+                                                 <div class='inner-post-thumb'>
+                                                     <a href='javascript:void(0);' data-name='${event.target.fileName}' data-id='0' class='remove-pic'>
+                                                         <i class='fa fa-times' aria-hidden='true'>
+                                                         </i>
+                                                     </a>
+                                                 </div>
+                                             </div>`;
+                             $("#media-list").prepend(div);
+                            removeProductImages();
+                         });
+                     }
+                     picReader.readAsDataURL(file);
+                 }
+             });
+
+        // Remove ProductImages
+           function removeProductImages(){
+              $(".remove-pic").on("click", function () {
+                  var parent = $(this).parent().parent().parent();
+                  var Name = $(this).attr('data-name');
+                  for (var i = 0; i < Images.length; i++) {
+                      if (Images[i].name == Name) {
+                          Images.splice(i, 1);
+                          parent.remove();
+                          $("#ProductImages")[0].files = FileListItems(Images);
+                          console.log(Images);
+                      }
+                  }
+              });
+           }
+
+        // checkOptionSelected
+         function checkOptionSelected(){
+              var value = $("#add-option option:selected").val();
+             if(value == -1){
+                 $("#option[type='button']").attr("disabled",true);
+             }else{
+                 $("#option[type='button']").attr("disabled",false);
+             }
+         }
+          checkOptionSelected();
+          $("#add-option").on('change', function () {
+            checkOptionSelected();
+          });
+         // Add Vartion && step 2
+
+        // Add Option
+           $(document).off('click', '#option[type="button"]').on('click', '#option[type="button"]', function () {
+             onModifyOption(function () {
+                 var optiontext = $("#add-option").find(":selected").text();
+                 var optionvalue = parseInt($("#add-option").find(":selected").val());
+                 var ref1 = addOption.findIndex(x => x.name == optiontext);
+                  if(ref1 > -1){
+                     toastr.error("You chose this variant!");
+                     return;
+                  }else{
+                       if (optiontext == "") {
+                          toastr.error("Please select the Variable!")
+                          return;
+                      }
+                  }
+                  var item = { 'id': optionvalue, 'name': optiontext, 'values': [] };
+                  addOption.push(item);
+                  var index = addOption.findIndex(x => x.id == optionvalue);
+                  var html = ``;
+                  function renderOption(item){
+                      html += `<div class="parent-option">
+                                  <div class="form-group fade show my-3 option-value row">
+                                     <label class="col-md-2 col-form-label">${item.name}</label>
+                                     <div class="col-md-10">
+                                         <div class="form-group row">
+                                             <div class="col-md-6">
+                                                <input type="text" hidden name="Products.options[${index}].id" value="${item.id}">
+                                                <input type="text" hidden name="Products.options[${index}].name" value="${item.name}">
+                                                <input type="text" data-role="tagsinput" data-index="${index}">
+                                             </div>
+                                             <div class="col-md-6">
+                                                 <button type="button" class="btn btn-primary option-type" data-toggle="modal" data-target="#option-type-${item.id}">
+                                                    Configure Display
+                                                 </button>
+                                                 <button type="button" class="btn btn-danger removeoption" data-toggle="modal" data-target="#removeoption-${item.id}">
+                                                    Delete Option
+                                                 </button>
+                                             </div>
+                                         </div>
+                                     </div>
+                                  </div>
+                                  <div class="modal fade" id="option-type-${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                     <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Configure Display</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input Display radioOptions-${item.id}" type="radio" name="Products.options[${index}].displayType"  id="inlineRadio-${index}-1" value="Text" checked data-index=${index}>
+                                                    <label class="form-check-label" for="inlineRadio-${index}-1">Display text</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input Display radioOptions-${item.id}" type="radio" name="Products.options[${index}].displayType" id="inlineRadio-${index}-2" value="Color" data-index=${index}>
+                                                    <label class="form-check-label" for="inlineRadio-${index}-2">Display color</label>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group key">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success" data-dismiss="modal">ok</button>
+                                                </div>
+                                            </div>
+                                     </div>
+                                  </div>         
+                              </div>`
+                           $("#append-option").append(html);
+                  }
+                  if(index > -1){
+                      renderOption(addOption[index]);
+                      renderAppentVariable();
+                  }else{
+                      toastr.error("error");
+                  }
+
+                  // Tagsinput
+                   $(function () {
+                      $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
+                   });
+
+                  // Remove option
+                     removeoption();
+                     values();
+             });
+           });
+
+        // renderDisplay
+         function renderDisplay(keys,optionIndex,html,checked,checkRender){
+            $.each(keys,function(index,item){
+                html += `${checked == 'Text' ?
+                           `<label class="col-md-12 control-label Vaules">
+                                   ${item}
+                                   <input  hidden name="Products.options[${optionIndex}].values[${index}].key" type="text" class="form-control" value="${item}">
+                                   <input  name="Products.options[${optionIndex}].values[${index}].display" type="text" class="form-control">
+                           </label>` :
+                           `<label class="col-md-12 control-label">
+                                   ${item}<input hidden name="Products.options[${optionIndex}].values[${index}].key" type="text" class="form-control" value="${item}">
+                                       <input name="Products.options[${optionIndex}].values[${index}].display" type="text"  class="pick-a-color form-control">
+                           </label>`}`;
+
+               if(checkRender){
+                  var values = {'key':item,'displayType':'' }
+                  addOption[optionIndex].values[index] = values;
+               }
+            });
+            return html;
+         }
+
+        // Add optionValue
+         function values(){
+            $("input[data-role=tagsinput]").on("change", function (e) {
+                 var html = ``;
+                 var parents = $(this).closest(".option-value");
+                 var optionIndex = $(this).data("index");
+                 var value = parents.find("label").eq(0).text();
+                 var indexValue = addOption.findIndex(x => x.name == value);
+                 var checked = parents.next(".modal").find(`input.Display:checked`).val();
+                 var keys = $(this).tagsinput('items');
+                  $('input[data-role=tagsinput]').off('itemAdded').on('itemAdded', function (event) {
+                     // event.item: chứa các item
+                    var item = event.item;
+                    appendVariable(indexValue, item);
+                    html = renderDisplay(keys,optionIndex,html,checked,true);
+
+                    parents.next().find(".key").html(html);
+                    pickAColor(parents.next());
+                  });
+
+                 $('input[data-role=tagsinput]').off('itemRemoved').on('itemRemoved', function (event) {
+                     // event.item: chứa các item
+                    var item = event.item;
+                    appendVariable(indexValue, item);
+                    html = renderDisplay(key,optionIndex,html,checked,true);
+
+                    parents.next().find(".key").html(html);
+                    pickAColor(parents.next());
+                  });
+
+                   checkedOptionValue();
+            });
+          }
+
+        // checked Optionvalue
+           function checkedOptionValue() {
+               for (var i in addOption) {
+                  $(`.radioOptions-${addOption[i].id}`).off('change').on('change', function () {
+                     var html = ``;
+                     var optionIndex = $(this).data("index");
+                     var parents = $(this).parents(".modal");
+                     var keys = parents.prev().find('input[data-role=tagsinput]').tagsinput('items');
+                     var checked = $(this).val();
+
+                     html = renderDisplay(keys,optionIndex,html,checked,true);
+             
+                     parents.find(".key").html(html);
+                     pickAColor(parents);
+             
+                   });
+               };
+             }
+
+        // remove option
+           function removeoption() {
+            $(".removeoption").off("click").on("click", function () {
+                var parent = $(this).closest(".parent-option");
+                onModifyOption(function () {
+                    var removeItem = parent.find("label").eq(0).text();
+                    var yet = addOption.findIndex(x => x.name == removeItem);
+                    if (yet != -1) {
+                        addOption.splice(yet, 1);
+                        parent.remove();
+                        console.log(Option);
+                    }else{
+                        toastr.error("Can not remove");
+                    }
+                    if (addOption.length == 0) {
+                        $("#productOption").html("");
+                    } else {
+                        $("#productOption tr").not("#add-select").remove();
+                        $("#add-select select").each(function (index,item) {
+                            if (yet != -1) {
+                                if (index == yet) {
+                                    $(item).remove();
+                                }
+                            }
+                        })
+                    }
+
+                    var select = $(".add-select select");
+                    var disabled = $("#add-Variation")
+                    if ($(select).length == 1) {
+                        var value = $(select).find("option:checked").val();
+                        if (value == "?") {
+                             disabled.attr("disabled",true);
+                        } else {
+                             disabled.attr("disabled",false);
+                        }
+                    } else {
+                        var ListSelect = [];
+                        $(select).each(function (index, item) {
+                            var select = $(item).find(":selected").val();
+                            ListSelect.push(select);
+
+                        })
+                        var Index = ListSelect.findIndex(x => x == "?");
+                        if (Index == 1) {
+                           disabled.attr("disabled",true);
+                        } else {
+                           disabled.attr("disabled",false);
+                        }
+                    }
+                });
+            });
+           }
+
+        // Add one Colunm Vartion
+            function renderAppentVariable() {
+                var row = "";
+                var tbody = $("#productOption");
+                $("#productOption tr").not("#add-select").remove();
+                if (addOption.length == 1) {
+                   row += `<tr id="add-select">
+                            <td class="add-select">
+                                <select class="form-control">
+                                    <option value="?"></option>
+                                  </select>
+                            </td>
+                            <td>
+                                <div>
+                                    <input class="form-control" type="text" id="vGtin" maxlength="10"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <input class="form-control" type="text "id="vSku" maxlength="10"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-number">
+                                    <input class="form-control number-validate" type="text" id="vPrice" maxlength="10"/>
+                                     <label for="vPrice" class="form-control"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-number">
+                                    <input class="form-control number-validate" type="text" id="vOldPrice" maxlength="10"/>
+                                     <label for="vOldPrice" class="form-control"></label>
+                                </div>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                <div id="add-Variation" class="btn btn-primary btn_disabled c-pointer" onclick="addVariation()">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                            </td>
+                        </tr>`
+                } else {
+                var select = `<select class="form-control">
+                               <option value="?"></option>
+                              </select>`
+                $(".add-select").append(select);
+                }
+
+                tbody.prepend(row);
+                $("#add-Variation").attr("disabled",true);
+            }
+
+            function appendVariable(index, item) {
+               var select = $(".add-select select");
+               var option = `<option value="${item}">${item}</option>`
+               if (select.length == 1) {
+                   select.append(option);
+               } else {
+                   $(select).each(function (index2, item2) {
+                       if (index == index2) {
+                           $(item2).append(option);
+                       }
+                   });
+               }
+               eventCursor();
+            }
+
+            function unAppendVariable(index,item) {
+                var select = $(".add-select select")
+                if (select.length == 1) {
+                    $(select).find("option").each(function (index2, item2) {
+                        if ($(item2).val() == item) {
+                            $(item2).remove();
+                        }
+                    });
+                } else {
+                    select.each(function (index2, item2) {
+                        if (index == index2) {
+                            $(select).find("option").each(function (index3, item3) {
+                                if ($(item3).val() == item) {
+                                    $(item3).remove();
+                                }
+                            });
+                        }
+
+                    });
+                }
+            }
+
+        // addVariation
+          function addVariation() {
+             var disabled = $("#add-Variation").attr("disabled");
+              if(disabled == "disabled"){
+                  return;
+              }
+                var variation,
+                    optionCombinations = [];
+                var pName = $("#Name").val().trim();
+                if(pName == ""){
+                    toastr.error("Name is not required.")
                     return;
                 }
-                ListValue.push(value);
-                var index = ListValue.indexOf(value);
-                
-                var html = ``;
-                html += `  <div class="input-group fade show mb-3 option-value">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">${value}</span>
-                  </div>
-                        <input type="number" hidden name="ProductOptionVm[${index}].Id" value="${demo22}">
-                         <input type="text" hidden name="ProductOptionVm[${index}].Name" value="${value}">
-                          
-           
-                    <input  type="text" data-role="tagsinput"  >
-                <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary option-type" data-toggle="modal" data-target="#exampleModal-${ListValue.length - 1}" >
-                        Cấu hình hiển thị
-                    </button>
-                <button type="button" class="btn btn-danger removeoption" >
-                        Xóa
-                    </button>
-
-                </div>
-              <div class="modal fade" id="exampleModal-${ListValue.length -1}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Chọn Kiểu </h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div >
-                                       
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions-${ListValue.length - 1}" id="inlineRadio1" value="Text" checked>
-                                            <label class="form-check-label" for="inlineRadio1">Display text</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions-${ListValue.length -1}" id="inlineRadio2" value="Color">
-                                            <label class="form-check-label" for="inlineRadio2">Display color</label>
-                                        </div>
-                                        <input type="text" hidden name="ProductOptionVm[${index}].DisplayType" class ="DisplayType" />
-                                        <div>
-                           
-                                            <div class="form-group key" >
-                                                    <input  type="hidden" name="value"/>
-                                   
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">ok</button>
-                                        </div>
-                                    </div>
-                            </div>
-                        </div> `    
-                $("#option").append(html);
-                if (ListValue.length == 1) {
-                    var button = `<button class="btn btn-primary" id="generateOption" type="submit">Button</button>`
-                    $("#option").append(button);
+                var pPrice = $("#Price").val();
+                var pOldPrice = $("#OldPrice").val();
+                var vSku = $("#vSku").val();
+                var vGtin = $("#vGtin").val();
+                var vPrice = $("#vPrice").val();
+                var vOldPrice = $("#vOldPrice").val();
+                var select = $(".add-select select");
+                var selectValue;
+                var ListSelect = [];
+                if(select.length > 1){
+                        ListSelect = [];
+                        $(select).each(function (index, item) {
+                            var select = $(item).find(":selected").val();
+                            ListSelect.push(select);
+                        })
+                }else{
+                    selectValue = select.find(":selected").val();
                 }
-               
-                $(".removeoption").on("click", function () {
-
-                    var parent = $(this).parent();
-                    var removeItem = parent.find(".input-group-text").text();
-                    var yet = ListValue.indexOf(removeItem);
-                    if (yet != -1) {
-                        ListValue.splice(yet, 1);
-                    }
-                    parent.remove();
+                $.each(addOption,function(index,option){
+                     var optionValue = {
+                        optionName: option.name,
+                        optionId: option.id,
+                        value: ListSelect.length > 0 ? ListSelect[index] : selectValue,
+                        sortIndex: index
+                    };
+                    optionCombinations.push(optionValue);
                 });
 
-                $(function () {
-                    $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
-                });
+                variation = {
+                    name: pName + ' ' + optionCombinations.map(function (item) {
+                        return item.value;
+                    }).join(' '),
+                    normalizedName : optionCombinations.map(function (item) {
+                        return item.value;
+                    }).join('-'),
+                    optionCombinations: optionCombinations,
+                    price: vPrice || pPrice,
+                    oldPrice: vOldPrice || pOldPrice,
+                    sku: vSku,
+                    gtin: vGtin
+                };
 
-                $("input[data-role=tagsinput]").off('change').on("change", function (e) {
-                    e.preventDefault();
-                    var html = ``;
-                    var parents = $(this).parent(".option-value");
-                    var keys = $(this).tagsinput('items');
-                
-                    var value = parents.find(".input-group-text").text();
-                    var index = ListValue.indexOf(value);
-                    var radioValue = parents.next(".modal").find(`input[name='inlineRadioOptions-${index}']:checked`).val();
-                    for (var i in keys) {
-                        var item = keys[i];
-                        if (radioValue == 'Text') {
-                            html += `<label class="col-sm-3 col-md-3 control-label">   
-                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
-                                    </label>
-                                 <div class="col-sm-9 col-md-9">
-                                 <input  class="form-control text" name="ProductOptionVm[${index}].Values[${i}].Display"   />
-                       
-                        </div>`
-                            parents.next(".modal").find('.DisplayType').val(radioValue);
-                        } else {
-                            html += `<label class="col-sm-3 col-md-3 control-label">   
-                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
-                                    </label>
-                                 <div class="col-sm-9 col-md-9">
-                            <input type="text" value="222" name="ProductOptionVm[${index}].Values[${i}].Display" class="pick-a-color form-control ">
-                        </div>`
-                            parents.next(".modal").find('.DisplayType').val("Color");
-                        }
-                     
-                    }
-                    parents.next().find(".key").html(html);
-          
-                    parents.next().find(".pick-a-color").pickAColor({
-
-                        showSavedColors: true,
-                        saveColorsPerElement: true,
-                        fadeMenuToggle: true,
-                        showAdvanced: true,
-                        showBasicColors: true,
-                        showHexInput: true,
-                        allowBlank: true,
-
+                if (!variations.find(function (item) { return item.name === variation.name; })) {
+                    variations.push(variation);
+                    var row = ``;
+                    var row2 = ``;
+                    var endIndex = variations.length - 1;
+                    var item = variations[endIndex];
+                          row += `<tr id="queryRow-${endIndex}">
+                                    <td>
+                                          <div class="name">
+                                             <span>${item.name}</span>
+                                             <input hidden class="form-control" id="vName-${endIndex}" type="text"  name="Products.variations[${endIndex}].name" value="${item.name}" />
+                                             <input hidden class="form-control" id="vNormalizedName-${endIndex}" type="text"  name="Products.variations[${endIndex}].normalizedName" value="${item.normalizedName}" />
+                                          </div>
+                                    </td>
+                                    <td>
+                                         <div>
+                                             <input class="form-control" type="text" id="vSku-${endIndex}" name="Products.variations[${endIndex}].sku"  value="${item.sku}" maxlength="10" />
+                                         </div>
+                                    </td>
+                                    <td>
+                                         <div>
+                                             <input class="form-control" type="text" id="vGtin-${endIndex}" name="Products.variations[${endIndex}].gtin"  value="${item.gtin}" maxlength="10" />
+                                         </div>
+                                    </td>
+                                    <td>
+                                         <div class="input-number">
+                                               <input type="text" name="Products.variations[${endIndex}].price" maxlength="10" class="form-control number-validate vPrice" id="vPrice-${endIndex}" value="${item.price}" />
+                                               <label for="vPrice-${endIndex}" class="form-control">${item.price}</label>
+                                          </div>
+                                    </td>
+                                     <td>
+                                       <div class="input-number">
+                                               <input type="text" name="Products.variations[${endIndex}].oldPrice" maxlength="10" class="form-control number-validate" id="vOldPrice-${endIndex}" value="${item.oldPrice}" />
+                                               <label for="vOldPrice-${endIndex}" class="form-control">${item.oldPrice}</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                         <div class="form-group">
+                                             <input class="form-control-file input-thumnail" id="vThumbnailImage-${endIndex}"  type="file" name="Products.variations[${endIndex}].ThumbnailImage" onchange="previewFileCombination(this)" hidden />
+                                             <image class="vThumnail" width="90"/>
+                                             <label for="vThumbnailImage-${endIndex}" class="btn btn-primary mt-1">Chọn ảnh</label>
+                                         </div>
+                                    </td>
+                                    <td>
+                                         <div>
+                                             <ul class="vImage media-list">
+                                                 <li class="myupload">
+                                                     <span>
+                                                         <i class="fa fa-plus" aria-hidden="true" for="NewImages"></i>
+                                                         <input class="form-control-file NewImages-${endIndex}" type="file" multiple name="Products.variations[${endIndex}].NewImages" id="vNewImages-${endIndex}"/>
+                                                     </span>
+                                                 </li>
+                                             </ul>
+                                         </div>
+                                         <div id="DeleteNewImages-${endIndex}"></div>
+                                    </td>
+                                    <td>
+                                         <div class="vRemove btn btn-danger c-pointer" id="vRemove-${endIndex}" onclick="removeVariation(${endIndex})">
+                                             <i class="fas fa-times text-white"></i>
+                                         </div>
+                                    </td>
+                              </tr>`
+                     $.each(item.optionCombinations,function(index2,item2){
+                      row2 += `<input hidden class="form-control" type="text"  name="Products.variations[${endIndex}].OptionCombinations[${index2}].optionName" value="${item2.optionName} " />
+                               <input hidden class="form-control" type="text"  name="Products.variations[${endIndex}].OptionCombinations[${index2}].optionId" value="${item2.optionId}" />
+                               <input hidden class="form-control" type="text"  name="Products.variations[${endIndex}].OptionCombinations[${index2}].value" value="${item2.value}" />
+                               <input hidden class="form-control" type="text"  name="Products.variations[${endIndex}].OptionCombinations[${index2}].sortIndex" value="${item2.sortIndex}" />`
+                       });
+                         $("#productOption").append(row);
+                         $("#OptionCombinations").append(row2);
+                         numberValidate();
+                         numberValidateLabel();
+                         addImage();
+                         submitValidate();
+                } else {
+                    toastr.error('The ' + variation.name + ' has been existing');
+                }
+            };
+        
+        // remove Vartion
+           function removeVariation(index){
+                $(`#vRemove-${index}`).closest("tr").remove();
+                variations.splice(index, 1);
+                var row2 = ``;
+                $(variations).each(function(i,item) {
+                    var that = $("tr[id^=queryRow-]")[i];
+                    $(that).attr("id", "queryRow-" + i);
+                    $("input[id^=vName-]", $(that)).attr("name", "Products.variations[" + i + "].name").attr("id", "vName-" + i);
+                    $("input[id^=vNormalizedName-]", $(that)).attr("name", "Products.variations[" + i + "].normalizedName").attr("id", "vNormalizedName-" + i);
+                    $("input[id^=vSku-]", $(that)).attr("name", "Products.variations[" + i + "].sku").attr("id", "VSku-" + i);
+                    $("input[id^=vGtin-]", $(that)).attr("name", "Products.variations[" + i + "].gtin").attr("id", "vGtin-" + i);
+                    $("input[id^=vPrice-]", $(that)).attr("name", "Products.variations[" + i + "].price").attr("id", "vPrice-" + i)
+                    .next("label").attr("for", "vPrice-" + i);
+                    $("input[id^=vOldPrice-]", $(that)).attr("name", "Products.variations[" + i + "].oldPrice").attr("id", "vOldPrice-" + i)
+                    .next("label").attr("for", "vOldPrice-" + i);
+                    $("input[id^=vThumbnailImage-]", $(that)).attr("name", "Products.variations[" + i + "].ThumbnailImage").attr("id", "vThumbnailImage-" + i)
+                    .next().next("label").attr("for", "vThumbnailImage-" + i);
+                    $("input[id^=vNewImages-]", $(that)).attr("name", "Products.variations[" + i + "].NewImages").attr("id", "vNewImages-" + i);
+                    $("div[id^=DeleteNewImages-]", $(that)).attr("id", "DeleteNewImages-" + i);
+                    $("a[class^=remove-pic-]", $(that)).attr("class", "remove-pic-" + i);
+                    $("div[id^=vRemove-]", $(that)).attr("id", "vRemove-" + i).attr("onclick", "removeVariation(" + i+")").unbind("click").click(function() {
+                        removeVariation(i);
                     });
-                    $(`input[name='inlineRadioOptions-${index}']`).off('change').on('change', function () {
-                        var html = ``;
-                        var value = $(this).val();
-                        var parent = $(this).parents(".modal");
-                   
-                        var input = $(this).parents(".modal").prev().find('input[data-role=tagsinput]').tagsinput('items');
-                        for (var i in input) {
-                            var item = input[i];
-                            if (value == 'Text') {
-                                html += `<label class="col-sm-3 col-md-3 control-label">   
-                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
-                                    </label>
-                                 <div class="col-sm-9 col-md-9">
-                                 <input  class="form-control text" name="ProductOptionVm[${index}].Values[${i}].Display"   />
-                       
-                        </div>`
-                                parent.find('.DisplayType').val(value);
-                            } else {
-                                html += `<label class="col-sm-3 col-md-3 control-label">   
-                                    ${item}<input name="ProductOptionVm[${index}].Values[${i}].Key" type="text"  value =${item} hidden>           
-                                    </label>
-                                 <div class="col-sm-9 col-md-9">
-                            <input type="text" value="222" name="ProductOptionVm[${index}].Values[${i}].Display" class="pick-a-color form-control ">
-                        </div>`
-                                parent.find('.DisplayType').val("Color");
+
+                    $(item.optionCombinations).each(function(index2,item2){
+                        row2 += `<input hidden class="form-control" type="text"  name="Products.variations[${i}].OptionCombinations[${index2}].optionName" value="${item2.optionName} " />
+                                    <input hidden class="form-control" type="text"  name="Products.variations[${i}].OptionCombinations[${index2}].optionId" value="${item2.optionId}" />
+                                    <input hidden class="form-control" type="text"  name="Products.variations[${i}].OptionCombinations[${index2}].value" value="${item2.value}" />
+                                    <input hidden class="form-control" type="text"  name="Products.variations[${i}].OptionCombinations[${index2}].sortIndex" value="${item2.sortIndex}" />`
+                    });
+                });
+                $("#OptionCombinations").html(row2);
+                NewImages.splice(index,1);
+                numberValidate();
+                addImage();
+                removeImageVarition();
+                submitValidate();
+                console.log(NewImages);
+           }; 
+
+        // render multi varition
+           function generateOptionCombination() {
+                 var maxIndexOption = addOption.length - 1;
+                 variations = [];
+                 var Name = $("#Name").val().trim();
+                 if(Name == ""){
+                     toastr.error("Name is not require");
+                     return;
+                 }
+                 var Price = $("#Price").val();
+                 var OldPrice = $("#OldPrice").val();
+                 function getItemValue(item) {
+                     return item.value;
+                 }
+           
+                 function helper(arr, optionIndex) {
+                     var j, l, variation, optionCombinations, optionValue;
+           
+                     for (j = 0, l = addOption[optionIndex].values.length; j < l; j = j + 1) {
+                         optionCombinations = arr.slice(0);
+                         optionValue = {
+                             optionName: addOption[optionIndex].name,
+                             optionId: addOption[optionIndex].id,
+                             value: addOption[optionIndex].values[j].key,
+                             sortIndex : optionIndex
+                         };
+                         optionCombinations.push(optionValue);
+           
+                         if (optionIndex === maxIndexOption) {
+                             variation = {
+                                 name: Name + ' ' + optionCombinations.map(getItemValue).join(' '),
+                                 normalizedName : optionCombinations.map(getItemValue).join('-'),
+                                 optionCombinations: optionCombinations,
+                                 price: Price,
+                                 oldPrice: OldPrice
+                             };
+                             variations.push(variation);
+                         } else {
+                             helper(optionCombinations, optionIndex + 1);
+                         }
+                     }
+                 }
+           
+                 helper([], 0);
+                 var row = ``;
+                 var row2 =``;
+                 $.each(variations,function(index,item){
+                       row += `<tr id="queryRow-${index}">
+                                    <td>
+                                          <div class="name">
+                                             <span>${item.name}</span>
+                                             <input hidden class="form-control" id="vName-${index}" type="text"  name="Products.variations[${index}].name" value="${item.name}" />
+                                             <input hidden class="form-control" id="vNormalizedName-${index}" type="text"  name="Products.variations[${index}].normalizedName" value="${item.normalizedName}" />
+                                          </div>
+                                    </td>
+                                    <td>
+                                         <div>
+                                             <input class="form-control" type="text" id="vSku-${index}" name="Products.variations[${index}].sku" maxlength="10" />
+                                         </div>
+                                    </td>
+                                    <td>
+                                         <div>
+                                             <input class="form-control" type="text" id="vGtin-${index}" name="Products.variations[${index}].gtin" maxlength="10" />
+                                         </div>
+                                    </td>
+                                    <td>
+                                         <div class="input-number">
+                                               <input type="text" name="Products.variations[${index}].price" maxlength="10" class="form-control number-validate vPrice" id="vPrice-${index}" value="${item.price}" />
+                                               <label for="vPrice-${index}" class="form-control">${item.price}</label>
+                                          </div>
+                                    </td>
+                                     <td>
+                                       <div class="input-number">
+                                               <input type="text" name="Products.variations[${index}].oldPrice" maxlength="10" class="form-control number-validate" id="vOldPrice-${index}" value="${item.oldPrice}" />
+                                               <label for="vOldPrice-${index}" class="form-control">${item.oldPrice}</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                         <div class="form-group">
+                                             <input class="form-control-file input-thumnail" id="vThumbnailImage-${index}"  type="file" name="Products.variations[${index}].ThumbnailImage" onchange="previewFileCombination(this)" hidden />
+                                             <image class="vThumnail" width="90"/>
+                                             <label for="vThumbnailImage-${index}" class="btn btn-primary mt-1">Chọn ảnh</label>
+                                         </div>
+                                    </td>
+                                    <td>
+                                         <div>
+                                             <ul class="vImage media-list">
+                                                 <li class="myupload">
+                                                     <span>
+                                                         <i class="fa fa-plus" aria-hidden="true" for="NewImages"></i>
+                                                         <input class="form-control-file NewImages-${index}" type="file" multiple name="Products.variations[${index}].NewImages" id="vNewImages-${index}"/>
+                                                     </span>
+                                                 </li>
+                                             </ul>
+                                         </div>
+                                          <div id="DeleteNewImages-${index}"></div>
+                                    </td>
+                                    <td>
+                                         <div class="vRemove btn btn-danger c-pointer" id="vRemove-${index}" onclick="removeVariation(${index})">
+                                             <i class="fas fa-times text-white"></i>
+                                         </div>
+                                    </td>
+                              </tr>`
+                     $.each(item.optionCombinations,function(index2,item2){
+                      row2 += `<input hidden class="form-control" type="text"  name="Products.variations[${index}].OptionCombinations[${index2}].optionName" value="${item2.optionName} " />
+                         <input hidden class="form-control" type="text"  name="Products.variations[${index}].OptionCombinations[${index2}].optionId" value="${item2.optionId}" />
+                         <input hidden class="form-control" type="text"  name="Products.variations[${index}].OptionCombinations[${index2}].value" value="${item2.value}" />
+                         <input hidden class="form-control" type="text"  name="Products.variations[${index}].OptionCombinations[${index2}].sortIndex" value="${item2.sortIndex}" />`
+                       });
+           
+                 });
+                   $("#productOption tr").not("#add-select").remove();
+                   $("#productOption").append(row);
+                 $("#OptionCombinations").html(row2);
+                 numberValidate();
+                 numberValidateLabel();
+                 addImage();
+                 submitValidate();
+            }
+
+        // eventCursor
+         function eventCursor() {
+            $(".add-select select").on("change", function () {
+                var disenbel = $("#add-Variation");
+                var option = $(".add-select select");
+                if ($(option).length == 1) {
+                    var value = $(this).val();
+                    if (value == "?") {
+                        disenbel.attr("disabled", true);
+                    } else {
+                        disenbel.attr("disabled", false);
+                    }
+
+                } else {
+                    var arr = [];
+                    $($(option)).each(function (index, item) {
+                        var value = $(item).val();
+                        arr.push(value);
+                    })
+                    var index = arr.findIndex(x => x == "?");
+                    if (index != -1) {
+                        disenbel.attr("disabled", true);
+                    } else {
+                        disenbel.attr("disabled", false);
+                    }
+                }
+            })};
+
+        // Add Attribute
+           var productAttr = $("#productAttibute");
+           function loadAttr(){
+                 var row = '';
+                    $.each(productAttrList,function(index,item){
+                     row += `<tr>
+                                  <td>
+                                       <input hidden type="number" name="Products.attributes[${index}].id" value="${item.id}"/>
+                                      <span>${item.name}</span>
+                                  </td>
+                                   <td>
+                                       <input type="text" name="Products.attributes[${index}].value" class="form-control" value="${item.value ?? ""}"/>
+                                  </td>
+                                  <td class="removeattr" data-id=${item.id} ><i class="fas fa-trash-alt text-danger c-pointer"></i></td>
+                              </tr>`
+                    })
+                     productAttr.html(row);
+                     removeattr();
+                    }
+
+           loadAttr();
+
+           function addAttibute(){
+               $("#addAttibute").on("click", function(){
+                   var id = parseInt($("#Attribute option:selected").val());
+                   var name =  $("#Attribute option:selected").text();
+                   var index = productAttrList.findIndex(x => x.id == id);
+                   if(index == -1){
+                       var item = {id,name};
+                       productAttrList.push(item);
+                       loadAttr();
+           
+                   }else{
+                       toastr.error("Has value");
+                   }
+               });
+           }
+
+           addAttibute();
+
+           function addTemplate(){
+               $("#addTemplate").on("click", function(){
+                   var origin = window.location.origin;
+                   var id = parseInt($("#Template option:selected").val());
+                   var url = `${origin}/ProductTemplate/Get`;
+                   $.post(url,{id:id}).then(function(data){
+                       if(data.attributes.length > 0){
+                            for (i = 0; i < data.attributes.length; i = i + 1) {
+                             var work =  productAttrList.find(x => x.id == data.attributes[i].id);
+                                 if(work){
+                                  continue;
+                                 }
+                                productAttrList.push(data.attributes[i]);
                             }
+                       }
+                       loadAttr();
+                   }).catch(function(error){
+                       toastr.error(error);
+                   });
+               });
+           }
 
-                        }
-                        parent.find(".key").html(html);
-                 
-                        parent.find(".pick-a-color").pickAColor({
+           addTemplate();
+           
+           function removeattr(){
+               $(".removeattr").on("click", function(){
+                     var id = parseInt($(this).data("id"));
+                     var index = productAttrList.findIndex(x => x.id == id);
+                     if(index > -1){
+                         productAttrList.splice(index,1);
+                         loadAttr();
+                     }else{
+                         toastr.error("da co loi xay ra");
+                     }
+               });
+           }
+        
+        // add PopUp
+           function onModifyOption(callback) {
+               if (variations.length === 0) {
+                   callback();
+                   return;
+               }
+               bootbox.confirm('Add or remove option will clear all existing variations. Are you sure you want to do this?', function (result) {
+                   if (result) {
+                       setTimeout(function () {
+                           variations = [];
+                           callback();
+                       }, 1);
+                   }
+             });
+           }
 
-                            showSavedColors: true,
-                            saveColorsPerElement: true,
-                            fadeMenuToggle: true,
-                            showAdvanced: true,
-                            showBasicColors: true,
-                            showHexInput: true,
-                            allowBlank: true,
+        // PickAColor
+          function pickAColor(item){
+              item.find(".pick-a-color").pickAColor({
+                   showSavedColors: true,
+                   saveColorsPerElement: true,
+                   fadeMenuToggle: true,
+                   showAdvanced: true,
+                   showBasicColors: true,
+                   showHexInput: true,
+                   allowBlank: true,
+              });
+          };
 
+        // submitValidate
+         var submitValidate = function submitValidate(){
+            var item = ["#Name","#Price",".vPrice"];
+            var check = 0;
+            $(item).each(function(index,item2){
+                $(item2).off("input").on("input",function(){
+                    var value = this.value;
+                    if(value == ""){
+                         $("#save").attr("disabled",true);
+                    }else{
+                          $("#save").attr("disabled",false);
+                    }
+                    $(item).each(function(index,item2){
+                         $(item2).each(function(index,item3){
+                             var value3 = $(item3).val();
+                             if(value3 == ""){
+                                  $("#save").attr("disabled",true);
+                             }
                         });
                     });
-                
                 });
-                $(document).on("click").off("click", '#generateOption', function () {
-                    
+                $(item2).each(function(index,item3){
+                    var value = $(item3).val();
+                    if(value == ""){
+                        check++;
+                   
+                    }
                 });
-        });
-          
-        </script>
+           });
+            if(check == 0){
+                $("#save").attr("disabled",false);
 
-    }
+            }else{
+                $("#save").attr("disabled",true);
+            }
+         }
+         submitValidate();
+
+        // save
+         $('#save').on('click', function (e) {
+            e.preventDefault();
+            var ShortDescription = ckEditor('ShortDescription').getData();
+            var Description = ckEditor('Description').getData();
+            var Specification = ckEditor('Specification').getData();
+            $("#ShortDescription").html(ShortDescription);
+            $("#Description").html(Description);
+            $("#Specification").html(Specification);
+            var $form = $(this).closest("form");
+            var form = $($form)[0];
+            var formData = new FormData(form);
+
+            if (!$form.valid || $form.valid()) {
+                   $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                   }).then(function (result) {
+                        window.location = `${origin}/${link[0]}/Index`;
+                    }).catch(function (error) {
+                        loadError(error.responseJSON)
+                    });
+            } else {
+                if ($form.find('.validation-summary-errors').length) {
+                    var html = $('.validation-summary-errors').html();
+                    html = `<div class="alert alert-danger alert-dismissible" role="alert">${html}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`
+                    $('#loaderror').html(html);
+                }
+            }
+         });
+
+        $(document).ready(function () {
+         var form = $('#save').closest("form");
+         if ($(form).data('validator')) {
+             $(form).data('validator').settings.ignore = ".ck-editor *";
+         }
+        });
+</script>
+}

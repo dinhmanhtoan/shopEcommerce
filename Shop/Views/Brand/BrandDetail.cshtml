@@ -1,0 +1,161 @@
+﻿@model ProductsByBrand
+@{
+    ViewBag.Title = Model.BrandName;
+}
+<div>
+    <div class="cloud-tags">
+        <div >
+            <div class="cloud-tags-header">
+                <h3>Bộ lọc</h3>
+                <div class="tags">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+            <ul class="cloud-tags-content">
+                <li class="tags-items">
+                    <h3>Danh mục</h3>
+                    <ul class="tags-list">
+                        @foreach (var category in Model.FilterOption.Categories.Where(x => x.ParentId == null))
+                        {
+                            <li class="cloud-items">
+                                <label for="category-@category.Id">
+                                    <span>
+                                        @category.Name
+                                    </span>
+                                    <input type="checkbox" class="cloud-item" id="category-@category.Id" name="category"
+                                           checked="@Model.CurrentSearchOption.GetCategories().Contains(category.Slug)"
+                                           value="@category.Slug" hidden />
+                                </label>
+                            </li>
+                            var children = Model.FilterOption.Categories.Where(x => x.ParentId == category.Id);
+                            @if (children.Any())
+                            {
+                                @foreach (var child in children)
+                                {
+                                    <li class="cloud-items">
+                                        <label for="category-@child.Id">
+                                            <span>
+                                                @child.Name
+                                            </span>
+                                            <input type="checkbox" class="cloud-item" id="category-@child.Id" name="category"
+                                                   checked="@Model.CurrentSearchOption.GetCategories().Contains(child.Slug)"
+                                                   value="@child.Slug" hidden />
+                                        </label>
+                                    </li>
+                                }
+                            }
+                        }
+                  </ul>
+                </li>
+                <li class="tags-items">
+                    <h3>Thương hiệu</h3>
+                    <ul class="tags-list">
+                        @foreach (var brand in Model.FilterOption.Brands)
+                        {
+                            <li class="cloud-items">
+                                <label for="brand-@brand.Id">
+                                    <span>
+                                        @brand.Name
+                                    </span>
+                                    <input type="checkbox" class="cloud-item" id="brand-@brand.Id" name="brand" value="@brand.Id"
+                                           checked="@Model.CurrentSearchOption.GetBrands().Contains(brand.Slug)"
+                                           hidden />
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="mt-2">
+    <div class="col-md-12 p-0 ">
+        <div class="sort">
+            <h3>Sắp sếp theo</h3>
+            <div class="sort-body">
+                <ul>
+                    <li class="cloud-items">
+                        <label for="sort-1">
+                            <span>
+                                AZ
+                            </span>
+                            <input type="checkbox" class="cloud-item" id="sort-1" name="sort" value="title-asc" hidden>
+                        </label>
+                    </li>
+                    <li class="cloud-items">
+                        <label for="sort-2">
+                            <span>
+                                ZA
+                            </span>
+                            <input type="checkbox" class="cloud-item" id="sort-2" name="sort" value="title-desc" hidden>
+                        </label>
+                    </li>
+                    <li class="cloud-items">
+                        <label for="sort-3">
+                            <span>
+                                Tăng dần
+                            </span>
+                            <input type="checkbox" class="cloud-item" id="sort-3" name="sort" value="price-asc" hidden>
+                        </label>
+                    </li>
+                    <li class="cloud-items">
+                        <label for="sort-4">
+                            <span>
+                                Giảm dần
+                            </span>
+                            <input type="checkbox" class="cloud-item" id="sort-4" name="sort" value="price-desc" hidden>
+                        </label>
+                    </li>
+                </ul>
+                <div class="cloud-price d-flex">
+                    <div>
+                        <input type="number" name="pricestart">
+                    </div>
+                    <span>-</span>
+                    <div>
+                        <input type="number" name="priceend">
+                    </div>
+                    <button type="button" class="btn btn-primary">Tìm</button>
+                </div>
+            </div>
+  
+        </div>
+
+    </div>
+</div>
+<div>
+    <div class="row mb-3">
+        <div class="col-sm-12 category-result">
+            <h2>@Model.BrandName</h2>
+            <small class="badge-results">@Model.TotalProduct results</small>
+        </div>
+    </div>
+    <div class="row product__list product">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-md-3 col-6">
+                <partial name="_ProductThumbnail" model="product" />
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <cs-pager cs-paging-pagesize="@Model.CurrentSearchOption.PageSize"
+                      cs-paging-pagenumber="@Model.CurrentSearchOption.Page"
+                      cs-paging-totalitems="@Model.TotalProduct"
+                      cs-pagenumber-param="page"
+                      asp-basehref="~/@Model.BrandSlug"
+                      asp-all-route-data="@Model.CurrentSearchOption.ToDictionary()"
+                      cs-pager-li-current-class="page-item active"
+                      cs-pager-li-other-class="page-item"
+                      cs-pager-li-non-active-class="page-item disabled"
+                      cs-pager-link-current-class="page-link"
+                      cs-pager-link-other-class="page-link"></cs-pager>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/list-product.js"></script>
+}

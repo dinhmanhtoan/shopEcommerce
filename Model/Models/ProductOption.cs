@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model.Models
+﻿namespace Model.Models;
+public class ProductOption : EntityBase
 {
-   public class ProductOption
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-
-        public IList<ProductOptionValue> OptionValue { get; set; }
-        public IList<ProductOptionCombination> OptionCombinations { get; protected set; } = new List<ProductOptionCombination>();
-    }
+    public string Name { get; set; }
+    public IList<ProductOptionValue> OptionValue { get; set; }
+    public IList<ProductOptionCombination> OptionCombinations { get; protected set; } = new List<ProductOptionCombination>();
 }
+

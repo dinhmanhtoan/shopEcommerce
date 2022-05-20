@@ -1,0 +1,48 @@
+﻿@model NganLuongConfigForm
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">NganLuong Settings</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="NganLuongConfig" method="post">
+            <div class="bg-danger text-white offset-md-2" asp-validation-summary="All"></div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <div class="form-check">
+                         <input asp-for="IsSandbox" class="form-check-input"/>
+                         <label asp-for="IsSandbox" class="form-check-label">Sandbox</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Partner Code</label>
+                <div class="col-md-10">
+                    <input asp-for="MerchantId" type="text"  class="form-control" value="@Model.MerchantId"/>
+                </div>
+            </div>
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label">Merchant Password</label>
+                <div class="col-md-10">
+                    <input asp-for="MerchantPassword" type="text"  class="form-control" value="@Model.MerchantPassword"/>
+                </div>
+            </div>
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label">ReceiverEmail</label>
+                <div class="col-md-10">
+                    <input asp-for="ReceiverEmail" type="text"  class="form-control" value="@Model.ReceiverEmail"/>
+                </div>
+            </div>
+              <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-success">Save</button>
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

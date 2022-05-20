@@ -4,126 +4,125 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Shop</title>
+    @RenderSection("additionalMeta", false)
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
-
-    <link href="~/lib/owl.carousel/owl.carousel.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/style2.css">
     <link rel="stylesheet" href="~/css/list_product.css">
-
-    <link rel="stylesheet" href="~/css/custom-select.css">
     <link rel="stylesheet" href="~/css/single.css">
+    <link rel="stylesheet" href="~/js/bootstrap-star-rating/css/star-rating.css">
     <!--============================Animation========================================-->
     <link rel="stylesheet" type="text/css" href="~/css/animation.css">
     <!--============================Animation========================================-->
+    <link rel="stylesheet" href="~/lib/toastr/build/toastr.min.css" />
     @RenderSection("head", required: false)
 </head>
 
 <body>
+    <div class="loading">
+        <div class="lds-ripple"><div></div><div></div></div>
+    </div>
     <header>
-        <div id="header-top" class=" hidden-sm-down">
+        <div id="header-top">
             <div class="container">
-                <div class="languages">
-                    <ul class="nav">
-                        <li class="lan custom-select">
-                            <select>
-                                <option>Tiếng việt</option>
-                                <option>English</option>
-                            </select>
-                        </li>
-                        <li class="money custom-select">
-                            <select>
-                                <option>VNĐ</option>
-                                <option>USD</option>
-                            </select>
+                <div class="top__content">
+                    <ul class="nav language">
+                        <li class="dropdown language__dropdown">
+                            <a class="dropdown-toggle language__btn" data-toggle="dropdown" href="javascript:void(0);">
+                                <img class="language__img" src="~/images/vn.png" alt="Việt Nam">
+                            </a>
+                            <ul class="dropdown-menu language__menu">
+                                <li>
+                                    <span class="language--change">
+                                        <img class="language__icon" src="~/images/vn.png" alt="Việt Nam" />
+                                        Tiếng việt
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="language--change">
+                                        <img class="language__icon" src="~/images/en.png" alt="English" />
+                                        English
+                                    </span>
+                                </li>
+                            </ul>
                         </li>
                         <li>
-                            <div class="textwidget">
-                                <p>
-                                    <i class="fa fa-volume-control-phone" aria-hidden="true"></i> +84 54984613
-                                </p>
-                            </div>
-
+                            <p class="language__text">
+                                <i class="fa fa-volume-control-phone" aria-hidden="true"></i> +84 54984613
+                            </p>
                         </li>
                     </ul>
-                </div>
-                <div class="top-link">
-                    <ul class="nav">
-                        <li><a href="~/html/trackorder.html">Track order</a></li>
-                        <li><a href="#">Contact us</a></li>
+                    <ul class="nav link__context">
+                        @*<li><a href="/user/orders">Track order</a></li>*@
+                        <li><a href="/Contact">Contact us</a></li>
                         <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
                     </ul>
                 </div>
             </div>
-            <div class="clearfix"></div>
         </div>
-        <div class="mobile-nav">
-            <div class="mobile-logo">
-                <a asp-controller="Home" asp-action="Index"><img src="~/img/system/logo.png"></a>
-            </div>
-            <div class="mobile-group-btn">
-                <ul>
-                    <li>
-                        <a href="" class="js-show-modal-search"><i class="fa fa-search" aria-hidden="true"></i></a>
-                    </li>
-                    <li class="wishlist-icon">
-                        <a asp-controller="cart" asp-action="wishlist"><i class="fal fa-heart"></i> <span class="wishlist-count">2</span></a>
-                        <input type="number" id="wishlist-count-input-mb" name="wishlist-count">
-                    </li>
-                    <li class="cart-icon">
-                        <a asp-controller="cart" asp-action="cart"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <span class="cart-count">0</span></a>
-                        <input type="number" id="cart-count-input-mb" name="cart-count">
-                    </li>
-                    <li class="open-close">
-                        <i class="fa fa-bars" aria-hidden="true"></i>
-                    </li>
-                </ul>
+        <div class="mobile_nav">
+            <div class="mobile__nav navbar">
+                <a asp-controller="Home" asp-action="Index" class="mobile__logo"><p>T<span>oan</span></p></a>
+
+                <div class="mobile__group-btn">
+                    <ul>
+                        <li>
+                            <a href="" class="js-show-modal-search"><i class="fa fa-search" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="wishlist-icon" id="wishlist-icon">
+                            <a asp-controller="WishList" asp-action="PrivateList">
+                                <i class="fa fa-heart"></i>
+                                @await Component.InvokeAsync("WishListBadge");
+                            </a>
+                        </li>
+                        <li class="cart-icon" id="card">
+                            @await Component.InvokeAsync("CartBadge")
+                        </li>
+                        <li class="open-close">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div id="header-mid">
             <div class="container">
-                <a href="" class="close-menu close-open"><i class="fas fa-window-close"></i></a>
+                <div class="close-menu close-open"><i class="fas fa-window-close"></i></div>
                 <div class="row">
-                    <div class="col-8">
-                        <div class="logo">
-                            <a asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/img/system/logo.png"></a>
-                        </div>
-                        <div class="menu-main">
-                            <ul class="nav">
-                                <li class="nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a></li>
-                                <li class="nav-item"><a class="nav-link active" asp-controller="Product" asp-action="Index">Product</a></li>
-                                <li class="nav-item"><a class="nav-link active" asp-controller="Contact" asp-action="Index">Contact</a></li>
-                            </ul>
+                    <div class="col-md-9 col-12">
+                        <div class="navbar main__nav">
+                            <a asp-controller="Home" asp-action="Index" class="navbar-brand main__logo"><p>T<span>oan</span></p></a>
+                            <div class="menu-main">
+                                @await Component.InvokeAsync("CategoryMenu")
+                            </div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-3 col-0">
                         <div class="menu-login">
                             <ul class="nav">
                                 <li>
                                     <a href="javascript:void(0)" class="js-show-modal-search"><i class="fa fa-search" aria-hidden="true"></i></a>
                                 </li>
-                                <li id="wishlist-icon">
-                                    <a asp-controller="cart" asp-action="wishlist">
+                                <li id="wishlist-icon" class="wishlist-icon">
+                                    <a asp-controller="WishList" asp-action="PrivateList">
                                         <i class="fa fa-heart"></i>
-                                        <span class="wishlist-count"></span>
+                                        @await Component.InvokeAsync("WishListBadge")
                                     </a>
-                                    <input type="number" id="wishlist-count-input-mb" name="wishlist-count">
                                 </li>
-                                <li>@await Html.PartialAsync("_CartPartial")</li>
+                                <li class="cart-icon" id="cart">@await Component.InvokeAsync("CartBadge")</li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 @*Serch Modal*@
-                <div class="modal-search-header js-hide-modal-search  ">
+                <div class="modal-search-header js-hide-modal-search">
                     <div class="container-search-header">
                         <button class="btn-hide-modal-search js-hide-modal-search">
                             <i class="fa fa-window-close-o" aria-hidden="true"></i>
                         </button>
 
-                        <form class="wrap-search-header" asp-controller="Product" asp-action="Index" method="get">
+                        <form class="wrap-search-header" method="get" action="/search">
                             <button class="trans-04">
                                 <i class="fa fa-search"></i>
                             </button>
@@ -141,8 +140,8 @@
         </div>
         <div class="clearfix"></div>
     </header>
-    <div class="container">
-        <main>
+    <div class="container-fluid">
+        <main class="container pt-4">
             @RenderBody()
         </main>
     </div>
@@ -151,41 +150,20 @@
         <div class="footer-midde">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3 col-sm-6 help">
-                        <h3>Trợ giúp</h3>
-                        <ul class="">
-                            <li><a href="#">Thanh toán</a></li>
-                            <li><a href="#">Mua hàng</a></li>
-                            <li><a href="#">Đổi trả</a></li>
-                            <li><a href="#">Nạp tiền</a></li>
-                        </ul>
+                    <div class="col-md-3">
+                        <h4>Customer Service</h4>
+                        <vc:menu menu-id="1"></vc:menu>
                     </div>
-                    <div class="col-md-3 col-sm-6 location search">
-                        <h3>Vị trí</h3>
-                        <ul class="nav">
-                            <li>Tìm cửa hàng <br><a href="#" class="btn btn-gray"><i class="fa fa-map-marker" aria-hidden="true"></i></a></li>
-                            <li>Tìm đơn hàng <br><a href="#" class="btn btn-gray"><i class="fa fa-id-card" aria-hidden="true"></i></a></li>
-                        </ul>
+                    <div class="col-md-3">
+                        <h4>Information</h4>
+                        <vc:menu menu-id="2"></vc:menu>
                     </div>
-                    <div class="col-md-3 col-sm-6 application">
-                        <h3>Tải ứng dụng</h3>
-                        <ul>
-                            <li><a href="#" class="btn btn-black"><i class="fab fa-apple" aria-hidden="true"></i><span><small>Download on the</small> App Store</span></a></li>
-                            <li><a href="#" class="btn btn-gray"><i class="fab fa-android" aria-hidden="true"></i><span><small>Download it from </small>Play Store</span></a></li>
-                        </ul>
+                    <div class="col-md-6">
+                        <h4>ShopCommerce</h4>
+                        <p>The first ecommerce system built on .NET Core.</p>
+                        <p>ShopCommerce to use and easy to customize</p>
+                        <p>Cross platform and Open source</p>
                     </div>
-                    <div class="col-md-3 col-sm-6">
-                        <h3>Fan</h3>
-                        <ul class="nav icon">
-                            <li>
-                                <a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </div>
-
-                    <div class="clearfixr"></div>
                 </div>
             </div>
         </div>
@@ -205,8 +183,12 @@
                 </div>
             </div>
         </div>
-
     </footer>
+    <div class="btn-back-to-top" id="myBtn" style="display: flex;">
+        <span class="symbol-btn-back-to-top">
+            <i class="fas fa-chevron-up"></i>
+        </span>
+    </div>
     <div class="modal fade" id="exampleModal-1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -226,18 +208,22 @@
         </div>
     </div>
     <div class="overlay-modal2"></div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/owl.carousel/owl.carousel.js"></script>
-    <script src="~/js/custom-select.js"></script>
-    @*<script src="~/js/main.js"></script>*@
+    <script src="~/extra-libs/taskboard/js/jquery-ui.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/toastr/build/toastr.min.js"></script>
     <script src="~/js/numeral.min.js"></script>
-    <script src="~/js/single.js"></script>
+    <script src="~/js/bootstrap-star-rating/js/star-rating.min.js"></script>
+
     <script src="~/js/main.js"></script>
+    <script src="~/js/wishlist.js"></script>
+    <script src="~/js/single.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
-    @*<script src="~/js/addProduct.js"></script>*@
+
 
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+

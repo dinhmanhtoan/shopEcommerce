@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model.Models
+﻿namespace Model.Models;
+public enum ProductLinkType
 {
-    public enum ProductLinkType
-    {
-        Super = 1,
+    Super = 1,
 
-        Related = 2,
+    Related = 2,
 
-        CrossSell = 3,
+    CrossSell = 3,
 
-        UpSell = 4
-    }
+    UpSell = 4
 }

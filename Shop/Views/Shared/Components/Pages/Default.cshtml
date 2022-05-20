@@ -1,0 +1,41 @@
+﻿@model IList<PageVm>
+
+
+<div id="Blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center my-4">
+                <h2 class="title">Blog</h2>
+            </div>
+            @if (Model == null)
+            {
+                <h1>Không Có Danh mục nào</h1>
+            }
+            else
+            {
+                <div class="col-md-12 d-flex flex-wrap owl-carousel owl-theme owlCarousel_slider3">
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <div class="item">
+                            <div class=" Blog">
+                                <div class="Blog-item">
+                                    <div class="Blog-image">
+                                        <a href="/pages/@Model[i].Slug">
+                                            <img class="pic-1" src="@Model[i].href" alt="@Model[i].Name">
+                                            <div class="Blog-content">
+                                                <h2 class="blog-title">@Model[i].Name</h2>
+                                                <span class="btn btn-info">đọc thêm</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

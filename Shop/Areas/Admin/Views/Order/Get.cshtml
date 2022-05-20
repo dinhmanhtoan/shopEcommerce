@@ -1,0 +1,333 @@
+﻿@model OrderDetailVm;
+
+@section styles{
+<link rel="stylesheet" href="~/css/order-details.css" />
+}
+<div class="card">
+    <div class="card-header order-header text-left">
+        <h2>
+            Order Details : #<span id="OrderId">@Model.Id</span>
+        </h2>
+        <div class="text-right">
+            <button class="btn btn-success btn-dowload">
+                <i class="fas fa-download"></i> Dowload    
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header">
+                        <h5>Order & Customer Information</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#card1" aria-expanded="true" aria-controls="card1">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card1">
+                        <div class="card-body">
+                            <div>
+                                <span class="card-title">Order Date : </span>
+                                <span class="ml-2">@Model.CreatedOn.ToString("MM/dd/yyyy h:mm tt")</span>
+                            </div>
+                            <div>
+                                <span class="card-title">Order Status : </span>
+                                <span class="ml-2">@Model.OrderStatusString</span>
+                            </div>
+                            <div>
+                                <span class="card-title">Order Total : </span>
+                                <span class="ml-2">@Model.OrderTotalString</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header">
+                        <h5>Customer Information</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#card2" aria-expanded="true" aria-controls="card2">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card2">
+                        <div class="card-body">
+                            <div>
+                                <span class="card-title">Customer Name : </span>
+                                <span class="ml-2">@Model.CustomerName</span>
+                            </div>
+                            <div>
+                                <span class="card-title">Email : </span>
+                                <span class="ml-2">@Model.CustomerEmail</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header">
+                        <h5>Address Information</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#card3" aria-expanded="true" aria-controls="card3">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card3">
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header">
+                        <h5>Shipping  Information</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#card4" aria-expanded="true" aria-controls="card4">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card4">
+                        <div class="card-body">
+                            <div>
+                                <span class="card-title">Name : </span>
+                                <span class="ml-2">@Model.ShippingAddress.ContactName</span>
+                            </div>
+                            <div>
+                                <span class="card-title">StateOrProvinceName : </span>
+                                <span class="ml-2">@Model.ShippingAddress.StateOrProvinceName</span>
+                            </div>
+                            <div>
+                                <span class="card-title">Address : </span>
+                                <span class="ml-2">@Model.ShippingAddress.AddressLine1</span>
+                            </div>
+                            <div>
+                                <span class="card-title">Phone : </span>
+                                <span class="ml-2">@Model.ShippingAddress.Phone</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="order-header">
+                        <h5>Product Information</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#card5" aria-expanded="true" aria-controls="card5">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card5">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                   <colgroup>
+                                    <col style="min-width:400px">
+                                    <col style="min-width:80px">
+                                    <col style="min-width:80px">
+                                    <col style="min-width:80px">
+                                    <col style="min-width:80px">
+                                    <col style="min-width:80px">
+                                    <col style="min-width:80px">
+                                    <col style="min-width:80px">
+                                  </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th>Tax</th>
+                                        <th>% Tax</th>
+                                        <th>Discount Amount	</th>
+                                        <th>Row Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OrderItems)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="card-title"> @item.ProductName</span>
+                                                <ul class="list-unstyled">
+                                                    @foreach (var option in item.VariationOptions)
+                                                    {
+                                                        <li>
+                                                            <span class="card-title">@option.OptionName:</span> @option.Value
+                                                        </li>
+                                                    }
+                                                </ul>
+
+                                            </td>
+                                            <td>@item.ProductPriceString</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.TotalString</td>
+                                            <td>@item.TaxAmountString</td>
+                                            <td>@item.TaxPercent</td>
+                                            <td>@item.DiscountAmountString</td>
+                                            <td>@item.RowTotalString</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="order-header">
+                        <h5>Order Note</h5>
+                        <span data-toggle="collapse" data-target="#card6" aria-expanded="true" aria-controls="card6">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card6">
+                        <div class="card-body">
+                            <div class="card-text">
+                                @Model.OrderNote
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header">
+                        <h5> Payment : @Model.PaymentMethod</h5>
+                        <span data-toggle="collapse" data-target="#card7" aria-expanded="true" aria-controls="card7">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card7">
+                        <div class="table-responsive" style="max-height: 200px; overflow-y: overlay;">
+                            <table class="table table-striped table-bordered" style="margin:0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Amount</th>
+                                        <th>Fee</th>
+                                        <th>Status</th>
+                                        <th>Gateway Transaction Id</th>
+                                        <th>Created On</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header">
+                        <h5>Shipping : @Model.ShippingMethod</h5>
+                        <span data-toggle="collapse" data-target="#card8" aria-expanded="true" aria-controls="card8">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card8">
+                        <div class="table-responsive" style="max-height: 200px; overflow-x: overlay;">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tracking Number</th>
+                                        <th>Warehouse</th>
+                                        <th>Created On</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="shippingMethod">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div></div>
+                        <div class="text-right m-3">
+                            <a href="/Shipment/Create/@Model.Id" class="btn btn-success">Create Shipment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header">
+                        <h5>History & Action</h5>
+                        <span data-toggle="collapse" data-target="#card9" aria-expanded="true" aria-controls="card9">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card9">
+                        <div class="table-responsive" style="max-height: 200px; overflow-x:overlay">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Changed by</th>
+                                        <th>Note</th>
+                                    </tr>
+                                </thead>
+                                <tbody Id="Orderstatus">
+                                </tbody>
+                            </table>
+                        </div>
+                        <form name="orderStatusForm" class="form-horizontal mt-1">
+                            <input type="hidden" value="@Model.Id" name="OrderId" />
+                            <div class="form-group">
+                                <select class="form-control Orderstatus" name="StatusId">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" name="Note"></textarea>
+                            </div>
+                            <div class="btn btn-success m-3" role="button" type="button" onclick="changeOrderStatus()">Save</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header">
+                        <h5>Total</h5>
+                        <span data-toggle="collapse" data-target="#card10" aria-expanded="true" aria-controls="card10">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="card10">
+                        <div class="list-group">
+                            <div class="list-group-item list-group-item-text">
+                                <span class="card-title">Subtotal :</span>
+                                <span class="ml-2">@Model.Subtotal</span>
+                            </div>
+                            <div class="list-group-item">
+                                <span class="card-title">Shipping : </span>
+                                <span class="ml-2">@Model.ShippingAmountString</span>
+                            </div>
+                            <div class="list-group-item">
+                                <span class="card-title">Tax :</span>
+                                <span class="ml-2">@Model.TaxAmountString</span>
+                            </div>
+                            <div class="list-group-item">
+                                <span class="card-title">Discount :</span>
+                                <span class="ml-2">@Model.DiscountAmountString</span>
+                            </div>
+                            <div class="list-group-item">
+                                <span class="card-title">Payment Fee :</span>
+                                <span class="ml-2">@Model.PaymentFeeAmountString</span>
+                            </div>
+                            <div class="list-group-item">
+                                <span class="card-title">Order Total :</span>
+                                <span class="ml-2">@Model.OrderTotalString</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <a asp-action="Index" class="btn btn-light">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+<script src="~/js/admin/order-details.js"></script>
+}

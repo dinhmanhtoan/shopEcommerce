@@ -1,108 +1,86 @@
-﻿@model IEnumerable<Category>;
+﻿@model IEnumerable<CategoryVm>;
 
-@{
-    ViewData["Title"] = "Index";
-   
-}
 @section styles{
-<style>
-    .thumnail {
-        display: flex;
-        justify-content: center;
-        align-items: center,
-    }
-</style>
-    
+    <style>
+        .thumnail {
+            display: flex;
+            justify-content: center;
+            align-items: center,
+        }
+    </style>
+
 }
 <div class="card">
     <div class="card-header">
         <div class="row">
             <div class="col-md-6">
-                <h4 class="card-title">Danh Sách Danh mục</h4>
+                <h2 class="text-secondary">List Category</h2>
             </div>
             <div class="col-md-6">
                 <div class="text-right">
                     <a class="btn btn-primary" asp-controller="Category" asp-action="Create">
-                        Thêm mới
+                        <i class="fas fa-plus"></i>
+                        Add Items
                     </a>
                 </div>
             </div>
         </div>
     </div>
     <div class="card-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Id)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Title)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Thumbnail)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CreatedOn)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CreatedBy)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.EditOn)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.EditBy)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="table-responsive">
+            <table  class="table table-bordered" style="width:100%" id="zero_config">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td class="thumnail">
-                            @if (item.Thumbnail != null)
-                            {
-                                <br />
-                                <img id="previewThumbnail" width="90" height="100" src="~/user-content/@item.Thumbnail.FileName" />
-                                <br />
-                            }
-
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CreatedOn)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CreatedBy)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EditOn)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EditBy)
-                        </td>
-                        <td>
-                            <a asp-action="Updated" asp-route-id="@item.Id">Sửa</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Chi Tiết</a> |
-                            <a asp-action="Deleted" asp-route-id="@item.Id">Xóa</a>
-                        </td>
+                        <th>Name</th>
+                        <th>ThumbnailImageUrl</th>
+                        <th>IncludeInMenu</th>
+                        <th>DisplayOrder</th>
+                        <th>Action</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.Name</th>
+                            <td class="thumbnail">
+                                <div>
+                                    <img style="max-width:100px" src="@item.ThumbnailImageUrl" />
+                                </div>
+                            </td>
+                            <td>@(item.IncludeInMenu == true ? Html.Raw("<i class='fas fa-check text-primary'></i>") :  Html.Raw("<i class='fas fa-times text-danger'></i>"))</td>
+                            <td>@item.DisplayOrder</td>
+                            <td>
+                                <a asp-action="Updated" asp-route-id="@item.Id">
+                                    <div class="btn btn-success">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                </a>
+                                <button class="btn btn-danger" onclick="Delete(@item.Id)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
     </div>
 </div>
 
+@section Scripts{
+    <script>
+        function Delete(id) {
+            onModifyOption(function () {
+                var url = '@Url.Content("~/")' + "Category/Delete";
+                $.post(url, { id: id }).then(function () {
+                    toastr.success("Thành Công");
+                    window.location = window.location.href;
+                }).catch(function (eroor) {
+                    toastr.error(eroor);
+                });;
+            });
+        }
+    </script>
+}

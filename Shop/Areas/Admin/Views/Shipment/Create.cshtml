@@ -1,0 +1,101 @@
+﻿@model ShipmentForm
+
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+            <h3>Add Shipment for Order: #<strong id="OrderId">@Model.OrderId</strong></h3>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex justify-content-end">
+                    <div class="form-group mr-2">
+                        <label for="@Model.TrackingNumber">Tracking number </label>
+                        <input class="form-control number-validate" asp-for="@Model.TrackingNumber" type="text" maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="WarehouseId" >Warehouse</label>
+                        <select class="form-control" asp-for="WarehouseId" asp-items="@Model.Warehouse">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product Sku</th>
+                        <th>Quantity</th>
+                        <th>Quantity to ship</th>
+                        <th>Available Quantity</th>
+                    </tr>
+                </thead>
+                <tbody class="ShipmentItems">
+                </tbody>
+            </table>
+            <div class="text-right">
+                <button class="btn btn-success" onclick="addShipping()" >save</button>
+                <a  href="/order/get/@Model.OrderId"class="btn btn-light">back</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{ 
+    <script>
+        var items = @Html.Raw(Json.Serialize(Model.Items.ToList()));
+        function addShipping() {
+            var orderId = parseInt($("#OrderId").text().trim());
+            var trackingNumber = parseInt($("input[name='TrackingNumber']").val());
+            var warehouseId = parseInt($("select[name='WarehouseId']").find(":selected").val());
+            var item = $(".ShipmentItems tr");
+            var url = `${origin}/Order/Create`;
+            $.each(item, function (index, item) {
+                var quantityToShip = parseInt($(item).find("input[name='quantityToShip']").val());
+                items[index].quantityToShip = quantityToShip;
+            });
+            var ShipmentForm = { orderId: orderId, trackingNumber: trackingNumber, warehouseId: warehouseId, items: items};
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: JSON.stringify(ShipmentForm),
+                contentType: "application/json",
+            }).then(function () {
+                window.location = `${origin}/Order/Get/${orderId}`
+                toastr.success('Shipment is created')
+            }).catch(function (error) {
+                toastr.error(error.responseText);
+            });
+        }
+        loadData();
+        function loadData() {
+            var orderId = parseInt($("#OrderId").text().trim());
+            var warehouseId = parseInt($("select[name='WarehouseId']").find(":selected").val());
+            var shipmentItems = $(".ShipmentItems");
+            var url = `${origin}/api/orders/${orderId}/items-to-ship?warehouseId=${warehouseId}`;
+                $.ajax({
+                method: "GET",
+                    url: url,
+                    contentType: "application/json",
+                    success: function (data) {
+                        if (data.items.length > 0) {
+                            var html = '';
+                            shipmentItems.empty();
+                            $.each(data.items, function (index, value) {
+                              html += `<td>${value.productName}</td>
+                                <td>${value.productSku}</td>
+                                <td>Ordered ${value.orderedQuantity} <br/> ${value.shippedQuantity > 0 ? `<span>Shipped ${value.shippedQuantity}</span>` : ''}</td>
+                                <td><input  class="form-control number-validate" type="text" name="quantityToShip" value="0" maxlength="10"/></td>
+                                <td class="availableQuantity">${value.availableQuantity}</td>`
+                                shipmentItems.append($("<tr></tr>").append(html));
+                            })
+                            numberValidate();
+                        }
+                }
+            });
+        }
+    </script>
+}

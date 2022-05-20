@@ -1,0 +1,140 @@
+﻿@model WarehouseVm
+
+<div class="card">
+    <div class="card-header">
+       <h2 class="text-secondary">Create Warehouse</h2>
+    </div>
+    <div class="card-body">
+        <form name="warehouseForm" class="form-horizontal" asp-controller="Warehouse" asp-action="Create">
+            <div class="bg-danger text-white offset-md-2 d-none" asp-validation-summary="All"></div>
+            <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                    <input name="name" asp-for="Name" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Contact Name</label>
+                <div class="col-sm-10">
+                    <input name="ContactName" asp-for="ContactName" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Phone</label>
+                <div class="col-md-10">
+                    <input name="Phone" asp-for="Phone" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Address Line 1</label>
+                <div class="col-md-10">
+                    <input name="AddressLine1" asp-for="AddressLine1" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Address Line 2</label>
+                <div class="col-md-10">
+                    <input name="AddressLine2" asp-for="AddressLine2" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">City</label>
+                <div class="col-md-10">
+                    <input name="City" asp-for="City" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Country</label>
+                <div class="col-md-10">
+                    <select class="form-control" asp-for="CountryId" asp-items="Model.Contries">
+                        <option value=""> choose one</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">State Or Province</label>
+                <div class="col-md-10">
+                    <select class="form-control" asp-for="StateOrProvinceId" asp-items="Model.StateOrProvinces">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">District</label>
+                <div class="col-md-10">
+                    <select class="form-control" asp-for="DistrictId" asp-items="Model.Districts">
+                          <option value=""></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Postal Code</label>
+                <div class="col-md-10">
+                    <input name="ZipCode" asp-for="ZipCode" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-primary" type="submit" id="btn-submit">Save</button>
+                    <a asp-action="Index" class="btn btn-light">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{ 
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+
+    function resetSelect($select) {
+        var $defaultOption = $select.find("option:first-child");
+        $select.empty();
+        $select.append($defaultOption);
+    }
+    $("#CountryId").on("change", function () {
+        var countryId = this.value;
+        if(!countryId){
+            var $stateOrProvinceSelect = $("#StateOrProvinceId");
+            resetSelect($stateOrProvinceSelect);
+            var $districtSelect = $("#DistrictId");
+            resetSelect($districtSelect);
+            return;
+        }
+        $.getJSON('/api/country-states-provinces/' + countryId, function (data) {
+            var $stateOrProvinceSelect = $("#StateOrProvinceId");
+            resetSelect($stateOrProvinceSelect);
+
+            var $districtSelect = $("#DistrictId");
+            resetSelect($districtSelect);
+
+            $.each(data.statesOrProvinces, function (index, option) {
+                $stateOrProvinceSelect.append($("<option></option>").attr("value", option.id).text(option.name));
+            });
+
+        });
+    });
+    $("#StateOrProvinceId").on("change", function () {
+        var stateOrProvinceId = this.value;
+         if(!stateOrProvinceId){
+            var $districtSelect = $("#DistrictId");
+            resetSelect($districtSelect);
+          return;
+        }
+        $.getJSON("/api/states-provinces/" + stateOrProvinceId + "/districts", function (data) {
+            var $districtSelect = $("#DistrictId");
+            resetSelect($districtSelect);
+            $.each(data, function (index, option) {
+                $districtSelect.append($("<option></option>").attr("value", option.id).text(option.name));
+            });
+        });
+    });
+</script>
+}

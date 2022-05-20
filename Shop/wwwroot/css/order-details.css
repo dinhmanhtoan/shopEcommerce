@@ -1,0 +1,28 @@
+﻿/** {
+    font-family: 'Fira Sans', sans-serif;*/
+/*    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;*/
+/*}*/
+.order-header {
+    color: white;
+    background: #6c7bb4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+}
+.order-header h5 {
+    font-size: 16px;
+    margin: 0;
+}
+.order-header .collapsed i {
+    transform: rotate(-90deg);
+    transition: all 0.4s ease;
+}
+.order-header span {
+    color: white;
+    cursor: pointer;
+}
+.order-header span i{
+    transition: all 0.4s ease;
+}

@@ -1,0 +1,31 @@
+﻿@model ProductAttributeGroup
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary"> Edit Product Attribute Group</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" class="col-md-10">
+             <div class="bg-danger text-white offset-md-2 d-none" asp-validation-summary="All"></div>
+            <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-10">
+                    <input asp-for="Name" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group mt-3">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-success" id="btn-submit">save</button>
+                    <a class="btn btn-light" asp-action="Index">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

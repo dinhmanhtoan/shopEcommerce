@@ -1,26 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Model.ViewModel
+﻿namespace Model.ViewModel;
+public class CategoryVm
 {
-    public class CategoryVm
-    {
-        public string ThumbnailImageUrl { get; set; }
-        public long Id { get; set; }
-        public string Code { get; set; }
-        public string Slug { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Tiêu Đề")]
-        public string Title { get; set; }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Vui Lòng Nhập Miêu tả")]
-        public string Description { get; set; }
-        public DateTime? CreatedOn { get; set; }
-        public long? CreatedBy { get; set; }
-        public DateTime? EditOn { get; set; }
-        public long? EditBy { get; set; }
+    
+    public long Id { get; set; }
+    [Required(ErrorMessage = "the {0} field is required.")]
+    public string Name { get; set; }
+    [Required(ErrorMessage = "the {0} field is required.")]
+    public string Slug { get; set; }
+    public string MetaTitle { get; set; }
+    public string MetaKeywords { get; set; }
+    public string MetaDescription { get; set; }
+    public bool IncludeInMenu { get; set; }
+    [Required(ErrorMessage = "the {0} field is required.")]
+    public int DisplayOrder { get; set; }
+    public bool IsPublished { get; set; }
+    public bool IsDeleted { get; set; }
+    public long? ParentId { get; set; }
+    public Category Parent { get; set; }
 
-        public ProductMediaVm ProductImages { get; set; } 
-    }
+    public IList<CategoryListItem> categoriesList = new List<CategoryListItem>();
+    public long CountProduct { get; set; }
+    public IFormFile ThumbnailImage { get; set; }
+    public string ThumbnailImageUrl { get; set; }
+    public ProductMediaVm ProductImages { get; set; }
+
 }
+

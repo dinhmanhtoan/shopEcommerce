@@ -1,63 +1,68 @@
 ﻿@model List<Brand>;
-@{
-    ViewData["Title"] = "Danh sách thương hiệu";
-}
 <div class="card">
     <div class="card-header">
         <div class="row">
-            <div class="col-md-6">
-                <h4 class="card-title">@ViewData["Title"]</h4>
-            </div>
+            <div class="col-md-6"><h2 class="text-secondary">List Brand</h2></div>
             <div class="col-md-6">
                 <div class="text-right">
                     <a class="btn btn-primary" asp-controller="Brand" asp-action="Create">
-                        Thêm mới
+                        <i class="fas fa-plus"></i>
+                        Add Items
                     </a>
                 </div>
             </div>
         </div>
     </div>
     <div class="card-body">
-
-
-
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-bordered" id="multi_col_order">
                 <thead>
                     <tr>
-                        <th scope="col">#Id</th>
-                        <th scope="col">Thương hiệu</th>
-                        <th scope="col">Đường dẫn</th>
-                        <th scope="col">Miêu Tả</th>
-                        <th scope="col">Hiển Thị</th>
-                        <th scope="col">Hành Động</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">URl</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">IsPublished</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <th scope="row">@item.Id</th>
-                        <td>@item.Name</td>
-                        <td>@item.Slug</td>
-                        <td> @item.Description</td>
-                        @if (item.IsPublished == true)
-                        {
-                            <td>Có</td>
-                        }
-                        else
-                        {
-                            <td>Chưa</td>
-                        }
-                        <td>
-                            <a asp-action="Updated" asp-route-id="@item.Id">Sửa</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
-                            <a asp-action="Deleted" asp-route-id="@item.Id">Xóa</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Slug</td>
+                            <td> @item.Description</td>
+                            <td>@(item.IsPublished == true ? Html.Raw("<i class='fas fa-check text-primary'></i>") :  Html.Raw("<i class='fas fa-times text-danger'></i>"))</td>
+                            <td>
+                                <a asp-action="Updated" asp-route-id="@item.Id">
+                                    <div class="btn btn-success">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                </a>
+                                <button class="btn btn-danger " onclick="Delete(@item.Id)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
+
         </div>
     </div>
 </div>
+@section Scripts{
+<script>
+    function Delete(id) {
+        onModifyOption(function () {
+            var url = '@Url.Content("~/")' + "Brand/DeletedById";
+            $.post(url, { Id: id }).then(function () {
+                toastr.success("Thành Công");
+                window.location = window.location.href;
+            }).catch(function (eroor) {
+                toastr.error(eroor);
+            });
+            });
+    }
+</script>
+}

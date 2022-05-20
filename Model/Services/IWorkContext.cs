@@ -1,13 +1,7 @@
-﻿using Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Model.Services;
 
-namespace Model.Services
+public interface IWorkContext
 {
-   public interface IWorkContext
-    {
-        Task<User> GetCurrentUser();
-    }
+    Task<User> GetCurrentUser();
 }
+

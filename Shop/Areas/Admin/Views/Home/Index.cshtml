@@ -1,8 +1,317 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@section styles{
+<link rel="stylesheet" href="~/css/order-details.css" />
+<style>
+    .table thead th, .table th {
+        padding: 0.5rem;
+    }
+    .table tbody td, .table td {
+        padding: 0.5rem;
+    }
+    .line-2{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2; 
+            -webkit-box-orient: vertical;
+            margin:0;
+        }
+</style>
+
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Home</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header p-3">
+                        <h5>Latest orders</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#order" aria-expanded="true" aria-controls="order">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="order">
+                        <div class="table-responsive" style=" overflow-y: overlay;">
+                            <table class="table" style="width:100%">
+                                <colgroup>
+                                      <col style="min-width:40px">
+                                      <col style="min-width:40px">
+                                      <col style="min-width:100px">
+                                      <col style="min-width:100px">
+                                      <col style="min-width:100px">
+                                      <col style="min-width:40px">
+                                </colgroup>  
+                                <thead>
+                                    <tr>
+                                        <th>OrderId</th>
+                                        <th>Order Status</th>
+                                        <th>Customer</th>
+                                        <th>Created On</th>
+                                        <th>Order Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orders_body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header p-3">
+                        <h5>Pending reviews</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#reviews" aria-expanded="true" aria-controls="reviews">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="reviews">
+                        <div class="table-responsive" style=" overflow-y: overlay;">
+                            <table class="table" style="width:100%">
+                                <colgroup>
+                                      <col style="min-width:100px">
+                                      <col style="min-width:100px">
+                                      <col style="min-width:50px">
+                                      <col style="min-width:200px">
+                                      <col style="min-width:200px">
+                                      <col style="min-width:100px">
+                                      <col style="min-width:50px">
+                                </colgroup>   
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Entity Name	</th>
+                                        <th>Rating</th>
+                                        <th>Title</th>
+                                        <th>Comment</th>
+                                        <th>Created On</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reviews_body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header p-3">
+                        <h5>Pending review replies</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#replies" aria-expanded="true" aria-controls="replies">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="replies">
+                        <div class="table-responsive" style=" overflow-y: overlay;">
+                            <table class="table" style="width:100%">
+                                <colgroup>
+                                      <col style="min-width:100px">
+                                      <col style="min-width:100px">
+                                      <col style="min-width:200px">
+                                      <col style="min-width:200px">
+                                      <col style="min-width:100px">
+                                      <col style="min-width:50px">
+                                </colgroup>   
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Entity Name</th>
+                                        <th>Review Title</th>
+                                        <th>Comment</th>
+                                        <th>Created On</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="replies_body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header p-3">
+                        <h5>Most searched keywords</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#searched" aria-expanded="true" aria-controls="searched">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="searched">
+                        <div class="table-responsive" style=" overflow-y: overlay;">
+                            <table class="table" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Keyword</th>
+                                        <th>Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="searched_body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="order-header p-3">
+                        <h5>Most viewed products</h5>
+                        <span class="collapsed" data-toggle="collapse" data-target="#viewed" aria-expanded="true" aria-controls="viewed">
+                            <i class="fas fa-chevron-left"></i>
+                        </span>
+                    </div>
+                    <div class="collapse multi-collapse show" id="viewed">
+                        <div class="table-responsive">
+                            <table class="table" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="viewed_body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+@section Scripts{
+<script>
+
+    var loadOrders = function loadOrders(data){
+         var orderBody = $("#orders_body");
+         var row = ``;
+         $(data).each(function(index,item){
+             row += `<tr>
+                        <td>${item.orderId}</td>
+                        <td>${item.orderStatus}</td>
+                        <td>${item.customerName}</td>
+                        <td>${moment(item.createdOn).format("MM-DD-YYYY")}</td>
+                        <td>${item.orderTotalString}</td>
+                        <td><a href="/Order/Get/${item.orderId}"><button class="btn btn-success btn-sm" type="button"><i class="fas fa-edit fa-sm"></i></button></a></td>
+                    </tr>`
+         });
+         orderBody.html(row);
+    }
+
+    var getOrders = function getOrders(){
+        var url = `${origin}/Order/Get`;
+        $.get(url).then(function(data){
+            loadOrders(data);
+        }).catch(function(error){
+            toastr.error(error);    
+        });
+    }
+
+    var loadReplies = function loadReplies(data){
+         var repliesBody = $("#replies_body");
+         var row = ``;
+         $(data).each(function(index,item){
+             row += `<tr>
+                        <td>${item.replierName}</td>
+                        <td>${item.entityName}</td>
+                        <td><p class="line-2">${item.reviewTitle}</p></td>
+                        <td><p class="line-2">${item.comment}</p></td>
+                        <td>${moment(item.createdOn).format("MM-DD-YYYY")}</td>
+                        <td>${item.status}</td>
+                    </tr>`
+         });
+        repliesBody.html(row);
+     }
+
+    var getReplies = function getReplies(){
+        var url = `${origin}/Reply/Get`;
+        $.get(url).then(function(data){
+            loadReplies(data);
+        }).catch(function(error){
+            toastr.error(error);    
+        });
+    }
+    var loadReviews = function loadReviews(data){
+         var reviewsBody = $("#reviews_body");
+         var row = ``;
+         $(data).each(function(index,item){
+             row += `<tr>
+                        <td>${item.reviewerName}</td>
+                        <td>${item.entityName}</td>
+                        <td>${item.rating}</td>
+                        <td><p class="line-2">${item.title}</p></td>
+                        <td><p class="line-2">${item.comment}</p></td>
+                        <td>${moment(item.createdOn).format("MM-DD-YYYY")}</td>
+                        <td>${item.status}</td>
+                    </tr>`
+         });
+         reviewsBody.html(row);
+     }
+
+    var getReviews = function getReviews(){
+         var url = `${origin}/Review/Get`;
+        $.get(url).then(function(data){
+            loadReviews(data);
+        }).catch(function(error){
+            toastr.error(error);    
+        });
+    }
+
+    var loadKeywords = function loadKeywords(data){
+         var searchedBody = $("#searched_body");
+         var row = ``;
+         $(data).each(function(index,item){
+             row += `<tr>
+                        <td>${item.keyword}</td>
+                        <td>${item.count}</td>
+                    </tr>`
+         });
+         searchedBody.html(row);
+     }
+    var getKeywords = function getKeywords(){
+        var url = `${origin}/Keyword/Get`;
+        $.get(url).then(function(data){
+            loadKeywords(data);
+        }).catch(function(error){
+            toastr.error(error);    
+        });
+    }
+
+    var loadViewed = function loadViewed(data){
+         var viewedBody = $("#viewed_body");
+         var row = ``;
+         $(data).each(function(index,item){
+             row += `<tr>
+                        <td><a href="${item.slug}" target="_blank">${item.slug}</a></td>
+                        <td>${item.viewedCount}</td>
+                    </tr>`
+         });
+         viewedBody.html(row);
+     }
+
+    var getViewed  = function getViewed(){
+        var url = `${origin}/MostViewed/GetMostViewedEntities/most-viewed-entities/Product`;
+        $.get(url).then(function(data){
+            loadViewed(data);
+        }).catch(function(error){
+            toastr.error(error);    
+        });
+    }
+    var init = function init(){
+        getOrders();
+        getReplies();
+        getReviews();
+        getKeywords();
+        getViewed();
+    }
+    init();
+</script>
+}

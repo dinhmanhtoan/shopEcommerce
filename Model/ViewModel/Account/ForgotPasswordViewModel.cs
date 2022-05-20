@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Model.ViewModel.Account
+﻿namespace Model.ViewModel.Account;
+public class ForgotPasswordViewModel
 {
-    public class ForgotPasswordViewModel
-    {
-        [Required(ErrorMessage = "The {0} field is required.")]
-        [EmailAddress]
-        public string Email { get; set; }
-    }
+    [Required(ErrorMessage = "The {0} field is required.")]
+    [EmailAddress]
+    public string Email { get; set; }
 }

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<OrderHistoryListItem>
+
+@{
+    ViewData["Title"] = "Order History";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="_AccountMenu" />
+    </div>
+    <div class="col-md-9">
+        <h2>@ViewData["Title"]</h2>
+        <hr />
+        <table class="table table-striped order-history">
+            <tr>
+                <th>Order Id</th>
+                <th>Date</th>
+                <th>Products</th>
+                <th>SubTotal</th>
+                <th>Status</th>
+            </tr>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td><a href="~/user/orders/@order.Id" class="text-primary">@order.Id</a></td>
+                    <td>@order.CreatedOn.DateTime.ToShortDateString()</td>
+                    <td>
+                        @foreach (var item in order.OrderItems)
+                        {
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img style="width:100%" src="@item.ThumbnailImage" />
+                                </div>
+                                <div class="col-md-9">
+                                     <p>@item.ProductName</p>
+                                     <p>Số Lượng : @item.Quantity</p>
+                                </div>
+                            </div>
+                        }
+                    </td>
+                    <td>@order.SubTotalString</td>
+                    <td>@order.OrderStatus.ToString()</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

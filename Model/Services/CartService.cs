@@ -1,215 +1,230 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Model.ViewModel;
-using Newtonsoft.Json;
-using Model.Models;
+﻿namespace Model.Services;
 
-namespace Model.Services
+public class CartService : ICartService
 {
-    public class CartService : ICartService
+    private readonly IRepository<Cart> _cartRepository;
+    private readonly IRepository<CartItem> _cartItemRepository;
+    private readonly IRepository<Product> _productRepository;
+    private readonly IMediaService _mediaService;
+    private readonly ICouponService _couponService;
+    private readonly ICurrencyService _currencyService;
+    public CartService(
+         IRepository<Cart> cartRepository,IRepository<CartItem> cartItemRepository, IRepository<Product> productRepository,
+    IMediaService mediaService,ICouponService couponService, ICurrencyService currencyService)
     {
-        private readonly shopContext _context;
-        public CartService(shopContext context)
+        _cartRepository = cartRepository;
+        _cartItemRepository = cartItemRepository;
+        _productRepository = productRepository;
+        _mediaService = mediaService;
+        _couponService = couponService;
+        _currencyService = currencyService;
+    }
+    public async Task<Result> AddToCart(long customerId, long productId, int quantity)
+    {
+        return await AddToCart(customerId, customerId, productId, quantity);
+    }
+
+    public async Task<Result> AddToCart(long customerId, long createdById, long productId , int quantity)
+    {
+        var cart = await GetActiveCart(customerId, createdById);
+        if (cart == null)
         {
-            _context = context;
+            cart = new Cart
+            {
+                CustomerId = customerId,
+                CreatedById = createdById,
+                IsProductPriceIncludeTax = true
+            };
+            _cartRepository.Add(cart);
         }
-        public async Task<bool> AddToCart(long customerId, long productId, int quantity, string values)
+        else
         {
-            return await AddToCart(customerId, customerId, productId, quantity, values);
+            if (cart.LockedOnCheckout)
+            {
+                return Result.Fail("Cart is locked for checkout. Please complete the checkout first.");
+            }
+
+            cart = await _cartRepository.Query().Include(x => x.cartItems).FirstOrDefaultAsync(x => x.Id == cart.Id);
         }
 
-        public async Task<bool> AddToCart(long customerId, long createdById, long productId , int quantity, string values)
+        var cartItem = cart.cartItems.FirstOrDefault(x => x.ProductId == productId);
+        if (cartItem == null)
         {
-            if (quantity == 0)
+            cartItem = new Models.CartItem
             {
-                quantity = 1;
-            }
-            var cart = await GetActiveCart(customerId, createdById);
-            if (cart == null)
+                Cart = cart,
+                ProductId = productId,
+                Quantity = quantity,
+                CreatedOn = DateTimeOffset.Now
+            };
+                
+            cart.cartItems.Add(cartItem);
+            // stock can sua 
+            var product = await _productRepository.Query().FirstOrDefaultAsync(x => x.Id == cartItem.ProductId);
+            if (product.StockTrackingIsEnabled && product.StockQuantity < quantity)
             {
-                cart = new Models.Cart
-                {
-                    CustomerId = customerId,
-                    CreatedById = createdById,
-                };
-
-                _context.Cart.Add(cart);
+                return Result.Fail($"There are only {cartItem.Product.StockQuantity} items available for {cartItem.Product.Name}");
             }
-            else
+        }
+        else
+        {
+                cartItem.Quantity = cartItem.Quantity + quantity;
+            if (cartItem.Product.StockTrackingIsEnabled && cartItem.Product.StockQuantity < cartItem.Quantity)
             {
-                cart = await _context.Cart.Include(x=> x.cartItems).ThenInclude(x => x.Product).ThenInclude(x => x.OptionValues).ThenInclude(x => x.Option).FirstOrDefaultAsync(x => x.Id == cart.Id);
+                return Result.Fail($"There are only {cartItem.Product.StockQuantity} items available for {cartItem.Product.Name}");
             }
-
-            var cartItems = cart.cartItems.Where(x => x.ProductId == productId).ToList();
            
-            if (cartItems.Count == 0)
+        }
+        await _cartRepository.SaveChangesAsync();
+        return Result.Ok();
+    }
+
+    public async Task<Cart> GetActiveCart(long customerId)
+    {
+        return  await GetActiveCart(customerId, customerId);
+    }
+
+    public async Task<Cart> GetActiveCart(long customerId, long createdById)
+    {
+        return await _cartRepository.Query()
+            .Include(x => x.cartItems).ThenInclude(x=> x.Product)
+            .Where(x => x.CustomerId == customerId && x.CreatedById == createdById && x.IsActive).FirstOrDefaultAsync();
+    }
+    public async Task<CartVm> GetActiveCartDetails(long customerId)
+    {
+        return await GetActiveCartDetails(customerId, customerId);
+    }
+
+    // TODO separate getting product thumbnail, varation options from here
+    public async Task<CartVm> GetActiveCartDetails(long customerId, long createdById)
+    {
+        var cart = await GetActiveCart(customerId, createdById);
+        if (cart == null)
+        {
+            return null;
+        }
+
+        var cartVm = new CartVm(_currencyService)
+        {
+            Id = cart.Id,
+            CouponCode = cart.CouponCode,
+            IsProductPriceIncludeTax = cart.IsProductPriceIncludeTax,
+            TaxAmount = cart.TaxAmount,
+            ShippingAmount = cart.ShippingAmount,
+            OrderNote = cart.OrderNote,
+            LockedOnCheckout = cart.LockedOnCheckout
+        };
+
+        cartVm.Items = _cartItemRepository.Query()
+            .Include(x => x.Product).ThenInclude(p => p.Thumbnail)
+            .Include(x => x.Product).ThenInclude(p => p.OptionCombinations).ThenInclude(o => o.Option)
+            .Where(x => x.CartId == cart.Id).ToList()
+            .Select(x => new CartItemVm(_currencyService)
             {
-            
-             var cartItem = new Models.CartItem
-                {
-                    Cart = cart,
-                    ProductId = productId,
-                    Values = values,
-                    Quantity = quantity
-                };
-                var query = _context.Product.Include(x => x.OptionValues).ThenInclude(x => x.Option).FirstOrDefault(x => x.Id == cartItem.ProductId);
-                if (values == "[]")
-                {
-                    if (query.OptionValues.Count > 0)
-                    {
-                        var value = query.OptionValues.Select(x => new OptionVariationVm
-                        {
-                            optionId = x.OptionId,
-                            optionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
-                        }).ToList();
-                        var valuedefault = JsonConvert.SerializeObject(value);
-                        cartItem.Values = valuedefault;
-                    }
-                }
-                else
-                {
-                    var optionvalues = JsonConvert.DeserializeObject<List<OptionVariationVm>>(values);
-                  
-                        if (query.OptionValues.Count > optionvalues.Count)
-                        {
-                            var value = query.OptionValues.Select(x => new OptionVariationVm
-                            {
-                                optionId = x.OptionId,
-                                optionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
-                            }).ToList();
-                            foreach (var item in value)
-                            {
-                                foreach (var item2 in optionvalues)
-                                {
-                                    if (item.optionId != item2.optionId)
-                                    {
-                                    var OptionVariationVm = new OptionVariationVm()
-                                    {
-                                        optionId = item.optionId,
-                                        optionValues = item.optionValues
-                                    };
-                                    optionvalues.Add(OptionVariationVm);
-                                    }
-                             
-                                }
-                            }
-                        var valuedefault = JsonConvert.SerializeObject(optionvalues);
-                            cartItem.Values = valuedefault;
-                        }
-                }
-                cart.cartItems.Add(cartItem);
+                Id = x.Id,
+                ProductId = x.ProductId,
+                ProductName = x.Product.Name,
+                ProductPrice = x.Product.Price,
+                ProductStockQuantity = x.Product.StockQuantity,
+                ProductStockTrackingIsEnabled = x.Product.StockTrackingIsEnabled,
+                IsProductAvailabeToOrder = x.Product.IsAllowToOrder && x.Product.IsPublished && !x.Product.IsDeleted,
+                ProductImage = _mediaService.GetThumbnailUrl(x.Product.Thumbnail),
+                Quantity = x.Quantity,
+                VariationOptions = CartItemVm.GetVariationOption(x.Product)
+            }).ToList();
+
+        cartVm.SubTotal = cartVm.Items.Sum(x => x.Quantity * x.ProductPrice);
+        if (!string.IsNullOrWhiteSpace(cartVm.CouponCode))
+        {
+            var cartInfoForCoupon = new CartInfoForCoupon()
+            {
+                Items = cartVm.Items.Select(x => new CartItemForCoupon { ProductId = x.ProductId, Quantity = x.Quantity }).ToList()
+            };
+            var couponValidationResult = await _couponService.Validate(customerId, cartVm.CouponCode, cartInfoForCoupon);
+            if (couponValidationResult.Succeeded)
+            {
+                cartVm.Discount = couponValidationResult.DiscountAmount;
             }
             else
             {
-                var cartItem = cartItems.Find(x => x.Values == values);
-                if (cartItem == null)
+                cartVm.CouponValidationErrorMessage = couponValidationResult.ErrorMessage;
+            }
+        }
+
+        return cartVm;
+    }
+
+    public async Task<CouponValidationResult> ApplyCoupon(long cartId, string couponCode)
+    {
+        var cart = _cartRepository.Query().Include(x => x.cartItems).FirstOrDefault(x => x.Id == cartId);
+
+        var cartInfoForCoupon = new CartInfoForCoupon
+        {
+            Items = cart.cartItems.Select(x => new CartItemForCoupon { ProductId = x.ProductId, Quantity = x.Quantity }).ToList()
+        };
+        var couponValidationResult = await _couponService.Validate(cart.CustomerId, couponCode, cartInfoForCoupon);
+        if (couponValidationResult.Succeeded)
+        {
+            cart.CouponCode = couponCode;
+            cart.CouponRuleName = couponValidationResult.CouponRuleName;
+            _cartItemRepository.SaveChanges();
+        }
+
+        return couponValidationResult;
+    }
+    public async Task MigrateCart(long fromUserId, long toUserId)
+    {
+        var cartFrom = await GetActiveCart(fromUserId);
+        if (cartFrom != null && cartFrom.cartItems.Any())
+        {
+            var cartTo = await GetActiveCart(toUserId);
+            if (cartTo == null)
+            {
+                cartTo = new Cart
                 {
-                    cartItem = new Models.CartItem
+                    CustomerId = toUserId,
+                    CreatedById = toUserId,
+                    IsProductPriceIncludeTax = true
+                };
+
+                _cartRepository.Add(cartTo);
+            }
+
+            foreach (var fromItem in cartFrom.cartItems)
+            {
+                var toItem = cartTo.cartItems.FirstOrDefault(x => x.ProductId == fromItem.ProductId);
+                if (toItem == null)
+                {
+                    toItem = new CartItem
                     {
-                        Cart = cart,
-                        ProductId = productId,
-                        Values = values,
-                        Quantity = quantity
+                        Cart = cartTo,
+                        ProductId = fromItem.ProductId,
+                        Quantity = fromItem.Quantity,
+                        CreatedOn = DateTimeOffset.Now
                     };
-                    var query = _context.Product.Include(x => x.OptionValues).ThenInclude(x => x.Option).FirstOrDefault(x => x.Id == cartItem.ProductId);
-                    if (values == "[]")
-                    {
-                       
-                        if (query.OptionValues.Count > 0)
-                        {
-                            var value = query.OptionValues.Select(x => new OptionVariationVm
-                            {
-                                optionId = x.OptionId,
-                                optionName = null,
-                                optionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
-                            }).ToList();
-                            var valuedefault = JsonConvert.SerializeObject(value);
-                         
-                            if (cartItem.Values != valuedefault)
-                                {
-                                     cartItem.Values = valuedefault;
-                                }
-                                else
-                                {
-                            
-                                    cartItem.Quantity = cartItem.Quantity + quantity;
-                                }
-                            var cartItem2 = cartItems.Find(x => x.Values == cartItem.Values);
-                            if (cartItem2 != null)
-                            {
-                                cartItem2.Quantity++;
-                            }
-                            else
-                            {
-                                cart.cartItems.Add(cartItem);
-                            }
-
-                        }
-                    }
-                    else
-                    {
-                        var optionvalues = JsonConvert.DeserializeObject<List<OptionVariationVm>>(values);
-                     
-                          
-                        
-                        if (query.OptionValues.Count > optionvalues.Count)
-                        {
-                            var value = query.OptionValues.Select(x => new OptionVariationVm
-                            {
-                                optionId = x.OptionId,
-                                optionValues = JsonConvert.DeserializeObject<List<ProductOptionValueVm>>(x.Value).Select(x => x.Key).FirstOrDefault()
-                            }).ToList();
-                            foreach (var item in value)
-                            {
-                                foreach (var item2 in optionvalues)
-                                {
-                                    if (item.optionId != item2.optionId)
-                                    {
-                                        var OptionVariationVm = new OptionVariationVm()
-                                        {
-                                            optionId = item.optionId,
-                                            optionValues = item.optionValues
-                                        };
-                                        optionvalues.Add(OptionVariationVm);
-                                    }
-
-                                }
-                            }
-                            var valuedefault = JsonConvert.SerializeObject(optionvalues);
-                            cartItem.Values = valuedefault;
-                        }
-                        else
-                        {
-                            cart.cartItems.Add(cartItem);
-                        }
-
-                    }
-  
-                    
+                    cartTo.cartItems.Add(toItem);
                 }
                 else
                 {
-                   cartItem.Quantity = cartItem.Quantity + quantity;
+                    toItem.Quantity = toItem.Quantity + fromItem.Quantity;
                 }
             }
-          await  _context.SaveChangesAsync();
-            return true;
+
+            await _cartRepository.SaveChangesAsync();
+        }
+    }
+    public async Task UnlockCart(Cart cart)
+    {
+        if (cart == null)
+        {
+            throw new ArgumentNullException(nameof(cart));
         }
 
-        public Task<Models.Cart> GetActiveCart(long customerId)
+        if (cart.LockedOnCheckout)
         {
-            return GetActiveCart(customerId, customerId);
-        }
-
-        public async Task<Models.Cart> GetActiveCart(long customerId, long createdById)
-        {
-            return await _context.Cart
-                .Include(x => x.cartItems) 
-                .Where(x => x.CustomerId == customerId && x.CreatedById == createdById).FirstOrDefaultAsync();
+            cart.LockedOnCheckout = false;
+            await _cartRepository.SaveChangesAsync();
         }
     }
 }
+

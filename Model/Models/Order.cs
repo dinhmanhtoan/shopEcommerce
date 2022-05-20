@@ -1,22 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using JsonIgnoreAttribute = Newtonsoft.Json.JsonIgnoreAttribute;
 
-namespace Model.Models
+namespace Model.Models;
+public class Order : EntityBase
 {
-    public class Order
+    public Order()
     {
-        public long Id { get; set; }
-        public DateTimeOffset? CreateOn { set; get; }
-        public string FullName { set; get; }
-        public string Email { set; get; }
-        public string PhoneNumber { set; get; }
-        public string AddressLine1{ set; get; }
-        public string AddressLine2 { set; get; }
-        public string ApartmentNumber {set; get; }
-        public string Node { set; get; }
-        public int Status { set; get; }
-        public List<OrderDetail> OrderDetails { get; set; }
-
+        CreatedOn = DateTimeOffset.Now;
+        LatestUpdatedOn = DateTimeOffset.Now;
+        OrderStatus = OrderStatus.New;
+        IsMasterOrder = false;
     }
+    public long CustomerId { get; set; }
+
+    [JsonIgnore] // To simplify the json stored in order history
+    public User Customer { get; set; }
+
+    public DateTimeOffset LatestUpdatedOn { get; set; }
+
+    public long LatestUpdatedById { get; set; }
+
+    [JsonIgnore]
+    public User LatestUpdatedBy { get; set; }
+
+    public DateTimeOffset CreatedOn { get; set; }
+
+    public long CreatedById { get; set; }
+
+    [JsonIgnore]
+    public User CreatedBy { get; set; }
+
+    public long VendorId { get; set; }
+
+    [StringLength(450)]
+    public string CouponCode { get; set; }
+
+    [StringLength(450)]
+    public string CouponRuleName { get; set; }
+
+    public decimal DiscountAmount { get; set; }
+
+    public decimal SubTotal { get; set; }
+
+    public decimal SubTotalWithDiscount { get; set; }
+
+    public long ShippingAddressId { get; set; }
+
+    public OrderAddress ShippingAddress { get; set; }
+
+    public long BillingAddressId { get; set; }
+
+    public OrderAddress BillingAddress { get; set; }
+
+    public IList<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+    public OrderStatus OrderStatus { get; set; }
+
+    [StringLength(1000)]
+    public string OrderNote { get; set; }
+
+    public long? ParentId { get; set; }
+
+    [JsonIgnore]
+    public Order Parent { get; set; }
+
+    public bool IsMasterOrder { get; set; }
+
+    [StringLength(450)]
+    public string ShippingMethod { get; set; }
+
+    public decimal ShippingFeeAmount { get; set; }
+
+    public decimal TaxAmount { get; set; }
+
+    public decimal OrderTotal { get; set; }
+
+    [StringLength(450)]
+    public string PaymentMethod { get; set; }
+
+    public decimal PaymentFeeAmount { get; set; }
+
+    public IList<Order> Children { get; protected set; } = new List<Order>();
+
+    public void AddOrderItem(OrderItem item)
+    {
+        item.Order = this;
+        OrderItems.Add(item);
+    }
+
 }
+

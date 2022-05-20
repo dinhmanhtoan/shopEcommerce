@@ -1,17 +1,13 @@
-﻿
-namespace Model.Models
+﻿namespace Model.Models;
+public class ProductMedia : EntityBase
 {
-    public class ProductMedia
-    {
-        public long Id { get; set; }
-        public long? ProductId { get; set; }
+    public long? ProductId { get; set; }
 
-        public Product Product { get; set; }
+    public Product Product { get; set; }
 
-        public long? MediaId { get; set; }
+    public long? MediaId { get; set; }
 
-        public Media Media { get; set; }
+    public Media Media { get; set; }
 
-        public int DisplayOrder { get; set; }
-    }
+    public int DisplayOrder { get; set; }
 }

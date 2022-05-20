@@ -1,70 +1,66 @@
-﻿
-@model Brand
-@{
-    ViewData["Title"] = "Chỉnh Sửa";
-}
+﻿@model Brand
+
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">
-            Cập nhật thương hiệu
-        </h3>
-        <p class="card-subtitle">@Model.Name</p>
+        <h2 class="text-secondary">Update Brand</h2>
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">Update
-                <form asp-action="Updated" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" value="@Model.Id" />
-                    <div class="form-group">
-                        <label>Tên thương hiệu</label>
-                        <input asp-for="Name" class="form-control Title" placeholder="Tên thương hiệu" maxlength="250" value="@Model.Name" />
-                        <small>Tối đa 250 ký tự</small>
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Slug</label>
-                        <input asp-for="Slug" class="form-control " placeholder="Slug" required maxlength="250" id="permalink" readonly value="@Model.Slug" />
-                        <span asp-validation-for="Slug" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Mô tả</label>
-                        <textarea asp-for="Description" class="form-control" placeholder="Mô tả" value="@Model.Description" rows="8" cols="50"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            @if (Model.IsPublished)
-                            {
-                                <input asp-for="IsPublished" class="form-check-input" type="checkbox" id="IsPublished" checked>
-                            }
-                            else
-                            {
-                                <input asp-for="IsPublished" class="form-check-input" type="checkbox" id="IsPublished">
-                            }
-                            <label class="form-check-label" for="IsPublished">
-                                Hiển thị
-                            </label>
-                            <span asp-validation-for="IsPublished" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit">
-                            Lưu
-                        </button>
-                    </div>
-                </form>
+        <form asp-action="Updated" method="post">
+            <div class="text-white bg-danger offset-md-2 d-none" asp-validation-summary="All" ></div>
+            <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-10">
+                    <input asp-for="Name" class="form-control Title" maxlength="250" value="@Model.Name" />
+                    <small>Tối đa 250 ký tự</small>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="card-footer">
-        <a asp-action="Index" class="card-link">Quay lại chi tiết</a>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Slug</label>
+                <div class="col-md-10">
+                    <input asp-for="Slug" class="form-control " maxlength="250" id="permalink" value="@Model.Slug" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Description</label>
+                <div class="col-md-10">
+                    <textarea asp-for="Description" class="form-control" value="@Model.Description" rows="4" cols="50"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <div class="form-check">
+                        @if (Model.IsPublished)
+                        {
+                            <input asp-for="IsPublished" class="form-check-input" type="checkbox" id="IsPublished" checked>
+                        }
+                        else
+                        {
+                            <input asp-for="IsPublished" class="form-check-input" type="checkbox" id="IsPublished">
+                        }
+                        <label class="form-check-label" asp-for="IsPublished">IsPublished</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-primary" type="submit" id="btn-submit">Save</button>
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
 @section Scripts {
-    <script src="~/lib/Slug/speakingurl.min.js"></script>
-    <script src="~/lib/Slug/jquery.stringtoslug.js"></script>
-    $(".Title").stringToSlug();
+        @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script src="~/lib/Slug/speakingurl.min.js"></script>
+<script src="~/lib/Slug/jquery.stringtoslug.js"></script>
+<script>
+      $(".Title").stringToSlug();
+</script>
+  
 }

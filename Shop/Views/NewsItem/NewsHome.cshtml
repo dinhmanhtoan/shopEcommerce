@@ -1,0 +1,79 @@
+﻿@model NewsVm
+
+@{
+    ViewData["Title"] = "News";
+}
+@section head{
+    <style>
+        .categories > div{
+            display:flex;
+            flex-wrap:wrap;
+        }
+        .news-category-detail{
+            margin-top:1rem;
+        }
+
+        .thumbnail img{
+            width: 100%;
+            height: 100%;
+            object-fit:cover;
+        }
+        .news-item{
+            transition: all .5s ease 0s;
+        }
+        .news-item:hover{
+           box-shadow: rgb(0 0 0 / 10%) 0px 0px 20px;
+        }
+         .news-item-published-on {
+             margin: 10px;
+
+         }
+        .news-item-published-on h1{
+            font-size:16px;
+            margin:10px 0;
+        }
+        .news-item-short-description{
+             margin: 10px;
+             padding: 0;
+             overflow: hidden;
+             text-overflow: ellipsis;
+             display: -webkit-box;
+             -webkit-line-clamp: 2; /* number of lines to show */
+             line-clamp: 2; 
+             -webkit-box-orient: vertical;
+        }
+    </style>
+}
+
+<div class="news">
+    <div class="categories row">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            @foreach (var item in Model.NewsCategory)
+            {
+                <div class="btn-group" role="group">
+                    <a type="button" class="btn btn-info" href="~/@item.Slug"> @item.Name</a>
+                </div>
+            }
+        </div>
+    </div>
+    @if (Model.NewsItem.Any())
+    {
+        <div class="news-category-detail row">
+            @foreach (var item in Model.NewsItem)
+            {
+                <partial name="_NewsThumbnail" model="item" />
+            }
+        </div>
+    }
+</div>
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <cs-pager cs-paging-pagesize="@Model.PageSize"
+                  cs-paging-pagenumber="@Model.Page"
+                  cs-paging-totalitems="@Model.TotalItem"
+                  asp-basehref="~/news"
+                  cs-pagenumber-param="page"></cs-pager>
+    </div>
+</div>
+

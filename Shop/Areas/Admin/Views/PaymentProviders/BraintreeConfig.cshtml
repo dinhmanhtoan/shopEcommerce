@@ -1,0 +1,49 @@
+﻿@model BraintreeConfigForm
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Braintree Settings</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="BraintreeConfig" method="post">
+            <div class="bg-danger text-white offset-md-2" asp-validation-summary="All"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Public Key</label>
+                <div class="col-md-10">
+                    <input asp-for="PublicKey" type="text" class="form-control" value="@Model.PublicKey" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Private Key</label>
+                <div class="col-md-10">
+                    <input asp-for="PrivateKey" type="text" class="form-control" value="@Model.PrivateKey" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Merchaint Id</label>
+                <div class="col-md-10">
+                    <input asp-for="MerchantId" type="text" class="form-control" value="@Model.MerchantId" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <div class="form-check">
+                        <input asp-for="IsProduction" type="checkbox" class="form-check-input" />
+                        <label asp-for="IsProduction" class="form-check-label">Production Environment</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-success">Save</button>
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

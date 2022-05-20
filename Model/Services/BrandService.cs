@@ -1,74 +1,62 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Model.Services;
 
-namespace Model.Services
+public interface IBrandService
 {
-    public interface IBrandService
-    {
-        public Task<List<Brand>> GetAll();
-        public void AddBrand(Brand entity);
-        public Task UpdateBrand(Brand entity);
-        public void Delete(long Id);
-        public Brand getById(long Id);
+    public Task<List<Brand>> GetAll();
+    public void AddBrand(Brand entity);
+    public void UpdateBrand(Brand entity);
+    public void Delete(long Id);
+    public Brand getById(long Id);
 
+}
+public class BrandService : IBrandService
+{
+    private const string BrandEntityTypeId = "Brand";
+    private readonly IEntityService _entityService;
+    private IRepository<Brand> _brandRepository;
+
+    public BrandService(IRepository<Brand> brandRepository, IEntityService entityService)
+    {
+        _brandRepository = brandRepository;
+        _entityService = entityService;
     }
-    public class BrandService : IBrandService
+    public async Task<List<Brand>> GetAll()
     {
-        private shopContext _context;
+        var res = await _brandRepository.Query().Where(x=> !x.IsDeleted).ToListAsync();
+        return res;
+    }
 
-        public BrandService(shopContext context)
-        {
-            _context = context;
-        }
-        public async Task<List<Brand>> GetAll()
-        {
-            var res = await _context.Brand.ToListAsync();
-            return res;
-        }
+    public void AddBrand(Brand brand)
+    {
+        brand.Slug = _entityService.ToSafeSlug(brand.Slug, brand.Id, BrandEntityTypeId);
+        _brandRepository.Add(brand);
+        _brandRepository.SaveChanges();
+        _entityService.Add(brand.Name, brand.Slug, brand.Id, BrandEntityTypeId);
+        _brandRepository.SaveChanges();
+    }
 
-        public void AddBrand(Brand entity)
-        {
-            _context.Brand.Add(entity);
-            _context.SaveChanges();
-        }
+    public void UpdateBrand(Brand brand)
+    {
+         brand.Slug = _entityService.ToSafeSlug(brand.Slug, brand.Id, BrandEntityTypeId);
+        _entityService.Update(brand.Name, brand.Slug, brand.Id, BrandEntityTypeId);
+        _brandRepository.SaveChanges();
+    }
 
-        public async Task UpdateBrand(Brand entity)
+    public void Delete(long Id)
+    {
+        var Brand = _brandRepository.Query().FirstOrDefault(x => x.Id == Id);
+        if (Brand != null)
         {
-            try
-            {
-                var Brand = _context.Brand.AsNoTracking().FirstOrDefault(x => x.Id == entity.Id);
-                if (Brand != null)
-                {
-                    Brand = entity;
-                    _context.Brand.Update(Brand);
-                    _context.SaveChanges();
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            Brand.IsDeleted = true;
+                _entityService.Remove(Id, BrandEntityTypeId);
+            _brandRepository.SaveChanges();
         }
-
-        public void Delete(long Id)
-        {
-            var Brand = _context.Brand.FirstOrDefault(x => x.Id == Id);
-            if (Brand != null)
-            {
-                _context.Brand.Remove(Brand);
-                _context.SaveChanges();
-            }
-        }
-        public Brand getById(long Id)
-        {
-            var res = _context.Brand.FirstOrDefault(x => x.Id == Id);
-            return res;
-        }
+    }
+    public Brand getById(long Id)
+    {
+        var res = _brandRepository.Query().FirstOrDefault(x => x.Id == Id);
+        return res;
     }
 }
+
 

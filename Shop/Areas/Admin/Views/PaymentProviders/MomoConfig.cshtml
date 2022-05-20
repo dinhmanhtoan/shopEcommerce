@@ -1,0 +1,48 @@
+﻿@model MomoPaymentConfigForm
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Momo Settings</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="MomoConfig" method="post">
+            <div class="bg-danger text-white offset-md-2" asp-validation-summary="All"></div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <div class="form-check">
+                        <input asp-for="IsSandbox" class="form-check-input"/>
+                        <label asp-for="IsSandbox" type="checkbox" class="form-check-label">Sandbox</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Partner Code</label>
+                <div class="col-md-10">
+                    <input asp-for="PartnerCode" type="text" class="form-control" value="@Model.PartnerCode" />
+                </div>
+            </div>
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label">Access Key</label>
+                <div class="col-md-10">
+                    <input asp-for="AccessKey" type="text" class="form-control" value="@Model.AccessKey"/>
+                </div>
+            </div>
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label">Secret Key</label>
+                <div class="col-md-10">
+                    <input asp-for="SecretKey" type="text" class="form-control" value="@Model.SecretKey"/>
+                </div>
+            </div>
+              <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-success">Save</button>
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

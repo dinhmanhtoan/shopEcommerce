@@ -1,0 +1,11 @@
+﻿@model ProductCarouselWidgetComponentVm
+
+<div class="product__list">
+    <h2>@Model.WidgetName</h2>
+    <div class="owl-carousel owl-carousel-product owl-theme">
+        @foreach (var product in Model.Products)
+        {
+           <partial name="~/Views/Shared/_ProductThumbnail.cshtml" model="product" />
+        }
+    </div>
+</div>

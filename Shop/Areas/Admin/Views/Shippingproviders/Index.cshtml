@@ -1,0 +1,56 @@
+﻿@model List<ShippingProvider>
+
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Shipping providers</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped" id="zero_config">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">IsEnabled</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                         <td>@(item.IsEnabled == true ? Html.Raw("<i class='fas fa-check text-primary'></i>") :  Html.Raw("<i class='fas fa-times text-danger'></i>"))</td>
+                         <td>
+                             <button class="btn btn-danger" onclick="Stop('@item.Id')">
+                                     @(item.IsEnabled == true ? Html.Raw("<i class='fas fa-pause'></i>") : Html.Raw("<i class='fas fa-play'></i>"))
+                             </button>
+                             @if(!string.IsNullOrEmpty(item.ConfigureUrl))
+                                 {
+                                   <a href="~/Shippingproviders/table/@item.ConfigureUrl">
+                                         <div class="btn btn-success">
+                                             <i class="fas fa-cog"></i>
+                                         </div>
+                                     </a>
+                                 }
+                         </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+<script>
+    function Stop(id) {
+        onModifyOption(function () {
+            var url = '@Url.Content("~/")' + "Shippingproviders/Stop";
+            $.post(url, { Id: id }).done(function () {
+                window.location = window.location.href;
+                toastr.success("Thành Công");
+            }).fail(function (error) {
+                toastr.error(error);
+            });
+            });
+    }
+</script>
+}

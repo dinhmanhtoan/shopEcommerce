@@ -1,88 +1,16 @@
-﻿@model List<ProductVm>
-@{
-    ViewData["Title"] = "Home Page";
-}
-@section head{
-    <style>
-        .owl-prev {
-            position: absolute;
-            top: 50%;
-            left: 0%;
-        }
-
-        .owl-next {
-            position: absolute;
-            top: 50%;
-            right: 0%;
-        }
-
-        .owlCarousel_slider2 .owl-item {
-            padding: 0 15px;
-        }
-
-        .owlCarousel_slider2 {
-            list-style: none;
-        }
-
-        .optionactive {
-            opacity: 1 !important;
-            border: 2px solid black !important;
-        }
-    </style>
-}
-@await Component.InvokeAsync("Slider")
-<div id="product-new" class="product">
-    <div class="container">
-        <div class="row">
-            <h2 class="title">Sản phẩm mới</h2>
-            @await Component.InvokeAsync("ProductFuture")
-
-        </div>
-    </div>
+﻿@model HomeViewModel
+<div class="container">
+    <partial name="_WidgetInstances" model="Model.WidgetInstances.Where(x => x.WidgetZoneId == WidgetZoneIds.HomeFeatured)" />
+@*    @await Component.InvokeAsync("CategoryFuture")*@
+    <partial name="_WidgetInstances" model="Model.WidgetInstances.Where(x => x.WidgetZoneId == WidgetZoneIds.HomeMainContent)" />
+    <partial name="_WidgetInstances" model="Model.WidgetInstances.Where(x => x.WidgetZoneId == WidgetZoneIds.HomeAfterMainContent)" />
 </div>
+@*@await Component.InvokeAsync("Pages")*@
 
-<div id="product-hot" class="product">
-    @await Component.InvokeAsync("ProductHot")
-</div>
 @section Scripts{
     <script src="~/js/single.js"></script>
     <script>
-        $(".owlCarousel_slider").owlCarousel({
-            autoplay: true, // tự động chuyển slider
-            //loop: true,
-            items: 1,
-            nav: true, // hiện thị bật tắt nút next,back
-            dots: true,
-            lazyLoad: true,
-            // slideBy:1,
-            // // lazyLoadEager: 4,
-            // // lazyLoad : true,
-            autoHeight: true,
-            navText: ['<i class="fa fa-chevron-left" aria-hidden="true"></i>', '<i class="fa fa-chevron-right" aria-hidden="true"></i>'] /// nút next,back
-        });
-        $(".owlCarousel_slider2").owlCarousel({
-            autoplay: true, // tự động chuyển slider
-            //loop: true,
-            nav: false, // hiện thị bật tắt nút next,back
-            dots: false,
-            lazyLoad: true,
-            // slideBy:1,
-            // // lazyLoadEager: 4,
-            // // lazyLoad : true,
-            autoHeight: true,
-             responsive: {
-                0: {
-                    items: 2
-                },
-                600: {
-                    items: 2
-                },
-                1000: {
-                    items: 4
-                }
-            }
 
-        });
         // time;
         $(document).ready(function () {
             // Set the date we're counting down to
@@ -131,7 +59,7 @@
 
         })
         //chon file
-        $(document).ready(function () {
+        @*$(document).ready(function () {
         var optionvalue = @Html.Raw(Json.Serialize(Model.Select(x => x.Options).ToList()));
         for (var i in optionvalue) {
             var item = optionvalue[i];
@@ -143,6 +71,6 @@
             });
             }
             };
-        });
+        });*@
     </script>
 }

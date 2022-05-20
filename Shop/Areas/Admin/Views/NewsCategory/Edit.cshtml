@@ -1,0 +1,61 @@
+﻿@model NewsCategory
+
+<div class="card">
+    <div class="card-header">
+         <h2 class="text-secondary">Edit NewsCategory </h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div class="bg-danger text-white offset-md-2 d-none" asp-validation-summary="All"></div>
+            <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <div class="form-group row">
+                <label asp-for="Name" class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-10">
+                    <input asp-for="Name" type="text" class="form-control Title" value="@Model.Name" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Slug" class="col-md-2 col-form-label">Slug</label>
+                <div class="col-md-10">
+                    <input asp-for="Slug" type="text" class="form-control" id="permalink" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MetaTitle" class="col-md-2 col-form-label">MetaTitle</label>
+                <div class="col-md-10">
+                    <input asp-for="MetaTitle" class="form-control" value="@Model.MetaTitle" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MetaKeywords" class="col-md-2 col-form-label">MetaKeywords</label>
+                <div class="col-md-10">
+                    <input asp-for="MetaKeywords" type="text" class="form-control" value="@Model.MetaKeywords" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MetaDescription" class="col-md-2 col-form-label">MetaDescription</label>
+                <div class="col-md-10">
+                    <input asp-for="MetaDescription" type="text" class="form-control" value="@Model.MetaDescription" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offfset-md-2 col-md-10">
+                    <button class="btn btn-success" id="btn-submit">Save</button>
+                    <a class="btn btn-light" asp-action="Index">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script src="~/lib/Slug/speakingurl.min.js"></script>
+<script src="~/lib/Slug/jquery.stringtoslug.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".Title").stringToSlug();
+    });
+</script>
+}

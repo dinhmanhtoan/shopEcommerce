@@ -1,0 +1,87 @@
+﻿@model TaxRateVm
+
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Create Tax Rate</h2>
+    </div>
+    <div class="card-body">
+        <form asp-controller="TaxRate" asp-action="Create" method="post">
+            <div class="bg-danger text-white offset-md-2 d-none" asp-validation-summary="All"></div>
+            <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Tax Class</label>
+                <div class="col-md-10">
+                    <select asp-for="TaxClassId" asp-items="@Model.TaxClass" class="form-control">
+                        <option value="">Choose one</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Country</label>
+                <div class="col-md-10">
+                    <select asp-for="CountryId" asp-items="@Model.Contries" class="form-control">
+                        <option value="">Choose one</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">StateOrProvinces</label>
+                <div class="col-md-10">
+                    <select asp-for="StateOrProvinceId" asp-items="@Model.StateOrProvinces" class="form-control">
+                        <option value="">Choose one</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">ZipCode</label>
+                <div class="col-md-10">
+                    <input asp-for="ZipCode" type="text" class="form-control" placeholder="ZipCode" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Rate</label>
+                <div class="col-md-10">
+                    <input asp-for="Rate" type="text" class="form-control number-validate" placeholder="Rate" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-md-2 col-md-10">
+                    <button type="submit" class="btn btn-success" id="btn-submit">Save</button>
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+        @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+      function resetSelect($select) {
+          var $defaultOption = $select.find("option:first-child");
+          $select.empty();
+          $select.append($defaultOption);
+      }
+      $('#CountryId').on('change', function () {
+          var countryId = this.value;
+          $('#Rate').val('');
+
+          $.getJSON('/api/country-states-provinces/' + countryId, function (data) {
+              var $stateOrProvinceSelect = $("#StateOrProvinceId");
+              resetSelect($stateOrProvinceSelect);
+              $.each(data.statesOrProvinces, function (index, option) {
+                  $stateOrProvinceSelect.append($("<option></option>").attr("value", option.id).text(option.name));
+              });
+
+              $("#form-group-district").toggleClass("d-none", !data.isDistrictEnabled);
+              $("#form-group-city").toggleClass("d-none", !data.isCityEnabled);
+              $("#form-group-postalcode").toggleClass("d-none", !data.isZipCodeEnabled);
+          });
+      });
+
+</script>
+
+ }

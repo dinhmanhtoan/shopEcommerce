@@ -1,0 +1,132 @@
+﻿@model CartVm
+@{
+    Layout = null;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="cart">
+                <table class="table cart-items">
+                    <thead>
+                        <tr>
+                            <td>Product</td>
+                            <td class="hidden-sm-down text-right">Price</td>
+                            <td class="hidden-sm-down text-center">Quantity</td>
+                            <td class="hidden-sm-down text-center">remove</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr class="item-in-cart" data-id="@item.Id">
+                                <td class="cart-item-image">
+                                    <div data-id="@item.Id">
+                                        <img src="@item.ProductImage">
+                                    </div>
+                                <div class="hidden-md-up">
+                                        <span class="cart-item-price">@item.ProductName</span>
+                                        @if (item.VariationOptions.Count() > 0)
+                                        {
+                                            <ul class="list-unstyled">
+                                                @foreach (var option in item.VariationOptions)
+                                                {
+                                                    <li>
+                                                        <span>@option.OptionName : </span>
+                                                        @option.Value
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                        @if (!item.IsProductAvailabeToOrder)
+                                        {
+                                            <span class="badge badge-pill badge-danger">Not availabe any more</span>
+
+                                        }
+                                        @if (item.ProductStockTrackingIsEnabled && item.ProductStockQuantity < item.Quantity)
+                                        {
+                                            <span class="badge badge-pill badge-danger">Not enough stock. Available: @item.ProductStockQuantity</span>
+
+                                        }
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <div class="cart-item-price">
+                                        @item.ProductPriceString
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="quantity-button" name="subtract" value="-">-</button>
+                                    <input type="text" class="quantity-field" value="@item.Quantity" readonly="readonly">
+                                    <button type="button" class="quantity-button" name="subtract" value="+">+</button>
+                                </td>
+                                <td class="text-center">
+                                    <span class="remove-in-cart"><i class="fas fa-times"></i></span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @*  save Note*@
+            <form class="order-note-form">
+                <div class="form-group">
+                    <h4>Order note</h4>
+                    <textarea rows="3" class="form-control" name="orderNote" placeholder="Enter order note"></textarea>
+                </div>
+                <div class="form-group text-right">
+                    <div class="btn btn-success" onclick="saveOrderNote()">Save order note</div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <div class="order-summary">
+                <h4 class="title">ORDER SUMMARY</h4>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Subtotal</td>
+                            <td class="text-right subtotal">@Model.SubTotalString</td>
+                        </tr>
+                        <tr>
+                            <td>Discount @Model.CouponCode</td>
+                            <td class="text-right discount">@Model.DiscountString</td>
+                        </tr>
+                        <tr>
+                            <td>Order Total</td>
+                            <td class="text-right ordertotal"><strong>@(Model.OrderTotalString)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                @if (Model.IsValid)
+                {
+                    <p><a asp-controller="Checkout" asp-action="Shipping" class="btn btn-success mb-1 w-100">Process to Checkout</a></p>
+                }
+                else
+                {
+                    <p><a asp-controller="Checkout" asp-action="Shipping" class="btn btn-success  mb-1 disabled w-100">Process to Checkout</a></p>
+                }
+                @if (Model.LockedOnCheckout)
+                {
+                    <p><button id="unlock" type="button" onclick="unlock()" class="btn btn-secondary active w-100">Unlock cart</button></p>
+                }
+            </div>
+            @if (Model.Items.Count() > 0)
+            {
+                <div class="coupon-form">
+                    <h4>Coupon code</h4>
+                    <form class="form-inline">
+                        <div class="text-danger">
+                            <label id="couponEroor">@Model.CouponValidationErrorMessage</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="couponCode" placeholder="Enter coupon">
+                            <button class="btn btn-light ml-1" onclick="applyCoupon(event)">Apply</button>
+                        </div>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</div>

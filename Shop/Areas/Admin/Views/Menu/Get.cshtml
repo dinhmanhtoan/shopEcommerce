@@ -1,0 +1,444 @@
+﻿@using Model.ViewModel.Menu
+@model MenuForm
+
+@section styles{
+    <style>
+        #entity-name {
+            overflow-y: auto;
+            height: 200px;
+            overflow-x: hidden;
+            display: block;
+        }
+
+        .entity-name {
+            width: 200px;
+        }
+        .remove-item-tree {
+            float: right;
+            padding: 1px 5px;
+            font-size: 12px;
+            line-height: 1.5;
+            border-radius: 3px;
+            color: white !important;
+        }
+    </style>
+    <link rel="stylesheet" href="~/lib/jquery-ui-1.13.1/jquery-ui.css"/>
+    <link rel="stylesheet" href="~/lib/sortable-list-tree/css/style.css" />
+
+}
+<div class="card card-default">
+    <div class="card-header">
+        <h2 class="text-secondary">Create And Edit Menu</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card card-default">
+                    <h3 class="card-title p-2">Add Menu Items</h3>
+                    <div class="card-body">
+                        <form>
+                            <table class="entity-selector">
+                                <thead class="d-block">
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Type</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="col" class="entity-name">
+                                            <div class="form-group"><input type="text" name="entitysearch" class="form-control" /></div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="form-group">
+                                                <select class="form-control entity-select"></select>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="entity-name"></tbody>
+                            </table>
+                            <div style="margin-top: 10px">
+                                <button type="button" class="btn btn-light " onclick="addMenuItems()">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card card-default">
+                     <h3 class="card-title p-2">Add Custom Link</h3>
+                    <div class="card-body">
+                        <form name="addCustomLinkForm">
+                            <div class="form-group">
+                                <label class="col-form-label">Name</label>
+                                <input type="text" required name="customName" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Link</label>
+                                <input type="text" required name="customLink" class="form-control">
+                            </div>
+                            <button type="button" disabled onclick="addCustomLink()" class="btn btn-light">Add Custom Link</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <form name="pageForm">
+                    <div class="form-group row">
+                        <label class="col-md-2 control-label col-form-label">Name</label>
+                        <div class="col-md-10">
+                            <input asp-for="Name" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Items</label>
+                        <div class="col-md-10">
+                            <ul id="tree">
+@*                                @foreach (var item in Model.Items)
+                                {
+                                    <li class="tree-branch branch-level-1">
+                                        <div class="contents">
+                                            <div class="branch-drag-handler">
+                                                <span class="branch-title">@item.Name</span>
+                                                <a class="remove-item-tree btn btn-danger" onclick="removeitem(this)"><i class="fas fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="children-bus"></div>
+                                    </li>
+                                }*@
+                            </ul>
+                        </div>
+                    </div>        
+                    <div class="form-group row">
+                        <div class="col-sm-offset-2 col-sm-10" style="margin-left:16%">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" asp-for="IsPublished">Is Published
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-offset-2 col-sm-10" style="margin-left:16%">
+                            <button class="btn btn-primary" onclick="save(event)"><span class="fa fa-check"></span>Save</button>
+                            <button asp-action="Index" class="btn btn-light">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/lib/jquery-ui-1.13.1/jquery-ui.min.js"></script>
+    <script src="~/lib/sortable-list-tree/js/treeSortable.js"></script>
+    <script>
+        var menu = @Html.Raw(Json.Serialize(Model));
+        var englength = menu.items.slice().length;
+        var customName = $("input[name='customName']");
+        var customLink = $("input[name='customLink']");
+        var CustomLinkForm = $(customName).parents("form[name='addCustomLinkForm']");
+        var btnCustomLink = $(CustomLinkForm).find("button");
+        var tree = $("#tree");
+        var select = $(".entity-select");
+        var entitysearch = $("input[name='entitysearch']");
+        var entityTypeId = ""
+        var name = "";
+        var entityName = $("#entity-name");
+        var isPublished;
+        var origin = window.location.origin;
+        var selectedEntities = [];
+            ShopCommentEntity = { entityId: @Model.Id, entityTypeId: 'Product' };
+       // init
+        function init() {
+            $(select).on("change", function () {
+                entity();
+            })
+            $(entitysearch).on("keyup", function () {
+                entity();
+            })
+            function entity() {
+                name = $(entitysearch).val();
+                entityTypeId = $(select).find(":selected").text();
+                $.ajax({
+                    method: "POST",
+                    url: `${origin}/api/entities`,
+                    data: { entityTypeId, name,}
+                }).then(function (data) {
+                    var html = "";
+                    $.each(data, function (index, option) {
+                        html += `<tr>
+                                    <td class="entity-name" data-id="${option.id}">
+                                        <div class="checkbox" >
+                                            <label>
+                                                <input type="checkbox" onclick="toggleEntity(this)">${option.name}
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>${option.entityTypeName}</td>
+                                </tr>`
+
+                    });
+                    entityName.html(html);
+                }).catch(function (error) {
+                    toastr.error("search error");
+                })
+            }
+            $.ajax({
+                method: "GET",
+                url: `${origin}/api/entity-types/menuable`
+            }).then(function (data) {
+                $.each(data, function (index, option) {
+                    $(".entity-select").append($("<option></option>").attr("value", option.id).text(option.name));
+                });
+                entity();
+            }).catch(function (error) {
+                toastr.error("Cannot load MenuItem");
+            });
+
+            $.ajax({
+                method: "GET",
+                url: `${origin}/Menu/Load/${ShopCommentEntity.entityId}`
+            }).then(function (data) {
+                var html = '';
+                function loadtree(items) {
+                    var level = 1;
+                    var parentId = 9999;
+                    for(var i = 0; i < items.length; i++){
+                        if(items[i].parentId == null){
+                         level = 1;
+                         html += `<li class="tree-branch branch-level-${level}" data-id="${items[i].id}">
+                                <div class="contents">
+                                    <div class="branch-drag-handler">
+                                        <span class="branch-title">${items[i].name}</span>
+                                        <a class="remove-item-tree btn btn-danger" onclick="removeitem(this)"><i class="fas fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="children-bus"></div>
+                            </li>`;
+                        }else if(items[i].parentId == parentId){
+                               html += `<li class="tree-branch branch-level-${level}" data-id="${items[i].id}">
+                                <div class="contents">
+                                    <div class="branch-drag-handler">
+                                        <span class="branch-title">${items[i].name}</span>
+                                        <a class="remove-item-tree btn btn-danger" onclick="removeitem(this)"><i class="fas fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="children-bus"></div>
+                            </li>`;
+                        }else{
+                            parentId = items[i].parentId;
+                            var j = 2;
+                            var count = 0;
+                            for(var z = 0; z < i-1 ; z++){
+                                  if(items[i-j].id == parentId){    
+                                      count++;
+                                   }
+                                   j++;
+                            }
+                            level = count == 0 ?  level + 1 : level - count;
+
+                            html += `<li class="tree-branch branch-level-${level}" data-id="${items[i].id}">
+                                <div class="contents">
+                                    <div class="branch-drag-handler">
+                                        <span class="branch-title">${items[i].name}</span>
+                                        <a class="remove-item-tree btn btn-danger" onclick="removeitem(this)"><i class="fas fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="children-bus"></div>
+                            </li>`;
+                        }
+                    }
+                }
+                loadtree(data.items);
+                menu.items = data.items;
+                $(tree).html(html);
+            }).catch(function (error) {
+                toastr.error("Cannot Load Menu");
+            });
+        }
+        init();
+       // save
+        function save(e) {
+           e.preventDefault();
+            isPublished = $("#IsPublished").is(":checked");
+            menu.name = $("#Name").val();
+            menu.isPublished = isPublished;
+            $.ajax({
+                method: "POST",
+                url: `${origin}/Menu/Put/${menu.id}`,
+                data: JSON.stringify(menu),
+                contentType: "application/json"
+            }).then(function (data) {
+                window.location = `${origin}/Menu/Index`;
+            }).catch(function (error) {
+                toastr.error("Post Error");
+            });
+        }
+       // remove DataMenuItem
+        function removeAllChecked() {
+            var checked = $(entityName).find("input[type='checkbox']").prop("checked", false);;
+            selectedEntities = [];
+        }
+       // Toggle Data MenuItem
+        toggleEntity = function toggleEntity(item) {
+            var entityIds = selectedEntities.map(function (item2) { return item2.id; });
+            var id = parseInt($(item).parents(".entity-name").data("id"));
+            var name = $(item).parent().text().trim();
+            var index = entityIds.indexOf(id);
+            var entity = { id, name,}
+            if (index > -1) {
+                selectedEntities.splice(index, 1);
+            } else {
+                selectedEntities.push(entity);
+            }
+        };
+       // Add MenuItem
+        function addMenuItems() {
+            var eroorindex = 0;
+            var menuItems = selectedEntities.map(function (item) {
+                eroorindex++;
+                return { entityId: item.id, name: item.name, displayOrder: englength++ };
+            });
+            $.ajax({
+                method: "POST",
+                url: `${origin}/Menu/AddItem/${menu.id}/add-items`,
+                data: JSON.stringify(menuItems),
+                contentType: "application/json",
+            }).then(function (data) {
+                var html = '';
+                $.each(data, function (index, item) {
+                    html += `<li class="tree-branch branch-level-1" data-id=${item.id}>
+                            <div class="contents">
+                                <div class="branch-drag-handler ui-sortable-handle">
+                                    <span class="branch-title">${item.name}</span>
+                                    <a class="remove-item-tree btn btn-danger" onclick="removeitem(this)"><i class="fas fa-times"></i></a>
+                                </div>
+                            </div>
+                            <div class="children-bus"></div>
+                        </li>`
+                    menu.items.push(item);
+                })
+                tree.append(html);
+                removeAllChecked();
+                displayOrder();
+            }).catch(function (eroor) {
+                englength = englength - eroorindex
+                toastr.error("Đã có lỗi xảy ra");
+            });
+       
+        }
+       // Remove Item Menu Not Ajax
+        function removeitem(item) {
+            // cách đang sử dung là li li not ul li;
+            // nên DisPlayOrder là 12345678, tính cha với con tăng dần
+            var id =  parseInt($(item).parents("li").data("id"))
+            var index = menu.items.findIndex(x => x.id == id);
+            // chỗ này kiểm tra xem có note không?
+            if (index > -1) {
+                // remove array MenuItem 
+                menu.items.splice(index, 1) 
+                 for (var i = index; i < menu.items.length; i++) {
+                     if (menu.items[i].parentId == id) { 
+
+                         var length = menu.items.length -1;
+                         if (length != i) {
+                             if (menu.items[i + 1].parentId == menu.items[i].id) { 
+                                 id = menu.items[i].id;
+                             } else {
+                                 id = menu.items[i].parentId;
+                             }
+                         }
+                          menu.items.splice(i, 1);
+                          i--;
+                        }
+                    }
+                 // chỗ này xóa con trong DOM
+                var li = $(item).parents("li").getChildren();
+                console.log(li);
+                    if (li.length > 0) {
+                        $.each(li, function (index2, item2) {
+                            if ($(item2).getBranchLevel() > 1) {
+                                $(item2).remove();
+                            }
+                        });
+                    }
+                // chỗ này xóa cha trong DOM
+                $(item).parents("li").remove();
+
+                // ý tưởng mới : lấy từ tree danh sáng sang  menuItem 
+               // khi add thêm thì lỗi display order
+               // chỗ này thay đổi vị trí DisPlayOrder là thay đổi từ vị trí sắp sếp
+                tree.find("li").each(function (i, el) {
+                    var index2 = $(el).index();
+                    var level = $(el).getBranchLevel();
+                    var Id = parseInt($(el).data("id"));
+                    var index = menu.items.findIndex(x => x.id == Id);
+                    if (index > -1) {
+                        menu.items[index].displayOrder = index2;
+                        menu.items[index].parentId = null;
+                        if (level > 1) {
+                            var parentId = parseInt($(el).getParent().data("id"));
+                            menu.items[index].parentId = parentId;
+                        }
+                    }
+                });
+                console.log(menu.items);
+                } else {
+                    toastr.error("Removing Error");
+                }
+        }
+       // Event CustomLink
+        $(customName).on("keyup", function () {
+            if (!$(this).val() == "" && !$(customLink).val() == "") {
+                btnCustomLink.removeAttr("disabled");
+            } else {
+                btnCustomLink.attr("disabled", "disabled");
+            }
+        })
+        $(customLink).on("keyup", function () {
+            if (!$(this).val() == "" && !$(customName).val() == "") {
+                btnCustomLink.removeAttr("disabled");
+            } else {
+                btnCustomLink.attr("disabled", "disabled");
+            }
+        })
+       // Ajax Add CustomLink
+        function addCustomLink() {
+            var customNameVal = $(customName).val();
+            var customLinkVal = $(customLink).val();
+            var addingCustomLink = [];
+            var item = { name: customNameVal, customLinkVal, displayOrder: englength };
+            englength++;
+            addingCustomLink.push(item);
+            $.ajax({
+                method: "POST",
+                url: `${origin}/Menu/AddItem/${menu.id}/add-items`,
+                data: JSON.stringify(addingCustomLink),
+                contentType: "application/json",
+            }).then(function (data) {
+                var html = '';
+                $.each(data, function (index, item) {
+                    html += `<li class="tree-branch branch-level-1" data-id=${item.id}>
+                                <div class="contents">
+                                    <div class="branch-drag-handler ui-sortable-handle">
+                                        <span class="branch-title">${item.name}</span>
+                                        <a class="remove-item-tree btn btn-danger" onclick="removeitem(this)"><i class="fas fa-times"></i></a>
+                                    </div>
+                                </div>
+                                <div class="children-bus"></div>
+                            </li>`
+                    menu.items.push(item);
+                })
+                tree.append(html);
+                addingCustomLink = {};
+                //Clear Form
+                $(CustomLinkForm).find("input[type=text], textarea").val("");
+                btnCustomLink.attr("disabled", "disabled");
+                displayOrder();
+            }).catch(function () {
+                englength--;
+                toastr.error("Đã có lỗi xảy ra");
+            });
+         }
+       
+    </script>
+
+}

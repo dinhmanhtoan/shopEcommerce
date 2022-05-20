@@ -1,0 +1,266 @@
+﻿@model ProductPTV;
+<style>
+   .modal-dialog {
+        min-width: 600px !important;
+    }
+    .table tr td {
+        text-align: center;
+    }
+    .table tr th {
+        text-align: center;
+    }
+    .table {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+</style>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Product-@Model.Id">
+    Manage Products Selection
+</button>
+<div class="modal fade" id="Product-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="ProductlLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@Model.Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="example-@Model.Id">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Selected</th>
+                                <th>Name</th>
+                                <th>Is Allowed To Order</th>
+                                <th>Is Published</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Is Published</th>
+        </tr>
+    </thead>
+    <tbody id="@Model.Title">
+    </tbody>
+</table>
+<script>
+    //DOMContentLoaded
+        var ProductPTVId = @Html.Raw(Json.Serialize(Model.Id));
+        switch(ProductPTVId) {
+          case 1:
+            var dataRulated;
+            break;
+          case 2:
+            var dataCrossSell;
+            break;
+          case 3:
+            var dataRule;
+            break;
+          default:
+            var dataSimp;
+            break;
+        }
+  window.addEventListener('load', (event) => {
+      var ProductPTV = @Html.Raw(Json.Serialize(Model));
+        switch(ProductPTV.id) {
+          case 1:
+             dataRulated = ProductPTV.relatedProducts;
+            break;
+          case 2:
+             dataCrossSell = ProductPTV.crossSellProducts;
+            break;
+          case 3:
+             dataRule = ProductPTV.cartRuleProducts;
+            break;
+          default:
+             dataSimp = ProductPTV.products;
+            break;
+        }
+      var table = $(`#example-${ProductPTV.id}`).DataTable({
+        "language": {
+            "processing": "loading data",
+            "info": "bản ghi từ _START_ đến _END_ và có tổng _TOTAL_ bản ghi",
+            "emptyTable": "Không tìm thấy bản ghi",
+            "search": "Tìm kiếm",
+            "lengthMenu": "Xem _MENU_ bản ghi"
+        },
+        "processing": true,
+        "serverSide": true,
+        "filter": true,
+        "ajax": {
+            "url": `/Product/query`,
+            "type": "POST",
+            "datatype": "json"
+        },
+        "columnDefs": [
+            {
+                "visible": false,
+                "searchable": false,
+                "targets": [0]
+            }],
+        "columns": [
+            { "data": "id", "name": "id" },
+            {
+                "data": "id", "name": "id",
+                "render": function (isbool, type, row) {
+                    return `<input type="checkbox" class="form-check-input" />`
+                }
+            },
+            { "data": "name", "name": "Name" },
+            {
+                "data": "isVisibleIndividually", "name": "IsVisibleIndividually",
+                "render": function (IsVisibleIndividually, type, full, meta) {
+                    if (IsVisibleIndividually) {
+                        return '<i class="fas fa-check text-success"></i>';
+                    } else {
+                        return '<i class="fas fa-times text-danger"></i>';
+                    }
+                }
+            },
+            {
+                "data": "isPublished", "name": "IsPublished",
+                "render": function (IsPublished, type, full, meta) {
+                    if (IsPublished) {
+                        return '<i class="fas fa-check text-success"></i>';
+                    } else {
+                        return '<i class="fas fa-times text-danger"></i>';
+                    }
+                }
+            }]
+    });
+    table.on('draw', function () {
+        let table2 = $(`#example-${ProductPTV.id}`).DataTable()
+               switch(ProductPTV.id) {
+                  case 1:
+                  var selectedProductIds = dataRulated.map(function (item) { return item.id; });
+                    break;
+                  case 2:
+                  var selectedProductIds = dataCrossSell.map(function (item) { return item.id; });
+                    break;
+                  case 3:
+                  var selectedProductIds = dataRule.map(function (item) { return item.id; });
+                    break;
+                  default:
+                  var selectedProductIds = dataSimp.map(function (item) { return item.id; });
+                    break;
+                }
+        table2.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            let data = this.data();
+            let checked = selectedProductIds.indexOf(data.id);
+            if (checked > -1) {
+                $(this.node()).find("input").attr("checked", true);
+            }
+        });
+    });
+
+    $(`#example-${ProductPTV.id}`).on('click', 'tbody td input', function (e) {
+        var data = table.row(this.closest('tr')).data();
+           switch(ProductPTV.id) {
+              case 1:
+                  var Index = dataRulated.findIndex(x => x.id == data.id)
+                    if (Index > -1) {
+                        dataRulated.splice(Index, 1);
+                    } else {
+                        dataRulated.push(data);
+
+                    }
+               loadRulated();
+                break;
+              case 2:
+                    var Index = dataCrossSell.findIndex(x => x.id == data.id)
+                    if (Index > -1) {
+                        dataCrossSell.splice(Index, 1);
+                    } else {
+                        dataCrossSell.push(data);
+                    }
+                loadCrossSell();
+                break;
+              case 3:
+                    var Index = dataRule.findIndex(x => x.id == data.id)
+                    if (Index > -1) {
+                        dataRule.splice(Index, 1);
+                    } else {
+                        dataRule.push(data);
+                    }
+               loadCartRule();
+                default:
+                    var Index = dataSimp.findIndex(x => x.id == data.id)
+                    if (Index > -1) {
+                        dataSimp.splice(Index, 1);
+                    } else {
+                        dataSimp.push(data);
+                    }
+                loadProductSimp();
+                break;
+            }
+    });
+          // Add Product Map
+    var productRulated = $("#productRulated");
+    var productCrossSell = $("#productCrossSell");
+    var cartRule = $("#cartRuleProducts");
+    var productSimp = $("#productSimp");
+        function loadRulated(){
+            var html= "";
+            $.each(dataRulated,function(index,item){
+                html += `<tr><td class="d-none"><input type="hidden" name="Products.RelatedProducts[${index}].Id" value="${item.id}"/></td>
+                            <td>${item.name}</td>
+                            <td>${item.isPublished == true ? '<i class="fas fa-check text-primary"></i>' : '<i class="fas fa-times text-danger"></i>'} </td>
+                         </tr>`
+            })
+            productRulated.html(html);
+        }
+        function loadCrossSell(){
+            var html= "";
+            $.each(dataCrossSell,function(index,item){
+                html += `<tr><td class="d-none"><input type="hidden" name="Products.CrossSellProducts[${index}].Id" value="${item.id}"/></td>
+                            <td>${item.name}</td>
+                            <td>${item.isPublished == true ?  '<i class="fas fa-check text-primary"></i>' : '<i class="fas fa-times text-danger"></i>'} </td>
+                         </tr>`
+            })
+            productCrossSell.html(html);
+        }
+        function loadCartRule(){
+         var html= "";
+         $.each(dataRule,function(index,item){
+             html += `<tr><td class="d-none"><input type="hidden" name="Products[${index}].Id" value="${item.id}"/></td>
+                         <td>${item.name}</td>
+                         <td>${item.isPublished == true ?  '<i class="fas fa-check text-primary"></i>' : '<i class="fas fa-times text-danger"></i>'} </td>
+                     </tr>`
+         })
+         cartRule.html(html);
+        }
+       function loadProductSimp(){
+         var html= "";
+         $.each(dataSimp,function(index,item){
+             html += `<tr><td class="d-none"><input type="hidden" name="Setting.Products[${index}].Id" value="${item.id}"/></td>
+                         <td>${item.name}</td>
+                         <td>${item.isPublished == true ?  '<i class="fas fa-check text-primary"></i>' : '<i class="fas fa-times text-danger"></i>'} </td>
+                     </tr>`
+         })
+         productSimp.html(html);
+        }
+
+        loadCartRule();
+        loadRulated();
+        loadCrossSell();
+        loadProductSimp()
+
+ });
+
+</script>

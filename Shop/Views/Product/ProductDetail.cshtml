@@ -1,0 +1,476 @@
+﻿@model ProductDetail;
+@inject SignInManager<User> SignInManager
+@{
+    ViewData["Title"] = Model.Name;
+}
+@section head{
+    @*<link href="~/css/single.css" rel="stylesheet" />*@
+<link href="~/css/product-detail.css" rel="stylesheet" />
+<link href="~/css/smoothproducts.css" rel="stylesheet" />
+<link href="~/css/ReviewList.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/comment.css" />
+<link rel="stylesheet" href="~/lib/pagination/pagination.css"/>
+
+<style>
+    .owl-nav {
+        position: absolute;
+        top: -50px;
+        right: 0;
+    }
+
+        .owl-nav .owl-prev {
+            margin-right: 5px;
+            display: inline-block;
+            padding: 2px 10px !important;
+            background: #ddd !important;
+        }
+
+        .owl-nav > button {
+            padding: 2px 10px !important;
+        }
+
+        .owl-nav .owl-next {
+            display: inline-block;
+            padding: 2px 10px !important;
+            background: #ddd !important;
+        }
+
+    .nav-tabs .nav-item .active {
+        border-bottom: 2px solid black;
+        color: black !important;
+    }
+
+    .tab-content ul {
+        padding-left: 20px;
+    }
+
+    .me-name {
+        font-family: auto;
+    }
+
+    .review-content p {
+        font-size: 14px
+    }
+
+    .note {
+        color: red;
+        font-weight: 600;
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .comments a {
+        color: #0056b3;
+    }
+
+        .comments a:hover {
+            color: #0056b3
+        }
+</style>
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+        @if (Model.Categories.Any())
+        {
+            @await Component.InvokeAsync("CategoryBreadcrumb", new { categoryIds = Model.Categories.Select(x => x.Id) })
+        }
+        <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+    </ol>
+</nav>
+
+<div class="product-detail">
+    <div class="container">
+        <div class="row">
+            <!--Hình ảnh-->
+            <div class="col-md-6">
+                <div id="main-product-images" class="product-images">
+                    <div class="sp-wrap">
+                        @foreach (var image in Model.Images)
+                        {
+                            <a href="@image.Url">
+                                <img src="@image.ThumbnailUrl" alt="" />
+                            </a>
+                        }
+                    </div>
+                </div>
+                @foreach (var variant in Model.Variations)
+                {
+                    if (variant.Images.Any())
+                    {
+                        <div class="product-images" data-images-variation-name="@variant.NormalizedName" style="display:none;">
+                            <div class="sp-wrap">
+                                @foreach (var image in variant.Images)
+                                {
+                                    <a href="@image.Url">
+                                        <img src="@image.ThumbnailUrl" alt="" />
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <!--Thông tin cơ bản-->
+            <div class="col-md-6 single-right pd-xs-0 product-details">
+                <div class="product-details-item" data-id="@Model.Id">
+                    <h1 class="single-title">@Model.Name</h1>
+                    <p class="product_sku">
+                        Sku:
+                        <span>@Model.Sku</span>
+                    </p>
+                    <ul class="list-inline product-ratings">
+                        <li><input type="hidden" value="@Model.RatingAverage" readonly="readonly" class="rating-loading" step="1" data-size="xs" data-show-clear="false" data-show-caption="false" /></li>
+                        <li class="product-review-list">
+                            <span>(@Model.ReviewsCount) <a href="#reviews">reviews</a> | <a href="#addreview"> Add Review</a></span>
+                        </li>
+                    </ul>
+                    <div class="product-short-desc">@Html.Raw(Model.ShortDescription)</div>
+                    @if (Model.HasVariation)
+                    {
+                        <form>
+                            @foreach (var option in Model.AvailableOptions)
+                            {
+                                <div class="product-attrs">
+                                    <div>
+                                        @option.OptionName
+                                    </div>
+                                    <ul class="list-inline product-attr-options">
+                                        @foreach (var value in option.Values)
+                                        {
+                                            var shouldChecked = Model.Variations.First().Options.Any(x => x.Value == value);
+                                            var values = new List<string>();
+                                            var shouldChecked2 = values.Any(x => x == value);
+                                            <li class="list-inline-item">
+                                                <input type="radio" value="@value" checked="@shouldChecked" name="@option.OptionName" />
+                                                @if (Model.OptionDisplayValues.ContainsKey(value) && !String.IsNullOrWhiteSpace(Model.OptionDisplayValues[value].Value))
+                                                {
+                                                    if (Model.OptionDisplayValues[value].DisplayType == "Color")
+                                                    {
+                                                        <label title="@value" class="color" style="background-color:#@Model.OptionDisplayValues[value].Value"></label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="badge">@Model.OptionDisplayValues[value].Value</label>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <label class="badge">@value</label>
+                                                }
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            }
+                        </form>
+                        @foreach (var variant in Model.Variations)
+                        {
+                            var hidden = variant != Model.Variations.First() ? "collapse" : "";
+                            <div class="product-variation @hidden" data-variation-name="@variant.NormalizedName">
+                                <div class="product-price">
+                                    @if (variant.IsCallForPricing)
+                                    {
+                                        <span class="label label-info">Call for pricing</span>
+                                    }
+                                    else
+                                    {
+                                        <h3>@variant.CalculatedProductPrice.PriceString</h3>
+                                        @if (variant.CalculatedProductPrice.PercentOfSaving > 0)
+                                        {
+                                            <p class="product-price-regular">@variant.CalculatedProductPrice.OldPriceString </p>
+                                            <p class="product-price-saving">You save (@(variant.CalculatedProductPrice.PercentOfSaving)%)</p>
+                                        }
+                                    }
+                                </div>
+
+                                @if (variant.StockTrackingIsEnabled && variant.StockQuantity <= 0)
+                                {
+                                    <div class="out-of-stock">
+                                        <span class="label label-danger">Out of stock</span>
+                                    </div>
+                                }
+                                <div class="add-to-cart">
+                                    <form class="inline">
+                                        <input type="hidden" name="productId" value="@variant.Id" />
+                                        <div class="product-quantity">
+                                            <button type="button" class="quantity-button" name="subtract" value="-">-</button>
+                                            <input type="text" class="quantity-field" readonly="readonly" name="qty" value="1">
+                                            <button type="button" class="quantity-button" name="add" value="+">+</button>
+                                        </div>
+                                        <button type="button" disabled="@(!variant.IsAllowToOrder || (variant.StockTrackingIsEnabled && variant.StockQuantity <= 0))"
+                                        class="btn btn-lg btn-add-cart">
+                                            Add to cart
+                                        </button>
+                                        <div>
+                                            <ul class="list-inline add-to-lists">
+                                                <li class="wishlist-in">
+                                                    <i class="fa fa-heart"></i>
+                                                    @if (SignInManager.IsSignedIn(User))
+                                                    {
+                                                        <a href="#" class="add-to-wishlist">Add to Wishlist</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-area="Admin" asp-controller="Account" asp-action="Login" asp-route-returnurl="@($"{Context.Request.Path}{Context.Request.QueryString}")">Add to Wishlist</a>
+                                                    }
+                                                <li />
+                                            </ul>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                        <div class="product-variation-notavailable collapse">
+                            <span class="label label-danger">Not available</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="product-price">
+                            @if (Model.IsCallForPricing)
+                            {
+                                <span class="label label-info">Call for pricing</span>
+                            }
+                            else
+                            {
+                                <h3>@Model.CalculatedProductPrice.PriceString</h3>
+                                @if (Model.CalculatedProductPrice.PercentOfSaving > 0)
+                                {
+                                    <p class="product-price-regular">@Model.CalculatedProductPrice.OldPriceString </p>
+                                    <p class="product-price-saving">You save (@(Model.CalculatedProductPrice.PercentOfSaving)%)</p>
+                                }
+                            }
+                        </div>
+                        if (Model.StockTrackingIsEnabled && Model.StockQuantity <= 0)
+                        {
+                            <div class="out-of-stock">
+                                <span class="label label-danger">Out of stock</span>
+                            </div>
+                        }
+                        <div class="add-to-cart">
+                            <form class="inline">
+                                <input type="hidden" name="productId" value="@Model.Id" />
+                                <div class="product-quantity">
+                                    <button type="button" class="quantity-button" name="subtract" value="-">-</button>
+                                    <input type="text" class="quantity-field" readonly="readonly" name="qty" value="1">
+                                    <button type="button" class="quantity-button" name="add" value="+">+</button>
+                                </div>
+                                <button type="button" disabled="@(!Model.IsAllowToOrder || (Model.StockTrackingIsEnabled && Model.StockQuantity <= 0))"
+                                    class="btn btn-lg btn-add-cart">
+                                    Add to cart
+                                </button>
+                                <div>
+                                    <ul class="list-inline add-to-lists">
+                                        <li class="wishlist-in">
+                                            <i class="fa fa-heart"></i>
+                                            @if (SignInManager.IsSignedIn(User))
+                                            {
+                                                <a href="#" class="add-to-wishlist">Add to Wishlist</a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-area="Admin" asp-controller="Account" asp-action="Login"
+                                           asp-route-returnurl="@($"{Context.Request.Path}{Context.Request.QueryString}")">
+                                                    Add to Wishlist
+                                                </a>
+                                            }
+                                        </li>
+                                        <li class="compare-in">
+                                            <i class="fa fa-exchange"></i>
+                                            <a href="#" class="add-to-comparison">Add to Compare</a>
+                                       </li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                    <div class="product-meta">
+                        @if (Model.Brand != null)
+                        {
+                            <span class="product_brand">
+                                Thương hiệu:
+                                <a href="@Model.Brand.Slug">@Model.Brand.Name</a>
+                            </span>
+                        }
+                        @if (Model.Categories != null)
+                        {
+                            <span class="product_category">
+                                Danh mục:
+
+                                @foreach (var item in Model.Categories)
+                                {
+                                    <a href="@item.Slug">@item.Name</a>
+                                    @if (Model.Categories.Count > 1)
+                                    {
+                                        <span> , </span>
+                                    }
+                                }
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!--Details va contact-->
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <div>
+                    <h3>Product detail</h3>
+                    @Html.Raw(Model.Description)
+                </div>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Specification))
+            {
+            <div>
+                <h3>Product specification</h3>
+                @Html.Raw(Model.Specification)
+            </div>
+            }
+            @if (Model.Attributes.Any())
+            {
+                <div>
+                    <h3>Product specification</h3>
+                    <table class="table table-striped">
+                        @foreach (var attr in Model.Attributes)
+                        {
+                            <tr>
+                                <td>@attr.Name</td>
+                                <td>@attr.Value</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+@if (Model.RelatedProducts.Any())
+{
+    <!-- Related Products -->
+<div class="product__list">
+    <h2>Enjoy and see also</h2>
+    <div class="row">
+        @foreach (var product in Model.RelatedProducts)
+        {
+            <div class="col-6 col-md-3">
+                <partial name="_ProductThumbnail" model="product" />
+            </div>
+        }
+    </div>
+</div>
+}
+
+@if (Model.CrossSellProducts.Any())
+{
+    <!-- Cross-sell Products -->
+<div class="product__list">
+    <h2>Enjoy and take also</h2>
+    <div class="row">
+        @foreach (var product in Model.CrossSellProducts)
+        {
+            <div class="col-6 col-md-3">
+                <partial name="_ProductThumbnail" model="product" />
+            </div>
+        }
+    </div>
+</div>
+}
+
+<div class="modal fade" id="shopModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script src="~/lib/pagination/pagination.min.js"></script>
+<script src="~/js/smoothproducts.js"></script>
+<script src="~/js/product-detail.js"></script>
+<script src="~/js/add-to-cart.js"></script>
+<script src="~/js/single.js"></script>
+<script>
+    var origin = window.location.origin;
+    function animation2(e) {
+        var animation;
+        if ($(e).hasClass("add-wishlist")) {
+            animation = $('#wishlist-icon');
+        } else {
+            animation = $('#cart');
+        }
+
+        var imgtodrag = $(e).parents('.product-details').prev(".gallery-lb").find("img").eq(0);
+        if (imgtodrag) {
+            var imgclone = imgtodrag.clone()
+                .offset({
+                    top: imgtodrag.offset().top,
+                    left: imgtodrag.offset().left
+                })
+                .css({
+                    'opacity': '0.5',
+                    'position': 'absolute',
+                    'height': '150px',
+                    'width': '150px',
+                    'z-index': '100'
+                })
+                .appendTo($('body'))
+                .animate({
+                    'top': animation.offset().top + 10,
+                    'left': animation.offset().left + 10,
+                    'width': 50,
+                    'height': 50
+                }, 1000, 'easeInOutExpo');
+
+            setTimeout(function () {
+                animation.effect("shake", {
+                    times: 2
+                }, 200);
+            }, 1500);
+            imgclone.animate({
+                'width': 0,
+                'height': 0
+            }, function () {
+                $(this).detach()
+            });
+            if ($(e).hasClass("add-cart")) {
+                setTimeout(function () { $('.cart-content').addClass('fadein') }, 2000);
+            }
+
+        }
+    }
+    // add to RecentlyViewed: Sản phẩm mới xem;
+    function RecentlyViewed() {
+        var id = parseInt($(".product-details-item").attr('data-id'));
+        $.ajax({
+            type: 'POST',
+            url: `${origin}/Cart/RecentlyViewed`,
+            data: {
+                productid: id,
+            },
+            success: function (result) {
+            }
+        });
+    }
+    RecentlyViewed();
+
+</script>
+<script src="~/js/comment.js"></script>
+<script>
+    ShopCommentEntity = { entityId: @Model.Id, entityTypeId: 'Product' };
+    var userAuthorized = @User.Identity.IsAuthenticated.ToString().ToLower();
+    var ReturnUrl ='@Context.Request.Path.ToString().ToLower()';
+</script>
+}
+@await Component.InvokeAsync("ProductRecentlyViewed", new { productId = Model.Id })
+<div class="my-3">
+    <h3>Customer reviews</h3>
+    @await Component.InvokeAsync("Review", new { entityId = Model.Id, entityTypeId = "Product" })
+</div>
+<br />
+<div class="my-3">
+    <h3>Customer comments</h3>
+    @await Component.InvokeAsync("Comment", new { entityId = Model.Id, entityTypeId = "Product" })
+</div>
+

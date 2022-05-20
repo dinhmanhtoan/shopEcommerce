@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model.Models
+﻿namespace Model.Models;
+public class Stock : EntityBase
 {
-    public class Stock
-    {
-        public long Id { get; set; }
-        public long ProductId { get; set; }
-
-        public Product Product { get; set; }
-        public int Quantity { get; set; }
-        public int ReservedQuantity { get; set; }
-    }
+    public Product Product { get; set; }
+    public long ProductId { get; set; }
+    public Warehouse Warehouse { get; set; }
+    public long WarehouseId { get; set; }
+    public int Quantity { get; set; }
+    public int ReservedQuantity { get; set; }
 }
+

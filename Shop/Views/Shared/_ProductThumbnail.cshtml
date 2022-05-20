@@ -1,0 +1,51 @@
+﻿@model ProductThumbnail
+@inject SignInManager<User> SignInManager
+<div class="product__item" id="item_@Model.Id" data-id="@Model.Id">
+    <div class="product__image">
+        <a href="~/@Model.Slug">
+            <img class="pic-1" src="@Model.ThumbnailUrl" alt="@Model.Name">
+        </a>
+    </div>
+    <div class="product__content">
+        <h3 class="product__title">
+            <a href="#">@Model.Name</a>
+        </h3>
+        <p class="product__price">
+            @if (Model.IsCallForPricing)
+            {
+                <span>Call for pricing</span>
+                
+            }else{
+                  <span>@Model.CalculatedProductPrice.PriceString</span>
+                    if (Model.CalculatedProductPrice.PercentOfSaving > 0)
+                    {
+                        <span class="product__price-saving">-@(Model.CalculatedProductPrice.PercentOfSaving)%</span>
+                        <br />
+                        <span class="product__price-regular">@Model.CalculatedProductPrice.OldPriceString</span>
+                    }
+            }
+        </p>
+@*        <p class="product__wishlist">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <a href="javascript:void(0)" class="js-add-wishlist" data-status="true" data-id="@Model.Id" data-tip="Add to Wishlist"><i class="fal fa-heart"></i></a>
+            }
+            else
+            {
+                <a asp-area="Admin" asp-controller="Account" asp-action="Login" asp-route-returnurl="@($"{Context.Request.Path}{Context.Request.QueryString}")"><i class="fal fa-heart"></i></a>
+            }
+        </p>*@
+        <ul class="product__ratings">
+            <li><input type="hidden" value="@Model.RatingAverage" readonly="readonly" class="rating-loading" step="1" data-size="xs" data-show-clear="false" data-show-caption="false" /></li>
+            @if (Model.ReviewsCount > 0)
+            {
+                <li class="product-review-list">
+                    <span>(@Model.ReviewsCount reviews)</span>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+
+

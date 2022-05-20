@@ -1,0 +1,64 @@
+﻿@model List<ProductTemplate>;
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-secondary">Product Template</h2>
+            </div>
+            <div class="col-md-6">
+                <div class="text-right">
+                    <a class="btn btn-primary" asp-controller="ProductTemplate" asp-action="Create">
+                        <i class="fas fa-plus"></i>
+                        Add Items
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="zero_config">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">
+                                    <div class="btn btn-success">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                </a>
+                                <button class="btn btn-danger " onclick="Delete(@item.Id)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function Delete(id) {
+            onModifyOption(function () {
+                var url = '@Url.Content("~/")' + "ProductTemplate/Delete";
+                $.post(url, { Id: id }).then(function () {
+                    toastr.success("Thành Công");
+                    window.location = window.location.href;
+                }).catch(function (error) {
+                    toastr.error(error);
+                });
+                });
+        }
+    </script>
+}

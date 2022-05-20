@@ -1,0 +1,145 @@
+﻿@model NewsItemForm
+
+<div class="card">
+    <div class="card-header">
+         <h2 class="text-secondary">Create NewsItemList</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" class="col-md-10" enctype="multipart/form-data">
+            <div class="bg-danger text-white offset-md-2 d-none" asp-validation-summary="All"></div>
+            <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <div class="form-group row">
+                <label asp-for="Name" class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-10 col-form-label">
+                    <input asp-for="Name" type="text" class="form-control Title" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Slug" class="col-md-2 col-form-label">Slug</label>
+                <div class="col-md-10">
+                    <input asp-for="Slug" type="text" class="form-control" id="permalink" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MetaTitle" class="col-md-2 col-form-label">MetaTitle</label>
+                <div class="col-md-10">
+                    <input asp-for="MetaTitle" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MetaKeywords" class="col-md-2 col-form-label">MetaKeywords</label>
+                <div class="col-md-10">
+                    <input asp-for="MetaKeywords" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MetaDescription" class="col-md-2 col-form-label">MetaDescription</label>
+                <div class="col-md-10 ">
+                    <input asp-for="MetaDescription" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ThumbnailImage" class="col-md-2 col-form-label">Chọn ảnh</label>
+                <div class="col-md-10">
+                    <input asp-for="ThumbnailImage" type="file" class="form-control" name="ThumbnailImage" onchange="previewFile(this)" />
+                    <br />
+                    <img id="previewThumbnail" width="90" />
+                    <br />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="ShortContent" class="col-md-2 col-form-label">ShortContent</label>
+                <div class="col-md-10">
+                    <textarea id="ShortContent" name="ShortContent" type="text" class="form-control editor" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="FullContent" class="col-md-2 col-form-label">FullContent</label>
+                <div class="col-md-10">
+                    <textarea id="FullContent" name="FullContent" type="text" class="form-control editor" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="FullContent" class="col-md-2 col-form-label">News</label>
+                <div class="col-md-10">
+                    @foreach (var item in Model.NewsCategorys)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" name="NewsCategoryIds" value="@item.Id" class="form-check-input" id="NewsCategory-@item.Id" />
+                            <label for="NewsCategory-@item.Id" class="form-input-label">@item.Name</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="IsPublished" class="col-md-2 col-form-label">IsPublished</label>
+                <div class="col-md-10">
+                    <input asp-for="IsPublished" type="checkbox" class="form-input-check" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-success" id="btn-submit">Save</button>
+                    <a class="btn btn-light" asp-action="Index">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script src="~/lib/Slug/speakingurl.min.js"></script>
+<script src="~/lib/Slug/jquery.stringtoslug.js"></script>
+<script src="~/lib/ckeditor5-build-classic/ckeditor.js"></script>
+<script src="~/js/upload-file.js"></script>
+<script>
+      $(document).ready(function () {
+          $(".Title").stringToSlug();
+
+      });
+        function previewFile(input) {
+          var file = $(input).get(0).files[0];
+          if (file) {
+              var reader = new FileReader();
+              reader.onload = function () {
+                  $("#previewThumbnail").attr("src", reader.result);
+              }
+              reader.readAsDataURL(file);
+          }else{
+               $("#previewThumbnail").attr("src", "");
+          }
+          };
+    var Editor = [];
+    var allEditors = document.querySelectorAll('.editor');
+      for (var i = 0; i < allEditors.length; ++i) {
+          ClassicEditor.create(allEditors[i], { extraPlugins: [MyCustomUploadAdapterPlugin] }).then(newEditor => {
+              Editor.push(newEditor);
+          }).catch(error => {
+              console.error(error);
+          });
+      }
+      function ckEditor(name) {
+          for (var i = 0; i < Editor.length; i++) {
+              if (Editor[i].sourceElement.id === name) return Editor[i];
+          }
+
+          return null;
+      }
+           $("#btn-submit").on("click",function(){
+              var ShortContent = ckEditor("ShortContent");
+              var FullContent = ckEditor("FullContent");
+              if (ShortContent != null) {
+                  var value =  ShortContent.getData();
+                  $("#ShortContent").html(value)
+              }
+              if (FullContent != null) {
+                  var value = FullContent.getData();
+                  $("#FullContent").html(value)
+              }
+          });
+</script>
+
+}

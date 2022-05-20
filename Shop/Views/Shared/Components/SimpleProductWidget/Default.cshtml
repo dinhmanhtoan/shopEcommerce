@@ -1,0 +1,14 @@
+﻿@model SimpleProductWidgetComponentVm
+
+<div class="product__list">
+    <h2>@Model.WidgetName</h2>
+    <div class="row">
+    @foreach (var product in Model.Products)
+    {
+        <div class="col-6 col-md-3">
+            <partial name="~/Views/Shared/_ProductThumbnail.cshtml" model="product" />
+        </div>
+    }
+</div>
+</div>
+

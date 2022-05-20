@@ -1,72 +1,84 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Model.Services;
 
-namespace Model.Services
+public interface ICategoryService
 {
-    public interface ICategoryService
-    {
-        public Task<List<Category>> GetAll();
-        public void AddCategory(Category entity);
-        public Task UpdateCategory(Category entity);
-        public void Delete(long Id);
-        public Category getById(long Id);
+    public Task<IList<CategoryListItem>> GetAll();
+    public void AddCategory(Category entity);
+    public void UpdateCategory(Category entity);
+    public void Delete(long Id);
+    public Category getById(long Id);
 
+}
+public class CategoryService : ICategoryService
+{
+    private const string CategoryEntityTypeId = "Category";
+    private readonly IEntityService _entityService;
+
+    private readonly IRepository<Category> _categoryRepository;
+
+    public CategoryService(IRepository<Category> categoryRepository, IEntityService entityService)
+    {
+        _categoryRepository = categoryRepository;
+        _entityService = entityService;
     }
-    public class CategoryService : ICategoryService
+    public async Task<IList<CategoryListItem>> GetAll()
     {
-        private shopContext _context;
-
-        public CategoryService(shopContext context)
+        var categories = await _categoryRepository.Query().Where(x => !x.IsDeleted).ToListAsync();
+        var categoriesList = new List<CategoryListItem>();
+        foreach (var category in categories)
         {
-            _context = context;
-        }
-        public async Task<List<Category>> GetAll()
-        {
-            var res =  await _context.Category.Include(x => x.Thumbnail).ToListAsync();
-            return res;
-        }
-     
-        public  void AddCategory(Category entity)
-        {
-            _context.Category.Add(entity);
-             _context.SaveChanges();
-        }
-
-        public async Task UpdateCategory(Category entity)
-        {
-            try
+            var categoryListItem = new CategoryListItem
             {
-                var Category = _context.Category.FirstOrDefault(x => x.Id == entity.Id);
-                if (Category != null)
-                {
-                    Category = entity;
-                    _context.Category.Update(Category);
-                    _context.SaveChanges();
-                }
-            }catch(Exception e)
+                Id = category.Id,
+                IsPublished = category.IsPublished,
+                IncludeInMenu = category.IncludeInMenu,
+                Name = category.Name,
+                DisplayOrder = category.DisplayOrder,
+                ParentId = category.ParentId
+            };
+
+            var parentCategory = category.Parent;
+            while (parentCategory != null)
             {
-                throw e;
+                categoryListItem.Name = $"{parentCategory.Name} >> {categoryListItem.Name}";
+                parentCategory = parentCategory.Parent;
             }
+
+            categoriesList.Add(categoryListItem);
         }
 
-        public void Delete(long Id)
+        return categoriesList.OrderBy(x => x.Name).ToList();
+    }
+    public  void AddCategory(Category category)
+    {
+        category.Slug = _entityService.ToSafeSlug(category.Slug, category.Id, CategoryEntityTypeId);
+        _categoryRepository.Add(category);
+        _categoryRepository.SaveChanges();
+        _entityService.Add(category.Name, category.Slug, category.Id, CategoryEntityTypeId);
+        _categoryRepository.SaveChanges();
+    }
+
+    public void UpdateCategory(Category category)
+    {
+        category.Slug = _entityService.ToSafeSlug(category.Slug, category.Id, CategoryEntityTypeId);
+        _entityService.Update(category.Name, category.Slug, category.Id, CategoryEntityTypeId);
+        _categoryRepository.SaveChanges();
+    }
+
+    public void Delete(long Id)
+    {
+        var Category = _categoryRepository.Query().FirstOrDefault(x => x.Id == Id);
+        if (Category != null)
         {
-            var Category = _context.Category.FirstOrDefault(x => x.Id == Id);
-            if (Category != null)
-            {
-                _context.Category.Remove(Category);
-                _context.SaveChanges();
-            }
+            Category.IsDeleted = true;
+            _entityService.Remove(Id, CategoryEntityTypeId);
+            _categoryRepository.SaveChanges();
         }
-        public  Category getById(long Id)
-        {
-            var res =  _context.Category.Include(x=> x.Thumbnail).FirstOrDefault(x => x.Id == Id);
-            return res;
-        }
+    }
+    public  Category getById(long Id)
+    {
+        var res = _categoryRepository.Query().Include(x=> x.Thumbnail).Where(x=> !x.IsDeleted).FirstOrDefault(x => x.Id == Id);
+        return res;
     }
 }
+

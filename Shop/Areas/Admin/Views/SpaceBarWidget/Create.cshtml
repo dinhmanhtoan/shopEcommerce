@@ -1,0 +1,183 @@
+﻿@model SpaceBarWidgetForm;
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Create SpaceBar Widget</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="col-md-10 offset-md-2" id="loaderror"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Widget Name</label>
+                <div class="col-md-10">
+                    <input type="text" asp-for="Name" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Widget Zone</label>
+                <div class="col-md-10">
+                    <select type="text" asp-for="WidgetZoneId" asp-items="@Model.WidgetZoneItems" class="form-control"></select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Publish Start</label>
+                <div class="col-md-10">
+                    <div class="datepicker input-group">
+                        <input type="text" asp-for="PublishStart" value="@(Model.PublishStart.HasValue ? Model.PublishStart.GetValueOrDefault().ToString("o") : "")" data-input />
+                        <a class="input-button" title="toggle" data-toggle>
+                            <i class="far fa-calendar"></i>
+                        </a>
+                        <a class="input-button" title="clear" data-clear>
+                            <i class="far fa-times-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Publish End</label>
+                <div class="col-md-10">
+                    <div class="datepicker input-group">
+                        <input type="text" asp-for="PublishEnd" data-input />
+                        <a class="input-button" title="toggle" data-toggle>
+                            <i class="far fa-calendar"></i>
+                        </a>
+                        <a class="input-button" title="clear" data-clear>
+                            <i class="far fa-times-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Display Order</label>
+                <div class="col-md-10">
+                    <input type="text" asp-for="DisplayOrder" class="form-control number-validate" value="0" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Items</label>
+                <div class="col-md-10">
+                    <input type="text" class="d-none" id="NumberOfItems" name="NumberOfItems" value="0" />
+                    <div id="ListItem"></div>
+                    <div class="btn btn-light" id="addItem">+Add More</div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                     <button type="submit" class="btn btn-success" id="save">Save</button>
+                     <a asp-controller="Widget" asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+<script>
+     function previewFile(input) {
+        var file = $(input).get(0).files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                $(input).next().next().attr("src", reader.result);
+            }
+            reader.readAsDataURL(file);
+        }};
+
+      $("#addItem").on("click",function(){
+         addItem();
+     });
+     function addItem() {
+       var index = $("div[id^=queryRow]").length;
+        html = `
+                <div class="form-group row" id="queryRow-${index}">
+                <div class="col-md-11">
+                    <div class="form-group row" >
+                        <label class="col-sm-2 control-label">Image</label>
+                            <div class="col-sm-10">
+                            <input class="form-control-file" type="file" id="UploadImage-${index}" onchange="previewFile(this)" name="Items[${index}].UploadImage" accept="image/*" />
+                            <br />
+                            <img id="previewThumbnail" width="320" hight="100"/>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">Icon :</label>
+                        <div class="col-sm-10">
+                            <input name="Items[${index}].IconHtml" class="form-control" id="IconHtml-${index}"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">Title : </label>
+                        <div class="col-sm-10">
+                            <input name="Items[${index}].Title" class="form-control" id="Title-${index}"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">Description : </label>
+                        <div class="col-sm-10">
+                            <input name="Items[${index}].Description" class="form-control" id="Description-${index}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 text-right">
+                    <button onclick="removeItem(${index})" id="remove-${index}" type="button" class="btn btn-danger btn-xs">
+                            <i class="far fa-times-circle"></i>
+                    </button>
+                </div>
+            </div>`;
+       // Insert the row into the table
+       $("#ListItem").append(html);
+       $("#NumberOfItems").val(++index);
+   }
+   function removeItem(index) {
+        var NumberOfItems = $("div[id^=queryRow]").length + 1;
+        $("#NumberOfItems").val(NumberOfItems);
+        $("#queryRow-" + index).remove();
+        // Search through the table and update all the remaining rows so that indices remain sequential
+        $("div[id^=queryRow-]").each(function(i) {
+            $(this).attr("id", "queryRow-" + i);
+            $("input[id^=Image-]", $(this)).attr("name", "Items[" + i + "].Image").attr("id", "Image-" + i);
+            $("input[id^=UploadImage-]", $(this)).attr("name", "Items[" + i + "].UploadImage").attr("id", "UploadImage-" + i);
+            $("input[id^=IconHtml-]", $(this)).attr("name", "Items[" + i + "].IconHtml").attr("id", "IconHtml-" + i);
+            $("input[id^=Title-]", $(this)).attr("name", "Items[" + i + "].Title").attr("id", "Title-" + i);
+            $("input[id^=Description-]", $(this)).attr("name", "Items[" + i + "].Description").attr("id", "Description-" + i);
+            $("button[id^=remove-]", $(this)).attr("id", "remove-" + i).attr("onclick", "removeItem(" + i+")").unbind("click").click(function() {
+                removeItem(i);
+            });
+        });
+   }
+           $("#save").on("click",function(event){
+            event.preventDefault();
+            var data = new FormData();
+            var form_data = $("form").serializeArray();
+               $.each(form_data, function (key, input) {
+               data.append(input.name, input.value);
+           });
+
+           //File data
+           if($('input[id^="UploadImage"]').length > 0){
+               var file_data = $('input[id^="UploadImage"]');
+               for (var i = 0; i < file_data.length; i++) {
+                       if(file_data[i].files.length > 0){
+                       data.append(`Items[${i}].UploadImage`, file_data[i].files[0]);
+                   }
+               }
+           }
+
+            $.ajax({  
+                method: "POST", 
+                url: "/SpaceBarWidget/Create",
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: data,
+            }).then(function(){
+                window.location.href = `${origin}/Widget/Index`;
+            }).catch(function(rs){
+                 var eroor = rs.responseJSON;
+                loadError(eroor);
+                if(eroor == undefined){
+                    toastr.eroor("đã có lỗi xảy ra");
+                }
+            });
+         });
+</script>
+}

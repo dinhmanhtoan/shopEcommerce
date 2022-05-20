@@ -1,0 +1,174 @@
+﻿@model WarehouseProductForm
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Product Price</h2>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped" id="example" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product Sku</th>
+                        <th>Current Price</th>
+                        <th>Old Price</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>New Price</th>
+                        <th>New Old Price</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script>
+        var table = $("#example").DataTable({
+            "language": {
+                "processing": "loading data",
+                "info": "bản ghi từ _START_ đến _END_ và có tổng _TOTAL_ bản ghi",
+                "emptyTable": "Không tìm thấy bản ghi",
+                "search": "Tìm kiếm",
+                "lengthMenu": "Xem _MENU_ bản ghi"
+            },
+            "processing": true,
+            "serverSide": true,
+            "filter": true,
+            "ajax": {
+                "url": `/ProductPrice/query`,
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columnDefs": [
+            {
+                "targets": [1],
+                "visible": true,
+                "searchable": false,
+                "orderable": false,
+            },
+            {
+                "targets": [2],
+                "visible": true,
+                "searchable": false,
+                "orderable": false,
+            },
+                {
+                "targets": [3],
+                "visible": true,
+                "searchable": false,
+                "orderable": false,
+            },
+            {
+                "targets": [6],
+                "visible": true,
+                "searchable": false,
+                "orderable": false,
+            },
+            {
+                "targets": [7],
+                "visible": true,
+                "searchable": false,
+                "orderable": false,
+            }],
+            "columns": [
+                { "data": "name", "name": "Name" },
+                { "data": "sku", "name": "Sku" },
+                { "data": "price", "name": "Price",
+                   "render": function (data, type, row) {
+                            if(data){
+                               return addCommas(data);
+                        }
+                        return ""
+                    }
+                },
+                { "data": "oldPrice", "name": "OldPrice",
+                    "render": function (data, type, row) {
+                        if(data){
+                               return addCommas(data);
+                        }
+                        return ""
+                    }
+                 },
+                { "data": "specialPriceStart", "name": "SpecialPriceStart",
+                  "render": function (data, type, row) {
+                        if (type === "sort" || type === "type" || data == null) {
+                            return data;
+                        };
+                        return moment(data).format("MM-DD-YYYY");
+                    }
+                },
+                { "data": "specialPriceEnd", "name": "SpecialPriceEnd", 
+                  "render": function (data, type, row) {
+                        if (type === "sort" || type === "type" || data == null) {
+                            return data;
+                        };
+                        return moment(data).format("MM-DD-YYYY");
+                    }                
+                },
+                {
+                    "render": function (data, type, row) {
+                        return `<div class="input-number">
+                                    <input type="text" name="newPrice" maxlength="10" class="newPrice form-control number-validate"/ id="newPrice-${row.id}">
+                                    <label for="newPrice-${row.id}" class="form-control"></label>
+                                </div>`;
+                    }
+                },
+                    {
+                    "render": function (data, type, row) {
+                        return `<div class="input-number">
+                                     <input type="text" name="newOldPrice" maxlength="10" class="newOldPrice form-control number-validate" id="newOldPrice-${row.id}"/>
+                                     <label for="newOldPrice-${row.id}" class="form-control"></label>
+                               </div>`;
+                    }
+                }
+                ],
+                "drawCallback": function( settings ) {
+                    numberValidate();
+                    numberValidateLabel();
+                    decimalValidateView();
+                },
+                "initComplete": function () {
+                 numberValidate();
+                 numberValidateLabel();
+                 decimalValidateView();
+                $(this.api().columns(7).footer()).html(`<button class="btn btn-primary" onclick="save()">Save</button>`)
+                }
+        });
+
+        function save() {
+            var table = $('#example').DataTable();
+            var productPriceItemForm = [];
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var data = this.data();
+                var NewPrice = $(this.node()).find(".newPrice").val();
+                var NewOldPrice = $(this.node()).find(".newOldPrice").val();
+                var json = { Id: data.id, Name: data.name, NewPrice: NewPrice, NewOldPrice : NewOldPrice };
+                productPriceItemForm.push(json);
+            });
+            console.log(productPriceItemForm);
+            var url = "@Url.Content("~/")" + `ProductPrice/changePrice`;
+                 $.post(url, { productPriceItemForm: productPriceItemForm }).done(function () {
+                 table.draw();
+                  toastr("Thành Công");
+             }).fail(function () {
+                 toastr("Có điều gì đó sai !");
+             });
+        }
+    </script>
+}

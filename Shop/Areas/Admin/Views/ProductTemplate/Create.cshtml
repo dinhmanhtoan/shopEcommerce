@@ -1,0 +1,91 @@
+﻿@model ProductTemplateFrom
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary"> Create Product Template </h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" class="col-md-10">
+            <div class="bg-danger text-white offset-md-2 d-none" asp-validation-summary="All"></div>
+            <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-10">
+                    <input asp-for="Name" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Available Attributes</label>
+                <div class="col-md-4">
+                    @Html.DropDownListFor(x=> x.Id,Model.AttributeList, "Select", new { @class = "form-control",@id="Attribute"})
+                </div>
+                <span class="btn btn-success  h-100" id="addttribute"> add Attribute</span>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Added Attributes</label>
+                <div class="col-md-4" id="attr">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-success" id="btn-submit">Save</button>
+                    <a class="btn btn-light" asp-action="Index">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+     var attr = $("#attr");
+     var productTemplateFrom = @Html.Raw(Json.Serialize(Model.Attributes.ToList()));
+     function loaddata(){
+      var html = '';
+     $.each(productTemplateFrom,function(index,item){
+        var Id = item.id;
+        var Name = item.name;
+          html += `<div class="d-flex justify-content-between align-items-center mb-2"><input hidden type="number" name="Attributes[${index}].Id" value="${Id}"/>
+                   <span>${Name}</span>
+                   <button class="btn btn-danger btn-sm removeattr" data-id=${Id} ><i class="fas fa-trash"></i></button></div>`
+
+     })
+     attr.html(html);
+          remove();
+     }
+    loaddata();
+     $("#addttribute").on("click", function(e){
+         e.preventDefault();
+         var id = parseInt($("#Attribute option:selected").val());
+         if($("#Attribute option:selected").val() == ""){
+             return;
+         }
+         var name =  $("#Attribute option:selected").text();
+         var index = productTemplateFrom.findIndex(x => x.id == id);
+         if(index == -1){
+             var item = {id,name};
+             productTemplateFrom.push(item);
+             loaddata();
+
+         }else{
+             toastr.error("selected");
+         }
+     });
+     function remove(){
+     $(".removeattr").on("click", function(e){
+         e.preventDefault();
+         var id = parseInt($(this).data("id"));
+         var index = productTemplateFrom.findIndex(x => x.id == id);
+         if(index > -1){
+         productTemplateFrom.splice(index,1);
+         loaddata();
+         }else{
+             toastr.error("error");
+         }
+     });
+     }
+</script>
+}

@@ -1,0 +1,24 @@
+﻿@using Model.Services
+@model ReplyForm
+
+@inject IWorkContext WorkContext
+@inject SignInManager<User> SignInManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form class="form-add-review-reply" asp-controller="Reply" asp-action="AddReply" method="post" role="form">
+        <input asp-for="ReviewId" type="hidden" />
+        <div class="form-group">
+            <textarea asp-for="Comment" rows="3" placeholder="Your reply" maxlength="300" class="form-control"></textarea>
+            <span asp-validation-for="Comment" class="text-danger"></span>
+        </div>
+        <div class="form-group text-right">
+            <button class="btn btn-secondary btn-submit-review-reply" type="submit">Submit reply</button>
+        </div>
+    </form>
+}
+else
+{
+  <p>Please <a href="~/login?ReturnUrl=@Context.Request.Path" class="text-primary"> login </a> or <a href="~/register?ReturnUrl=@Context.Request.Path" class="text-primary" > register </a> to submit your reply.</p>
+}

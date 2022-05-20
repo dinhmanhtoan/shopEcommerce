@@ -1,0 +1,35 @@
+﻿@model IList<CategoryVm>
+
+<div id="Category">
+        <div class="row">
+            <div class="col-md-12 text-center my-4">
+                <h2 class="title">Danh Mục</h2>
+            </div>
+            @if (Model == null)
+            {
+                <h1>Không Có Danh mục nào</h1>
+            }
+            else
+            {
+                <div class="col-md-12 d-flex flex-wrap">
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <div class="col-md-4 col-6 CategoryFuture">
+                            <div class="CategoryFuture-item" id="item_@Model[i].Id" data-id="@Model[i].Id">
+                                <div class="CategoryFuture-image">
+                                    <img class="pic-1" src="/user-content/@Model[i].ThumbnailImageUrl" alt="@Model[i].MetaTitle">
+                                    <a href="~/@Model[i].Slug">
+                                        <div class="CategoryFuture-content">
+                                            <div>@Model[i].Name</div>
+                                            <div>Show Now</div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+</div>

@@ -1,0 +1,135 @@
+﻿@model WarehouseProductForm
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Stock products for warehouse <strong class="WarehouseName"></strong></h3>
+            </div>
+            <div class="col-md-6">
+                <div class="form-inline justify-content-end">
+                    <div class="form-group">
+                        <label>Warehouse</label>
+                        <select class="form-control" asp-for="WarehouseId" asp-items="@Model.Warehouse">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <a class="btn btn-primary ml-1" asp-controller="Warehouse" asp-action="Index">Manage Warehouse Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped" id="example" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Product Sku</th>
+                        <th>Current Quantity</th>
+                        <th>(+/-) Adjusted Quantity</th>
+                        <th>Note</th>
+                        <th>Stock History</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+<script src="~/js/validateInputText.js"></script>
+<script>
+       var WarehouseId;
+       var table;
+    $("#WarehouseId").on("change", function () {
+            WarehouseId = parseInt(this.value);
+             if ($.fn.dataTable.isDataTable('#example')) {
+                table.destroy();
+              //$("#example").empty();
+            }
+             table = $("#example").DataTable({
+                "language": {
+                    "processing": "loading data",
+                    "info": "bản ghi từ _START_ đến _END_ và có tổng _TOTAL_ bản ghi",
+                    "emptyTable": "Không tìm thấy bản ghi",
+                    "search": "Tìm kiếm",
+                    "lengthMenu": "Xem _MENU_ bản ghi"
+                },
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "ajax": {
+                    "url": `/Stock/List/${WarehouseId}`,
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs": [
+                {
+                    "targets": [1,2,3,4,5],
+                    "visible": true,
+                    "searchable": false,
+                    "orderable": false,
+                }],
+                "columns": [
+                    { "data": "product.name", "name": "Product"},
+                    { "data": "product.sku", "name": "Product" },
+                    {
+                        "data": "quantity", "name": "Quantity",
+                    },
+                    {
+                        "data": "reservedQuantity", "name": "ReservedQuantity",
+                        "render": function (reservedQuantity, type, row) {
+                            return '<input type="text" value="0" name="ReservedQuantity" class="ReservedQuantity number-validate form-control"/>';
+                        }
+                    },
+                    {
+                        "render": function (IsExistInWarehouse, type, row) {
+                            return '<input type="text" name="Note" class="Note form-control"/>';
+                        }
+                    },
+                    {
+                        "render": function (IsExistInWarehouse, type, row) {
+                            return `<a href="/Stock/GetStockHistory/${row.warehouseId}/${row.productId}">View History</a>`;
+                        }
+                    }],
+                  "drawCallback":function( settings ) {
+                       numberValidate();
+                    },
+                "initComplete": function () {
+                    $(this.api().columns(5).footer()).html(`<button class="btn btn-primary" onclick="save()">Save</button>`)
+                    }
+            });
+          $(".WarehouseName").html($(this).find("option:selected").text());
+        });
+        function save() {
+            var table2 = $('#example').DataTable();
+            var stockVms = [];
+            table2.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var data = this.data();
+                var ReservedQuantity = $(this.node()).find(".ReservedQuantity").val();
+                var Note = $(this.node()).find(".Note").val();
+                var json = { ProductId: data.productId, AdjustedQuantity: ReservedQuantity, Note: Note };
+                stockVms.push(json);
+            });
+            console.log(stockVms);
+            var url = "@Url.Content("~/")" + `Stock/Put/${WarehouseId}`;
+                 $.post(url, { stockVms: stockVms }).done(function () {
+                 table2.draw();
+             }).fail(function () {
+                 toastr.error("Something Went Wrong!");
+             });
+        }
+</script>
+}

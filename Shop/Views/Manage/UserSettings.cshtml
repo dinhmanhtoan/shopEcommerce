@@ -1,0 +1,26 @@
+﻿@using Model.ViewModel.Manage;
+@model UserSettingViewModel
+@{
+    ViewData["Title"] = "My Settings";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="_AccountMenu" />
+    </div>
+    <div class="col-md-9">
+        <h2>@ViewData["Title"]</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-8">
+                <form  asp-controller="Manage" asp-action="UserSettings" method="post" role="form">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

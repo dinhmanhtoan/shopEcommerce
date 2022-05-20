@@ -1,9 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>62e26510-4462-4d8c-9481-28e5776ad2fd</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="NewFolder\**" />
+    <Content Remove="NewFolder\**" />
+    <EmbeddedResource Remove="NewFolder\**" />
+    <EntityDeploy Remove="NewFolder\**" />
+    <None Remove="NewFolder\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\lib\color\build\1.0.0\css\bootstrap-2.2.2.min.css" />
@@ -299,22 +308,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
+    <PackageReference Include="cloudscribe.Pagination.Models" Version="1.1.0" />
+    <PackageReference Include="cloudscribe.Web.Pagination" Version="5.0.0" />
+    <PackageReference Include="EntityFramework.DynamicLinq" Version="1.2.15" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.40" />
+    <PackageReference Include="Humanizer" Version="2.13.14" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.DynamicLinq" Version="6.2.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="PuppeteerSharp" Version="4.0.0" />
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="PuppeteerSharp" Version="6.1.0" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.2-mauipre.1.22054.8" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.15" />
+    <PackageReference Include="System.Text.Json" Version="6.0.2-mauipre.1.22054.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -326,6 +344,149 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Checkout\Error.cshtml" />
+    <None Include="Views\Checkout\Shipping.cshtml" />
+    <None Include="Views\Checkout\Success.cshtml" />
+    <None Include="Views\NewsCategory\NewsCategoryDetail.cshtml" />
+    <None Include="Views\NewsItem\NewsHome.cshtml" />
+    <None Include="Views\NewsItem\NewsItemDetail.cshtml" />
+    <None Include="Views\Shared\Components\CarouselWidget\Default.cshtml" />
+    <None Include="Views\Shared\Components\DefaultShippingAddress\Default.cshtml" />
+    <None Include="Views\Shared\Components\OrderSummary\Default.cshtml" />
+    <None Include="Views\Shared\Components\RecentlyViewedWidget\Default.cshtml" />
+    <None Include="Views\Shared\Components\SpaceBarWidget\Default.cshtml" />
+    <None Include="Views\WishList\AddToWishListResult.cshtml" />
+    <None Include="Views\WishList\PrivateList.cshtml" />
+    <None Include="Views\WishList\PublicList.cshtml" />
+    <None Include="Views\WishList\Share.cshtml" />
+    <None Include="Views\WishList\UpdateItemResult.cshtml" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\ar.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\de.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\es.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\fa.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\fr.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\it.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\ko.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\LANG.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\pl.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\pt-BR.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\ro.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\ru.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\tr.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\ua.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\vi-vn.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\locales\zh.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\star-rating.js" />
+    <None Include="wwwroot\js\bootstrap-star-rating\js\star-rating.min.js" />
+    <None Include="wwwroot\js\pagination\dirPagination.js" />
+    <None Include="wwwroot\js\pagination\dirPagination.spec.js" />
+    <None Include="wwwroot\js\pagination\README.md" />
+    <None Include="wwwroot\lib\bootbox\bootbox.all.js" />
+    <None Include="wwwroot\lib\bootbox\bootbox.all.min.js" />
+    <None Include="wwwroot\lib\bootbox\bootbox.js" />
+    <None Include="wwwroot\lib\bootbox\bootbox.locales.js" />
+    <None Include="wwwroot\lib\bootbox\bootbox.locales.min.js" />
+    <None Include="wwwroot\lib\bootbox\bootbox.min.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\ckeditor.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\ckeditor.js.map" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\LICENSE.md" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\README.md" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\sample\img\github.svg" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\sample\img\logo.svg" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\af.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ar.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ast.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\az.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\bg.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\bs.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ca.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\cs.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\da.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\de-ch.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\de.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\el.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\en-au.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\en-gb.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\eo.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\es.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\et.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\eu.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\fa.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\fi.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\fr.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\gl.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\gu.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\he.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\hi.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\hr.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\hu.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\id.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\it.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ja.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\km.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\kn.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ko.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ku.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\lt.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\lv.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ms.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\nb.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ne.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\nl.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\no.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\oc.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\pl.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\pt-br.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\pt.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ro.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ru.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\si.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\sk.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\sl.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\sq.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\sr-latn.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\sr.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\sv.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\th.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\tk.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\tr.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\tt.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\ug.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\uk.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\uz.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\vi.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\zh-cn.js" />
+    <None Include="wwwroot\lib\ckeditor5-build-classic\translations\zh.js" />
+    <None Include="wwwroot\lib\flatpickr\flatpickr.js" />
+    <None Include="wwwroot\lib\jquery-ui-1.13.1\external\jquery\jquery.js" />
+    <None Include="wwwroot\lib\jquery-ui-1.13.1\jquery-ui.js" />
+    <None Include="wwwroot\lib\jquery-ui-1.13.1\jquery-ui.min.js" />
+    <None Include="wwwroot\lib\owl.carousel\nouislider\distribute\nouislider.js" />
+    <None Include="wwwroot\lib\owl.carousel\nouislider\distribute\nouislider.min.js" />
+    <None Include="wwwroot\lib\sortable-list-tree\.gitignore" />
+    <None Include="wwwroot\lib\sortable-list-tree\js\treeSortable.js" />
+    <None Include="wwwroot\lib\sortable-list-tree\_config.yml" />
+    <None Include="wwwroot\lib\toastr\build\toastr.js.map" />
+    <None Include="wwwroot\lib\toastr\build\toastr.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Admin\Views\NewsCategory\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Admin\Views\NewsItemList\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Admin\Views\ProductTemplate\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Shared\Components\CategoryFuture\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

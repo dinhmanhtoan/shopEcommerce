@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Menu>;
+
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-secondary">Menu</h2>
+            </div>
+            <div class="col-md-6">
+                <div class="text-right">
+                    <a class="btn btn-primary" asp-area="Admin" asp-controller="Menu" asp-action="Create">
+                         <i class="fas fa-plus"></i>
+                        Add Items
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="zero_config">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>System</th>
+                        <th>Publisher</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>
+                                @(item.IsSystem == true ? Html.Raw("<i class='fas fa-check text-primary'></i>") :  Html.Raw("<i class='fas fa-times text-danger'></i>"))
+                        </td>
+                        <td>
+                                @(item.IsPublished == true ? Html.Raw("<i class='fas fa-check text-primary'></i>") :  Html.Raw("<i class='fas fa-times text-danger'></i>"))
+                        </td>
+                        <td>
+                            <a asp-action="Get" asp-route-id="@item.Id">
+                                <div class="btn btn-success">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                            </a>
+                            <button class="btn btn-danger " onclick="Delete(@item.Id)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function Delete(id) {
+            onModifyOption(function () {
+                var url = '@Url.Content("~/")' + `Menu/Delete/${id}`;
+                $.post(url).then(function () {
+                    toastr.success("Thanh Cong");
+                    window.location = window.location.href;
+                }).catch(function (eroor) {
+                    toastr.eroor(eroor);
+                });
+                });
+        }
+    </script>
+}

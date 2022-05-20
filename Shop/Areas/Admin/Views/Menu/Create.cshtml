@@ -1,0 +1,32 @@
+﻿@model Menu
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Create menu</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Post" method="post" enctype="multipart/form-data">
+            <div class="bg-danger text-white offset-md-2 d-none" asp-validation-summary="All"></div>
+            <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-10">
+                    <input asp-for="Name" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-primary" id="btn-submit">Save</button>
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

@@ -1,0 +1,44 @@
+﻿@model CustomerGroup
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Create CustomerGroup</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create">
+            <div class="bg-danger text-white offset-md-2 d-none" asp-validation-summary="All"></div>
+              <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-10">
+                    <input asp-for="Name" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Description</label>
+                <div class="col-md-10">
+                    <input asp-for="Description" type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <div class="form-check">
+                        <input asp-for="IsActive" type="checkbox" class="form-check-input" />
+                        <label asp-for="IsActive" class="form-check-label">IsActive</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-success" id="btn-submit">Save</button>
+                    <a class="btn btn-light" asp-action="Index">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

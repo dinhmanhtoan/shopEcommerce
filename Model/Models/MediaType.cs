@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model.Models
+﻿namespace Model.Models;
+public enum MediaType
 {
-    public enum MediaType
-    {
-        Image = 1,
+    Image = 1,
 
-        File = 5,
+    File = 5,
 
-        Video = 10,
-    }
+    Video = 10,
 }
+

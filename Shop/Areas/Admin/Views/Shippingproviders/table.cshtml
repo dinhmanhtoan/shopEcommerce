@@ -1,0 +1,333 @@
+﻿@model IList<PriceAndDestinationForm>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Shipping - Table Rate Configuration</h2>
+    </div>
+    <div class="card-body">
+        <h5 class="mb-3">Price and Destination configuration</h5>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>State/Province</th>
+                    <th>District</th>
+                    <th>ZipCode</th>
+                    <th>Minimum Order Amount</th>
+                    <th>Shipping Price</th>
+                    <th>Note</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(item.CountryName != null ? item.CountryName :"All shipping enabled countries")</td>
+                        <td>@(item.StateOrProvinceName != null ? item.StateOrProvinceName :"All states/provinces")</td>
+                        <td>@(item.DistrictName != null ? item.DistrictName :"All districts")</td>
+                        <td>@item.ZipCode</td>
+                        <td>@item.MinOrderSubtotal</td>
+                        <td>@item.ShippingPrice</td>
+                        <td>@item.Note</td>
+                        <td class="d-flex justify-content-center">
+                            <button class="btn btn-success btn-sm m-1" onclick="edit(@item.Id,this)">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm m-1" onclick="remove(@item.Id,this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <select name="CountryId" class="form-control" id="CountryId">
+                            <option value="">All shipping enabled countries</option>
+                        </select>
+
+                    </td>
+                    <td>
+                        <select name="StateOrProvinceId" class="form-control" id="StateOrProvinceId">
+                            <option value="">All States/Provinces</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="DistrictId"  class="form-control" id="DistrictId">
+                            <option value="">All Districts</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input name="ZipCode" type="text" class="form-control" id="ZipCode">
+                    </td>
+                    <td>
+                        <input name="MinOrderSubtotal" type="text" class="form-control number-validate" id="MinOrderSubtotal" value="0">
+                    </td>
+                    <td>
+                        <input name="ShippingPrice" type="text" class="form-control number-validate" id="ShippingPrice" value="0">
+                    </td>
+                    <td>
+                        <input name="Note" type="text" class="form-control" id="Note">
+                    </td>
+                    <td class="d-flex justify-content-center">
+                        <button class="btn btn-success btn-sm" id="add">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+<script src="~/js/validateInputText.js"></script>
+<partial name="_ValidationScriptsPartial" />
+<script src="~/js/user-address.js"></script>
+<script>
+       var origin = window.location.origin;
+
+       function loadCountry(){
+            $.getJSON('/api/country', function (data) {
+            var $countryId = $("#CountryId");
+                $.each(data, function (index, option) {
+                $($countryId).append($("<option></option>").attr("value", option.id).text(option.name));
+            });
+         });
+       }
+       loadCountry();
+        $("#add").on("click",function(){
+            var CountryId = $("#CountryId").val();
+            var StateOrProvinceId = $("#StateOrProvinceId").val();
+            var DistrictId = $("#DistrictId").val();
+            var ZipCode = $("#ZipCode").val();
+            var MinOrderSubtotal = $("#MinOrderSubtotal").val();
+            var ShippingPrice = $("#ShippingPrice").val();
+            var Note = $("#Note").val();
+            var url = `${origin}/Shippingproviders/add`;
+            var item = {CountryId,StateOrProvinceId,DistrictId,ZipCode,MinOrderSubtotal,ShippingPrice,Note}
+            $.post(url,item).then(function(data){
+                var countryName = data.countryName != null ? data.countryName : "All shipping enabled countries";
+                var stateOrProvinceName = data.stateOrProvinceName != null ? data.stateOrProvinceName : "All states/provinces";
+                var districtName = data.districtName != null ? data.districtName : "All districts";
+                var zipCode = data.zipCode != null ? data.zipCode : "";
+                var minOrderSubtotal = data.minOrderSubtotal != null ? data.minOrderSubtotal : 0;
+                var shippingPrice = data.shippingPrice != null ? data.shippingPrice : 0;
+                var note = data.note != null ? data.note : "";
+                var html = `<tr><td>${countryName}</td>
+                        <td>${stateOrProvinceName}</td>
+                        <td>${districtName}</td>
+                        <td>${zipCode}</td>
+                        <td>${minOrderSubtotal}</td>
+                        <td>${shippingPrice}</td>
+                        <td>${note}</td>
+                        <td class="d-flex justify-content-center">
+                           <button class="btn btn-success btn-sm m-1" onclick="edit(${data.id},this)">
+                               <i class="fas fa-pencil-alt"></i>
+                            </button>
+                           <button class="btn btn-danger btn-sm m-1" onclick="remove(${data.id},this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td></tr>`
+                $("tbody tr:last-child").before(html);
+            }).catch(function(error){
+                toastr.error(error);
+            })
+        })
+         function resetSelect($select) {
+            var $defaultOption = $select.find("option:first-child");
+            $select.empty();
+            $select.append($defaultOption);
+            }
+       function loadState(){
+        $('.CountryId').on('change', function () {
+            var selectedCountryId = this.value;
+            var parent = $(this).closest("tr");
+            if (!selectedCountryId) {
+               var $stateOrProvinceSelect = $(parent).find(".StateOrProvinceId");
+                resetSelect($stateOrProvinceSelect);
+                var $districtSelect = $(parent).find(".DistrictId");
+                resetSelect($districtSelect);
+                return;
+            }
+           $.getJSON('/api/country-states-provinces/' + selectedCountryId, function (data) {
+                
+           
+                var $stateOrProvinceSelect = $(parent).find(".StateOrProvinceId");
+                resetSelect($stateOrProvinceSelect);
+
+                var $districtSelect = $(parent).find(".DistrictId");
+                resetSelect($districtSelect);
+
+                $.each(data.statesOrProvinces, function (index, option) {
+                    $stateOrProvinceSelect.append($("<option></option>").attr("value", option.id).text(option.name));
+                });
+            });
+        });
+
+        $('.StateOrProvinceId').on('change', function () {
+             var selectedStateOrProvinceId = this.value;
+             var parent = $(this).closest("tr");
+             if (!selectedStateOrProvinceId) {
+                   var $districtSelect = $(parent).find(".DistrictId");
+                   resetSelect($districtSelect);
+                 return;
+             }
+            $.getJSON("/api/states-provinces/" + selectedStateOrProvinceId + "/districts", function (data) {
+             
+              var $districtSelect = $(parent).find(".DistrictId");
+              resetSelect($districtSelect);
+
+              $.each(data, function (index, option) {
+                  $districtSelect.append($("<option></option>").attr("value", option.id).text(option.name));
+              });
+            });
+        });
+        }
+        loadState();
+     
+        function edit(id,event){
+          var parent = $(event).closest("tr");
+          var hasElement = $(parent).next().data("id");
+          if(hasElement){
+              return;
+          }
+          const tr = document.createElement("tr");
+          $(tr).attr("data-id",id);
+          const td = document.createElement("td");
+          var html =`<td>
+                         <select name="StateOrProvinceId"  class="form-control StateOrProvinceId">
+                             <option value="">All States/Provinces</option>
+                         </select>
+                     </td>
+                     <td>
+                         <select name="DistrictId"  class="form-control DistrictId">
+                             <option value="">All Districts</option>
+                         </select>
+                     </td>
+                     <td>
+                         <input name="ZipCode" type="text" class="form-control ZipCode">
+                     </td>
+                     <td>
+                         <input name="MinOrderSubtotal" type="text" class="form-control number-validate MinOrderSubtotal" value="0">
+                     </td>
+                     <td>
+                         <input name="ShippingPrice" type="text" class="form-control number-validate ShippingPrice" value="0">
+                     </td>
+                     <td>
+                         <input name="Note" type="text" class="form-control Note">
+                     </td>
+                     <td class="d-flex justify-content-center">
+                         <button class="btn btn-info btn-sm m-1" onclick="save(${id},this)">
+                             Save
+                         </button>
+                         <button class="btn btn-secondary btn-sm m-1" onclick="cancel(${id},this)">
+                             Cancel
+                         </button>
+                     </td>`
+          $.getJSON('/api/country', function (data) {
+        
+            const select = document.createElement("select");
+                  $(select).append($("<option></option>").attr("value", "").text("All shipping enabled countries"));
+            $.each(data, function (index, option) {
+                $(select).addClass("form-control CountryId").attr("name","CountryId").append($("<option></option>").attr("value", option.id).text(option.name));
+            });
+            td.append(select);
+            tr.append(td);
+            $(tr).append(html);
+            
+            var $stateOrProvinceSelect = $(tr).find(".StateOrProvinceId");
+            resetSelect($stateOrProvinceSelect);
+
+            var $districtSelect = $(tr).find(".DistrictId");
+            resetSelect($districtSelect);
+                $(parent).after(tr);
+                numberValidate();
+                 loadState();
+         });
+        }
+        function remove(id,event){
+           var parent = $(event).closest("tr");
+           var url = `${origin}/Shippingproviders/remove/${id}`;
+            $.post(url).then(function(data){
+            var Id = $(parent).next().data("id");
+                if(id == Id){
+                     $(parent).next().remove();
+                }
+                $(parent).remove();
+            }).catch(function(error){
+                toastr.error(error);
+            })
+        }
+     
+        function save(id,event){
+         var parent = $(event).closest("tr");
+         var CountryId = $(parent).find(".CountryId").val() ;
+         var StateOrProvinceId = $(parent).find(".StateOrProvinceId").val();
+         var DistrictId = $(parent).find(".DistrictId").val();
+         var ZipCode = $(parent).find(".ZipCode").val();
+         var MinOrderSubtotal = $(parent).find(".MinOrderSubtotal").val();
+         var ShippingPrice = $(parent).find(".ShippingPrice").val();
+         var Note = $(parent).find(".Note").val();
+         var url = `${origin}/Shippingproviders/edit/${id}`;
+         var item = {CountryId,StateOrProvinceId,DistrictId,ZipCode,MinOrderSubtotal,ShippingPrice,Note}
+            $.post(url,item).then(function(data){
+              var countryName = data.countryName != null ? data.countryName : "All shipping enabled countries";
+              var stateOrProvinceName = data.stateOrProvinceName != null ? data.stateOrProvinceName : "All states/provinces";
+              var districtName = data.districtName != null ? data.districtName : "All districts";
+              var zipCode = data.zipCode != null ? data.zipCode : "";
+              var minOrderSubtotal = data.minOrderSubtotal != null ? data.minOrderSubtotal : 0;
+              var shippingPrice = data.shippingPrice != null ? data.shippingPrice : 0;
+              var note = data.note != null ? data.note : "";
+             var html = `<td>${countryName}</td>
+                         <td>${stateOrProvinceName}</td>
+                         <td>${districtName}</td>
+                         <td>${zipCode}</td>
+                         <td>${minOrderSubtotal}</td>
+                         <td>${shippingPrice}</td>
+                         <td>${note}</td>
+                         <td class="d-flex justify-content-center">
+                            <button class="btn btn-success btn-sm m-1" onclick="edit(${data.id},this)">
+                                <i class="fas fa-pencil-alt"></i>
+                             </button>
+                            <button class="btn btn-danger btn-sm m-1" onclick="remove(${data.id},this)">
+                                 <i class="fas fa-trash"></i>
+                             </button>
+                         </td>`
+             $(parent).prev().html(html);
+             $(parent).remove();
+            }).catch(function(error){
+                toastr.error(error);
+            })
+        }
+        function cancel(id,event){
+           $(event).closest("tr").remove();
+        }
+
+    // validate Number
+      function numberValidate(){
+          var input = document.getElementsByClassName("number-validate");
+          setInputFilter(input, function(value) {
+              return /^-?\d*$/.test(value); });
+      }
+      numberValidate();
+       $('#CountryId').on('change', function () {
+        var selectedCountryId = this.value;
+        if (!selectedCountryId) {
+                var $stateOrProvinceSelect = $("#StateOrProvinceId");
+            resetSelect($stateOrProvinceSelect);
+
+            var $districtSelect = $("#DistrictId");
+            resetSelect($districtSelect);
+            return;
+        }
+       });
+          $('#StateOrProvinceId').on('change', function () {
+        var selectedStateOrProvinceId = this.value;
+        if (!selectedStateOrProvinceId) {
+             var $districtSelect = $("#DistrictId");
+            resetSelect($districtSelect);
+            return;
+        }
+          });
+</script>
+}

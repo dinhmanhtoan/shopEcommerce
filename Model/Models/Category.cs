@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Model.Models
+﻿namespace Model.Models;
+public partial class Category : EntityBase
 {
-    public partial class Category
-    {
-        public long Id { get; set; }
-        public string Code { get; set; }
-        public string Title { get; set; }
-        public string Slug { get; set; }
-        public string Description { get; set; }
-        public long? ThumbnailId { get; set; }
-        public Media Thumbnail { get; set; }
-        public DateTime? CreatedOn { get; set; }
-        public long? CreatedBy { get; set; }
-        public DateTime? EditOn { get; set; }
-        public long? EditBy { get; set; }
+    public string Name { get; set; }
+    public string Slug { get; set; }
+    public string MetaTitle { get; set; }
+    public string MetaKeywords { get; set; }
+    public string MetaDescription { get; set; }
+    public long? ThumbnailId { get; set; }
+    public Media Thumbnail { get; set; }
+    public int DisplayOrder { get; set; }
+    public bool IncludeInMenu { get; set; }
+    public bool IsPublished { get; set; }
+    public bool IsDeleted { get; set; }
+    public long? ParentId { get; set; }
+    public Category Parent { get; set; }
+    public IList<Category> Children { get; protected set; } = new List<Category>();
+    public IList<ProductCategory> Products { get; set; } = new List<ProductCategory>();
 
-   
-    }
 }
+

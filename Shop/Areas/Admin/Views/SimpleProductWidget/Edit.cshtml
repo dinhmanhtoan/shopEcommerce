@@ -1,0 +1,75 @@
+﻿@model SimpleProductWidgetForm;
+<div class="card">
+    <div class="card-header">
+       <h2 class="text-secondary">Edit SimpleProduct Display Widget</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+             <div class="col-md-10 offset-md-2 d-none" asp-validation-summary="All"></div>
+             <div class="col-md-10 offset-md-2" id="loaderror"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Widget Name</label>
+                <div class="col-md-10">
+                    <input type="text" asp-for="Name" class="form-control" value="@Model.Name" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Widget Zone</label>
+                <div class="col-md-10">
+                    <select type="text" asp-for="WidgetZoneId" asp-items="@Model.WidgetZoneItems" class="form-control"></select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Publish Start</label>
+                <div class="col-md-10">
+                    <div class="datepicker input-group">
+                        <input type="text" asp-for="PublishStart" value="@(Model.PublishStart.HasValue ? Model.PublishStart.GetValueOrDefault().ToString("o") : "")" data-input />
+                        <a class="input-button" title="toggle" data-toggle>
+                            <i class="far fa-calendar"></i>
+                        </a>
+                        <a class="input-button" title="clear" data-clear>
+                            <i class="far fa-times-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Publish End</label>
+                <div class="col-md-10">
+                    <div class="datepicker input-group">
+                        <input type="text" asp-for="PublishEnd" value="@(Model.PublishEnd.HasValue ? Model.PublishEnd.GetValueOrDefault().ToString("o") : "")" data-input />
+                        <a class="input-button" title="toggle" data-toggle>
+                            <i class="far fa-calendar"></i>
+                        </a>
+                        <a class="input-button" title="clear" data-clear>
+                            <i class="far fa-times-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Display Order</label>
+                <div class="col-md-10">
+                    <input type="text" asp-for="DisplayOrder" class="form-control number-validate" value="@Model.DisplayOrder" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Product</label>
+                <div class="col-md-10">
+                    @await Html.PartialAsync("_product", new ProductPTV {Id = 4,Title = "productSimp", Products = Model.Setting.Products})
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <div class="btn btn-success" id="btn-submit" type="button">Save</div>
+                    <a asp-controller="Widget" asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

@@ -1,195 +1,170 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Model.Models;
-using Model.Services;
-using Newtonsoft.Json;
-using Shop.Areas.Admin.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.WebEncoders;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
-namespace Shop
-{
-    public class Startup
+var builder = WebApplication.CreateBuilder(args);
+ConfigureService();
+var app = builder.Build();
+Configure();
+app.Run();
+
+void ConfigureService(){
+
+    builder.Services.AddMvc
+        (o =>
+        {
+            o.EnableEndpointRouting = false;
+            o.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
+        })
+        .AddJsonOptions(options =>
+        options.JsonSerializerOptions.PropertyNamingPolicy = null).AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        );
+    builder.Services.AddDbContext<shopContext>(options =>
+        options.UseSqlServer(
+                builder.Configuration.GetConnectionString("DefaultConnection")));
+    builder.Services.AddIdentity<User, Role>(options =>
     {
-        public Startup(IConfiguration configuration)
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 4;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequiredUniqueChars = 0;
+        //  options.ClaimsIdentity.UserNameClaimType = JwtRegisteredClaimNames.Sub;
+    })
+    .AddEntityFrameworkStores<shopContext>()
+        .AddRoleStore<ShopRoleStore>()
+        .AddUserStore<ShopUserStore>()
+        .AddSignInManager<ShopSignInManager<User>>()
+        .AddDefaultTokenProviders();
+
+    builder.Services.ConfigureApplicationCookie(options =>
+    {
+        options.AccessDeniedPath = new PathString("/");
+        options.Cookie.Name = "shop";
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromDays(1);
+        options.LoginPath = "/login";
+        // ReturnUrlParameter requires 
+        //using Microsoft.AspNetCore.Authentication.Cookies;
+        options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+        options.SlidingExpiration = true;
+    });
+
+    //builder.Services.Configure<RazorViewEngineOptions>(
+    //options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander());
+    //});
+
+    builder.Services.Configure<WebEncoderOptions>(options =>
+    {
+        options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+    });
+
+   // builder.Services.AddScoped<ITagHelperComponent, LanguageDirectionTagHelperComponent>();
+    builder.Services.AddTransient<IRazorViewRenderer, RazorViewRenderer>();
+    builder.Services.AddTransient<IRazorViewRenderer, RazorViewRenderer>();
+    builder.Services.AddTransient<IMediaService, MediaService>();
+    builder.Services.AddTransient<IStorageService, LocalStorageService>();
+    builder.Services.AddTransient<IProductService, ProductService>();
+    builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+    builder.Services.AddTransient<ICategoryService, CategoryService>();
+    builder.Services.AddTransient<IBrandService, BrandService>();
+    builder.Services.AddScoped<IWishListService, WishListService>();
+    builder.Services.AddTransient<IEntityService, EntityService>();
+    builder.Services.AddTransient<IStockService, StockService>();
+    builder.Services.AddTransient<IOrderService, OrderService>();
+    builder.Services.AddTransient<ICouponService, CouponService>();
+    builder.Services.AddTransient<ICurrencyService, CurrencyService>();
+    builder.Services.AddTransient<IContentLocalizationService, ContentLocalizationService>();
+    builder.Services.AddTransient<IProductPricingService, ProductPricingService>();
+    builder.Services.AddTransient<IShippingPriceService, ShippingPriceService>();
+    builder.Services.AddTransient<IShippingPriceServiceProvider, FreeShippingServiceProvider>();
+    builder.Services.AddTransient<IShippingPriceServiceProvider, TableRateShippingServiceProvider>();
+    builder.Services.AddTransient<IShipmentService, ShipmentService>();
+    builder.Services.AddTransient<ITaxService, TaxService>();
+    builder.Services.AddTransient<IPageService, PageService>();
+    builder.Services.AddTransient<INewsItemService, NewsItemService>();
+    builder.Services.AddTransient<INewsCategoryService, NewsCategoryService>();
+    builder.Services.AddTransient<IWidgetInstanceService, WidgetInstanceService>();
+
+    ///builder.Services.AddTransient<IEmailSender, EmailSender>();
+    builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+    builder.Services.AddTransient(typeof(IRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
+    builder.Services.AddTransient<IActivityTypeRepository, ActivityTypeRepository>();
+    builder.Services.AddScoped<SlugRouteValueTransformer>();
+    builder.Services.AddTransient<IWorkContext, WorkContext>();
+    builder.Services.AddTransient<ICartService, CartService>();
+    builder.Services.AddAntiforgery(options =>
+    {
+        options.HeaderName = "X-XSRF-Token";
+    });
+
+    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options =>
         {
-            Configuration = configuration;
-        }
+            options.Cookie.SameSite = SameSiteMode.None;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            options.Cookie.IsEssential = true;
+        });
 
-        public IConfiguration Configuration { get; }
+    builder.Services.AddSession(options =>
+    {
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.IsEssential = true;
+    });
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllersWithViews();
-            services.AddDbContext<shopContext>(options =>
-              options.UseSqlServer(
-                      Configuration.GetConnectionString("default")));
-            services.AddIdentity<User, Role>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 4;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequiredUniqueChars = 0;
-                //options.ClaimsIdentity.UserNameClaimType = JwtRegisteredClaimNames.Sub;
-            })
-            .AddEntityFrameworkStores<shopContext>().AddDefaultTokenProviders();
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.AccessDeniedPath = new PathString("/");
-                options.Cookie.Name = "shop";
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromDays(1);
-                options.LoginPath = "/login";
-                // ReturnUrlParameter requires 
-                //using Microsoft.AspNetCore.Authentication.Cookies;
-                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-                options.SlidingExpiration = true;
-            });
-            services.AddTransient<IMediaService, MediaService>();
-            services.AddTransient<IStorageService, LocalStorageService>();
-            services.AddTransient<IProductService, ProductService>();
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IRatingServices, RatingServices>();
-            services.AddTransient<IBrandService, BrandService>();
-            services.AddTransient<ISliderService, SliderService>();
-            services.AddScoped<IOptionService, OptionService>();
-            services.AddTransient<IWorkContext, WorkContext>();
-            services.AddTransient<ICartService, CartService>();  
-            services.AddTransient<UserManager<User>, UserManager<User>>();
-            services.AddTransient<SignInManager<User>, SignInManager<User>>();
-            services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
-            services.AddControllersWithViews()
-                    .AddNewtonsoftJson(options =>
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                    )
-                .AddRazorRuntimeCompilation();
+    builder.Services.AddScoped<ServiceFactory>(p => p.GetService);
+    builder.Services.AddScoped<IMediator, Mediator>();
+    builder.Services.AddTransient<INotificationHandler<UserSignedIn>, UserSignedInHandler>();
+    builder.Services.AddTransient<INotificationHandler<EntityViewed>, EntityViewedHandler>();
+    builder.Services.AddTransient<INotificationHandler<EntityViewed>, ActiveViewdHandler>();
+    builder.Services.AddTransient<INotificationHandler<ReviewSummaryChanged>, ReviewSummaryChangedHandler>();
+    builder.Services.AddTransient<INotificationHandler<OrderChanged>, OrderChangedCreateOrderHistoryHandler>();
+    builder.Services.AddTransient<INotificationHandler<OrderCreated>, OrderCreatedCreateOrderHistoryHandler>();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.Cookie.SameSite = SameSiteMode.None;
-                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                    options.Cookie.IsEssential = true;
-                });
-
-            services.AddSession(options =>
-            {
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.IsEssential = true;
-            });
-            //services.Configure<CookiePolicyOptions>(options =>
-            //{
-            //    options.CheckConsentNeeded = context => true;
-            //    options.MinimumSameSitePolicy = SameSiteMode.None;
-            //    options.OnAppendCookie = cookieContext =>
-            //        CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-            //    options.OnDeleteCookie = cookieContext =>
-            //        CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-            //});
-        
-            //services.AddTransient<UserManager<User>, UserManager<User>>();
-            //services.AddTransient<SignInManager<User>, SignInManager<User>>();
-            //services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
-        }
-        //private void CheckSameSite(HttpContext httpContext, CookieOptions options)
-        //{
-        //    if (options.SameSite == SameSiteMode.None)
-        //    {
-        //        var userAgent = httpContext.Request.Headers["User-Agent"].ToString();
-        //        if (DisallowsSameSiteNone(userAgent))
-        //        {
-        //            options.SameSite = SameSiteMode.Unspecified;
-        //        }
-        //    }
-        //}
-        public static bool DisallowsSameSiteNone(string userAgent)
-        {
-            // Check if a null or empty string has been passed in, since this
-            // will cause further interrogation of the useragent to fail.
-            if (String.IsNullOrWhiteSpace(userAgent))
-                return false;
-
-            // Cover all iOS based browsers here. This includes:
-            // - Safari on iOS 12 for iPhone, iPod Touch, iPad
-            // - WkWebview on iOS 12 for iPhone, iPod Touch, iPad
-            // - Chrome on iOS 12 for iPhone, iPod Touch, iPad
-            // All of which are broken by SameSite=None, because they use the iOS networking
-            // stack.
-            if (userAgent.Contains("CPU iPhone OS 12") ||
-                userAgent.Contains("iPad; CPU OS 12"))
-            {
-                return true;
-            }
-
-            // Cover Mac OS X based browsers that use the Mac OS networking stack. 
-            // This includes:
-            // - Safari on Mac OS X.
-            // This does not include:
-            // - Chrome on Mac OS X
-            // Because they do not use the Mac OS networking stack.
-            if (userAgent.Contains("Macintosh; Intel Mac OS X 10_14") &&
-                userAgent.Contains("Version/") && userAgent.Contains("Safari"))
-            {
-                return true;
-            }
-
-            // Cover Chrome 50-69, because some versions are broken by SameSite=None, 
-            // and none in this range require it.
-            // Note: this covers some pre-Chromium Edge versions, 
-            // but pre-Chromium Edge does not require SameSite=None.
-            if (userAgent.Contains("Chrome/5") || userAgent.Contains("Chrome/6"))
-            {
-                return true;
-            }
-
-            return false;
-        }
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-       
-            app.UseRouting();
-            app.UseCookiePolicy();
-            app.UseAuthentication();
-            app.UseSession();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                   name: "Areas",
-                   pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
-        }
-    }
 }
+void Configure(){
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    else
+    {
+       // app.UseExceptionHandler("/Home/Error");
+        app.UseStatusCodePagesWithRedirects("/Home/ErrorWithCode/{0}");
+
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+    app.UseRouting();
+    app.UseCookiePolicy();
+    app.UseAuthentication();
+    app.UseSession();
+    app.UseAuthorization();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapDynamicControllerRoute<SlugRouteValueTransformer>("/{**slug}");
+        endpoints.MapControllerRoute(
+           name: "Areas",
+           pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+        endpoints.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
+    });
+    app.Run(context =>
+    {
+        context.Response.StatusCode = 404;
+        return Task.FromResult(0);
+    });
+}
+
+  
+ 
+
+

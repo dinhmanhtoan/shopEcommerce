@@ -1,0 +1,54 @@
+﻿@model List<PaymentProvider>
+
+
+<div class="card">
+    <div class="card-header">
+          <h2 class="text-secondary">Payment Provider</h2>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped" id="zero_config">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">IsEnabled</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@(item.IsEnabled == true ? Html.Raw("<i class='fas fa-check text-primary'></i>") :  Html.Raw("<i class='far fa-time text-danger'></i>"))</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="Stop('@item.Id')">
+                                @(item.IsEnabled == true ? Html.Raw("<i class='fas fa-pause'></i>") : Html.Raw("<i class='fas fa-play'></i>"))
+                            </button>
+                            <a href="~/PaymentProviders/@item.ConfigureUrl">
+                                <div class="btn btn-success">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var origin = window.location.origin;
+        function Stop(id) {
+            onModifyOption(function () {
+                var url = `${origin}/PaymentProviders/Stop/${id}`;
+                $.post(url).then(function () {
+                    window.location = window.location.href;
+                }).catch(function(error){
+                    toastr.error(error);
+                });
+          });
+        }
+    </script>
+}

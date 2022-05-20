@@ -1,0 +1,105 @@
+﻿@model Pages
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">Edit Pages</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="Update" method="post">
+            <div class="bg-danger text-white offset-md-2 d-none" asp-validation-summary="All"></div>
+            <div id="loaderror" class="offset-md-2 col-md-10"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-10">
+                    <input asp-for="Name" type="text" class="form-control Title" maxlength="250" value="@Model.Name" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Url</label>
+                <div class="col-md-10">
+                    <input asp-for="Slug" type="text" class="form-control" maxlength="250" id="permalink"  value="@Model.Slug" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Meta Title</label>
+                <div class="col-md-10">
+                    <input asp-for="MetaTitle" type="text" class="form-control" value="@Model.MetaTitle" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Meta Keywords</label>
+                <div class="col-md-10">
+                    <input asp-for="MetaKeywords" type="text" class="form-control" maxlength="250" value="@Model.MetaKeywords" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Meta Description</label>
+                <div class="col-md-10">
+                    <textarea asp-for="MetaDescription" class="form-control" rows="2" cols="50" value="@Model.MetaDescription"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">content</label>
+                <div class="col-md-10">
+                     <textarea name="Body" id="Body" class="form-control" type="text" >@Model.Body</textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                     <button class="btn btn-primary" type="submit" id="btn-submit">Save</button>
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+       @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+    <script src="~/lib/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="/lib/ckfinder_aspnet_3.5.2/ckfinder/ckfinder.js"></script>
+    <script src="~/lib/Slug/speakingurl.min.js"></script>
+    <script src="~/lib/Slug/jquery.stringtoslug.js"></script>
+    <script src="~/js/upload-file.js"></script>
+    <script>
+     var value = $("#Body").html();
+     var editor;
+      ClassicEditor
+            .create(document.querySelector('#Body'), {
+                extraPlugins: [MyCustomUploadAdapterPlugin],
+                //ckfinder: {
+                //    uploadUrl: '/Pages/UploadImage',
+                //},
+                /*  toolbar: ['ckfinder', 'imageUpload', '|', 'heading', '|', 'bold', 'italic', '|', 'undo', 'redo']*/
+                toolbar: {
+                    items: [
+                        'heading', '|',
+                        'fontfamily', 'fontsize', '|',
+                        'alignment', '|',
+                        'fontColor', 'fontBackgroundColor', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript', '|',
+                        'link', '|',
+                        'outdent', 'indent', '|',
+                        'bulletedList', 'numberedList', 'todoList', '|',
+                        'code', 'codeBlock', '|',
+                        'insertTable', '|',
+                        'uploadImage', 'blockQuote', '|',
+                        'undo', 'redo'],
+
+                    shouldNotGroupWhenFull: true
+                },
+   
+            }).then(newEditor  => {
+                //newEditor.setData(value);
+                editor = newEditor;
+            })           
+            .catch(error => {
+                console.error(error);
+            });
+            $(".Title").stringToSlug();
+       $("#btn-submit").on( 'click', () => {
+        const editorData = editor.getData();
+        $("#Body").html(editorData);});
+    </script>
+}

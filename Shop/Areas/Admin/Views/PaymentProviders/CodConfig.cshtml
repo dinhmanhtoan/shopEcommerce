@@ -1,0 +1,41 @@
+﻿@model CoDSetting
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-secondary">CoD Settings</h2>
+    </div>
+    <div class="card-body">
+        <form asp-action="CoDConfig" method="post">
+            <div class="bg-danger text-white offset-md-2" asp-validation-summary="All"></div>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">Min Order Value</label>
+                <div class="col-md-10">
+                    <input asp-for="MinOrderValue" type="text" class="form-control" value="@Model.MinOrderValue" />
+                </div>
+            </div>
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label">Max Order Value</label>
+                <div class="col-md-10">
+                    <input asp-for="MaxOrderValue" type="text" class="form-control" value="@Model.MaxOrderValue"/>
+                </div>
+            </div>
+              <div class="form-group row">
+                <label class="col-md-2 col-form-label">Payment Fee in %</label>
+                <div class="col-md-10">
+                    <input asp-for="PaymentFee" type="text" class="form-control" value="@Model.PaymentFee"/>
+                </div>
+            </div>
+              <div class="form-group row">
+                <div class="col-md-10 offset-md-2">
+                    <button class="btn btn-success">Save</button>
+                    <a asp-action="Index" class="btn btn-light">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
